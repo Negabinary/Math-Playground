@@ -1,0 +1,64 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Object",
+"class": "Assumption",
+"language": "GDScript",
+"path": "res://src/model/assumption/assumption.gd"
+}, {
+"base": "Object",
+"class": "Expr",
+"language": "GDScript",
+"path": "res://src/model/expression.gd"
+}, {
+"base": "Object",
+"class": "ExprItem",
+"language": "GDScript",
+"path": "res://src/model/expr_item.gd"
+}, {
+"base": "Object",
+"class": "ExprItemType",
+"language": "GDScript",
+"path": "res://src/model/expr_item_type.gd"
+}, {
+"base": "Object",
+"class": "Locator",
+"language": "GDScript",
+"path": "res://src/model/assumption/locator.gd"
+}, {
+"base": "Node",
+"class": "ProofEntry",
+"language": "GDScript",
+"path": "res://src/model/proof_entry.gd"
+} ]
+_global_script_class_icons={
+"Assumption": "",
+"Expr": "",
+"ExprItem": "",
+"ExprItemType": "",
+"Locator": "",
+"ProofEntry": ""
+}
+
+[application]
+
+config/name="DiscMath Playground"
+run/main_scene="res://Main.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+GlobalTypes="*res://src/model/global_types.gd"
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+environment/default_environment="res://default_env.tres"
