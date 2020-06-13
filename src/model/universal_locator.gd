@@ -1,5 +1,5 @@
 extends Object
-class_name Locator
+class_name UniversalLocator
 
 var expr
 var indeces : Array
@@ -31,7 +31,7 @@ func get_expr():
 	return expr
 
 
-func get_child(idx:int) -> Locator:
+func get_child(idx:int) -> UniversalLocator:
 	var new_indeces := indeces.duplicate()
 	new_indeces.push_back(idx)
 	return get_script().new(expr, new_indeces, expr_item.get_child(idx))

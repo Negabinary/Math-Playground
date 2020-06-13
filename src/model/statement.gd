@@ -1,20 +1,20 @@
 extends Object
-class_name Assumption
+class_name Statement
 
 
 # TODO: Jusification
 # TODO: Assumed Modules
-var expression : Expr
-var conditions : Array # <Locator>
+var root : ExprItem
+var conditions : Array # <UniversalLocator>
 var definitions : Array # <ExprItemType>
-var conclusion : Locator
+var conclusion : UniversalLocator
 
 
 func _init(new_root:ExprItem, new_definitions:=[]): 
-	expression = Expr.new(new_root, new_definitions)
+	root = new_root
 	definitions = []
 	conditions = []
-	var locator := Locator.new(self)
+	var locator := UniversalLocator.new(self)
 	while (
 			locator.get_expr_item().get_type() == GlobalTypes.FORALL 
 			or locator.get_expr_item().get_type() == GlobalTypes.IMPLIES):
@@ -36,16 +36,16 @@ func get_conditions() -> Array:
 
 
 func as_expr_item() -> ExprItem:
-	return expression.get_root()
+	return root
 
 
-func get_conclusion() -> Locator:
+func get_conclusion() -> UniversalLocator:
 	return conclusion
 
 
 func _to_string() -> String:
-	return expression.to_string()
+	return root.to_string()
 
 
-func get_child(idx:int) -> Assumption:
+func get_child(idx:int) -> Statement:
 	return get_script().new(as_expr_item().get_child(idx))

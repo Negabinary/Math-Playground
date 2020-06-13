@@ -22,7 +22,7 @@ func _clear_assumptions():
 
 
 # Show which assumptions are relevant to selection
-func mark_assumptions(selected_item:Locator):
+func mark_assumptions(selected_item:UniversalLocator):
 	for assumption_box in $VBoxContainer.get_children():
 		assumption_box.mark_assumptions(selected_item)
 

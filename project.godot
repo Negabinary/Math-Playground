@@ -10,16 +10,6 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Object",
-"class": "Assumption",
-"language": "GDScript",
-"path": "res://src/model/assumption/assumption.gd"
-}, {
-"base": "Object",
-"class": "Expr",
-"language": "GDScript",
-"path": "res://src/model/expression.gd"
-}, {
-"base": "Object",
 "class": "ExprItem",
 "language": "GDScript",
 "path": "res://src/model/expr_item.gd"
@@ -29,23 +19,27 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/model/expr_item_type.gd"
 }, {
-"base": "Object",
-"class": "Locator",
-"language": "GDScript",
-"path": "res://src/model/assumption/locator.gd"
-}, {
 "base": "Node",
 "class": "ProofEntry",
 "language": "GDScript",
 "path": "res://src/model/proof_entry.gd"
+}, {
+"base": "Object",
+"class": "Statement",
+"language": "GDScript",
+"path": "res://src/model/statement.gd"
+}, {
+"base": "Object",
+"class": "UniversalLocator",
+"language": "GDScript",
+"path": "res://src/model/universal_locator.gd"
 } ]
 _global_script_class_icons={
-"Assumption": "",
-"Expr": "",
 "ExprItem": "",
 "ExprItemType": "",
-"Locator": "",
-"ProofEntry": ""
+"ProofEntry": "",
+"Statement": "",
+"UniversalLocator": ""
 }
 
 [application]

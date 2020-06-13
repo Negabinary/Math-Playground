@@ -2,10 +2,10 @@ extends PanelContainer
 
 
 signal assumption_used
-var assumption : Assumption
+var assumption : Statement
 
 
-func display_assumption(new_assumption:Assumption):
+func display_assumption(new_assumption:Statement):
 	$VBoxContainer/Conditions.clear()
 	$VBoxContainer/Conclusions.clear()
 	
@@ -13,7 +13,7 @@ func display_assumption(new_assumption:Assumption):
 	
 	var definitions := new_assumption.get_definitions()
 	var conditions := new_assumption.get_conditions()
-	var conclusion:Locator = new_assumption.get_conclusion()
+	var conclusion:UniversalLocator = new_assumption.get_conclusion()
 	
 	if definitions.size() == 0:
 		$VBoxContainer/With.hide()
@@ -38,12 +38,12 @@ func display_assumption(new_assumption:Assumption):
 
 func _update_conditions(conditions:Array):
 	for i in conditions.size():
-		var condition : Locator = conditions[i]
+		var condition : UniversalLocator = conditions[i]
 		$VBoxContainer/Conditions.add_item(condition.get_expr_item().to_string())
 
 
 # Show which assumptions are relevant to selection
-func mark_assumptions(selected_item:Locator):
+func mark_assumptions(selected_item:UniversalLocator):
 	# Check Conclusions
 	var selected_expr_item := selected_item.get_expr_item()
 	var conclusion_expr_item:ExprItem = assumption.get_conclusion().get_expr_item()

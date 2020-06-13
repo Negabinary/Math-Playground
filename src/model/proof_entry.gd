@@ -3,12 +3,12 @@ class_name ProofEntry
 
 var acted : bool
 var proven : bool
-var goal : Assumption
-var assumptions : Array # <Assumption>
+var goal : Statement
+var assumptions : Array # <Statement>
 var declarations : Array # <ExprItemType>
 
-# Array<Assumption>, Array<ExprItemType>
-func _init(new_goal:Assumption, new_assumptions:Array, new_declarations:Array):
+# Array<Statement>, Array<ExprItemType>
+func _init(new_goal:Statement, new_assumptions:Array, new_declarations:Array):
 	goal = new_goal
 	assumptions = new_assumptions
 	declarations = new_declarations
@@ -21,7 +21,7 @@ func get_assumptions() -> Array:
 func get_declarations() -> Array:
 	return declarations
 
-func get_goal() -> Assumption:
+func get_goal() -> Statement:
 	return goal
 
 func is_proven() -> bool:

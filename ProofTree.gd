@@ -43,7 +43,7 @@ func _ready():
 	var w1 = ExprItem.new(GlobalTypes.IMPLIES, [conj_def_r, to_show])
 	var w2 = ExprItem.new(GlobalTypes.IMPLIES, [conj_def_l, w1])
 	
-	var expression = Assumption.new(w2, [A, B, C])
+	var expression = Statement.new(w2, [A, B, C])
 	
 	var i1 = create_item()
 	i1.set_custom_color(0, Color.white)
@@ -93,9 +93,9 @@ func _mark_proven(item:TreeItem) -> void:
 		_mark_proven(parent)
 
 
-func _on_assumption_used(assumption:Assumption):
+func _on_assumption_used(assumption:Statement):
 	var selected_item := get_selected()
-	var selected_goal:Assumption = proof_entry_map[selected_item].get_goal()
+	var selected_goal:Statement = proof_entry_map[selected_item].get_goal()
 	
 	if assumption.get_conclusion().get_expr_item().compare(selected_goal.as_expr_item()):
 		var conditions = assumption.get_conditions()
@@ -105,7 +105,7 @@ func _on_assumption_used(assumption:Assumption):
 			proof_entry_map[selected_item].acted = true
 			var is_first := true
 			for condition in conditions:
-				var new_expression = Assumption.new(condition.get_expr_item())
+				var new_expression = Statement.new(condition.get_expr_item())
 				var new_item = create_item(selected_item)
 				var new_proof_entry = ProofEntry.new(new_expression, [], [])
 				new_item.set_custom_color(0, Color.white)

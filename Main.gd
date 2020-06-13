@@ -7,5 +7,5 @@ func _on_change_selected_proof_entry(proof_entries:Array): #Array<ProofEntry>
 	$HBoxContainer/Assumptions.change_assumptions(proof_entries)
 
 
-func _on_goal_item_selected(expr_locator:Locator):
+func _on_goal_item_selected(expr_locator:UniversalLocator):
 	$HBoxContainer/Assumptions.mark_assumptions(expr_locator)

@@ -70,8 +70,6 @@ margin_right = 54.0
 margin_bottom = 50.0
 disabled = true
 text = "A => B"
-[connection signal="change_selected_proof_entry" from="HBoxContainer/ProofTree" to="." method="_on_change_selected_proof_entry"]
 [connection signal="item_selected" from="HBoxContainer/ProofTree" to="HBoxContainer/ProofTree" method="_on_item_selected"]
-[connection signal="expr_item_selected" from="HBoxContainer/Goals" to="." method="_on_goal_item_selected"]
 [connection signal="assumption_used" from="HBoxContainer/Assumptions" to="HBoxContainer/ProofTree" method="_on_assumption_used"]
 [connection signal="pressed" from="ColorRect/Buttons/Implication" to="HBoxContainer/ProofTree" method="_on_Implication_pressed"]

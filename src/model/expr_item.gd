@@ -13,10 +13,6 @@ func get_type() -> ExprItemType:
 	return type
 
 
-func get_type_string() -> String:
-	return type.to_string()
-
-
 func get_child_count() -> int:
 	return children.size()
 
