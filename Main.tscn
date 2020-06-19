@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://ProofTree.gd" type="Script" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
+[ext_resource path="res://src/visual/assumption_box/AssumptionBox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assumptions.gd" type="Script" id=4]
 [ext_resource path="res://src/visual/expression_viewer/ExpressionViewer.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Buttons.gd" type="Script" id=6]
+[ext_resource path="res://FromTop.gd" type="Script" id=7]
+[ext_resource path="res://Debugger.gd" type="Script" id=8]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -22,18 +25,58 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ProofTree" type="Tree" parent="HBoxContainer"]
-margin_right = 338.0
+[node name="Debugger" type="ItemList" parent="HBoxContainer"]
+visible = false
+margin_right = 145.0
 margin_bottom = 550.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+script = ExtResource( 8 )
+
+[node name="TabContainer" type="TabContainer" parent="HBoxContainer"]
+margin_right = 680.0
+margin_bottom = 550.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="From the Bottom" type="HBoxContainer" parent="HBoxContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ProofTree" type="Tree" parent="HBoxContainer/TabContainer/From the Bottom"]
+margin_right = 334.0
+margin_bottom = 514.0
 size_flags_horizontal = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Goals" parent="HBoxContainer" instance=ExtResource( 5 )]
-margin_left = 342.0
-margin_right = 680.0
+[node name="Goals" parent="HBoxContainer/TabContainer/From the Bottom" instance=ExtResource( 5 )]
+margin_left = 338.0
+margin_right = 672.0
+margin_bottom = 514.0
+
+[node name="From the Top" type="HBoxContainer" parent="HBoxContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 7 )
+
+[node name="AssumptionBox" parent="HBoxContainer/TabContainer/From the Top" instance=ExtResource( 3 )]
+margin_right = 672.0
+margin_bottom = 514.0
+size_flags_horizontal = 3
 
 [node name="Assumptions" type="ScrollContainer" parent="HBoxContainer"]
 margin_left = 684.0
@@ -70,6 +113,8 @@ margin_right = 54.0
 margin_bottom = 50.0
 disabled = true
 text = "A => B"
-[connection signal="item_selected" from="HBoxContainer/ProofTree" to="HBoxContainer/ProofTree" method="_on_item_selected"]
-[connection signal="assumption_used" from="HBoxContainer/Assumptions" to="HBoxContainer/ProofTree" method="_on_assumption_used"]
-[connection signal="pressed" from="ColorRect/Buttons/Implication" to="HBoxContainer/ProofTree" method="_on_Implication_pressed"]
+[connection signal="change_selected_proof_entry" from="HBoxContainer/TabContainer/From the Bottom/ProofTree" to="." method="_on_change_selected_proof_entry"]
+[connection signal="item_selected" from="HBoxContainer/TabContainer/From the Bottom/ProofTree" to="HBoxContainer/TabContainer/From the Bottom/ProofTree" method="_on_item_selected"]
+[connection signal="expr_item_selected" from="HBoxContainer/TabContainer/From the Bottom/Goals" to="." method="_on_goal_item_selected"]
+[connection signal="assumption_refine" from="HBoxContainer/Assumptions" to="HBoxContainer/TabContainer/From the Bottom/ProofTree" method="_on_assumption_refine"]
+[connection signal="pressed" from="ColorRect/Buttons/Implication" to="HBoxContainer/TabContainer/From the Bottom/ProofTree" method="_on_Implication_pressed"]

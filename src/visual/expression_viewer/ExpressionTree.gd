@@ -19,8 +19,7 @@ func update_tree(root_expr_item_locator : UniversalLocator, active = false):
 		count += 1
 		var current_locator:UniversalLocator = dfs_queue.pop_front()
 		var current_item = create_item(parents[current_locator])
-		print(current_locator.get_expr_item().to_string())
-		current_item.set_text(0, current_locator.get_expr_item().get_type().to_string())
+		current_item.set_text(0, current_locator.get_type().to_string())
 		current_item.set_custom_color(0, color)
 		locator_map[current_item] = current_locator
 		var child_count := current_locator.get_child_count()
@@ -35,3 +34,10 @@ func _on_item_selected():
 	var selected_item := get_selected()
 	var selected_locator:UniversalLocator = locator_map[selected_item]
 	emit_signal("expr_item_selected", selected_locator)
+
+
+func get_drag_data(position):
+	var item = get_item_at_position(position)
+	if item != null:
+		var locator = locator_map[item]
+		return locator

@@ -8,22 +8,20 @@ func _ready():
 	var A = ExprItemType.new("A")
 	var B = ExprItemType.new("B")
 	var C = ExprItemType.new("C")
-	
+
 	var a = ExprItem.new(A)
 	var b = ExprItem.new(B)
 	var c = ExprItem.new(C)
-	
+
 	var a_impl_b = ExprItem.new(GlobalTypes.IMPLIES, [a, b])
 	var b_impl_c = ExprItem.new(GlobalTypes.IMPLIES, [b, c])
 	var a_impl_c = ExprItem.new(GlobalTypes.IMPLIES, [a, c])
-	
-	
-	
+
 	var AND = ExprItemType.new("and")
 	var X = ExprItemType.new("X")
 	var Y = ExprItemType.new("Y")
 	var Z = ExprItemType.new("Z")
-	
+
 	var x = ExprItem.new(X)
 	var y = ExprItem.new(Y)
 	var z = ExprItem.new(Z)
@@ -35,19 +33,21 @@ func _ready():
 	var cdr = ExprItem.new(GlobalTypes.IMPLIES, [x_i_y_i_z, x_n_y_i_z])
 	var conj_def_l = ExprItem.new(GlobalTypes.FORALL, [x, ExprItem.new(GlobalTypes.FORALL, [y, ExprItem.new(GlobalTypes.FORALL, [z, cdl])])])
 	var conj_def_r = ExprItem.new(GlobalTypes.FORALL, [x, ExprItem.new(GlobalTypes.FORALL, [y, ExprItem.new(GlobalTypes.FORALL, [z, cdr])])])
-	
+
 
 	var a_impl_b_and_b_impl_c = ExprItem.new(AND, [a_impl_b, b_impl_c])
 	var to_show = ExprItem.new(GlobalTypes.IMPLIES, [a_impl_b_and_b_impl_c, a_impl_c])
-	
+
 	var w1 = ExprItem.new(GlobalTypes.IMPLIES, [conj_def_r, to_show])
 	var w2 = ExprItem.new(GlobalTypes.IMPLIES, [conj_def_l, w1])
+#
+#	w2 = ExprItem.from_string("=>(=>(A|B)|=>(=>(B|C)|=>(A|C)))")
 	
-	var expression = Statement.new(w2, [A, B, C])
+	var expression = Statement.new(w2)
 	
 	var i1 = create_item()
 	i1.set_custom_color(0, Color.white)
-	proof_entry_map[i1] = ProofEntry.new(expression, [], [a, b])
+	proof_entry_map[i1] = ProofEntry.new(expression, [], [])#, [a, b])
 	i1.set_text(0, expression.to_string())
 
 
@@ -59,6 +59,7 @@ func _on_item_selected():
 		selected_item = selected_item.get_parent()
 		proof_entries.append(proof_entry_map[selected_item])
 	
+	print("AY")
 	emit_signal("change_selected_proof_entry", proof_entries)
 
 
@@ -93,7 +94,7 @@ func _mark_proven(item:TreeItem) -> void:
 		_mark_proven(parent)
 
 
-func _on_assumption_used(assumption:Statement):
+func use_assumption(assumption:Statement):
 	var selected_item := get_selected()
 	var selected_goal:Statement = proof_entry_map[selected_item].get_goal()
 	
@@ -113,3 +114,12 @@ func _on_assumption_used(assumption:Statement):
 				proof_entry_map[new_item] = new_proof_entry
 				if is_first:
 					new_item.select(0); is_first = false
+
+
+func _on_assumption_refine(assumption:Statement, definition:ExprItemType, locator:UniversalLocator):
+	var new_assumption = assumption.deep_replace_types({definition:locator.get_expr_item()})
+	var selected_item := get_selected()
+	var selected_proof_entry:ProofEntry = proof_entry_map[selected_item]
+	
+	selected_proof_entry.add_derived_assumption(new_assumption)
+	_on_item_selected()

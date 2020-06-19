@@ -15,6 +15,9 @@ func _init(new_goal:Statement, new_assumptions:Array, new_declarations:Array):
 	acted = false
 	proven = false
 
+func add_derived_assumption(assumption:Statement) -> void:
+	assumptions.append(assumption)
+
 func get_assumptions() -> Array:
 	return assumptions
 

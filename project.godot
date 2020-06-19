@@ -19,6 +19,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/model/expr_item_type.gd"
 }, {
+"base": "Object",
+"class": "Matching",
+"language": "GDScript",
+"path": "res://src/model/matching.gd"
+}, {
+"base": "Object",
+"class": "MatchingTwo",
+"language": "GDScript",
+"path": "res://src/model/matching2.gd"
+}, {
 "base": "Node",
 "class": "ProofEntry",
 "language": "GDScript",
@@ -37,6 +47,8 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "ExprItem": "",
 "ExprItemType": "",
+"Matching": "",
+"MatchingTwo": "",
 "ProofEntry": "",
 "Statement": "",
 "UniversalLocator": ""
@@ -51,6 +63,10 @@ config/icon="res://icon.png"
 [autoload]
 
 GlobalTypes="*res://src/model/global_types.gd"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "gut", "zylann.project_stats" )
 
 [rendering]
 
