@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/visual/assumption_box/AssumptionBox.gd" type="Script" id=1]
 [ext_resource path="res://src/visual/assumption_box/Definitions.gd" type="Script" id=2]
+[ext_resource path="res://src/visual/assumption_box/Conclusions.gd" type="Script" id=3]
+[ext_resource path="res://src/visual/assumption_box/Equalities.gd" type="Script" id=4]
 
 [node name="AssumptionBox" type="PanelContainer"]
 margin_right = 49.0
@@ -15,7 +17,7 @@ __meta__ = {
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 83.0
-margin_bottom = 120.0
+margin_bottom = 164.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -50,19 +52,34 @@ margin_right = 76.0
 margin_bottom = 76.0
 text = "THEN"
 
-[node name="Conclusions" type="ItemList" parent="VBoxContainer"]
+[node name="Conclusion" type="ItemList" parent="VBoxContainer"]
 margin_top = 80.0
 margin_right = 76.0
 margin_bottom = 89.0
 auto_height = true
+script = ExtResource( 3 )
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Equalities" type="ItemList" parent="VBoxContainer"]
 margin_top = 93.0
 margin_right = 76.0
-margin_bottom = 113.0
+margin_bottom = 102.0
+auto_height = true
+script = ExtResource( 4 )
+
+[node name="Equals" type="Label" parent="VBoxContainer"]
+margin_top = 106.0
+margin_right = 76.0
+margin_bottom = 120.0
+text = "ARE EQUAL"
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+margin_top = 124.0
+margin_right = 76.0
+margin_bottom = 144.0
 text = "Work with"
 [connection signal="expr_item_dropped_on_definition" from="VBoxContainer/Definitions" to="." method="_on_expr_item_dropped_on_definition"]
 [connection signal="item_activated" from="VBoxContainer/Conditions" to="." method="_on_Conditions_item_activated"]
 [connection signal="item_selected" from="VBoxContainer/Conditions" to="." method="_on_Conditions_item_selected"]
-[connection signal="item_activated" from="VBoxContainer/Conclusions" to="." method="_on_Conclusions_item_activated"]
+[connection signal="item_activated" from="VBoxContainer/Equalities" to="VBoxContainer/Equalities" method="_on_item_activated"]
+[connection signal="use_equality" from="VBoxContainer/Equalities" to="." method="_on_use_equality"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_Button_pressed"]

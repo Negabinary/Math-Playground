@@ -5,6 +5,7 @@ var ASSUMPTION_BOX := load("res://src/visual/assumption_box/AssumptionBox.tscn")
 signal assumption_used
 signal assumption_work_with
 signal assumption_refine
+signal equality_used
 
 
 # Change all assumptions
@@ -28,6 +29,7 @@ func save_assumption(assumption:Statement):
 	assumption_box.connect("assumption_conclusion_used", self, "_on_assumption_conclusion_used")
 	assumption_box.connect("assumption_work_with", self, "_on_assumption_work_with")
 	assumption_box.connect("expr_item_dropped_on_definition", self, "_on_assumption_refine")
+	assumption_box.connect("use_equality", self, "_on_use_equality")
 
 
 # Show which assumptions are relevant to selection
@@ -51,5 +53,8 @@ func _on_assumption_work_with(assumption):
 
 
 func _on_assumption_refine(assumption:Statement, definition:ExprItemType, locator:UniversalLocator):
-	print("OY")
 	emit_signal("assumption_refine", assumption, definition, locator)
+
+
+func _on_use_equality(equality:UniversalLocator):
+	emit_signal("equality_used", equality)

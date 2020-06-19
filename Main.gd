@@ -7,6 +7,8 @@ func _ready():
 	$"HBoxContainer/TabContainer/From the Top".connect("save_assumption", self, "_on_save_assumption")
 	$HBoxContainer/Assumptions.connect("assumption_used", self, "_on_assumption_used")
 	$HBoxContainer/Assumptions.connect("assumption_work_with", self, "_on_assumption_work_with")
+	$"HBoxContainer/TabContainer/From the Bottom/Goals".connect("expr_item_selected", self, "_on_goal_item_selected")
+	$"HBoxContainer/TabContainer/From the Bottom/ProofTree".connect("change_selected_proof_entry", self, "_on_change_selected_proof_entry")
 
 
 func _on_change_selected_proof_entry(proof_entries:Array): #Array<ProofEntry>
@@ -37,3 +39,8 @@ func _on_assumption_used(assumption:Statement):
 
 func _on_save_assumption(assumption:Statement):
 	$HBoxContainer/Assumptions.save_assumption(assumption)
+
+
+func _on_equality_used(equality:UniversalLocator):
+	var position = $"HBoxContainer/TabContainer/From the Bottom/Goals".get_selected()
+	$"HBoxContainer/TabContainer/From the Bottom/ProofTree".use_equality(position, equality)

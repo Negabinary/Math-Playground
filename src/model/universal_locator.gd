@@ -17,6 +17,10 @@ func _init(new_expr, new_indeces:=[], new_expr_item:ExprItem=null, new_missing_c
 	missing_children = new_missing_children
 
 
+func get_indeces():
+	return indeces
+
+
 func is_root():
 	return indeces == []
 

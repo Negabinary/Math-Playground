@@ -9,5 +9,12 @@ func update_buttons(proof_entry:ProofEntry):
 			$Implication.disabled = false
 		else:
 			$Implication.disabled = true
+		if root_type == GlobalTypes.EQUALITY:
+			if root_locator.get_child(0).get_type() == root_locator.get_child(1).get_type() and get_child(1).get_child_count() == get_child(0).get_child_count():
+				$Equality.disabled = false
+			else:
+				$Equality.disabled = true
+		else:
+			$Equality.disabled = true
 	else:
 		$Implication.disabled = true

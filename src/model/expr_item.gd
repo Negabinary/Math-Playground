@@ -10,8 +10,8 @@ func _init(new_type:ExprItemType, new_children:=[]):
 
 
 static func from_string(string:String, types:={}) -> ExprItem:
-	types["=>"] = GlobalTypes.IMPLIES
-	types["For all"] = GlobalTypes.FORALL
+	for global_type in GlobalTypes.get_map():
+		types[global_type] = GlobalTypes.get_map()[global_type]
 	var context_stack := [[]]
 	var current_string := ""
 	for i in range(string.length() - 1, -1, -1): # BACKWARDS
@@ -43,6 +43,20 @@ func deep_replace_types(types:Dictionary) -> ExprItem: #<ExprItemType, ExprItem>
 		else:
 			return types[type]
 	return get_script().new(new_type, new_children)
+
+
+func replace_at(indeces:Array, with:ExprItem) -> ExprItem:
+	if indeces == []:
+		return with
+	else:
+		var new_children = []
+		var j = indeces.pop_front()
+		for i in get_child_count():
+			if i == j:
+				new_children.append(get_child(i).replace_at(indeces, with))
+			else:
+				new_children.append(get_child(i))
+		return get_script().new(type, new_children)
 
 
 func get_type() -> ExprItemType:

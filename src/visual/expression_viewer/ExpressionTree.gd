@@ -41,3 +41,8 @@ func get_drag_data(position):
 	if item != null:
 		var locator = locator_map[item]
 		return locator
+
+
+func get_selected_locator() -> UniversalLocator:
+	var selected_item := get_selected()
+	return locator_map[selected_item]

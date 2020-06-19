@@ -1,6 +1,6 @@
 extends ItemList
 
-
+var assumption:Statement
 var definitions := []
 
 signal expr_item_dropped_on_definition
@@ -9,7 +9,7 @@ signal expr_item_dropped_on_definition
 func can_drop_data(position, data):
 	print(data)
 	if get_item_at_position(position) != -1 and data is UniversalLocator:
-		return true
+		return data.get_statement() != assumption
 	else:
 		return false
 
