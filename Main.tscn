@@ -1,12 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ProofTree.gd" type="Script" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
-[ext_resource path="res://src/visual/assumption_box/AssumptionBox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assumptions.gd" type="Script" id=4]
 [ext_resource path="res://src/visual/expression_viewer/ExpressionViewer.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Buttons.gd" type="Script" id=6]
-[ext_resource path="res://FromTop.gd" type="Script" id=7]
 [ext_resource path="res://Debugger.tscn" type="PackedScene" id=8]
 
 [node name="Main" type="Control"]
@@ -27,50 +25,25 @@ __meta__ = {
 
 [node name="Debugger" parent="HBoxContainer" instance=ExtResource( 8 )]
 
-[node name="TabContainer" type="TabContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
 margin_right = 680.0
 margin_bottom = 550.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="From the Bottom" type="HBoxContainer" parent="HBoxContainer/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ProofTree" type="Tree" parent="HBoxContainer/TabContainer/From the Bottom"]
-margin_right = 334.0
-margin_bottom = 514.0
+[node name="ProofTree" type="Tree" parent="HBoxContainer/HBoxContainer"]
+margin_right = 338.0
+margin_bottom = 550.0
 size_flags_horizontal = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Goals" parent="HBoxContainer/TabContainer/From the Bottom" instance=ExtResource( 5 )]
-margin_left = 338.0
-margin_right = 672.0
-margin_bottom = 514.0
-
-[node name="From the Top" type="HBoxContainer" parent="HBoxContainer/TabContainer"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-script = ExtResource( 7 )
-
-[node name="AssumptionBox" parent="HBoxContainer/TabContainer/From the Top" instance=ExtResource( 3 )]
-margin_right = 672.0
-margin_bottom = 514.0
-size_flags_horizontal = 3
+[node name="Goals" parent="HBoxContainer/HBoxContainer" instance=ExtResource( 5 )]
+margin_left = 342.0
+margin_right = 680.0
 
 [node name="Assumptions" type="ScrollContainer" parent="HBoxContainer"]
 margin_left = 684.0
@@ -114,10 +87,8 @@ margin_right = 120.0
 margin_bottom = 50.0
 disabled = true
 text = "A() = A()"
-[connection signal="item_selected" from="HBoxContainer/TabContainer/From the Bottom/ProofTree" to="HBoxContainer/TabContainer/From the Bottom/ProofTree" method="_on_item_selected"]
-[connection signal="assumption_refine" from="HBoxContainer/Assumptions" to="HBoxContainer/TabContainer/From the Bottom/ProofTree" method="_on_assumption_refine"]
-[connection signal="assumption_used" from="HBoxContainer/Assumptions" to="." method="_on_assumption_used"]
-[connection signal="assumption_work_with" from="HBoxContainer/Assumptions" to="." method="_on_assumption_work_with"]
+[connection signal="item_selected" from="HBoxContainer/HBoxContainer/ProofTree" to="HBoxContainer/HBoxContainer/ProofTree" method="_on_item_selected"]
+[connection signal="assumption_refine" from="HBoxContainer/Assumptions" to="HBoxContainer/HBoxContainer/ProofTree" method="_on_assumption_refine"]
 [connection signal="equality_used" from="HBoxContainer/Assumptions" to="." method="_on_equality_used"]
-[connection signal="pressed" from="ColorRect/Buttons/Implication" to="HBoxContainer/TabContainer/From the Bottom/ProofTree" method="_on_Implication_pressed"]
-[connection signal="pressed" from="ColorRect/Buttons/Equality" to="HBoxContainer/TabContainer/From the Bottom/ProofTree" method="_on_Equality_pressed"]
+[connection signal="pressed" from="ColorRect/Buttons/Implication" to="HBoxContainer/HBoxContainer/ProofTree" method="_on_Implication_pressed"]
+[connection signal="pressed" from="ColorRect/Buttons/Equality" to="HBoxContainer/HBoxContainer/ProofTree" method="_on_Equality_pressed"]

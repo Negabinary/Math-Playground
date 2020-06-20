@@ -17,7 +17,7 @@ __meta__ = {
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 83.0
-margin_bottom = 164.0
+margin_bottom = 151.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -71,15 +71,8 @@ margin_top = 106.0
 margin_right = 76.0
 margin_bottom = 120.0
 text = "ARE EQUAL"
-
-[node name="Button" type="Button" parent="VBoxContainer"]
-margin_top = 124.0
-margin_right = 76.0
-margin_bottom = 144.0
-text = "Work with"
 [connection signal="expr_item_dropped_on_definition" from="VBoxContainer/Definitions" to="." method="_on_expr_item_dropped_on_definition"]
 [connection signal="item_activated" from="VBoxContainer/Conditions" to="." method="_on_Conditions_item_activated"]
 [connection signal="item_selected" from="VBoxContainer/Conditions" to="." method="_on_Conditions_item_selected"]
 [connection signal="item_activated" from="VBoxContainer/Equalities" to="VBoxContainer/Equalities" method="_on_item_activated"]
 [connection signal="use_equality" from="VBoxContainer/Equalities" to="." method="_on_use_equality"]
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_Button_pressed"]

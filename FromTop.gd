@@ -10,7 +10,7 @@ func _ready():
 
 
 func work_with(assumption:Statement):
-	$AssumptionBox.display_assumption(assumption, true)
+	$AssumptionBox.display_assumption(assumption)
 
 
 func _on_condition_selected(statement:Statement, condition_idx:int):

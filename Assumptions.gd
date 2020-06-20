@@ -3,7 +3,6 @@ extends ScrollContainer
 var ASSUMPTION_BOX := load("res://src/visual/assumption_box/AssumptionBox.tscn")
 
 signal assumption_used
-signal assumption_work_with
 signal assumption_refine
 signal equality_used
 
@@ -25,9 +24,8 @@ func _clear_assumptions():
 func save_assumption(assumption:Statement):
 	var assumption_box = ASSUMPTION_BOX.instance()
 	$VBoxContainer.add_child(assumption_box)
-	assumption_box.display_assumption(assumption, true)
+	assumption_box.display_assumption(assumption)
 	assumption_box.connect("assumption_conclusion_used", self, "_on_assumption_conclusion_used")
-	assumption_box.connect("assumption_work_with", self, "_on_assumption_work_with")
 	assumption_box.connect("expr_item_dropped_on_definition", self, "_on_assumption_refine")
 	assumption_box.connect("use_equality", self, "_on_use_equality")
 
@@ -46,10 +44,6 @@ func mark_assumptions_from_top(statement:Statement, condition_idx:int):
 func _on_assumption_conclusion_used(assumption, _index):
 	assert (_index == 0)
 	emit_signal("assumption_used", assumption)
-
-
-func _on_assumption_work_with(assumption):
-	emit_signal("assumption_work_with", assumption)
 
 
 func _on_assumption_refine(assumption:Statement, definition:ExprItemType, locator:UniversalLocator):

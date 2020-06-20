@@ -1,7 +1,6 @@
 extends PanelContainer
 
 signal use_equality
-signal assumption_work_with
 signal assumption_conclusion_used
 signal assumption_condition_used
 signal assumption_condition_selected
@@ -9,13 +8,11 @@ signal expr_item_dropped_on_definition
 var assumption : Statement
 
 
-func display_assumption(new_assumption:Statement, show_work_with := false):
+func display_assumption(new_assumption:Statement):
 	$VBoxContainer/Conditions.clear()
 	$VBoxContainer/Conclusion.clear()
 	
 	assumption = new_assumption
-	
-	$VBoxContainer/Button.visible = show_work_with
 	
 	var definitions := new_assumption.get_definitions()
 	var conditions := new_assumption.get_conditions()
@@ -73,22 +70,13 @@ func mark_assumptions(selected_item:UniversalLocator):
 			$VBoxContainer/Conclusion.modulate = Color.white
 
 
-# @DEAD
-func mark_assumptions_from_top(selected_item:UniversalLocator):
-	var matching := Matching.new(selected_item, assumption.get_conclusion())
-	if matching.is_possible():
-		$VBoxContainer/Conclusion.modulate = Color.cyan
-	else:
-		$VBoxContainer/Conclusion.modulate = Color.white
-
-
 func use_assumption(using_assumption:Statement):
 	var selected_conditions = $VBoxContainer/Conditions.get_selected_items()
 	if selected_conditions.size() == 1:
 		var selected_condition:int = selected_conditions[0]
 		var matching := MatchingTwo.new(assumption.get_conditions()[selected_condition], using_assumption.conclusion)
 		var new_statement = assumption.deep_replace_types(matching.get_alpha_replacements(), matching.get_alpha_new_definitions())
-		display_assumption(new_statement, true)
+		display_assumption(new_statement)
 
 
 func _on_Conditions_item_selected(index):
@@ -101,10 +89,6 @@ func _on_Conditions_item_activated(index):
 
 func _on_Conclusions_item_activated(index):
 	emit_signal("assumption_conclusion_used", assumption, index)
-
-
-func _on_Button_pressed():
-	emit_signal("assumption_work_with", assumption)
 
 
 func _on_expr_item_dropped_on_definition(definition:ExprItemType, locator:UniversalLocator):
