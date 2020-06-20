@@ -7,14 +7,14 @@ class_name Statement
 var root : ExprItem
 var conditions : Array # <UniversalLocator>
 var definitions : Array # <ExprItemType>
-var conclusion : UniversalLocator
+var conclusion : Locator
 
 
 func _init(new_root:ExprItem): 
 	root = new_root
 	definitions = []
 	conditions = []
-	var locator := UniversalLocator.new(self)
+	var locator := Locator.new(root)
 	while (
 			locator.get_type() == GlobalTypes.FORALL 
 			or locator.get_type() == GlobalTypes.IMPLIES):
@@ -61,7 +61,7 @@ func as_expr_item() -> ExprItem:
 	return root
 
 
-func get_conclusion() -> UniversalLocator:
+func get_conclusion() -> Locator:
 	return conclusion
 
 

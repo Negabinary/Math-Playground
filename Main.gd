@@ -2,8 +2,8 @@ extends Control
 
 
 onready var ui_assumptions := $HBoxContainer/Assumptions
-onready var ui_goals := $HBoxContainer/HBoxContainer/Goals
-onready var ui_proof_tree := $HBoxContainer/HBoxContainer/ProofTree
+onready var ui_goals := $HBoxContainer/Goals
+onready var ui_proof_tree := $HBoxContainer/ProofTree
 onready var ui_buttons := $ColorRect/Buttons
 
 

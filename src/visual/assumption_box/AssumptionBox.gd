@@ -16,7 +16,7 @@ func display_assumption(new_assumption:Statement):
 	
 	var definitions := new_assumption.get_definitions()
 	var conditions := new_assumption.get_conditions()
-	var conclusion:UniversalLocator = new_assumption.get_conclusion()
+	var conclusion:Locator = new_assumption.get_conclusion()
 	
 	if definitions.size() == 0:
 		$VBoxContainer/With.hide()
@@ -41,18 +41,18 @@ func display_assumption(new_assumption:Statement):
 		$VBoxContainer/Equals.show()
 		$VBoxContainer/Equalities.show()
 		$VBoxContainer/Conclusion.hide()
-		$VBoxContainer/Equalities.add_equalities(conclusion)
+		$VBoxContainer/Equalities.add_equalities(UniversalLocator.new(assumption, conclusion))
 	else:
 		$VBoxContainer/Equals.hide()
 		$VBoxContainer/Equalities.hide()
 		$VBoxContainer/Conclusion.show()
 		$VBoxContainer/Conclusion.add_item(conclusion.to_string())
-		$VBoxContainer/Conclusion.conclusion = conclusion
+		$VBoxContainer/Conclusion.conclusion = UniversalLocator.new(assumption, conclusion)
 
 
 func _update_conditions(conditions:Array):
 	for i in conditions.size():
-		var condition : UniversalLocator = conditions[i]
+		var condition : UniversalLocator = UniversalLocator.new(assumption, conditions[i])
 		$VBoxContainer/Conditions.add_item(condition.to_string())
 
 
@@ -68,15 +68,6 @@ func mark_assumptions(selected_item:UniversalLocator):
 			$VBoxContainer/Conclusion.modulate = Color.green
 		else:
 			$VBoxContainer/Conclusion.modulate = Color.white
-
-
-func use_assumption(using_assumption:Statement):
-	var selected_conditions = $VBoxContainer/Conditions.get_selected_items()
-	if selected_conditions.size() == 1:
-		var selected_condition:int = selected_conditions[0]
-		var matching := MatchingTwo.new(assumption.get_conditions()[selected_condition], using_assumption.conclusion)
-		var new_statement = assumption.deep_replace_types(matching.get_alpha_replacements(), matching.get_alpha_new_definitions())
-		display_assumption(new_statement)
 
 
 func _on_Conditions_item_selected(index):

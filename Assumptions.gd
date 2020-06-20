@@ -36,11 +36,6 @@ func mark_assumptions(selected_item:UniversalLocator):
 		assumption_box.mark_assumptions(selected_item)
 
 
-func mark_assumptions_from_top(statement:Statement, condition_idx:int):
-	for assumption_box in $VBoxContainer.get_children():
-		assumption_box.mark_assumptions_from_top(statement.get_conditions()[condition_idx])
-
-
 func _on_assumption_conclusion_used(assumption, _index):
 	assert (_index == 0)
 	emit_signal("assumption_used", assumption)

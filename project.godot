@@ -19,10 +19,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/model/expr_item_type.gd"
 }, {
+"base": "Object",
+"class": "Locator",
+"language": "GDScript",
+"path": "res://src/model/locator.gd"
+}, {
 "base": "Node",
 "class": "ProofEntry",
 "language": "GDScript",
 "path": "res://src/model/proof_entry.gd"
+}, {
+"base": "Statement",
+"class": "ProofStep",
+"language": "GDScript",
+"path": "res://src/model/proof/proof_step.gd"
 }, {
 "base": "Object",
 "class": "Statement",
@@ -37,7 +47,9 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "ExprItem": "",
 "ExprItemType": "",
+"Locator": "",
 "ProofEntry": "",
+"ProofStep": "",
 "Statement": "",
 "UniversalLocator": ""
 }

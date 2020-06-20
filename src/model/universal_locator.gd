@@ -1,43 +1,39 @@
 extends Object
 class_name UniversalLocator
 
-var statement
-var indeces : Array
-var missing_children := 0
-var expr_item : ExprItem
+var statement : Statement
+var locator : Locator
 
 
-func _init(new_expr, new_indeces:=[], new_expr_item:ExprItem=null, new_missing_children:=0):
-	statement = new_expr
-	indeces = new_indeces
-	if new_expr_item == null:
-		expr_item = new_expr.as_expr_item()
+func _init(new_statement, new_locator:Locator=null):
+	statement = new_statement
+	if new_locator == null:
+		locator = Locator.new(new_statement.as_expr_item())
 	else:
-		expr_item = new_expr_item
-	missing_children = new_missing_children
+		locator = new_locator
 
 
 func get_indeces():
-	return indeces
+	return locator.get_indeces()
 
 
 func is_root():
-	return indeces == []
+	return locator.is_root()
 
 
 func get_type() -> ExprItemType:
-	return expr_item.get_type()
+	return locator.get_type()
 
 
 func get_expr_item() -> ExprItem:
-	return expr_item
+	return locator.get_expr_item()
 
 
 func get_child_count() -> int:
-	return expr_item.get_child_count()
+	return locator.get_child_count()
 
 
-func get_statement():
+func get_statement() -> Statement:
 	return statement
 
 
@@ -46,20 +42,8 @@ func get_definitions() -> Array:
 
 
 func get_child(idx:int) -> UniversalLocator:
-	var new_indeces := indeces.duplicate()
-	new_indeces.push_back(idx)
-	return get_script().new(statement, new_indeces, expr_item.get_child(idx))
-
-
-func abandon_lowest(idx:int) -> UniversalLocator:
-	assert (idx <= get_child_count())
-	return get_script().new(
-		statement,
-		indeces,
-		expr_item.abandon_lowest(idx),
-		idx + missing_children
-	)
+	return get_script().new(statement, locator.get_child(idx))
 
 
 func _to_string():
-	return expr_item.to_string()
+	return locator.to_string()

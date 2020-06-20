@@ -25,14 +25,7 @@ __meta__ = {
 
 [node name="Debugger" parent="HBoxContainer" instance=ExtResource( 8 )]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
-margin_right = 680.0
-margin_bottom = 550.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 2.0
-
-[node name="ProofTree" type="Tree" parent="HBoxContainer/HBoxContainer"]
+[node name="ProofTree" type="Tree" parent="HBoxContainer"]
 margin_right = 338.0
 margin_bottom = 550.0
 size_flags_horizontal = 3
@@ -41,7 +34,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Goals" parent="HBoxContainer/HBoxContainer" instance=ExtResource( 5 )]
+[node name="Goals" parent="HBoxContainer" instance=ExtResource( 5 )]
 margin_left = 342.0
 margin_right = 680.0
 
@@ -87,8 +80,10 @@ margin_right = 120.0
 margin_bottom = 50.0
 disabled = true
 text = "A() = A()"
-[connection signal="item_selected" from="HBoxContainer/HBoxContainer/ProofTree" to="HBoxContainer/HBoxContainer/ProofTree" method="_on_item_selected"]
-[connection signal="assumption_refine" from="HBoxContainer/Assumptions" to="HBoxContainer/HBoxContainer/ProofTree" method="_on_assumption_refine"]
+
+[node name="ProofDAG" type="Node" parent="."]
+[connection signal="item_selected" from="HBoxContainer/ProofTree" to="HBoxContainer/ProofTree" method="_on_item_selected"]
+[connection signal="assumption_refine" from="HBoxContainer/Assumptions" to="HBoxContainer/ProofTree" method="_on_assumption_refine"]
 [connection signal="equality_used" from="HBoxContainer/Assumptions" to="." method="_on_equality_used"]
-[connection signal="pressed" from="ColorRect/Buttons/Implication" to="HBoxContainer/HBoxContainer/ProofTree" method="_on_Implication_pressed"]
-[connection signal="pressed" from="ColorRect/Buttons/Equality" to="HBoxContainer/HBoxContainer/ProofTree" method="_on_Equality_pressed"]
+[connection signal="pressed" from="ColorRect/Buttons/Implication" to="HBoxContainer/ProofTree" method="_on_Implication_pressed"]
+[connection signal="pressed" from="ColorRect/Buttons/Equality" to="HBoxContainer/ProofTree" method="_on_Equality_pressed"]
