@@ -81,19 +81,41 @@ func abandon_lowest(count:int) -> ExprItem:
 
 func compare(other:ExprItem) -> bool:
 	if type != other.type:
-		print(type)
-		print(other.type)
-		print("1")
 		return false
 	elif children.size() != other.children.size():
-		print("2")
 		return false
 	else:
 		for child_id in children.size():
 			if !children[child_id].compare(other.children[child_id]):
-				print("3")
 				return false
 		return true
+
+
+func is_superset(other:ExprItem, matching:={}) -> bool:
+	if type == GlobalTypes.FORALL:
+		matching[get_child(0).get_type()] = "*"
+		return get_child(1).is_superset(other, matching)
+	elif matching.has(type):
+		print("H")
+		if matching[type] == "*":
+			matching[type] = other
+			print("*")
+			return true
+		elif matching[type].compare(other):
+			return true
+		else:
+			print("E")
+			return false
+	elif type == other.type and get_child_count() == other.get_child_count():
+		print("A")
+		for i in get_child_count():
+			if not get_child(i).is_superset(other.get_child(i), matching):
+				print("F")
+				return false
+		return true
+	else:
+		print("X")
+		return false
 
 
 func _to_string() -> String:
