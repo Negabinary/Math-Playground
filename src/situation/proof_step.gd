@@ -21,7 +21,6 @@ func get_assumptions() -> Dictionary:
 	var assumptions : Dictionary
 	if context == null:
 		assumptions = {}
-		print("ay")
 	else:
 		assumptions = context.get_assumptions()
 	for new_assum in statement.get_conditions():
@@ -63,6 +62,11 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 
 func justify_with_equality(implication:ProofStep, replace:Locator, with:Locator) -> void:
 	justification = EqualityJustification.new(self, implication, replace, with)
+	emit_signal("justified")
+
+
+func justify_with_specialisation(generalised:ProofStep, replace:ExprItemType, replace_with) -> void:
+	justification = RefineJustification.new(self, generalised, replace, replace_with)
 	emit_signal("justified")
 
 
@@ -123,16 +127,13 @@ class ModusPonensJustificaiton extends Justification:
 #
 #
 class EqualityJustification extends Justification:
-
-	var equality:ProofStep
-	var at:Locator
 #
 	func _init(
 			context:ProofStep,
 			new_equality:ProofStep, 
 			replace:Locator, # Within parent CONCLUSION
 			with:Locator): # Within equality
-		equality = new_equality
+		var equality = new_equality
 		requirements = [equality]
 		for assumption in equality.statement.get_conditions():
 			requirements.append(
@@ -144,6 +145,16 @@ class EqualityJustification extends Justification:
 			)
 		var with_replacement = context.get_conclusion().get_expr_item().replace_at(replace.get_indeces(), with.get_expr_item())
 		requirements.append(equality.get_script().new(with_replacement, MissingJustification.new(), context))
+
+
+class RefineJustification extends Justification:
+	
+	func _init(
+			context:ProofStep,
+			generalised:ProofStep,
+			replace:ExprItemType,
+			with):
+		requirements = [generalised]
 
 
 #class SpecializationJusticfication extends Justification:

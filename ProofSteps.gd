@@ -15,6 +15,22 @@ func display_proof(root_proof_step:ProofStep):
 	_display_proof_step(root_proof_step)
 
 
+func _get_next_unproven() -> TreeItem:
+	if get_root() == null:
+		return null
+	else:
+		var to_visit = [get_root()]
+		while to_visit.size() > 0:
+			var next:TreeItem = to_visit.pop_front()
+			if proof_step_map[next].needs_justification():
+				return next
+			var c := next.get_children()
+			while c != null:
+				to_visit.push_front(c)
+				c = c.get_next()
+		return null
+
+
 func _clear():
 	for tree_item in proof_step_map:
 		proof_step_map[tree_item].disconnect("justified", self, "_on_update")
@@ -38,5 +54,5 @@ func _on_item_selected():
 
 
 func _on_update():
-	print("TEST")
 	display_proof(root_ps)
+	_get_next_unproven().select(0)

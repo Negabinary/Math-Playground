@@ -55,5 +55,9 @@ func _on_use_equality(assumption:ProofStep, equality:UniversalLocator):
 	proof_step.justify_with_equality(assumption, locator, equality.get_locator())
 
 
-func _on_assumption_refine(assumption:Statement, definition:ExprItemType, locator:UniversalLocator):
-	pass
+func _on_assumption_refine(assumption:ProofStep, definition:ExprItemType, locator:UniversalLocator):
+	print(definition)
+	print(locator.get_expr_item())
+	var refined_ps = ProofStep.new(assumption.get_statement().as_expr_item().deep_replace_types({definition:locator.get_expr_item()}))
+	refined_ps.justify_with_specialisation(assumption, definition, locator.get_expr_item())
+	save_assumption(refined_ps)
