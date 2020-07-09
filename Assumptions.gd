@@ -2,17 +2,27 @@ extends ScrollContainer
 
 var ASSUMPTION_BOX := load("res://src/visual/assumption_box/AssumptionBox.tscn")
 
-signal assumption_used
-signal assumption_refine
-signal equality_used
+var proof_step : ProofStep
+var locator : Locator
 
 
-# Change all assumptions
-func change_assumptions(proof_entries:Array): #Array<ProofEntry>
-	_clear_assumptions()
-	for proof_entry in proof_entries:
-		for assumption in proof_entry.assumptions:
-			save_assumption(assumption)
+func set_locator(new_location:Locator) -> void:
+	set_proof_step(proof_step, new_location)
+
+
+func set_proof_step(new_proof_step:ProofStep, new_location:Locator=null) -> void:
+	if new_location == null:
+		new_location = new_proof_step.get_conclusion()
+	if proof_step != new_proof_step:
+		proof_step = new_proof_step
+		_update_assumptions()
+	locator = new_location
+	_mark_assumptions()
+
+
+func _mark_assumptions():
+	for assumption_box in $VBoxContainer.get_children():
+		assumption_box.update_context(proof_step, locator)
 
 
 func _clear_assumptions():
@@ -21,7 +31,13 @@ func _clear_assumptions():
 		a.queue_free()
 
 
-func save_assumption(assumption:Statement):
+func _update_assumptions() -> void:
+	_clear_assumptions()
+	for assumption in proof_step.get_assumptions():
+		save_assumption(assumption)
+
+
+func save_assumption(assumption:ProofStep):
 	var assumption_box = ASSUMPTION_BOX.instance()
 	$VBoxContainer.add_child(assumption_box)
 	assumption_box.display_assumption(assumption)
@@ -30,20 +46,14 @@ func save_assumption(assumption:Statement):
 	assumption_box.connect("use_equality", self, "_on_use_equality")
 
 
-# Show which assumptions are relevant to selection
-func mark_assumptions(selected_item:UniversalLocator):
-	for assumption_box in $VBoxContainer.get_children():
-		assumption_box.mark_assumptions(selected_item)
-
-
-func _on_assumption_conclusion_used(assumption, _index):
+func _on_assumption_conclusion_used(assumption:ProofStep, _index):
 	assert (_index == 0)
-	emit_signal("assumption_used", assumption)
+	proof_step.justify_with_modus_ponens(assumption)
+
+
+func _on_use_equality(assumption:ProofStep, equality:UniversalLocator):
+	proof_step.justify_with_equality(assumption, locator, equality.get_locator())
 
 
 func _on_assumption_refine(assumption:Statement, definition:ExprItemType, locator:UniversalLocator):
-	emit_signal("assumption_refine", assumption, definition, locator)
-
-
-func _on_use_equality(equality:UniversalLocator):
-	emit_signal("equality_used", equality)
+	pass

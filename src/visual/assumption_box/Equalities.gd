@@ -18,16 +18,13 @@ func add_equalities(locator:UniversalLocator):
 		add_item(equality.to_string())
 
 
-func mark_assumptions(selected_item:UniversalLocator):
-	print("==")
-	print(selected_item.get_expr_item().to_string())
+func update_context(proof_step:ProofStep, locator:Locator):
 	var valid = false
 	for equality in equalities:
-		print(equality.get_expr_item().to_string())
-		if equality.get_expr_item().compare(selected_item.get_expr_item()):
+		if equality.get_expr_item().compare(locator.get_expr_item()):
 			valid = true
-	print(valid)
-	if valid:
+			break
+	if valid and proof_step.needs_justification():
 		modulate = Color.greenyellow
 	else:
 		modulate = Color.white

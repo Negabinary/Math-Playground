@@ -5,18 +5,21 @@ signal assumption_conclusion_used
 signal assumption_condition_used
 signal assumption_condition_selected
 signal expr_item_dropped_on_definition
-var assumption : Statement
+
+var assumption : ProofStep
 
 
-func display_assumption(new_assumption:Statement):
+func display_assumption(new_assumption:ProofStep):
 	$VBoxContainer/Conditions.clear()
 	$VBoxContainer/Conclusion.clear()
 	
 	assumption = new_assumption
 	
-	var definitions := new_assumption.get_definitions()
-	var conditions := new_assumption.get_conditions()
-	var conclusion:Locator = new_assumption.get_conclusion()
+	var assumption_statement := assumption.get_statement()
+	
+	var definitions := assumption_statement.get_definitions()
+	var conditions := assumption_statement.get_conditions()
+	var conclusion:Locator = assumption_statement.get_conclusion()
 	
 	if definitions.size() == 0:
 		$VBoxContainer/With.hide()
@@ -41,33 +44,26 @@ func display_assumption(new_assumption:Statement):
 		$VBoxContainer/Equals.show()
 		$VBoxContainer/Equalities.show()
 		$VBoxContainer/Conclusion.hide()
-		$VBoxContainer/Equalities.add_equalities(UniversalLocator.new(assumption, conclusion))
+		$VBoxContainer/Equalities.add_equalities(UniversalLocator.new(assumption_statement, conclusion))
 	else:
 		$VBoxContainer/Equals.hide()
 		$VBoxContainer/Equalities.hide()
 		$VBoxContainer/Conclusion.show()
 		$VBoxContainer/Conclusion.add_item(conclusion.to_string())
-		$VBoxContainer/Conclusion.conclusion = UniversalLocator.new(assumption, conclusion)
+		$VBoxContainer/Conclusion.conclusion = UniversalLocator.new(assumption_statement, conclusion)
 
 
 func _update_conditions(conditions:Array):
 	for i in conditions.size():
-		var condition : UniversalLocator = UniversalLocator.new(assumption, conditions[i])
+		var condition : UniversalLocator = UniversalLocator.new(assumption.get_statement(), conditions[i])
 		$VBoxContainer/Conditions.add_item(condition.to_string())
 
 
-# Show which assumptions are relevant to selection
-func mark_assumptions(selected_item:UniversalLocator):
+func update_context(proof_step:ProofStep, locator:Locator):
 	if assumption.get_conclusion().get_type() == GlobalTypes.EQUALITY:
-		$VBoxContainer/Equalities.mark_assumptions(selected_item)
+		$VBoxContainer/Equalities.update_context(proof_step, locator)
 	else:
-		$VBoxContainer/Equalities.modulate = Color.white
-		var selected_expr_item := selected_item.get_expr_item()
-		var conclusion_expr_item:ExprItem = assumption.get_conclusion().get_expr_item()
-		if selected_expr_item.compare(conclusion_expr_item):
-			$VBoxContainer/Conclusion.modulate = Color.green
-		else:
-			$VBoxContainer/Conclusion.modulate = Color.white
+		$VBoxContainer/Conclusion.update_context(proof_step, locator)
 
 
 func _on_Conditions_item_selected(index):
@@ -78,13 +74,13 @@ func _on_Conditions_item_activated(index):
 	emit_signal("assumption_condition_used", assumption, index)
 
 
-func _on_Conclusions_item_activated(index):
-	emit_signal("assumption_conclusion_used", assumption, index)
-
-
 func _on_expr_item_dropped_on_definition(definition:ExprItemType, locator:UniversalLocator):
 	emit_signal("expr_item_dropped_on_definition", assumption, definition, locator)
 
 
 func _on_use_equality(equality:UniversalLocator):
-	emit_signal("use_equality", equality)
+	emit_signal("use_equality", assumption, equality)
+
+
+func _on_Conclusion_item_activated(index):
+	emit_signal("assumption_conclusion_used", assumption, index)

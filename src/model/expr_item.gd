@@ -81,12 +81,17 @@ func abandon_lowest(count:int) -> ExprItem:
 
 func compare(other:ExprItem) -> bool:
 	if type != other.type:
+		print(type)
+		print(other.type)
+		print("1")
 		return false
 	elif children.size() != other.children.size():
+		print("2")
 		return false
 	else:
 		for child_id in children.size():
 			if !children[child_id].compare(other.children[child_id]):
+				print("3")
 				return false
 		return true
 
@@ -94,6 +99,15 @@ func compare(other:ExprItem) -> bool:
 func _to_string() -> String:
 	if children.size() == 0:
 		return type.to_string()
+	elif type == GlobalTypes.IMPLIES:
+		var children_string = ""
+		if children[0].get_type() == GlobalTypes.IMPLIES:
+			children_string += "(" + children[0].to_string() + ")"
+		else:
+			children_string += children[0].to_string()
+		children_string += " => "
+		children_string += children[1].to_string()
+		return children_string
 	else:
 		var children_string = ""
 		for child in children:

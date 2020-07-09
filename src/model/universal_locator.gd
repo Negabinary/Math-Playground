@@ -29,6 +29,10 @@ func get_expr_item() -> ExprItem:
 	return locator.get_expr_item()
 
 
+func get_locator() -> Locator:
+	return locator
+
+
 func get_child_count() -> int:
 	return locator.get_child_count()
 

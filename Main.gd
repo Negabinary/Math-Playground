@@ -1,32 +1,30 @@
 extends Control
 
 
-onready var ui_assumptions := $HBoxContainer/Assumptions
+onready var ui_assumptions := $HBoxContainer/Context/Assumptions
 onready var ui_goals := $HBoxContainer/Goals
-onready var ui_proof_tree := $HBoxContainer/ProofTree
+onready var ui_proof_steps := $HBoxContainer/ProofSteps
 onready var ui_buttons := $ColorRect/Buttons
 
 
+func _set_up() -> void:
+	var w2 = ExprItem.from_string("=>(=>(A,B),=>(=>(B,C),=>(A,C)))")
+	w2 = ExprItem.from_string("=>(=>(A,=>(B,C)),=>(=>(A,B),C))")
+	w2 = ExprItem.from_string("=>(=(A,B),=>(=>(P(A),P(C)),=>(P(B),P(C))))")
+	var root_ps = ProofStep.new(w2)
+	ui_proof_steps.display_proof(root_ps)
+
+
 func _ready():
-	ui_assumptions.connect("assumption_used", self, "_on_assumption_used")
+	_set_up()
+	ui_proof_steps.connect("proof_step_selected", self, "_on_proof_step_selected")
 	ui_goals.connect("expr_item_selected", self, "_on_goal_item_selected")
-	ui_proof_tree.connect("change_selected_proof_entry", self, "_on_change_selected_proof_entry")
 
 
-func _on_change_selected_proof_entry(proof_entries:Array): #Array<ProofEntry>
-	ui_goals.show_expression(proof_entries[0].get_goal())
-	ui_buttons.update_buttons(proof_entries[0])
-	ui_assumptions.change_assumptions(proof_entries)
+func _on_proof_step_selected(proof_step:ProofStep):
+	ui_goals.show_expression(Statement.new(proof_step.get_conclusion().get_expr_item()))
+	ui_assumptions.set_proof_step(proof_step)
 
 
 func _on_goal_item_selected(expr_locator:UniversalLocator):
-	ui_assumptions.mark_assumptions(expr_locator)
-
-
-func _on_assumption_used(assumption:Statement):
-	ui_proof_tree.use_assumption(assumption)
-
-
-func _on_equality_used(equality:UniversalLocator):
-	var position = ui_goals.get_selected()
-	ui_proof_tree.use_equality(position, equality)
+	ui_assumptions.set_locator(expr_locator.get_locator())

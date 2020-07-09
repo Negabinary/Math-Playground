@@ -1,5 +1,7 @@
 extends ItemList
 
+var module : MathModule
+
 func _ready():
 #	var AND := ExprItemType.new("and")
 #	var dict := {"and":AND}
@@ -18,9 +20,16 @@ func _ready():
 #	print(matching.is_possible())
 #
 	
-	var expr := ExprItem.from_string("=>(For all(X,For all(Y,=>(=(X,Y),=(Y,X)))),=>(For all(X,For all(Y,For all(Z,=>(=(X,Y),=>(=(Y,Z),=(X,Z)))))),=>(=(S(0),1),=>(=(S(1),2),=>(=(S(2),3),=>(=(S(3),4),=>(For all(X,=(+(0, X),X)),=>(For all(X,For all(Y,=(+(S(X),Y),+(X,(S(Y)))))),=(+(2,2),4)))))))))")
-	print(expr.to_string())
+	#var expr := ExprItem.from_string("=>(For all(X,For all(Y,=>(=(X,Y),=(Y,X)))),=>(For all(X,For all(Y,For all(Z,=>(=(X,Y),=>(=(Y,Z),=(X,Z)))))),=>(=(S(0),1),=>(=(S(1),2),=>(=(S(2),3),=>(=(S(3),4),=>(For all(X,=(+(0, X),X)),=>(For all(X,For all(Y,=(+(S(X),Y),+(X,(S(Y)))))),=(+(2,2),4)))))))))")
+	#print(expr.to_string())
 	
 	#var combination = matching.create_hybrid()
 	
 	#print(combination.to_string())
+	
+	
+	var file := File.new()
+	file.open("C:\\Users\\Matt\\OneDrive - University of Cambridge\\Projects\\Manipulator\\Manipulator 5 Data\\v1\\Modules\\booleans.txt", File.READ)
+	module = MathModule.new()
+	module.read_file(file)
+	file.close()

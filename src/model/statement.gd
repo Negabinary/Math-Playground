@@ -2,8 +2,6 @@ extends Object
 class_name Statement
 
 
-# TODO: Jusification
-# TODO: Assumed Modules
 var root : ExprItem
 var conditions : Array # <UniversalLocator>
 var definitions : Array # <ExprItemType>
