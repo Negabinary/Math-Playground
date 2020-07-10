@@ -44,7 +44,7 @@ func display_assumption(new_assumption:ProofStep):
 		$VBoxContainer/Equals.show()
 		$VBoxContainer/Equalities.show()
 		$VBoxContainer/Conclusion.hide()
-		$VBoxContainer/Equalities.add_equalities(assumption, UniversalLocator.new(assumption_statement, conclusion))
+		$VBoxContainer/Equalities.add_equalities(UniversalLocator.new(assumption_statement, conclusion))
 	else:
 		$VBoxContainer/Equals.hide()
 		$VBoxContainer/Equalities.hide()
