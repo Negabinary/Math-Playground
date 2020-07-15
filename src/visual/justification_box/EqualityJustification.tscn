@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/visual/justification_box/EqualityJustification.gd" type="Script" id=1]
+[ext_resource path="res://src/visual/justification_box/MissingJustification.gd" type="Script" id=2]
+[ext_resource path="res://src/visual/written_proof/written_statement.gd" type="Script" id=3]
+[ext_resource path="res://src/visual/justification_box/MissingJustification.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/visual/written_proof/written_justification.gd" type="Script" id=5]
+[ext_resource path="res://src/visual/justification_box/Panel.gd" type="Script" id=6]
+
+[node name="EqualityJustification" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Justification" type="VBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 97.0
+
+[node name="MissingJustification" type="VBoxContainer" parent="Justification" instance=ExtResource( 4 )]
+margin_right = 1024.0
+margin_bottom = 97.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Next" type="Control" parent="."]
+margin_top = 101.0
+margin_right = 1024.0
+margin_bottom = 101.0
+script = ExtResource( 3 )
+
+[node name="JustificationLabel" type="TextureButton" parent="."]
+margin_top = 105.0
+margin_right = 1024.0
+margin_bottom = 105.0
+script = ExtResource( 5 )
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_top = 109.0
+margin_right = 1024.0
+margin_bottom = 109.0
+custom_constants/margin_left = 30
+
+[node name="Panel" type="PanelContainer" parent="MarginContainer"]
+visible = false
+margin_left = 30.0
+margin_right = 44.0
+margin_bottom = 14.0
+size_flags_horizontal = 0
+script = ExtResource( 6 )
+
+[node name="Requirements" type="VBoxContainer" parent="MarginContainer/Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 7.0
+margin_bottom = 7.0
+[connection signal="pressed" from="JustificationLabel" to="MarginContainer/Panel" method="_toggle_visibility"]

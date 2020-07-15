@@ -55,4 +55,6 @@ func _on_item_selected():
 
 func _on_update():
 	display_proof(root_ps)
-	_get_next_unproven().select(0)
+	var next_unproven = _get_next_unproven()
+	if next_unproven != null:
+		next_unproven.select(0)

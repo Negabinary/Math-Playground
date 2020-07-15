@@ -48,7 +48,10 @@ func save_assumption(assumption:ProofStep):
 
 func _on_assumption_conclusion_used(assumption:ProofStep, _index):
 	assert (_index == 0)
-	proof_step.justify_with_modus_ponens(assumption)
+	if assumption.get_statement().get_conditions().size() == 0:
+		proof_step.justify_with_assumption()
+	else:
+		proof_step.justify_with_modus_ponens(assumption)
 
 
 func _on_use_equality(assumption:ProofStep, equality:UniversalLocator):

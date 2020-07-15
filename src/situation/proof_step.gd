@@ -9,12 +9,14 @@ var context:ProofStep
 
 var statement:Statement
 var justification:Justification
+var new_assumptions := []
 
 
-func _init(new_expr_item:ExprItem, new_justification:Justification = MissingJustification.new(), new_context:ProofStep = null):
+func _init(new_expr_item:ExprItem, new_justification:Justification = MissingJustification.new(), new_context:ProofStep = null, new_new_assumptions = []):
 	statement = Statement.new(new_expr_item)
 	justification = new_justification
 	context = new_context
+	new_assumptions = new_new_assumptions
 
 
 func get_assumptions() -> Dictionary:
@@ -23,10 +25,8 @@ func get_assumptions() -> Dictionary:
 		assumptions = {}
 	else:
 		assumptions = context.get_assumptions()
-	for new_assum in statement.get_conditions():
-		var assumption_proof_step = get_script().new(new_assum.get_expr_item())
-		assumption_proof_step.justify_with_assumption()
-		assumptions[assumption_proof_step] = self
+	for new_assumption in new_assumptions:
+		assumptions[new_assumption] = self
 	return assumptions
 
 
@@ -52,6 +52,11 @@ func _get_justification() -> Justification:
 
 func justify_with_assumption() -> void:
 	justification = AssumedJustification.new()
+	emit_signal("justified")
+
+
+func justify_with_implication() -> void:
+	justification = ImplicationJustification.new(self)
 	emit_signal("justified")
 
 
@@ -155,6 +160,24 @@ class RefineJustification extends Justification:
 			replace:ExprItemType,
 			with):
 		requirements = [generalised]
+
+
+class ImplicationJustification extends Justification:
+	
+	func _init(context:ProofStep):
+		var new_assumptions = []
+		for new_assum in context.get_statement().get_conditions():
+			var assum_ps = context.get_script().new(new_assum.get_expr_item())
+			assum_ps.justify_with_assumption()
+			new_assumptions.append(assum_ps)
+		requirements = [
+			context.get_script().new(
+				context.get_statement().get_conclusion().get_expr_item(),
+				MissingJustification.new(),
+				context,
+				new_assumptions
+			)
+		]
 
 
 #class SpecializationJusticfication extends Justification:
