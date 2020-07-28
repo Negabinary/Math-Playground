@@ -59,6 +59,13 @@ func replace_at(indeces:Array, with:ExprItem) -> ExprItem:
 		return get_script().new(type, new_children)
 
 
+func negate() -> ExprItem:
+	if get_type() == GlobalTypes.NOT:
+		return get_child(0)
+	else:
+		return get_script().new(GlobalTypes.NOT, [self])
+
+
 func get_type() -> ExprItemType:
 	return type
 

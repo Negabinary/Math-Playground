@@ -16,30 +16,30 @@ __meta__ = {
 
 [node name="Justification" type="VBoxContainer" parent="."]
 margin_right = 1024.0
-margin_bottom = 62.0
+margin_bottom = 130.0
 
 [node name="MissingJustification" parent="Justification" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 1024.0
-margin_bottom = 62.0
+margin_bottom = 130.0
 
 [node name="Next" type="Control" parent="."]
-margin_top = 66.0
+margin_top = 134.0
 margin_right = 1024.0
-margin_bottom = 66.0
+margin_bottom = 134.0
 script = ExtResource( 3 )
 
 [node name="JustificationLabel" type="TextureButton" parent="."]
-margin_top = 70.0
+margin_top = 138.0
 margin_right = 1024.0
-margin_bottom = 70.0
+margin_bottom = 138.0
 script = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-margin_top = 74.0
+margin_top = 142.0
 margin_right = 1024.0
-margin_bottom = 74.0
+margin_bottom = 142.0
 custom_constants/margin_left = 30
 
 [node name="Panel" type="PanelContainer" parent="MarginContainer"]

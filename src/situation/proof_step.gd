@@ -60,6 +60,11 @@ func justify_with_implication() -> void:
 	emit_signal("justified")
 
 
+func justify_with_vacuous() -> void:
+	justification = VacuousJustification.new(self)
+	emit_signal("justified")
+
+
 func justify_with_modus_ponens(implication:ProofStep) -> void:
 	justification = ModusPonensJustificaiton.new(self, implication)
 	emit_signal("justified")
@@ -81,6 +86,10 @@ func get_requirements() -> Array:
 
 func _to_string():
 	return statement.to_string()
+
+
+func get_justification_text():
+	return justification.get_justification_text()
 
 
 class Justification:
@@ -160,6 +169,10 @@ class RefineJustification extends Justification:
 			replace:ExprItemType,
 			with):
 		requirements = [generalised]
+	
+	
+	func get_justification_text():
+		return "IS THE GENERAL CASE OF"
 
 
 class ImplicationJustification extends Justification:
@@ -179,6 +192,20 @@ class ImplicationJustification extends Justification:
 			)
 		]
 
+
+class VacuousJustification extends Justification:
+	
+	func _init(context:ProofStep):
+		requirements = [
+			context.get_script().new(
+				context.get_statement().as_expr_item().get_child(0).negate(),
+				MissingJustification.new(),
+				context
+			)
+		]
+	
+	func get_justification_text():
+		return "MAKES THE FOLLOWING VACUOUS"
 
 #class SpecializationJusticfication extends Justification:
 #
