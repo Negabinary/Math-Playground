@@ -48,3 +48,10 @@ func get_child(idx:int) -> Locator:
 
 func _to_string():
 	return expr_item.to_string()
+
+
+func get_postorder_locator_list(list=[]):
+	for child_id in get_child_count():
+		get_child(child_id).get_postorder_locator_list(list)
+	list.append(self)
+	return list

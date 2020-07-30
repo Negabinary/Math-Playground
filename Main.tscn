@@ -133,5 +133,3 @@ visible = false
 margin_left = 878.0
 margin_right = 1024.0
 margin_bottom = 600.0
-
-[node name="ProofDAG" type="Node" parent="."]

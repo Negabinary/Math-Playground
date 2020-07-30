@@ -147,3 +147,35 @@ func _to_string() -> String:
 			+ children_string.left(children_string.length() - 2)
 			+ ")"
 		)
+
+
+func get_postorder_rect_list(font:Font, offset, list:=[], string:=[""]):
+	var start = font.get_string_size(string[0]).x
+	
+	if children.size() == 0:
+		string[0] += type.to_string()
+	elif type == GlobalTypes.IMPLIES:
+		if children[0].get_type() == GlobalTypes.IMPLIES:
+			string[0] += "("
+			children[0].get_postorder_rect_list(font, offset, list, string)
+			string[0] += ")"
+		else:
+			children[0].get_postorder_rect_list(font, offset, list, string)
+		string[0] += " => "
+		children[1].get_postorder_rect_list(font, offset, list, string)
+	else:
+		string[0] += type.to_string()
+		string[0] += "("
+		for child in children:
+			child.get_postorder_rect_list(font, offset, list, string)
+			string[0] += ", "
+		string[0] = string[0].left(string[0].length() - 2)
+		string[0] += ")"
+	
+	list.append(Rect2(
+		offset+start, 0,
+		font.get_string_size(string[0]).x - start,
+		font.get_string_size(string[0]).y
+	))
+	
+	return list

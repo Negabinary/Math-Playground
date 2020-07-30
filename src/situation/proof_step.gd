@@ -206,13 +206,3 @@ class VacuousJustification extends Justification:
 	
 	func get_justification_text():
 		return "MAKES THE FOLLOWING VACUOUS"
-
-#class SpecializationJusticfication extends Justification:
-#
-#	var assumption:ProofStep
-#	var type_map:Dictionary #<ExprItemType, ExprItem|ExprItemType>
-#
-#	func _init(new_assumption:ProofStep, new_type_map:Dictionary):
-#		assumption = new_assumption
-#		type_map = new_type_map
-#		requirements = [assumption]
