@@ -19,11 +19,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/model/expr_item_type.gd"
 }, {
-"base": "Reference",
-"class": "JustificationBoxBuilder",
-"language": "GDScript",
-"path": "res://src/visual/justification_box/justification_box_builder.gd"
-}, {
 "base": "Object",
 "class": "Locator",
 "language": "GDScript",
@@ -44,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/situation/proof_step.gd"
 }, {
+"base": "Node",
+"class": "SelectionHandler",
+"language": "GDScript",
+"path": "res://SelectionHandler.gd"
+}, {
 "base": "Object",
 "class": "Statement",
 "language": "GDScript",
@@ -54,10 +54,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/model/universal_locator.gd"
 }, {
+"base": "VBoxContainer",
+"class": "WPBParent",
+"language": "GDScript",
+"path": "res://src/visual/written_proof_box/WPBParent.gd"
+}, {
 "base": "TextureButton",
 "class": "WrittenJustification",
 "language": "GDScript",
 "path": "res://src/visual/written_proof/written_justification.gd"
+}, {
+"base": "WPBParent",
+"class": "WrittenProofBox",
+"language": "GDScript",
+"path": "res://src/visual/written_proof_box/WrittenProofBox.gd"
+}, {
+"base": "Reference",
+"class": "WrittenProofBoxBuilder",
+"language": "GDScript",
+"path": "res://src/visual/written_proof_box/wp_box_builder.gd"
 }, {
 "base": "Control",
 "class": "WrittenStatement",
@@ -67,14 +82,17 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "ExprItem": "",
 "ExprItemType": "",
-"JustificationBoxBuilder": "",
 "Locator": "",
 "MathModule": "",
 "ProofEntry": "",
 "ProofStep": "",
+"SelectionHandler": "",
 "Statement": "",
 "UniversalLocator": "",
+"WPBParent": "",
 "WrittenJustification": "",
+"WrittenProofBox": "",
+"WrittenProofBoxBuilder": "",
 "WrittenStatement": ""
 }
 

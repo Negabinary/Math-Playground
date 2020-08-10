@@ -51,6 +51,7 @@ func display_assumption(new_assumption:ProofStep):
 		$VBoxContainer/Conclusion.show()
 		$VBoxContainer/Conclusion.add_item(conclusion.to_string())
 		$VBoxContainer/Conclusion.conclusion = UniversalLocator.new(assumption_statement, conclusion)
+		$VBoxContainer/Conclusion.definitions = definitions
 
 
 func _update_conditions(conditions:Array):

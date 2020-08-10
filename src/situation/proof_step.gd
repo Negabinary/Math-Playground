@@ -75,8 +75,8 @@ func justify_with_equality(implication:ProofStep, replace:Locator, with:Locator)
 	emit_signal("justified")
 
 
-func justify_with_specialisation(generalised:ProofStep, replace:ExprItemType, replace_with) -> void:
-	justification = RefineJustification.new(self, generalised, replace, replace_with)
+func justify_with_specialisation(generalised:ProofStep, matching) -> void:
+	justification = RefineJustification.new(self, generalised, matching)
 	emit_signal("justified")
 
 
@@ -106,6 +106,9 @@ class Justification:
 	
 	func get_requirements() -> Array: # <ProofStep>
 		return requirements
+	
+	func get_justification_text():
+		return "Justification Text Not Implemented"
 
 
 class MissingJustification extends Justification:
@@ -115,12 +118,18 @@ class MissingJustification extends Justification:
 	
 	func _init():
 		requirements = []
+		
+	func get_justification_text():
+		return "MISSING JUSTIFICATION"
 
 
 class AssumedJustification extends Justification:
 	
 	func _init():
 		requirements = []
+	
+	func get_justification_text():
+		return "ASSUMED"
 
 
 class ModusPonensJustificaiton extends Justification:
@@ -138,6 +147,9 @@ class ModusPonensJustificaiton extends Justification:
 							context
 					)
 			)
+	
+	func get_justification_text():
+		return "USING " + requirements[0].get_statement().to_string()
 #
 #
 class EqualityJustification extends Justification:
@@ -160,14 +172,16 @@ class EqualityJustification extends Justification:
 		var with_replacement = context.get_conclusion().get_expr_item().replace_at(replace.get_indeces(), with.get_expr_item())
 		requirements.append(equality.get_script().new(with_replacement, MissingJustification.new(), context))
 
+	func get_justification_text():
+		return "USING " + requirements[0].get_statement().to_string()	
+
 
 class RefineJustification extends Justification:
 	
 	func _init(
-			context:ProofStep,
+			_context:ProofStep,
 			generalised:ProofStep,
-			replace:ExprItemType,
-			with):
+			_matching:Dictionary):
 		requirements = [generalised]
 	
 	
@@ -191,6 +205,9 @@ class ImplicationJustification extends Justification:
 				new_assumptions
 			)
 		]
+
+	func get_justification_text():
+		return "THUS"
 
 
 class VacuousJustification extends Justification:

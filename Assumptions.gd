@@ -48,10 +48,24 @@ func save_assumption(assumption:ProofStep):
 
 func _on_assumption_conclusion_used(assumption:ProofStep, _index):
 	assert (_index == 0)
-	if assumption.get_statement().get_conditions().size() == 0:
-		proof_step.justify_with_assumption()
+	if locator.get_expr_item().compare(assumption.get_statement().get_conclusion().get_expr_item()) and proof_step.needs_justification():
+		if assumption.get_statement().get_conditions().size() == 0:
+			proof_step.justify_with_assumption()
+		else:
+			proof_step.justify_with_modus_ponens(assumption)
 	else:
-		proof_step.justify_with_modus_ponens(assumption)
+		var matching := {}
+		for definition in assumption.get_statement().get_definitions():
+			matching[definition] = "*"
+		print(matching)
+		print(assumption.get_statement().get_conclusion().get_expr_item())
+		print(locator.get_expr_item())
+		if assumption.get_statement().get_conclusion().get_expr_item().is_superset(locator.get_expr_item(), matching) and proof_step.needs_justification():
+			var refined_ps = ProofStep.new(assumption.get_statement().deep_replace_types(matching).as_expr_item())
+			refined_ps.justify_with_specialisation(assumption, matching)
+			proof_step.justify_with_modus_ponens(refined_ps)
+		else:
+			assert(false) # ERROR
 
 
 func _on_use_equality(assumption:ProofStep, equality:UniversalLocator):
@@ -59,6 +73,6 @@ func _on_use_equality(assumption:ProofStep, equality:UniversalLocator):
 
 
 func _on_assumption_refine(assumption:ProofStep, definition:ExprItemType, locator:UniversalLocator):
-	var refined_ps = ProofStep.new(assumption.get_statement().as_expr_item().deep_replace_types({definition:locator.get_expr_item()}))
-	refined_ps.justify_with_specialisation(assumption, definition, locator.get_expr_item())
+	var refined_ps = ProofStep.new(assumption.get_statement().deep_replace_types({definition:locator.get_expr_item()}).as_expr_item())
+	refined_ps.justify_with_specialisation(assumption, {definition:locator.get_expr_item()})
 	save_assumption(refined_ps)

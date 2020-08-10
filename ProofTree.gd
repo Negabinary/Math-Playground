@@ -23,7 +23,6 @@ func _on_item_selected():
 		selected_item = selected_item.get_parent()
 		proof_entries.append(proof_entry_map[selected_item])
 	
-	print("AY")
 	emit_signal("change_selected_proof_entry", proof_entries)
 
 

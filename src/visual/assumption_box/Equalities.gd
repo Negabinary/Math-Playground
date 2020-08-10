@@ -2,6 +2,7 @@ extends ItemList
 
 signal use_equality
 
+var definitions := []
 var equalities := []
 
 func add_equalities(locator:UniversalLocator):

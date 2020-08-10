@@ -1,29 +1,30 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://src/visual/justification_box/MissingJustification.gd" type="Script" id=1]
-[ext_resource path="res://theme/justification_font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://theme/warning_font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://theme/warning_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://theme/justification_font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://src/visual/written_proof_box/WPBMissing.gd" type="Script" id=4]
+[ext_resource path="res://src/visual/written_proof/written_statement.gd" type="Script" id=5]
 
-[node name="MissingJustification" type="VBoxContainer"]
+[node name="WBPMissing" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="Ideas" type="MarginContainer" parent="."]
 margin_right = 226.0
 margin_bottom = 130.0
 size_flags_horizontal = 0
 custom_constants/margin_left = 30
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Ideas"]
 margin_left = 30.0
 margin_right = 226.0
 margin_bottom = 130.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Ideas/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 189.0
@@ -32,26 +33,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Ideas/PanelContainer/VBoxContainer"]
 margin_right = 182.0
 margin_bottom = 23.0
-custom_fonts/font = ExtResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 0.72549, 0, 1 )
 text = "JUSTIFICATION MISSING"
 
-[node name="Label2" type="Label" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="Ideas/PanelContainer/VBoxContainer"]
 margin_top = 27.0
 margin_right = 182.0
 margin_bottom = 50.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
 text = "Some ideas:"
 
-[node name="ImplicationButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="ImplicationButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
 margin_top = 54.0
 margin_right = 182.0
 margin_bottom = 83.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "A => B : Assume A then prove B"
@@ -61,11 +62,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VacuousButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="VacuousButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
 margin_top = 87.0
 margin_right = 182.0
 margin_bottom = 116.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "A => B : Show that A can't happen"
@@ -75,12 +76,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ReflexivityButton" type="Button" parent="MarginContainer/PanelContainer/VBoxContainer"]
+[node name="ReflexivityButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
 visible = false
 margin_top = 87.0
 margin_right = 129.0
 margin_bottom = 116.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 disabled = true
@@ -89,3 +90,9 @@ flat = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Statement" type="Control" parent="."]
+margin_top = 134.0
+margin_right = 1024.0
+margin_bottom = 134.0
+script = ExtResource( 5 )

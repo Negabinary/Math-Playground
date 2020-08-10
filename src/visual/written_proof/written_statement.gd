@@ -25,6 +25,10 @@ func set_expr_item(new_expr_item:ExprItem) -> void:
 	update()
 
 
+func deselect():
+	is_selected = false
+
+
 func _draw():
 	font = get_font("font", "WrittenStatement")
 	offset = get_constant("indentation", "WrittenProof")
@@ -42,14 +46,18 @@ func _draw():
 	set_custom_minimum_size(Vector2(offset, 0) + font.get_string_size(expr_item.to_string()))
 
 
+func get_drag_data(position): # -> UniversalLocator
+	if is_selected:
+		var locator : Locator = locators[selection]
+		return UniversalLocator.new(Statement.new(locator.get_root()), locator)
+	else:
+		return null
+
+
 func _input(event):
 	if event is InputEventMouseButton:
-		print(event.position)
 		var position = event.position - get_global_rect().position
-		print(rects.size())
 		for i in rects.size():
-			print(i)
-			print(rects[i])
 			if rects[i].has_point(position):
 				selection = i
 				is_selected = true

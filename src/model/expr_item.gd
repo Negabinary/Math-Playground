@@ -103,25 +103,19 @@ func is_superset(other:ExprItem, matching:={}) -> bool:
 		matching[get_child(0).get_type()] = "*"
 		return get_child(1).is_superset(other, matching)
 	elif matching.has(type):
-		print("H")
 		if matching[type] == "*":
 			matching[type] = other
-			print("*")
 			return true
 		elif matching[type].compare(other):
 			return true
 		else:
-			print("E")
 			return false
 	elif type == other.type and get_child_count() == other.get_child_count():
-		print("A")
 		for i in get_child_count():
 			if not get_child(i).is_superset(other.get_child(i), matching):
-				print("F")
 				return false
 		return true
 	else:
-		print("X")
 		return false
 
 
