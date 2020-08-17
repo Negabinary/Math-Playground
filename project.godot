@@ -29,11 +29,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/model/module.gd"
 }, {
-"base": "Node",
-"class": "ProofEntry",
-"language": "GDScript",
-"path": "res://src/model/proof_entry.gd"
-}, {
 "base": "Object",
 "class": "ProofStep",
 "language": "GDScript",
@@ -84,7 +79,6 @@ _global_script_class_icons={
 "ExprItemType": "",
 "Locator": "",
 "MathModule": "",
-"ProofEntry": "",
 "ProofStep": "",
 "SelectionHandler": "",
 "Statement": "",

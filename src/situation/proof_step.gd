@@ -4,19 +4,22 @@ class_name ProofStep
 
 signal justified
 
+
 var context:ProofStep
 #var module:MathModule
 
 var statement:Statement
 var justification:Justification
 var new_assumptions := []
+var new_definitions := []
 
 
-func _init(new_expr_item:ExprItem, new_justification:Justification = MissingJustification.new(), new_context:ProofStep = null, new_new_assumptions = []):
+func _init(new_expr_item:ExprItem, new_justification:Justification = MissingJustification.new(), new_context:ProofStep = null, new_new_assumptions = [], new_new_definitions = []):
 	statement = Statement.new(new_expr_item)
 	justification = new_justification
 	context = new_context
 	new_assumptions = new_new_assumptions
+	new_definitions = new_new_definitions
 
 
 func get_assumptions() -> Dictionary:
@@ -28,6 +31,17 @@ func get_assumptions() -> Dictionary:
 	for new_assumption in new_assumptions:
 		assumptions[new_assumption] = self
 	return assumptions
+
+
+func get_definitions() -> Array:
+	var definitions : Array
+	if context == null:
+		definitions = []
+	else:
+		definitions = context.get_definitions()
+	for new_definition in new_definitions:
+		definitions.push_front(new_definition)
+	return definitions
 
 
 func get_statement() -> Statement:
@@ -50,6 +64,26 @@ func _get_justification() -> Justification:
 	return justification
 
 
+func does_conclusion_match_exactly(assumption:ProofStep) -> bool:
+	return statement.as_expr_item().compare(assumption.get_statement().get_conclusion().get_expr_item())
+
+
+func does_conclusion_match_with_sub(assumption:ProofStep, empty_matching:={}) -> bool:
+	var matching := empty_matching
+	for definition in assumption.get_statement().get_definitions():
+		matching[definition] = "*"
+	return assumption.get_statement().get_conclusion().get_expr_item().is_superset(statement.as_expr_item(), matching)
+
+
+func can_justify_with_assumption(assumption:ProofStep) -> bool:
+	if not (assumption in get_assumptions()):
+		return false
+	elif does_conclusion_match_exactly(assumption):
+		return true # Matches exactly
+	else:
+		return does_conclusion_match_with_sub(assumption)
+
+
 func justify_with_assumption() -> void:
 	justification = AssumedJustification.new()
 	emit_signal("justified")
@@ -63,6 +97,15 @@ func justify_with_implication() -> void:
 func justify_with_vacuous() -> void:
 	justification = VacuousJustification.new(self)
 	emit_signal("justified")
+
+
+func can_justify_with_modus_ponens(assumption:ProofStep) -> bool:
+	if not (assumption in get_assumptions()):
+		return false
+	elif does_conclusion_match_exactly(assumption):
+		return true # Matches exactly
+	else:
+		return does_conclusion_match_with_sub(assumption)
 
 
 func justify_with_modus_ponens(implication:ProofStep) -> void:
@@ -90,6 +133,11 @@ func _to_string():
 
 func get_justification_text():
 	return justification.get_justification_text()
+
+
+func clear_justification():
+	justification = MissingJustification.new()
+	emit_signal("justified")
 
 
 class Justification:
@@ -189,22 +237,48 @@ class RefineJustification extends Justification:
 		return "IS THE GENERAL CASE OF"
 
 
+# keep_exists_types is an array where each index has an array of the types kept
 class ImplicationJustification extends Justification:
 	
-	func _init(context:ProofStep):
-		var new_assumptions = []
-		for new_assum in context.get_statement().get_conditions():
-			var assum_ps = context.get_script().new(new_assum.get_expr_item())
-			assum_ps.justify_with_assumption()
-			new_assumptions.append(assum_ps)
+	func _init(context:ProofStep, keep_condition_ids:=[], keep_forall_ids:=[], keep_exists_types:=[]):
+		var conclusion = context.get_statement().get_conclusion().get_expr_item()
+		var ctxt_assumptions = []
+		var ctxt_definitions = context.get_statement().get_definitions().duplicate()
+		var conditions := context.get_statement().get_conditions()
+		for i in range( context.get_statement().get_conditions().size()-1, -1, -1):
+			if i in keep_condition_ids:
+				conclusion = ExprItem.new(GlobalTypes.IMPLIES, [conditions[i],conclusion])
+			else:
+				var assum_ei:ExprItem
+				if keep_exists_types.size() <= i:
+					assum_ei = strip_existential(ctxt_definitions, conditions[i].get_expr_item(), [])
+				else:
+					assum_ei = strip_existential(ctxt_definitions, conditions[i].get_expr_item(), keep_exists_types[i])
+				var assum_ps = context.get_script().new(assum_ei)
+				assum_ps.justify_with_assumption()
+				ctxt_assumptions.append(assum_ps)
 		requirements = [
 			context.get_script().new(
-				context.get_statement().get_conclusion().get_expr_item(),
+				conclusion,
 				MissingJustification.new(),
 				context,
-				new_assumptions
+				ctxt_assumptions
 			)
 		]
+	
+	static func strip_existential(return_types:Array, expr_item:ExprItem, keep_ids:=[]):
+		var counter = 0
+		var keepers = []
+		while expr_item.get_type() == GlobalTypes.EXISTS:
+			if counter in keep_ids:
+				keepers.push_front(expr_item.get_child(0).get_type())
+			else:
+				return_types.append(expr_item.get_child(0).get_type())
+			expr_item = expr_item.get_child(1)
+			counter += 1
+		for keeper in keepers:
+			expr_item = ExprItem.new(GlobalTypes.EXISTS, [ExprItem.new(keeper), expr_item])
+		return expr_item
 
 	func get_justification_text():
 		return "THUS"
