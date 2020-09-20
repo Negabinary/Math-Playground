@@ -39,9 +39,11 @@ func deep_replace_types(types:Dictionary) -> ExprItem: #<ExprItemType, ExprItem>
 	var new_type = type
 	if type in types:
 		if types[type] is ExprItemType:
+			assert(false)
 			return get_script().new(types[type])
 		else:
-			return types[type]
+			new_type = types[type].get_type()
+			new_children = types[type].get_children() + new_children
 	return get_script().new(new_type, new_children)
 
 
@@ -76,6 +78,10 @@ func get_child_count() -> int:
 
 func get_child(idx:int) -> ExprItem:
 	return children[idx]
+
+
+func get_children() -> Array:
+	return children.duplicate()
 
 
 func abandon_lowest(count:int) -> ExprItem:
