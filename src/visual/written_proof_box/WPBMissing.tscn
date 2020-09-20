@@ -15,20 +15,20 @@ __meta__ = {
 
 [node name="Ideas" type="MarginContainer" parent="."]
 margin_right = 235.0
-margin_bottom = 163.0
+margin_bottom = 196.0
 size_flags_horizontal = 0
 custom_constants/margin_left = 30
 
 [node name="PanelContainer" type="PanelContainer" parent="Ideas"]
 margin_left = 30.0
 margin_right = 235.0
-margin_bottom = 163.0
+margin_bottom = 196.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Ideas/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 198.0
-margin_bottom = 156.0
+margin_bottom = 189.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -91,22 +91,21 @@ __meta__ = {
 }
 
 [node name="ReflexivityButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
-visible = false
-margin_top = 87.0
-margin_right = 129.0
-margin_bottom = 116.0
+margin_top = 153.0
+margin_right = 191.0
+margin_bottom = 182.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-disabled = true
-text = "A = A"
+text = "A = A : Prove using reflexivity"
 flat = true
+align = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Statement" type="Control" parent="."]
-margin_top = 167.0
+margin_top = 200.0
 margin_right = 1024.0
-margin_bottom = 167.0
+margin_bottom = 200.0
 script = ExtResource( 5 )

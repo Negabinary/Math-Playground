@@ -97,7 +97,12 @@ func justify_with_module(math_module) -> void:
 func justify_with_implication() -> void:
 	justification = ImplicationJustification.new(self)
 	emit_signal("justified")
- 
+
+
+func justify_with_reflexivity() -> void:
+	justification = ReflexiveJustification.new()
+	emit_signal("justified")
+
 
 func justify_with_vacuous() -> void:
 	justification = VacuousJustification.new(self)
@@ -321,6 +326,15 @@ class ImplicationJustification extends Justification:
 
 	func get_justification_text():
 		return "THUS"
+
+
+class ReflexiveJustification extends Justification:
+	
+	func _init():
+		requirements = []
+	
+	func get_justification_text():
+		return "BECAUSE ANYTHING EQUALS ITSELF"
 
 
 class VacuousJustification extends Justification:
