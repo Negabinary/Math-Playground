@@ -68,8 +68,8 @@ func _on_assumption_conclusion_used(assumption:ProofStep, _index):
 			assert(false) # ERROR
 
 
-func _on_use_equality(assumption:ProofStep, equality:UniversalLocator):
-	proof_step.justify_with_equality(assumption, locator, equality.get_locator())
+func _on_use_equality(assumption:ProofStep, index:int):
+	proof_step.justify_with_equality(assumption, index, 1-index, locator)
 
 
 func _on_proof_step_created(refined_ps:ProofStep):

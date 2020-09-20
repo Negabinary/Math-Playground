@@ -71,8 +71,8 @@ func _on_expr_item_dropped_on_definition(definition:ExprItemType, locator:Univer
 	emit_signal("proof_step_created", refined_ps)
 
 
-func _on_use_equality(equality:UniversalLocator):
-	emit_signal("use_equality", assumption, equality)
+func _on_use_equality(index:int):
+	emit_signal("use_equality", assumption, index)
 
 
 func _on_Conclusion_item_activated(index):

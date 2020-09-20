@@ -145,9 +145,32 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 			assert(false)
 
 
-func justify_with_equality(implication:ProofStep, replace:Locator, with:Locator) -> void:
-	justification = EqualityJustification.new(self, implication, replace, with)
-	emit_signal("justified")
+func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int, replace_ps:Locator) -> void:
+	assert(implication.get_statement().get_conclusion().get_type() == GlobalTypes.EQUALITY)
+	var replace_impl := implication.get_statement().get_conclusion().get_child(replace_idx)
+	var with := implication.get_statement().get_conclusion().get_child(with_idx)
+	if replace_impl.get_expr_item().compare(replace_ps.get_expr_item()):
+		justification = EqualityJustification.new(self, implication, replace_ps, with)
+		emit_signal("justified")
+	else:
+		var matching := {}
+		for definition in implication.get_statement().get_definitions():
+			matching[definition] = "*"
+		if replace_impl.get_expr_item().is_superset(replace_ps.get_expr_item(), matching):
+			var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item())
+			refined_ps.justify_with_specialisation(implication, matching)
+			justification = EqualityJustification.new(self, refined_ps, replace_ps, refined_ps.get_statement().get_conclusion().get_child(with_idx))
+			emit_signal("justified")
+		else:
+			assert(false)
+
+
+
+#func does_conclusion_match_with_sub(assumption:ProofStep, empty_matching:={}) -> bool:
+#	var matching := empty_matching
+#	for definition in assumption.get_statement().get_definitions():
+#		matching[definition] = "*"
+#	return assumption.get_statement().get_conclusion().get_expr_item().is_superset(statement.as_expr_item(), matching)
 
 
 func justify_with_specialisation(generalised:ProofStep, matching) -> void:

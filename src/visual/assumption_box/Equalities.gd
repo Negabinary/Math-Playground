@@ -38,12 +38,11 @@ func update_context(proof_step:ProofStep, locator:Locator):
 				pass
 	if valid and proof_step.needs_justification():
 		modulate = Color.green
-#	elif valid_with_sub and proof_step.needs_justification():
-#		modulate = Color.greenyellow
+	elif valid_with_sub and proof_step.needs_justification():
+		modulate = Color.greenyellow
 	else:
 		modulate = Color.white
 
 
 func _on_item_activated(index):
-	var equality = equalities[index]
-	emit_signal("use_equality", equality)
+	emit_signal("use_equality", index)

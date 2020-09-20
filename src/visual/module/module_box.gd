@@ -60,5 +60,5 @@ func _on_locator_changed(locator:Locator):
 func _on_assumption_conclusion_used(assumption:ProofStep, _index:int):
 	selection_handler.get_proof_step().justify_with_modus_ponens(assumption)
 
-func _on_assumption_equality_used(assumption:ProofStep, equality:UniversalLocator):
-	selection_handler.get_proof_step().justify_with_equality(assumption, selection_handler.get_locator(), equality.get_locator())
+func _on_assumption_equality_used(assumption:ProofStep, index:int):
+	selection_handler.get_proof_step().justify_with_equality(assumption, index, 1-index, selection_handler.get_locator())

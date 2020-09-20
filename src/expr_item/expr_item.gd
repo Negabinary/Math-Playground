@@ -3,10 +3,12 @@ class_name ExprItem
 
 var type : ExprItemType
 var children : Array  		# of ExprItem
+var string : String
 
 func _init(new_type:ExprItemType, new_children:=[]):
 	type = new_type
 	children = new_children
+	string = to_string()
 
 
 static func from_string(string:String, types:={}) -> ExprItem:
@@ -41,6 +43,8 @@ func deep_replace_types(types:Dictionary) -> ExprItem: #<ExprItemType, ExprItem>
 		if types[type] is ExprItemType:
 			assert(false)
 			return get_script().new(types[type])
+		elif types[type] is String:
+			return get_script().new(new_type, new_children)
 		else:
 			new_type = types[type].get_type()
 			new_children = types[type].get_children() + new_children
@@ -105,17 +109,22 @@ func compare(other:ExprItem) -> bool:
 
 
 func is_superset(other:ExprItem, matching:={}) -> bool:
-	if type == GlobalTypes.FORALL:
-		matching[get_child(0).get_type()] = "*"
-		return get_child(1).is_superset(other, matching)
-	elif matching.has(type):
-		if matching[type] == "*":
-			matching[type] = other
-			return true
-		elif matching[type].compare(other):
+	print(matching)
+	if matching.has(type):
+		if get_child_count() > other.get_child_count():
+			return false
+		elif matching[type] is String:
+			matching[type] = other.abandon_lowest(get_child_count())
+			for i in get_child_count():
+				if not get_child(i).is_superset(other.get_child(other.get_child_count() - get_child_count() + i), matching):
+					return false
 			return true
 		else:
-			return false
+			var expected_other:ExprItem = get_script().new(matching[type].get_type(), matching[type].get_children() + get_children())
+			if expected_other.is_superset(other, matching):
+				return true
+			else:
+				return false
 	elif type == other.type and get_child_count() == other.get_child_count():
 		for i in get_child_count():
 			if not get_child(i).is_superset(other.get_child(i), matching):
