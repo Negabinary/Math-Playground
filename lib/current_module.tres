@@ -1,6 +1,7 @@
 @R small_numbers
 @R addition
 @R peano
+@R list
 
 @= +(2,2)
 @> 4
@@ -10,3 +11,5 @@
 @> x
 
 @> Nat(4)
+
+@> Map(S,CONS(1,CONS(2,[])))

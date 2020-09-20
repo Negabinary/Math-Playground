@@ -1,0 +1,35 @@
+@D List : TAG -> TAG
+
+@A T : TAG
+@D [] : List(T)
+
+@A T : TAG
+@> List(T)([](T))
+
+@A T : TAG
+@D CONS : List(T), T -> List(T)
+
+@A T : TAG
+@A x : T
+@A xs : List(T)
+@< List(T)(xs)
+@< T(x)
+@> List(T)(CONS(x,xs))
+
+@a T1 : TAG
+@a T2 : TAG
+@D Map : List(T1) -> List(T2)
+
+@a T1 : TAG
+@a T2 : TAG
+@A f : T1 -> T2
+@= Map(f,[])
+@> []
+
+@a T1 : TAG
+@a T2 : TAG
+@A f : T1 -> T2
+@A l : List(T1)
+@A x : T1
+@= Map(f,CONS(x,l))
+@> CONS(f(x),Map(f,l))
