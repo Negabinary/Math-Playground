@@ -12,12 +12,17 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "ExprItem",
 "language": "GDScript",
-"path": "res://src/model/expr_item.gd"
+"path": "res://src/expr_item/expr_item.gd"
+}, {
+"base": "Node",
+"class": "ExprItemBuilder",
+"language": "GDScript",
+"path": "res://src/expr_item/expr_item_builder.gd"
 }, {
 "base": "Object",
 "class": "ExprItemType",
 "language": "GDScript",
-"path": "res://src/model/expr_item_type.gd"
+"path": "res://src/expr_item/expr_item_type.gd"
 }, {
 "base": "Object",
 "class": "Locator",
@@ -27,12 +32,22 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "MathModule",
 "language": "GDScript",
-"path": "res://src/model/module.gd"
+"path": "res://src/module/module.gd"
+}, {
+"base": "Node",
+"class": "ModuleLoader",
+"language": "GDScript",
+"path": "res://src/module/module_loader.gd"
 }, {
 "base": "Object",
 "class": "ProofStep",
 "language": "GDScript",
-"path": "res://src/situation/proof_step.gd"
+"path": "res://src/proof_step/proof_step.gd"
+}, {
+"base": "Reference",
+"class": "ScopeStack",
+"language": "GDScript",
+"path": "res://util/scope_stack.gd"
 }, {
 "base": "Node",
 "class": "SelectionHandler",
@@ -76,10 +91,13 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ExprItem": "",
+"ExprItemBuilder": "",
 "ExprItemType": "",
 "Locator": "",
 "MathModule": "",
+"ModuleLoader": "",
 "ProofStep": "",
+"ScopeStack": "",
 "SelectionHandler": "",
 "Statement": "",
 "UniversalLocator": "",
@@ -100,6 +118,14 @@ config/icon="res://icon.png"
 
 GlobalTypes="*res://src/model/global_types.gd"
 
+[debug]
+
+gdscript/warnings/unused_variable=false
+gdscript/warnings/shadowed_variable=false
+gdscript/warnings/unused_argument=false
+gdscript/warnings/unused_signal=false
+gdscript/warnings/return_value_discarded=false
+
 [editor_plugins]
 
 enabled=PoolStringArray( "gut", "zylann.project_stats" )
@@ -109,6 +135,11 @@ enabled=PoolStringArray( "gut", "zylann.project_stats" )
 mouse_left={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+right_click={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 

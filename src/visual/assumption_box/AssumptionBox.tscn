@@ -1,80 +1,134 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/visual/assumption_box/AssumptionBox.gd" type="Script" id=1]
 [ext_resource path="res://src/visual/assumption_box/Definitions.gd" type="Script" id=2]
 [ext_resource path="res://src/visual/assumption_box/Conclusions.gd" type="Script" id=3]
 [ext_resource path="res://src/visual/assumption_box/Equalities.gd" type="Script" id=4]
+[ext_resource path="res://src/visual/assumption_box/PopupMenu.gd" type="Script" id=5]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 4.0
+content_margin_right = 4.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color( 0.231373, 0.192157, 0.235294, 1 )
 
 [node name="AssumptionBox" type="PanelContainer"]
 margin_right = 49.0
 margin_bottom = 108.0
+custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 79.0
-margin_bottom = 127.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 45.0
+margin_bottom = 104.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="With" type="Label" parent="VBoxContainer"]
-margin_right = 72.0
+[node name="Definitions" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 41.0
 margin_bottom = 14.0
-text = "WITH ANY"
 
-[node name="Definitions" type="ItemList" parent="VBoxContainer"]
-margin_top = 18.0
-margin_right = 72.0
-margin_bottom = 27.0
+[node name="With" type="Label" parent="VBoxContainer/Definitions"]
+margin_right = 32.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 32, 0 )
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
+custom_constants/line_spacing = 0
+text = "forall"
+align = 2
+valign = 1
+
+[node name="Definitions" type="ItemList" parent="VBoxContainer/Definitions"]
+margin_left = 36.0
+margin_right = 41.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
 auto_height = true
 max_columns = 100
 script = ExtResource( 2 )
 
-[node name="If" type="Label" parent="VBoxContainer"]
-margin_top = 31.0
-margin_right = 72.0
-margin_bottom = 45.0
-text = "IF"
+[node name="Conditions" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 18.0
+margin_right = 41.0
+margin_bottom = 32.0
 
-[node name="Conditions" type="ItemList" parent="VBoxContainer"]
-margin_top = 49.0
-margin_right = 72.0
-margin_bottom = 58.0
+[node name="If" type="Label" parent="VBoxContainer/Conditions"]
+margin_right = 32.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 32, 0 )
+size_flags_vertical = 1
+custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
+text = "if"
+align = 2
+
+[node name="Conditions" type="ItemList" parent="VBoxContainer/Conditions"]
+margin_left = 36.0
+margin_right = 41.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
 auto_height = true
 
-[node name="Then" type="Label" parent="VBoxContainer"]
-margin_top = 62.0
-margin_right = 72.0
-margin_bottom = 76.0
-text = "THEN"
+[node name="Conclusion" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 36.0
+margin_right = 41.0
+margin_bottom = 50.0
 
-[node name="Conclusion" type="ItemList" parent="VBoxContainer"]
-margin_top = 80.0
-margin_right = 72.0
-margin_bottom = 89.0
+[node name="Then" type="Label" parent="VBoxContainer/Conclusion"]
+margin_right = 32.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 32, 0 )
+size_flags_vertical = 1
+custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
+text = "then"
+align = 2
+
+[node name="Conclusion" type="ItemList" parent="VBoxContainer/Conclusion"]
+margin_left = 36.0
+margin_right = 41.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
 auto_height = true
 script = ExtResource( 3 )
 
-[node name="Equalities" type="ItemList" parent="VBoxContainer"]
-margin_top = 93.0
-margin_right = 72.0
-margin_bottom = 102.0
+[node name="Equality" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 54.0
+margin_right = 41.0
+margin_bottom = 68.0
+
+[node name="Equals" type="Label" parent="VBoxContainer/Equality"]
+margin_right = 32.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 32, 0 )
+size_flags_vertical = 5
+custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
+text = "="
+align = 2
+valign = 2
+
+[node name="Equalities" type="ItemList" parent="VBoxContainer/Equality"]
+margin_left = 36.0
+margin_right = 41.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
 auto_height = true
 script = ExtResource( 4 )
 
-[node name="Equals" type="Label" parent="VBoxContainer"]
-margin_top = 106.0
-margin_right = 72.0
-margin_bottom = 120.0
-text = "ARE EQUAL"
-[connection signal="expr_item_dropped_on_definition" from="VBoxContainer/Definitions" to="." method="_on_expr_item_dropped_on_definition"]
-[connection signal="item_activated" from="VBoxContainer/Conditions" to="." method="_on_Conditions_item_activated"]
-[connection signal="item_selected" from="VBoxContainer/Conditions" to="." method="_on_Conditions_item_selected"]
-[connection signal="item_activated" from="VBoxContainer/Conclusion" to="." method="_on_Conclusion_item_activated"]
-[connection signal="item_activated" from="VBoxContainer/Equalities" to="VBoxContainer/Equalities" method="_on_item_activated"]
-[connection signal="use_equality" from="VBoxContainer/Equalities" to="." method="_on_use_equality"]
+[node name="PopupMenu" type="PopupMenu" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 45.0
+margin_bottom = 104.0
+script = ExtResource( 5 )
+[connection signal="gui_input" from="." to="." method="_on_AssumptionBox_gui_input"]
+[connection signal="expr_item_dropped_on_definition" from="VBoxContainer/Definitions/Definitions" to="." method="_on_expr_item_dropped_on_definition"]
+[connection signal="item_activated" from="VBoxContainer/Conclusion/Conclusion" to="." method="_on_Conclusion_item_activated"]
+[connection signal="item_activated" from="VBoxContainer/Equality/Equalities" to="VBoxContainer/Equality/Equalities" method="_on_item_activated"]
+[connection signal="use_equality" from="VBoxContainer/Equality/Equalities" to="." method="_on_use_equality"]

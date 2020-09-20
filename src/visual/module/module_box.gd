@@ -1,0 +1,64 @@
+extends PanelContainer
+
+signal request_to_prove
+signal proof_step_created
+
+var module : MathModule
+var module_name : String
+var selection_handler : SelectionHandler
+const ASSUMPTION_BOX = preload("res://src/visual/assumption_box/AssumptionBox.tscn")
+
+var ui_assumptions
+
+func set_selection_handler(selection_handler:SelectionHandler):
+	self.selection_handler = selection_handler
+	selection_handler.connect("locator_changed", self, "_on_locator_changed")
+
+func load_module(module:MathModule, name:String):
+	module_name = name
+	ui_assumptions = $ScrollContainer/VBoxContainer/ModuleAssumptions
+	
+	$ScrollContainer/VBoxContainer/ModuleName.text = name
+	
+	self.module = module
+	for proof_step in module.get_proof_steps():
+		var assumption_box = ASSUMPTION_BOX.instance()
+		ui_assumptions.add_child(assumption_box)
+		assumption_box.display_assumption(proof_step)
+		assumption_box.connect("request_to_prove", self, "emit_signal", ["request_to_prove", ProofStep.new(proof_step.get_statement().as_expr_item()), module])
+		assumption_box.connect("proof_step_created", self, "_on_proof_step_created")
+		assumption_box.connect("assumption_conclusion_used", self, "_on_assumption_conclusion_used")
+		assumption_box.connect("use_equality", self, "_on_assumption_equality_used")
+		
+	var definitions := module.get_definitions()
+	var string
+	if definitions.size() == 0:
+		string = "(No Definitions)"
+	else:
+		string = "Definitions: "
+		for d in definitions:
+			string += "\n - " + d.to_string()
+	$ScrollContainer/VBoxContainer/ModuleDefinitions.text = string
+	
+	var requirements := module.get_requirements()
+	if requirements.size() == 0:
+		string = "(No Requirements)"
+	else:
+		string = "Requirements: "
+		for r in requirements:
+			string += "\n - " + r.get_name()
+	$ScrollContainer/VBoxContainer/ModuleRequirements.text = string
+
+
+func _on_proof_step_created(proof_step:ProofStep):
+	emit_signal("proof_step_created", proof_step)
+
+func _on_locator_changed(locator:Locator):
+	for assumption_box in $ScrollContainer/VBoxContainer/ModuleAssumptions.get_children():
+		assumption_box.update_context(selection_handler.get_proof_step(), locator)
+
+func _on_assumption_conclusion_used(assumption:ProofStep, _index:int):
+	selection_handler.get_proof_step().justify_with_modus_ponens(assumption)
+
+func _on_assumption_equality_used(assumption:ProofStep, equality:UniversalLocator):
+	selection_handler.get_proof_step().justify_with_equality(assumption, selection_handler.get_locator(), equality.get_locator())

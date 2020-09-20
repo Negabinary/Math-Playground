@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://theme/main_theme.theme" type="Theme" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
 [ext_resource path="res://ProofSteps.gd" type="Script" id=3]
 [ext_resource path="res://Assumptions.gd" type="Script" id=4]
 [ext_resource path="res://src/visual/expression_viewer/ExpressionViewer.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Modules.gd" type="Script" id=6]
 [ext_resource path="res://theme/justification_font.tres" type="DynamicFont" id=7]
 [ext_resource path="res://Debugger.tscn" type="PackedScene" id=8]
 [ext_resource path="res://theme/expr_item_font.tres" type="DynamicFont" id=9]
@@ -14,25 +15,73 @@
 [node name="Main" type="ColorRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+color = Color( 0.513726, 0.513726, 0.513726, 1 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="VSplitContainer" type="VSplitContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Context" type="ColorRect" parent="HBoxContainer"]
-margin_right = 170.0
-margin_bottom = 600.0
+[node name="Modules" type="ColorRect" parent="VSplitContainer"]
+margin_right = 1004.0
+margin_bottom = 284.0
+size_flags_vertical = 3
+color = Color( 0.768627, 0.768627, 0.768627, 1 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VSplitContainer/Modules"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+scroll_vertical_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="VSplitContainer/Modules/ScrollContainer"]
+margin_right = 1004.0
+margin_bottom = 284.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 999.0
+margin_bottom = 279.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Proof" type="HSplitContainer" parent="VSplitContainer"]
+margin_top = 296.0
+margin_right = 1004.0
+margin_bottom = 580.0
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="Context" type="ColorRect" parent="VSplitContainer/Proof"]
+margin_right = 162.0
+margin_bottom = 284.0
 size_flags_horizontal = 3
 color = Color( 0.768627, 0.768627, 0.768627, 1 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Context"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/Proof/Context"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -43,9 +92,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="HBoxContainer/Context/VBoxContainer"]
-margin_right = 160.0
-margin_bottom = 71.0
+[node name="Label" type="Label" parent="VSplitContainer/Proof/Context/VBoxContainer"]
+margin_right = 152.0
+margin_bottom = 91.0
 custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_constants/line_spacing = -11
@@ -57,10 +106,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Assumptions" type="ScrollContainer" parent="HBoxContainer/Context/VBoxContainer"]
-margin_top = 75.0
-margin_right = 160.0
-margin_bottom = 590.0
+[node name="Assumptions" type="ScrollContainer" parent="VSplitContainer/Proof/Context/VBoxContainer"]
+margin_top = 95.0
+margin_right = 152.0
+margin_bottom = 274.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -69,19 +118,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Context/VBoxContainer/Assumptions"]
-margin_right = 160.0
+[node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/Proof/Context/VBoxContainer/Assumptions"]
+margin_right = 152.0
 size_flags_horizontal = 3
 
-[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
-margin_left = 174.0
-margin_right = 1024.0
-margin_bottom = 600.0
+[node name="ColorRect" type="ColorRect" parent="VSplitContainer/Proof"]
+margin_left = 172.0
+margin_right = 1004.0
+margin_bottom = 284.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.0
 theme = ExtResource( 1 )
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/ColorRect"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VSplitContainer/Proof/ColorRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 scroll_horizontal_enabled = false
@@ -89,15 +138,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WrittenProof" type="VBoxContainer" parent="HBoxContainer/ColorRect/ScrollContainer"]
-margin_right = 850.0
-margin_bottom = 600.0
+[node name="WrittenProof" type="VBoxContainer" parent="VSplitContainer/Proof/ColorRect/ScrollContainer"]
+margin_right = 832.0
+margin_bottom = 284.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 2
 script = ExtResource( 10 )
 
-[node name="ModuleInformation" type="Label" parent="HBoxContainer/ColorRect/ScrollContainer/WrittenProof"]
+[node name="ModuleInformation" type="Label" parent="VSplitContainer/Proof/ColorRect/ScrollContainer/WrittenProof"]
 visible = false
 margin_top = 577.0
 margin_right = 632.0
@@ -106,18 +155,18 @@ custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
 text = "MODULE INFORMATION"
 
-[node name="Justification" type="MarginContainer" parent="HBoxContainer/ColorRect/ScrollContainer/WrittenProof"]
-margin_top = 600.0
-margin_right = 850.0
-margin_bottom = 600.0
+[node name="Justification" type="MarginContainer" parent="VSplitContainer/Proof/ColorRect/ScrollContainer/WrittenProof"]
+margin_top = 284.0
+margin_right = 832.0
+margin_bottom = 284.0
 custom_constants/margin_right = 0
 custom_constants/margin_top = 0
 custom_constants/margin_left = 0
 custom_constants/margin_bottom = 0
 
-[node name="Debugger" parent="HBoxContainer" instance=ExtResource( 8 )]
+[node name="Debugger" parent="VSplitContainer/Proof" instance=ExtResource( 8 )]
 
-[node name="ProofSteps" type="Tree" parent="HBoxContainer"]
+[node name="ProofSteps" type="Tree" parent="VSplitContainer/Proof"]
 visible = false
 margin_left = 636.0
 margin_right = 762.0
@@ -125,7 +174,7 @@ margin_bottom = 600.0
 size_flags_horizontal = 3
 script = ExtResource( 3 )
 
-[node name="Goals" parent="HBoxContainer" instance=ExtResource( 5 )]
+[node name="Goals" parent="VSplitContainer/Proof" instance=ExtResource( 5 )]
 visible = false
 margin_left = 878.0
 margin_right = 1024.0
@@ -133,3 +182,4 @@ margin_bottom = 600.0
 
 [node name="SelectionHandler" type="Node" parent="."]
 script = ExtResource( 11 )
+[connection signal="proof_step_created" from="VSplitContainer/Modules" to="VSplitContainer/Proof/Context/VBoxContainer/Assumptions" method="_on_Modules_proof_step_created"]

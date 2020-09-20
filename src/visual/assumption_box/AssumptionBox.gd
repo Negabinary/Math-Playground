@@ -1,17 +1,20 @@
 extends PanelContainer
 
 signal use_equality
-signal assumption_conclusion_used
-signal assumption_condition_used
-signal assumption_condition_selected
-signal expr_item_dropped_on_definition
+signal assumption_conclusion_used # (self, index)
+signal proof_step_created # (ProofStep)
+signal request_to_prove # ()
 
 var assumption : ProofStep
 
 
+func _ready():
+	$PopupMenu.connect("prove", self, "emit_signal",["request_to_prove"])
+
+
 func display_assumption(new_assumption:ProofStep):
-	$VBoxContainer/Conditions.clear()
-	$VBoxContainer/Conclusion.clear()
+	$VBoxContainer/Conditions/Conditions.clear()
+	$VBoxContainer/Conclusion/Conclusion.clear()
 	
 	assumption = new_assumption
 	
@@ -22,61 +25,50 @@ func display_assumption(new_assumption:ProofStep):
 	var conclusion:Locator = assumption_statement.get_conclusion()
 	
 	if definitions.size() == 0:
-		$VBoxContainer/With.hide()
 		$VBoxContainer/Definitions.hide()
 	else:
-		$VBoxContainer/With.show()
-		$VBoxContainer/Definitions.assumption = new_assumption
 		$VBoxContainer/Definitions.show()
-		$VBoxContainer/Definitions.update_definitions(definitions)
+		$VBoxContainer/Definitions/Definitions.assumption = new_assumption
+		$VBoxContainer/Definitions/Definitions.update_definitions(definitions)
 	
 	if conditions.size() == 0:
-		$VBoxContainer/If.hide()
 		$VBoxContainer/Conditions.hide()
-		$VBoxContainer/Then.text = "WE KNOW"
+		$VBoxContainer/Conclusion/Then.hide()
 	else:
-		$VBoxContainer/If.show()
 		$VBoxContainer/Conditions.show()
-		$VBoxContainer/Then.text = "THEN"
+		$VBoxContainer/Conclusion/Then.show()
 		_update_conditions(conditions)
 	
 	if conclusion.get_type() == GlobalTypes.EQUALITY:
-		$VBoxContainer/Equals.show()
-		$VBoxContainer/Equalities.show()
+		$VBoxContainer/Equality.show()
 		$VBoxContainer/Conclusion.hide()
-		$VBoxContainer/Equalities.add_equalities(UniversalLocator.new(assumption_statement, conclusion))
+		$VBoxContainer/Equality/Equalities.add_equalities(UniversalLocator.new(assumption_statement, conclusion))
+		$VBoxContainer/Equality/Equalities.definitions = definitions
 	else:
-		$VBoxContainer/Equals.hide()
-		$VBoxContainer/Equalities.hide()
+		$VBoxContainer/Equality.hide()
 		$VBoxContainer/Conclusion.show()
-		$VBoxContainer/Conclusion.add_item(conclusion.to_string())
-		$VBoxContainer/Conclusion.conclusion = UniversalLocator.new(assumption_statement, conclusion)
-		$VBoxContainer/Conclusion.definitions = definitions
+		$VBoxContainer/Conclusion/Conclusion.add_item(conclusion.to_string())
+		$VBoxContainer/Conclusion/Conclusion.conclusion = UniversalLocator.new(assumption_statement, conclusion)
+		$VBoxContainer/Conclusion/Conclusion.definitions = definitions
 
 
 func _update_conditions(conditions:Array):
 	for i in conditions.size():
 		var condition : UniversalLocator = UniversalLocator.new(assumption.get_statement(), conditions[i])
-		$VBoxContainer/Conditions.add_item(condition.to_string())
+		$VBoxContainer/Conditions/Conditions.add_item(condition.to_string())
 
 
 func update_context(proof_step:ProofStep, locator:Locator):
 	if assumption.get_conclusion().get_type() == GlobalTypes.EQUALITY:
-		$VBoxContainer/Equalities.update_context(proof_step, locator)
+		$VBoxContainer/Equality/Equalities.update_context(proof_step, locator)
 	else:
-		$VBoxContainer/Conclusion.update_context(proof_step, locator)
-
-
-func _on_Conditions_item_selected(index):
-	emit_signal("assumption_condition_selected", assumption, index)
-
-
-func _on_Conditions_item_activated(index):
-	emit_signal("assumption_condition_used", assumption, index)
+		$VBoxContainer/Conclusion/Conclusion.update_context(proof_step, locator)
 
 
 func _on_expr_item_dropped_on_definition(definition:ExprItemType, locator:UniversalLocator):
-	emit_signal("expr_item_dropped_on_definition", assumption, definition, locator)
+	var refined_ps := ProofStep.new(assumption.get_statement().deep_replace_types({definition:locator.get_expr_item()}).as_expr_item())
+	refined_ps.justify_with_specialisation(assumption, {definition:locator.get_expr_item()})
+	emit_signal("proof_step_created", refined_ps)
 
 
 func _on_use_equality(equality:UniversalLocator):
@@ -85,3 +77,8 @@ func _on_use_equality(equality:UniversalLocator):
 
 func _on_Conclusion_item_activated(index):
 	emit_signal("assumption_conclusion_used", assumption, index)
+
+
+func _on_AssumptionBox_gui_input(event:InputEvent):
+	if event.is_action_released("right_click"):
+		$PopupMenu.popup(Rect2(rect_global_position + event.position, Vector2(1,1)))

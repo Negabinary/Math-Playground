@@ -1,0 +1,12 @@
+@R small_numbers
+@R addition
+@R peano
+
+@= +(2,2)
+@> 4
+
+@A x : ANY
+@= x
+@> x
+
+@> Nat(4)

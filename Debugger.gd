@@ -27,9 +27,10 @@ func _ready():
 	
 	#print(combination.to_string())
 	
+	pass
 	
-	var file := File.new()
-	file.open("C:\\Users\\Matt\\OneDrive - University of Cambridge\\Projects\\Manipulator\\Manipulator 5 Data\\v1\\Modules\\booleans.txt", File.READ)
-	module = MathModule.new()
-	module.read_file(file)
-	file.close()
+#	var file := File.new()
+#	file.open("C:\\Users\\Matt\\OneDrive - University of Cambridge\\Projects\\Manipulator\\Manipulator 5 Data\\v1\\Modules\\booleans.txt", File.READ)
+#	module = MathModule.new()
+#	module.read_file(file)
+#	file.close()

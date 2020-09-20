@@ -42,13 +42,13 @@ func save_assumption(assumption:ProofStep):
 	$VBoxContainer.add_child(assumption_box)
 	assumption_box.display_assumption(assumption)
 	assumption_box.connect("assumption_conclusion_used", self, "_on_assumption_conclusion_used")
-	assumption_box.connect("expr_item_dropped_on_definition", self, "_on_assumption_refine")
+	assumption_box.connect("proof_step_created", self, "_on_proof_step_created")
 	assumption_box.connect("use_equality", self, "_on_use_equality")
 
 
 func _on_assumption_conclusion_used(assumption:ProofStep, _index):
 	assert (_index == 0)
-	if locator.get_expr_item().compare(assumption.get_statement().get_conclusion().get_expr_item()) and proof_step.needs_justification():
+	if locator.get_expr_item().compare(assumption.get_statement().get_conclusion().get_expr_item()):
 		if assumption.get_statement().get_conditions().size() == 0:
 			proof_step.justify_with_assumption()
 		else:
@@ -60,7 +60,7 @@ func _on_assumption_conclusion_used(assumption:ProofStep, _index):
 		print(matching)
 		print(assumption.get_statement().get_conclusion().get_expr_item())
 		print(locator.get_expr_item())
-		if assumption.get_statement().get_conclusion().get_expr_item().is_superset(locator.get_expr_item(), matching) and proof_step.needs_justification():
+		if assumption.get_statement().get_conclusion().get_expr_item().is_superset(locator.get_expr_item(), matching):
 			var refined_ps = ProofStep.new(assumption.get_statement().deep_replace_types(matching).as_expr_item())
 			refined_ps.justify_with_specialisation(assumption, matching)
 			proof_step.justify_with_modus_ponens(refined_ps)
@@ -72,7 +72,9 @@ func _on_use_equality(assumption:ProofStep, equality:UniversalLocator):
 	proof_step.justify_with_equality(assumption, locator, equality.get_locator())
 
 
-func _on_assumption_refine(assumption:ProofStep, definition:ExprItemType, locator:UniversalLocator):
-	var refined_ps = ProofStep.new(assumption.get_statement().deep_replace_types({definition:locator.get_expr_item()}).as_expr_item())
-	refined_ps.justify_with_specialisation(assumption, {definition:locator.get_expr_item()})
+func _on_proof_step_created(refined_ps:ProofStep):
+	save_assumption(refined_ps)
+
+
+func _on_Modules_proof_step_created(refined_ps:ProofStep):
 	save_assumption(refined_ps)

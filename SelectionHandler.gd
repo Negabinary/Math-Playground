@@ -7,6 +7,15 @@ signal locator_changed
 var proof_step : ProofStep
 var locator : Locator
 
+
+func get_proof_step() -> ProofStep:
+	return proof_step
+
+
+func get_locator() -> Locator:
+	return locator
+
+
 func change_proof_step(proof_step:ProofStep):
 	self.proof_step = proof_step
 	emit_signal("proof_step_changed", proof_step)

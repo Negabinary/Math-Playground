@@ -1,0 +1,31 @@
+
+@D Boolean : ANY -> prop
+@D True : Boolean
+@D False : Boolean
+
+@A x : Boolean
+@< Boolean(x)
+@< ¬(=(x,True))
+@> =(x,False)
+
+@D NOT : Boolean -> Boolean
+
+@= NOT(True)
+@> False
+
+@= NOT(False)
+@> True
+
+@D AND : Boolean -> Boolean
+
+@= AND(True,True)
+@> True
+
+@= AND(True,False)
+@> False
+
+@= AND(False,True)
+@> False
+
+@= AND(False,False)
+@> False

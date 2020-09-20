@@ -89,13 +89,23 @@ func justify_with_assumption() -> void:
 	emit_signal("justified")
 
 
-func justify_with_implication() -> void:
-	justification = ImplicationJustification.new(self)
+func justify_with_module(math_module) -> void:
+	justification = ModuleJustification.new(math_module)
 	emit_signal("justified")
 
 
+func justify_with_implication() -> void:
+	justification = ImplicationJustification.new(self)
+	emit_signal("justified")
+ 
+
 func justify_with_vacuous() -> void:
 	justification = VacuousJustification.new(self)
+	emit_signal("justified")
+
+
+func justify_with_contrapositive() -> void:
+	justification = ContrapositiveJustification.new(self)
 	emit_signal("justified")
 
 
@@ -103,14 +113,31 @@ func can_justify_with_modus_ponens(assumption:ProofStep) -> bool:
 	if not (assumption in get_assumptions()):
 		return false
 	elif does_conclusion_match_exactly(assumption):
-		return true # Matches exactly
+		return true
 	else:
 		return does_conclusion_match_with_sub(assumption)
 
 
 func justify_with_modus_ponens(implication:ProofStep) -> void:
-	justification = ModusPonensJustificaiton.new(self, implication)
-	emit_signal("justified")
+	if does_conclusion_match_exactly(implication):
+		if implication.get_statement().get_conditions().size() == 0:
+			justification = implication.justification
+			emit_signal("justified")
+		else:
+			justification = ModusPonensJustificaiton.new(self, implication)
+			emit_signal("justified")
+	else:
+		var matching := {}
+		if does_conclusion_match_with_sub(implication, matching):
+			if implication.get_statement().get_conditions().size() == 0:
+				justify_with_specialisation(implication, matching)
+			else:
+				var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item())
+				refined_ps.justify_with_specialisation(implication, matching)
+				justification = ModusPonensJustificaiton.new(self, refined_ps)
+				emit_signal("justified")
+		else:
+			assert(false)
 
 
 func justify_with_equality(implication:ProofStep, replace:Locator, with:Locator) -> void:
@@ -178,6 +205,18 @@ class AssumedJustification extends Justification:
 	
 	func get_justification_text():
 		return "ASSUMED"
+
+
+class ModuleJustification extends Justification:
+	
+	var module # : MathModule
+	
+	func _init(new_module):
+		requirements = []
+		module = new_module
+	
+	func get_justification_text():
+		return "ASSUMED IN MODULE"
 
 
 class ModusPonensJustificaiton extends Justification:
@@ -297,3 +336,27 @@ class VacuousJustification extends Justification:
 	
 	func get_justification_text():
 		return "MAKES THE FOLLOWING VACUOUS"
+
+
+class ContrapositiveJustification extends Justification:
+	
+	func _init(context:ProofStep):
+		var expr_item := context.get_statement().as_expr_item()
+		var lhs := expr_item.get_child(0)
+		var rhs := expr_item.get_child(1)
+		if lhs.get_type() == GlobalTypes.NOT:
+			lhs = lhs.get_child(0)
+		else:
+			lhs = ExprItem.new(GlobalTypes.NOT, [lhs])
+		if rhs.get_type() == GlobalTypes.NOT:
+			rhs = rhs.get_child(0)
+		else:
+			rhs = ExprItem.new(GlobalTypes.NOT, [rhs])
+		expr_item = ExprItem.new(GlobalTypes.IMPLIES, [rhs, lhs])
+		requirements = [
+			context.get_script().new(
+				expr_item,
+				MissingJustification.new(),
+				context
+			)
+		]

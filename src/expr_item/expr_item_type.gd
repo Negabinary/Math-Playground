@@ -5,7 +5,7 @@ class_name ExprItemType
 var identifier : String
 
 
-func _init(ident:String):
+func _init(ident:String, _type_info:=""):
 	identifier = ident
 
 
