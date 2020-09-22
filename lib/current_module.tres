@@ -13,3 +13,34 @@
 @> Nat(4)
 
 @> Map(S,CONS(1,CONS(2,[])))
+
+@A x : Nat
+@= +(0,x)
+@> x
+
+@D Q : ->(Nat,PROP)
+
+@A x : Nat
+@< =(+(0,x),x)
+@> Q(x)
+
+@A x : Nat
+@< Q(x)
+@> =(+(0,x),x)
+
+@A x : Nat
+@A y : Nat
+@= +(x,y)
+@> +(y,x)
+
+@D R : ->(Nat,PROP)
+
+@A x : Nat
+@< R(x)
+@A y : Nat
+@> =(+(x,y),+(y,x))
+
+@A x : Nat
+@A y : Nat
+@< =(+(x,y),+(y,x))
+@> R(x)

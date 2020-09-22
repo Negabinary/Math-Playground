@@ -1,4 +1,4 @@
-@D List : TAG -> TAG
+@D List : ->(TAG,TAG)
 
 @A T : TAG
 @D [] : List(T)
@@ -7,7 +7,7 @@
 @> List(T)([](T))
 
 @A T : TAG
-@D CONS : List(T), T -> List(T)
+@D CONS : ->(List(T),->(T,List(T)))
 
 @A T : TAG
 @A x : T
@@ -18,17 +18,17 @@
 
 @a T1 : TAG
 @a T2 : TAG
-@D Map : List(T1) -> List(T2)
+@D Map : ->(List(T1),List(T2))
 
 @a T1 : TAG
 @a T2 : TAG
-@A f : T1 -> T2
+@A f : ->(T1,T2)
 @= Map(f,[])
 @> []
 
 @a T1 : TAG
 @a T2 : TAG
-@A f : T1 -> T2
+@A f : ->(T1,T2)
 @A l : List(T1)
 @A x : T1
 @= Map(f,CONS(x,l))

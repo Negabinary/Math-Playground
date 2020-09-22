@@ -1,0 +1,100 @@
+@D Real : TAG
+
+@D 0 : Real
+@D 1 : Real
+
+@D + : ->(Real,->(Real,Real))
+@D - : ->(Real,Real)
+
+@A x : Real
+@= +(x,0)
+@> x
+
+@A x : Real
+@A y : Real
+@= +(x,y)
+@> +(y,x)
+
+@A x : Real
+@A y : Real
+@A z : Real
+@= +(x,+(y,z))
+@> +(+(x,y),z)
+
+@A x : Real
+@= +(x,-(x))
+@> 0
+
+@D * : ->(Real,->(Real,Real))
+@D / : ->(Real,Real)
+
+@A x : Real
+@= *(x,1)
+@> x
+
+@A x : Real
+@A y : Real
+@= *(x,y)
+@> *(y,x)
+
+@A x : Real
+@A y : Real
+@A z : Real
+@= *(x,*(y,z))
+@> *(*(x,y),z)
+
+@A x : Real
+@< ¬(=(x,0))
+@= *(x,/(x))
+@> 1
+
+
+@A x : Real
+@A y : Real
+@A z : Real
+@= *(x,+(y,z))
+@> +(*(x,y),*(x,z))
+
+
+@A x : Real
+@A y : Real
+@= -(*(x,y))
+@> *(-(x),y)
+
+
+@A x : Real
+@= *(x,0)
+@> 0
+
+
+@A x : Real
+@A y : Real
+@= =(x,y)
+@> =(+(x,-(y)),0)
+
+
+@A x : Real
+@A y : Real
+@< ¬(=(y,0))
+@= =(x,y)
+@> =(*(x,/(y)),1)
+
+
+@A x : Real
+@= -(-(x))
+@> x
+
+
+@A x : Real
+@= /(/(x))
+@> x
+
+@A x : Real
+@A y : Real
+@= -(+(x,y))
+@> +(-(x),-(y))
+
+@A x : Real
+@A y : Real
+@= /(*(x,y))
+@> *(/(x),/(y))

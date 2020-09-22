@@ -1,5 +1,5 @@
 
-@D Boolean : ANY -> prop
+@D Boolean : ->(ANY,PROP)
 @D True : Boolean
 @D False : Boolean
 
@@ -8,7 +8,7 @@
 @< ¬(=(x,True))
 @> =(x,False)
 
-@D NOT : Boolean -> Boolean
+@D NOT : ->(Boolean,Boolean)
 
 @= NOT(True)
 @> False
@@ -16,7 +16,7 @@
 @= NOT(False)
 @> True
 
-@D AND : Boolean -> Boolean
+@D AND : ->(Boolean,->(Boolean,Boolean))
 
 @= AND(True,True)
 @> True

@@ -4,7 +4,7 @@
 
 @> Nat(0)
 
-@D S : Nat -> Nat
+@D S : ->(Nat,Nat)
 
 @A n : Nat
 @< Nat(n)
@@ -24,7 +24,7 @@
 @> ¬(=(S(n),0))
 
 # Induction
-@A P : Nat -> prop
+@A P : ->(Nat,PROP)
 @< P(0)
 @< For all(n,=>(Nat(n),=>(P(n),P(S(n)))))
 @A m : Nat

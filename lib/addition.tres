@@ -1,7 +1,7 @@
 @R peano
 
-@D + : Nat, Nat -> Nat
-@D - : Nat, Nat -> Nat
+@D + : ->(Nat,->(Nat,Nat))
+@D - : ->(Nat,->(Nat,Nat))
 
 @A x : Nat
 @A y : Nat
