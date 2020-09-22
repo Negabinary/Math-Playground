@@ -8,7 +8,7 @@ var string : String
 func _init(new_type:ExprItemType, new_children:=[]):
 	type = new_type
 	children = new_children
-	string = to_string()
+	#string = to_string()
 
 
 static func from_string(string:String, types:={}) -> ExprItem:
@@ -109,7 +109,6 @@ func compare(other:ExprItem) -> bool:
 
 
 func is_superset(other:ExprItem, matching:={}) -> bool:
-	print(matching)
 	if matching.has(type):
 		if get_child_count() > other.get_child_count():
 			return false

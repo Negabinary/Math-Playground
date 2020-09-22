@@ -6,15 +6,7 @@ var definitions := []
 var equalities := []
 
 func add_equalities(locator:UniversalLocator):
-	var queue := [locator]
-	while queue.size() != 0:
-		var next = queue.pop_front()
-		if next.get_type() == GlobalTypes.EQUALITY:
-			queue.push_front(next.get_child(0))
-			queue.push_front(next.get_child(1))
-		else:
-			equalities.append(next)
-	
+	equalities = [locator.get_child(0), locator.get_child(1)]
 	for equality in equalities:
 		add_item(equality.to_string())
 
@@ -22,26 +14,28 @@ func add_equalities(locator:UniversalLocator):
 func update_context(proof_step:ProofStep, locator:Locator):
 	var valid = false
 	var valid_with_sub = false
-	for equality in equalities:
+	for i in equalities.size():
+		var equality = equalities[i]
 		var matching := {}
 		for definition in definitions:
 			matching[definition] = "*"
-		print(matching)
 		if equality.get_expr_item().compare(locator.get_expr_item()):
-			valid = true
-			break
+			if proof_step.needs_justification():
+				set_item_custom_bg_color(1-i, Color8(142,166,4,100))
+				update()
+			else:
+				set_item_custom_bg_color(1-i, Color8(142,166,4,0))
+				update()
 		elif equality.get_expr_item().is_superset(locator.get_expr_item(), matching) and proof_step.needs_justification():
-			valid_with_sub = true
+			if proof_step.needs_justification():
+				set_item_custom_bg_color(1-i, Color8(142,166,4,50))
+				update()
+			else:
+				set_item_custom_bg_color(1-i, Color8(142,166,4,0))
+				update()
 		else:
-			print(equality.get_expr_item().to_string() + " > " + locator.get_expr_item().to_string())
-			if equality.get_expr_item().to_string() == locator.get_expr_item().to_string():
-				pass
-	if valid and proof_step.needs_justification():
-		modulate = Color.green
-	elif valid_with_sub and proof_step.needs_justification():
-		modulate = Color.greenyellow
-	else:
-		modulate = Color.white
+			set_item_custom_bg_color(1-i, Color8(142,166,4,0))
+			update()
 
 
 func _on_item_activated(index):

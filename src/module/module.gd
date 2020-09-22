@@ -18,12 +18,13 @@ func _init(file : File, new_name:String, module_loader):
 			_parse_requirement(line.right(3), module_loader)
 			current_item = []
 		if line.begins_with("@D "):
-			_parse_definition(line.right(3))
+			statement_strings.append(_parse_definition(current_item, line.right(3)))
 			current_item = []
 		elif line.begins_with("@> "):
 			statement_strings.append(_parse_statement(current_item, line))
 			current_item = []
 		elif line.begins_with("@A ") or \
+				line.begins_with("@a ") or \
 				line.begins_with("@E ") or \
 				line.begins_with("@< ") or \
 				line.begins_with("@= "):
@@ -34,10 +35,11 @@ func _init(file : File, new_name:String, module_loader):
 	for requirement in requirements:
 		scope.put_all(requirement.get_definition_dict())
 	for statement_string in statement_strings:
-		var expr_item := ExprItemBuilder.from_string(statement_string, scope)
-		var proof_step = ProofStep.new(expr_item)
-		proof_step.justify_with_module(self)
-		proof_steps.append(proof_step)
+		if statement_string != null:
+			var expr_item := ExprItemBuilder.from_string(statement_string, scope)
+			var proof_step = ProofStep.new(expr_item)
+			proof_step.justify_with_module(self)
+			proof_steps.append(proof_step)
 
 
 func _parse_requirement(requirement:String, module_loader):
@@ -67,10 +69,21 @@ func get_definition_dict() -> Dictionary:
 	return def_dict
 
 
-func _parse_definition(def_line:String):
-	var def_name : String = def_line.split(":")[0].strip_edges(true,true)
-	var type_info : String = def_line.split(":")[1].strip_edges(true,true)
-	definitions.append(ExprItemType.new(def_name, type_info))
+func _parse_definition(qualifiers, def_line:String):
+	var def_name_2 : String = def_line.split(":")[0].strip_edges(true,true)
+	var type_info_2 : String = def_line.split(":")[1].strip_edges(true,true)
+	definitions.append(ExprItemType.new(def_name_2, type_info_2))
+	
+	var string = type_info_2 + "(" + def_name_2 + ")"
+	for qualifier in qualifiers:
+		var qualifier_type = qualifier.left(3)
+		var qualifier_payload = qualifier.right(3)
+		if qualifier_type == "@A " or qualifier_type == "@a ":
+			var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
+			var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
+			string = "For all(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
+	
+	return string
 
 
 func _parse_statement(qualifiers:Array, conclusion) -> String:
@@ -79,14 +92,14 @@ func _parse_statement(qualifiers:Array, conclusion) -> String:
 		var qualifier_type = qualifier.left(3)
 		var qualifier_payload = qualifier.right(3)
 		print(qualifier_type)
-		if qualifier_type == "@A ":
+		if qualifier_type == "@A " or qualifier_type == "@a ":
 			var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
 			var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
-			string = "For all(" + def_name + "," + string + ")"
+			string = "For all(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
 		elif qualifier_type == "@E ":
 			var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
 			var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
-			string = "For some(" + def_name + "," + string + ")"
+			string = "For some(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
 		elif qualifier_type == "@< ":
 			string = "=>(" + qualifier_payload + "," + string + ")"
 		elif qualifier_type == "@= ":

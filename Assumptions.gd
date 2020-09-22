@@ -69,7 +69,7 @@ func _on_assumption_conclusion_used(assumption:ProofStep, _index):
 
 
 func _on_use_equality(assumption:ProofStep, index:int):
-	proof_step.justify_with_equality(assumption, index, 1-index, locator)
+	proof_step.justify_with_equality(assumption, 1-index, index, locator)
 
 
 func _on_proof_step_created(refined_ps:ProofStep):

@@ -45,7 +45,6 @@ static func _generate_expr_item(intermediate:IntermediateExprItem, scope_stack:S
 		var rhs = _generate_expr_item(intermediate.children[1], inner_scope)
 		return ExprItem.new(GlobalTypes.FORALL, [lhs, rhs])
 	else:
-		print(intermediate.token)
 		assert(scope_stack.get_from_scope(intermediate.token) != null)
 		var type:ExprItemType = scope_stack.get_from_scope(intermediate.token)
 		var new_chidlren := []
