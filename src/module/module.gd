@@ -96,10 +96,6 @@ func _parse_statement(qualifiers:Array, conclusion) -> String:
 			var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
 			var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
 			string = "For all(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
-		elif qualifier_type == "@E ":
-			var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
-			var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
-			string = "For some(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
 		elif qualifier_type == "@< ":
 			string = "=>(" + qualifier_payload + "," + string + ")"
 		elif qualifier_type == "@= ":
