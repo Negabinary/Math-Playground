@@ -1,0 +1,17 @@
+
+@D Boolean : TAG
+@D True : Boolean
+@D False : Boolean
+
+@A x : Boolean
+@< Boolean(x)
+@< ¬(=(x,True))
+@> =(x,False)
+
+@D NOT : ->(Boolean,Boolean)
+
+@= NOT(True)
+@> False
+
+@= NOT(False)
+@> True

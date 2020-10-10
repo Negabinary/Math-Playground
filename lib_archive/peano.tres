@@ -1,0 +1,31 @@
+@D Nat : TAG
+
+@D 0 : Nat
+
+@> Nat(0)
+
+@D S : ->(Nat,Nat)
+
+@A n : Nat
+@< Nat(n)
+@> Nat(S(n))
+
+@A n : Nat
+@A m : Nat
+@< =(m,n)
+@> =(S(n),S(m))
+
+@A n : Nat
+@A m : Nat
+@< =(S(n),S(m))
+@> =(m,n)
+
+@A n : Nat
+@> ¬(=(S(n),0))
+
+# Induction
+@A P : ->(Nat,PROP)
+@< P(0)
+@< For all(n,=>(Nat(n),=>(P(n),P(S(n)))))
+@A m : Nat
+@> P(m)

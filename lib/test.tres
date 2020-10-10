@@ -1,0 +1,6 @@
+@D A : PROP
+@D B : PROP
+@D C : PROP
+
+@< =>(A,=>(B,C))
+@> =>(¬(=>(A,¬(B))),C)

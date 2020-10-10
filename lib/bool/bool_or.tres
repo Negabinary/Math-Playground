@@ -1,0 +1,15 @@
+@R bool/bool_type
+
+@D OR : ->(Boolean,->(Boolean,Boolean))
+
+@= OR(True,True)
+@> True
+
+@= OR(True,False)
+@> True
+
+@= OR(False,True)
+@> True
+
+@= OR(False,False)
+@> False

@@ -10,7 +10,10 @@ onready var module_loader := ModuleLoader.new()
 
 
 func initialise(selection_handler:SelectionHandler):
-	for module_name in ["typing","trig","real_test","real","the_set_of_all_sets","functional","list","current_module","peano", "boolean", "small_numbers","addition"]:
+	#for module_name in ["test","typing","trig","real_test","real","the_set_of_all_sets","functional","list","current_module","peano", "boolean", "small_numbers","addition"]:
+	#for module_name in ["trig","real_test","real"]:
+	#for module_name in ["bool/bool_type", "bool/bool_and", "bool/bool_or", "bool/de_morgan"]:
+	for module_name in ["2p2e4","small_numbers","addition","peano"]:
 		add_module(module_loader.get_module(module_name), module_name, selection_handler)
 
 

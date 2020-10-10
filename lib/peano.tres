@@ -2,13 +2,7 @@
 
 @D 0 : Nat
 
-@> Nat(0)
-
 @D S : ->(Nat,Nat)
-
-@A n : Nat
-@< Nat(n)
-@> Nat(S(n))
 
 @A n : Nat
 @A m : Nat

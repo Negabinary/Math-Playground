@@ -37,7 +37,7 @@ func load_module(module:MathModule, name:String):
 	else:
 		string = "Definitions: "
 		for d in definitions:
-			string += "\n - " + d.to_string()
+			string += "\n - " + PoolStringArray(([d.to_string()] + Tagger.get_type_tags(d))).join(": ")
 	$ScrollContainer/VBoxContainer/ModuleDefinitions.text = string
 	
 	var requirements := module.get_requirements()

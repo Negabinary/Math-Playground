@@ -33,3 +33,12 @@
 @A x : T1
 @= Map(f,CONS(x,l))
 @> CONS(f(x),Map(f,l))
+
+
+@D P : TAG
+
+@D lol : List(List(P))
+
+@D jp : ->(P,List(List(P)))
+
+@A x : P

@@ -12,6 +12,7 @@ var statement:Statement
 var justification:Justification
 var new_assumptions := []
 var new_definitions := []
+var _is_tag : bool = false
 
 
 func _init(new_expr_item:ExprItem, new_justification:Justification = MissingJustification.new(), new_context:ProofStep = null, new_new_assumptions = [], new_new_definitions = []):
@@ -20,6 +21,10 @@ func _init(new_expr_item:ExprItem, new_justification:Justification = MissingJust
 	context = new_context
 	new_assumptions = new_new_assumptions
 	new_definitions = new_new_definitions
+
+
+func mark_tag():
+	_is_tag = true
 
 
 func get_assumptions() -> Dictionary:
@@ -62,6 +67,10 @@ func is_proven() -> bool:
 
 func _get_justification() -> Justification:
 	return justification
+
+
+func is_tag():
+	return _is_tag
 
 
 func does_conclusion_match_exactly(assumption:ProofStep) -> bool:

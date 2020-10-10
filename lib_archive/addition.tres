@@ -1,0 +1,17 @@
+@R peano
+
+@D + : ->(Nat,->(Nat,Nat))
+@D - : ->(Nat,->(Nat,Nat))
+
+@A x : Nat
+@A y : Nat
+@= +(x,S(y))
+@> S(+(x,y))
+
+@A x : Nat
+@= +(x,0)
+@> x
+
+@A x : Nat
+@= -(x,x)
+@> 0

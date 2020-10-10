@@ -1,5 +1,5 @@
 
-@D Boolean : ->(ANY,PROP)
+@D Boolean : TAG
 @D True : Boolean
 @D False : Boolean
 

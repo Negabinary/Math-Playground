@@ -18,7 +18,10 @@ func _init(file : File, new_name:String, module_loader):
 			_parse_requirement(line.right(3), module_loader)
 			current_item = []
 		if line.begins_with("@D "):
-			statement_strings.append(_parse_definition(current_item, line.right(3)))
+			if GlobalTypes.TYPING:
+				statement_strings.append(_parse_definition(current_item, line.right(3)))
+			else:
+				_parse_definition(current_item, line.right(3))
 			current_item = []
 		elif line.begins_with("@> "):
 			statement_strings.append(_parse_statement(current_item, line))
@@ -40,6 +43,15 @@ func _init(file : File, new_name:String, module_loader):
 			var proof_step = ProofStep.new(expr_item)
 			proof_step.justify_with_module(self)
 			proof_steps.append(proof_step)
+	
+	for proof_step in proof_steps:
+		var expr_item:ExprItem = proof_step.get_statement().as_expr_item()
+		if expr_item.get_child_count() > 0:
+			var argument : ExprItem = expr_item.get_child(expr_item.get_child_count()-1)
+			if argument.get_child_count() == 0 and argument.get_type() in definitions:
+				if Tagger.is_tag(expr_item.abandon_lowest(1)):
+					Tagger.put_tag(expr_item.get_child(expr_item.get_child_count()-1).get_type(), Tag.new(expr_item.abandon_lowest(1)))
+					proof_step.mark_tag()
 
 
 func _parse_requirement(requirement:String, module_loader):
@@ -95,7 +107,10 @@ func _parse_statement(qualifiers:Array, conclusion) -> String:
 		if qualifier_type == "@A " or qualifier_type == "@a ":
 			var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
 			var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
-			string = "For all(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
+			if GlobalTypes.TYPING:
+				string = "For all(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
+			else:
+				string = "For all(" + def_name + "," + string + ")"
 		elif qualifier_type == "@< ":
 			string = "=>(" + qualifier_payload + "," + string + ")"
 		elif qualifier_type == "@= ":

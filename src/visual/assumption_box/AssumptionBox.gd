@@ -18,6 +18,11 @@ func display_assumption(new_assumption:ProofStep):
 	
 	assumption = new_assumption
 	
+	if assumption.is_tag():
+		modulate = Color.coral
+	else:
+		modulate = Color.white
+	
 	var assumption_statement := assumption.get_statement()
 	
 	var definitions := assumption_statement.get_definitions()
