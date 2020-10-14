@@ -1,0 +1,5 @@
+@R pres/peano
+
+@A m : ANY
+@< Nat(m)
+@> Nat(S(S(m)))

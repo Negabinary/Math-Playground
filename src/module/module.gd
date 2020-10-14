@@ -8,12 +8,12 @@ var proof_steps := []
 var requirements := []
 
 
-func _init(file : File, new_name:String, module_loader):
+func _init(string : String, new_name:String, module_loader):
 	name = new_name
 	var current_item = []
 	var statement_strings = []
-	while not file.eof_reached():
-		var line = file.get_line().strip_edges(false,true)	
+	for line in string.split("\n"):
+		line = line.strip_edges(false,true)	
 		if line.begins_with("@R "):
 			_parse_requirement(line.right(3), module_loader)
 			current_item = []
@@ -83,6 +83,8 @@ func get_definition_dict() -> Dictionary:
 
 func _parse_definition(qualifiers, def_line:String):
 	var def_name_2 : String = def_line.split(":")[0].strip_edges(true,true)
+	if def_line.split(":").size() < 2:
+		def_line = def_line + " : ANY"
 	var type_info_2 : String = def_line.split(":")[1].strip_edges(true,true)
 	definitions.append(ExprItemType.new(def_name_2, type_info_2))
 	
