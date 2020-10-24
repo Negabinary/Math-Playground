@@ -4,6 +4,7 @@ var ASSUMPTION_BOX := load("res://src/visual/assumption_box/AssumptionBox.tscn")
 
 var proof_step : ProofStep
 var locator : Locator
+onready var selection_handler:SelectionHandler = $"../../../../../SelectionHandler"
 
 
 func set_locator(new_location:Locator) -> void:
@@ -40,7 +41,7 @@ func _update_assumptions() -> void:
 func save_assumption(assumption:ProofStep):
 	var assumption_box = ASSUMPTION_BOX.instance()
 	$VBoxContainer.add_child(assumption_box)
-	assumption_box.display_assumption(assumption)
+	assumption_box.display_assumption(assumption, selection_handler)
 	assumption_box.connect("assumption_conclusion_used", self, "_on_assumption_conclusion_used")
 	assumption_box.connect("proof_step_created", self, "_on_proof_step_created")
 	assumption_box.connect("use_equality", self, "_on_use_equality")
@@ -57,9 +58,6 @@ func _on_assumption_conclusion_used(assumption:ProofStep, _index):
 		var matching := {}
 		for definition in assumption.get_statement().get_definitions():
 			matching[definition] = "*"
-		print(matching)
-		print(assumption.get_statement().get_conclusion().get_expr_item())
-		print(locator.get_expr_item())
 		if assumption.get_statement().get_conclusion().get_expr_item().is_superset(locator.get_expr_item(), matching):
 			var refined_ps = ProofStep.new(assumption.get_statement().deep_replace_types(matching).as_expr_item())
 			refined_ps.justify_with_specialisation(assumption, matching)

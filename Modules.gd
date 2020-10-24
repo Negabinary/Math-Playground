@@ -12,11 +12,11 @@ var selection_handler
 
 func initialise(selection_handler:SelectionHandler):
 	self.selection_handler = selection_handler
-	#for module_name in ["test","typing","trig","real_test","real","the_set_of_all_sets","functional","list","current_module","peano", "boolean", "small_numbers","addition"]:
+	for module_name in ["fib","test","typing","trig","real_test","real","the_set_of_all_sets","functional","list","current_module","peano", "boolean", "small_numbers","addition"]:
 	#for module_name in ["trig","real_test","real"]:
 	#for module_name in ["bool/bool_type", "bool/bool_and", "bool/bool_or", "bool/de_morgan"]:
 	#for module_name in ["2p2e4","small_numbers","addition","peano"]:
-	for module_name in ["pres/peano","pres/2nat"]:
+	#for module_name in ["pres/peano","pres/2nat"]:
 		add_module(module_loader.get_module(module_name), module_name, selection_handler)
 
 
@@ -31,7 +31,8 @@ func add_module(module:MathModule, mname:String, selection_handler:SelectionHand
 	
 
 func _on_proof_request(proof_step:ProofStep, module:MathModule):
-	emit_signal("request_proof", proof_step)
+	selection_handler.change_proof(proof_step, module)
+	
 
 func _on_proof_step_created(proof_step:ProofStep):
 	emit_signal("proof_step_created", proof_step)

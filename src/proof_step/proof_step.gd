@@ -113,6 +113,11 @@ func justify_with_reflexivity() -> void:
 	emit_signal("justified")
 
 
+func justify_with_matching() -> void:
+	justification = MatchingJustification.new(self)
+	emit_signal("justified")
+
+
 func justify_with_vacuous() -> void:
 	justification = VacuousJustification.new(self)
 	emit_signal("justified")
@@ -367,6 +372,28 @@ class ReflexiveJustification extends Justification:
 	
 	func get_justification_text():
 		return "BECAUSE ANYTHING EQUALS ITSELF"
+
+
+class MatchingJustification extends Justification:
+	
+	func _init(context:ProofStep):
+		requirements = []
+		var lhs := context.get_statement().as_expr_item().get_child(0)
+		var rhs := context.get_statement().as_expr_item().get_child(1)
+		for i in lhs.get_child_count():
+			requirements.append(
+				context.get_script().new(
+					ExprItem.new(GlobalTypes.EQUALITY,[
+						lhs.get_child(i),
+						rhs.get_child(i)
+					]),
+					MissingJustification.new(),
+					context
+				)
+			)
+	
+	func get_justification_text():
+		return "SO THIS MATCHES"
 
 
 class VacuousJustification extends Justification:

@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "Locator",
 "language": "GDScript",
-"path": "res://src/model/locator.gd"
+"path": "res://src/expr_item/locator.gd"
 }, {
 "base": "Object",
 "class": "MathModule",
@@ -60,9 +60,14 @@ _global_script_classes=[ {
 "path": "res://SelectionHandler.gd"
 }, {
 "base": "Object",
+"class": "Selector",
+"language": "GDScript",
+"path": "res://src/expr_item/selector.gd"
+}, {
+"base": "Object",
 "class": "Statement",
 "language": "GDScript",
-"path": "res://src/model/statement.gd"
+"path": "res://src/expr_item/statement.gd"
 }, {
 "base": "Object",
 "class": "Tag",
@@ -72,7 +77,7 @@ _global_script_classes=[ {
 "base": "Object",
 "class": "UniversalLocator",
 "language": "GDScript",
-"path": "res://src/model/universal_locator.gd"
+"path": "res://src/expr_item/universal_locator.gd"
 }, {
 "base": "VBoxContainer",
 "class": "WPBParent",
@@ -110,6 +115,7 @@ _global_script_class_icons={
 "Proveable": "",
 "ScopeStack": "",
 "SelectionHandler": "",
+"Selector": "",
 "Statement": "",
 "Tag": "",
 "UniversalLocator": "",
@@ -128,7 +134,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-GlobalTypes="*res://src/model/global_types.gd"
+GlobalTypes="*res://src/expr_item/global_types.gd"
 Tagger="*res://src/tags/tagger.gd"
 
 [debug]

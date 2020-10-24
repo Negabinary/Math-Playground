@@ -21,12 +21,8 @@
 @D Q : ->(Nat,PROP)
 
 @A x : Nat
-@< =(+(0,x),x)
+@= =(+(0,x),x)
 @> Q(x)
-
-@A x : Nat
-@< Q(x)
-@> =(+(0,x),x)
 
 @A x : Nat
 @A y : Nat

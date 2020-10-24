@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/visual/assumption_box/AssumptionBox.gd" type="Script" id=1]
 [ext_resource path="res://src/visual/assumption_box/Definitions.gd" type="Script" id=2]
 [ext_resource path="res://src/visual/assumption_box/Conclusions.gd" type="Script" id=3]
 [ext_resource path="res://src/visual/assumption_box/Equalities.gd" type="Script" id=4]
 [ext_resource path="res://src/visual/assumption_box/PopupMenu.gd" type="Script" id=5]
+[ext_resource path="res://src/visual/popups/EnterExprItem.tscn" type="PackedScene" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 4.0
@@ -127,8 +128,12 @@ margin_top = 4.0
 margin_right = 45.0
 margin_bottom = 104.0
 script = ExtResource( 5 )
+
+[node name="EnterExprItem" parent="." instance=ExtResource( 6 )]
 [connection signal="gui_input" from="." to="." method="_on_AssumptionBox_gui_input"]
 [connection signal="expr_item_dropped_on_definition" from="VBoxContainer/Definitions/Definitions" to="." method="_on_expr_item_dropped_on_definition"]
+[connection signal="item_activated" from="VBoxContainer/Definitions/Definitions" to="." method="_on_Definitions_item_activated"]
 [connection signal="item_activated" from="VBoxContainer/Conclusion/Conclusion" to="." method="_on_Conclusion_item_activated"]
 [connection signal="item_activated" from="VBoxContainer/Equality/Equalities" to="VBoxContainer/Equality/Equalities" method="_on_item_activated"]
 [connection signal="use_equality" from="VBoxContainer/Equality/Equalities" to="." method="_on_use_equality"]
+[connection signal="confirmed" from="EnterExprItem" to="." method="_on_EnterExprItem_confirmed"]

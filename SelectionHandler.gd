@@ -1,12 +1,14 @@
 extends Node
 class_name SelectionHandler
 
+signal proof_changed
+signal module_changed
 signal proof_step_changed
 signal locator_changed
 
 
 var module : MathModule
-var proof : Proveable
+var proof : ProofStep
 var proof_step : ProofStep
 var locator : Locator
 
@@ -14,7 +16,7 @@ func get_module() -> MathModule:
 	return module
 
 
-func get_proof() -> Proveable:
+func get_proof() -> ProofStep:
 	return proof
 
 
@@ -29,16 +31,17 @@ func get_locator() -> Locator:
 func change_module(module:MathModule):
 	self.module = module
 	emit_signal("module_changed", module)
-	change_proof(null)
 
 
-func change_proof(proof:Proveable):
+func change_proof(proof:ProofStep, module:MathModule):
 	self.proof = proof
 	emit_signal("proof_changed", proof)
 	if proof == null:
-		change_proof(null)
+		change_proof_step(null)
+		change_module(null)
 	else:
-		change_proof_step(proof.as_conclusion())
+		change_proof_step(proof)
+		change_module(module)
 
 
 func change_proof_step(proof_step:ProofStep):

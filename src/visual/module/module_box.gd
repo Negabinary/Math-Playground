@@ -24,7 +24,7 @@ func load_module(module:MathModule, name:String):
 	for proof_step in module.get_proof_steps():
 		var assumption_box = ASSUMPTION_BOX.instance()
 		ui_assumptions.add_child(assumption_box)
-		assumption_box.display_assumption(proof_step)
+		assumption_box.display_assumption(proof_step, selection_handler)
 		assumption_box.connect("request_to_prove", self, "emit_signal", ["request_to_prove", ProofStep.new(proof_step.get_statement().as_expr_item()), module])
 		assumption_box.connect("proof_step_created", self, "_on_proof_step_created")
 		assumption_box.connect("assumption_conclusion_used", self, "_on_assumption_conclusion_used")

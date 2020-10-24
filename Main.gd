@@ -42,7 +42,7 @@ func _ready():
 	ui_modules.initialise($SelectionHandler)
 	$SelectionHandler.connect("proof_step_changed", self, "_on_proof_step_selected")
 	$SelectionHandler.connect("locator_changed", self, "_on_goal_item_selected")
-	$VSplitContainer/Modules.connect("request_proof", self, "_set_proof")
+	$SelectionHandler.connect("proof_changed", self, "_set_proof")
 
 func _on_proof_step_selected(proof_step:ProofStep):
 	ui_goals.show_expression(Statement.new(proof_step.get_statement().as_expr_item()))

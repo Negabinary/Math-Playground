@@ -33,10 +33,7 @@ func _init(string : String, new_name:String, module_loader):
 				line.begins_with("@= "):
 			current_item.push_front(line)
 	
-	var def_dict := get_definition_dict()
-	var scope := GlobalTypes.get_scope_stack().new_child_context(def_dict)
-	for requirement in requirements:
-		scope.put_all(requirement.get_definition_dict())
+	var scope := get_scope_stack()
 	for statement_string in statement_strings:
 		if statement_string != null:
 			var expr_item := ExprItemBuilder.from_string(statement_string, scope)
@@ -52,6 +49,14 @@ func _init(string : String, new_name:String, module_loader):
 				if Tagger.is_tag(expr_item.abandon_lowest(1)):
 					Tagger.put_tag(expr_item.get_child(expr_item.get_child_count()-1).get_type(), Tag.new(expr_item.abandon_lowest(1)))
 					proof_step.mark_tag()
+
+
+func get_scope_stack() -> ScopeStack:
+	var def_dict := get_definition_dict()
+	var scope := GlobalTypes.get_scope_stack().new_child_context(def_dict)
+	for requirement in requirements:
+		scope.put_all(requirement.get_definition_dict())
+	return scope
 
 
 func _parse_requirement(requirement:String, module_loader):
@@ -105,7 +110,6 @@ func _parse_statement(qualifiers:Array, conclusion) -> String:
 	for qualifier in qualifiers:
 		var qualifier_type = qualifier.left(3)
 		var qualifier_payload = qualifier.right(3)
-		print(qualifier_type)
 		if qualifier_type == "@A " or qualifier_type == "@a ":
 			var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
 			var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)

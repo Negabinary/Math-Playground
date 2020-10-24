@@ -1,6 +1,6 @@
 extends Node
 
-var TYPING := false
+var TYPING := true
 
 var IMPLIES := ExprItemType.new("=>")
 var FORALL := ExprItemType.new("For all")

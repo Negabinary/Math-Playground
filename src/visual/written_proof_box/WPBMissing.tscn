@@ -15,20 +15,20 @@ __meta__ = {
 
 [node name="Ideas" type="MarginContainer" parent="."]
 margin_right = 235.0
-margin_bottom = 196.0
+margin_bottom = 229.0
 size_flags_horizontal = 0
 custom_constants/margin_left = 30
 
 [node name="PanelContainer" type="PanelContainer" parent="Ideas"]
 margin_left = 30.0
 margin_right = 235.0
-margin_bottom = 196.0
+margin_bottom = 229.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Ideas/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 198.0
-margin_bottom = 189.0
+margin_bottom = 222.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -112,8 +112,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="MatchingButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
+margin_top = 186.0
+margin_right = 191.0
+margin_bottom = 215.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "F(A) = F(B) : Match Arguments"
+flat = true
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Statement" type="Control" parent="."]
-margin_top = 200.0
+margin_top = 233.0
 margin_right = 1024.0
-margin_bottom = 200.0
+margin_bottom = 233.0
 script = ExtResource( 5 )
