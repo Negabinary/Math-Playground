@@ -20,7 +20,7 @@ func _add_global_tags():
 
 
 func _p(s:String)->ExprItem:
-	return ExprItemBuilder.from_string(s, GlobalTypes.get_scope_stack())
+	return ExprItemBuilder.from_string(s, GlobalTypes.PROOF_BOX)
 
 
 func put_tag(type:ExprItemType, tag:Tag) -> void: # ,,<ExprItemType>

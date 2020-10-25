@@ -3,15 +3,17 @@ class_name MathModule
 
 
 var name : String
-var definitions := []
 var proof_steps := []
 var requirements := []
+
+var proof_box : ProofBox
 
 
 func _init(string : String, new_name:String, module_loader):
 	name = new_name
 	var current_item = []
 	var statement_strings = []
+	var definitions = []
 	for line in string.split("\n"):
 		line = line.strip_edges(false,true)	
 		if line.begins_with("@R "):
@@ -19,9 +21,9 @@ func _init(string : String, new_name:String, module_loader):
 			current_item = []
 		if line.begins_with("@D "):
 			if GlobalTypes.TYPING:
-				statement_strings.append(_parse_definition(current_item, line.right(3)))
+				statement_strings.append(_parse_definition(current_item, line.right(3), definitions))
 			else:
-				_parse_definition(current_item, line.right(3))
+				_parse_definition(current_item, line.right(3), definitions)
 			current_item = []
 		elif line.begins_with("@> "):
 			statement_strings.append(_parse_statement(current_item, line))
@@ -33,30 +35,38 @@ func _init(string : String, new_name:String, module_loader):
 				line.begins_with("@= "):
 			current_item.push_front(line)
 	
-	var scope := get_scope_stack()
+	
+	_build_proof_box(definitions)
+	
 	for statement_string in statement_strings:
 		if statement_string != null:
-			var expr_item := ExprItemBuilder.from_string(statement_string, scope)
+			var expr_item := ExprItemBuilder.from_string(statement_string, proof_box)
 			var proof_step = ProofStep.new(expr_item)
-			proof_step.justify_with_module(self)
+			proof_step.justify_with_module_proveable(self)
 			proof_steps.append(proof_step)
 	
 	for proof_step in proof_steps:
 		var expr_item:ExprItem = proof_step.get_statement().as_expr_item()
 		if expr_item.get_child_count() > 0:
 			var argument : ExprItem = expr_item.get_child(expr_item.get_child_count()-1)
-			if argument.get_child_count() == 0 and argument.get_type() in definitions:
+			if argument.get_child_count() == 0 and argument.get_type() in get_definitions():
 				if Tagger.is_tag(expr_item.abandon_lowest(1)):
 					Tagger.put_tag(expr_item.get_child(expr_item.get_child_count()-1).get_type(), Tag.new(expr_item.abandon_lowest(1)))
 					proof_step.mark_tag()
 
 
-func get_scope_stack() -> ScopeStack:
-	var def_dict := get_definition_dict()
-	var scope := GlobalTypes.get_scope_stack().new_child_context(def_dict)
+func _build_proof_box(definitions:Array) -> void:
+	var defs := GlobalTypes.PROOF_BOX.get_definitions().duplicate()
 	for requirement in requirements:
-		scope.put_all(requirement.get_definition_dict())
-	return scope
+		for def in requirement.get_proof_box().get_definitions():
+			if not (def in defs):
+				defs.append(def) 
+	var parent_proof_box = ProofBox.new(defs)
+	proof_box = ProofBox.new(definitions, parent_proof_box)
+
+
+func get_proof_box() -> ProofBox:
+	return proof_box
 
 
 func _parse_requirement(requirement:String, module_loader):
@@ -68,7 +78,7 @@ func get_proof_steps():
 
 
 func get_definitions() -> Array:
-	return definitions
+	return proof_box.get_definitions()
 
 
 func get_requirements() -> Array:
@@ -80,13 +90,10 @@ func get_name() -> String:
 
 
 func get_definition_dict() -> Dictionary:
-	var def_dict := {}
-	for i in definitions:
-		def_dict[i.get_identifier()] = i
-	return def_dict
+	return proof_box.get_
 
 
-func _parse_definition(qualifiers, def_line:String):
+func _parse_definition(qualifiers, def_line:String, definitions:Array):
 	var def_name_2 : String = def_line.split(":")[0].strip_edges(true,true)
 	if def_line.split(":").size() < 2:
 		def_line = def_line + " : ANY"

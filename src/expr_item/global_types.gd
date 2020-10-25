@@ -13,6 +13,11 @@ var ANY := ExprItemType.new("ANY")
 var PROP := ExprItemType.new("PROP")
 var F_DEF := ExprItemType.new("->")
 
+var PROOF_BOX := ProofBox.new([
+		IMPLIES, FORALL, EQUALITY, NOT, EXISTS,
+		TAG, ANY, PROP, F_DEF
+	])
+
 func get_map() -> Dictionary:
 	return {
 		"=>":IMPLIES, 
@@ -25,6 +30,3 @@ func get_map() -> Dictionary:
 		"PROP":PROP,
 		"->":F_DEF,
 	}
-
-func get_scope_stack() -> ScopeStack:
-	return ScopeStack.new(get_map())

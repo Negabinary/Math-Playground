@@ -98,8 +98,15 @@ func justify_with_assumption() -> void:
 	emit_signal("justified")
 
 
-func justify_with_module(math_module) -> void:
-	justification = ModuleJustification.new(math_module)
+func justify_with_module_axiom(math_module) -> void:
+	justification = ModuleAxiomJustification.new(math_module)
+	emit_signal("justified")
+
+
+func justify_with_module_proveable(math_module, proof:ProofStep = null) -> void:
+	if proof == null:
+		proof = get_script().new(get_statement().as_expr_item())
+	justification = ModuleProveableJustification.new(math_module, proof)
 	emit_signal("justified")
 
 
@@ -249,11 +256,24 @@ class AssumedJustification extends Justification:
 		return "ASSUMED"
 
 
-class ModuleJustification extends Justification:
+class ModuleAxiomJustification extends Justification:
 	
 	var module # : MathModule
 	
 	func _init(new_module):
+		requirements = []
+		module = new_module
+	
+	func get_justification_text():
+		return "ASSUMED IN MODULE"
+
+
+class ModuleProveableJustification extends Justification:
+	
+	var module # : MathModule
+	var proof : ProofStep
+	
+	func _init(new_module, proof:ProofStep):
 		requirements = []
 		module = new_module
 	

@@ -9,34 +9,43 @@ var assumption : ProofStep
 var definitions := []
 var selection_handler : SelectionHandler
 
+var ui_definitions : Node
+var ui_conditions : Node
+var ui_conclusion : Node
+var ui_equality : Node
+
 
 func _ready():
 	$PopupMenu.connect("prove", self, "emit_signal",["request_to_prove"])
 
-
-func display_assumption(new_assumption:ProofStep, selection_handler:SelectionHandler):
-	$VBoxContainer/Conditions/Conditions.clear()
-	$VBoxContainer/Conclusion/Conclusion.clear()
+# Rename to 'initialise' soon.
+func display_assumption(assumption:ProofStep, selection_handler:SelectionHandler):	
+	ui_definitions = $VBoxContainer/Definitions
+	ui_conditions = $VBoxContainer/Conditions
+	ui_conclusion = $VBoxContainer/Conclusion
+	ui_equality = $VBoxContainer/Equality
 	
-	assumption = new_assumption
+	
 	self.selection_handler = selection_handler
+	self.assumption = assumption
 	
 	if assumption.is_tag():
 		modulate = Color.coral
 	else:
 		modulate = Color.white
 	
-	var assumption_statement := assumption.get_statement()
 	
+	var assumption_statement := assumption.get_statement()
 	definitions = assumption_statement.get_definitions()
 	var conditions := assumption_statement.get_conditions()
 	var conclusion:Locator = assumption_statement.get_conclusion()
+	
 	
 	if definitions.size() == 0:
 		$VBoxContainer/Definitions.hide()
 	else:
 		$VBoxContainer/Definitions.show()
-		$VBoxContainer/Definitions/Definitions.assumption = new_assumption
+		$VBoxContainer/Definitions/Definitions.assumption = assumption
 		$VBoxContainer/Definitions/Definitions.update_definitions(definitions)
 	
 	if conditions.size() == 0:
@@ -101,7 +110,7 @@ func _on_Definitions_item_activated(index):
 
 
 func _on_EnterExprItem_confirmed():
-	var context := selection_handler.get_module().get_scope_stack()
+	var context := selection_handler.get_module().get_proof_box()
 	var expr_item = ExprItemBuilder.from_string($EnterExprItem/VBoxContainer/LineEdit.text,context)
 	var refined_ps := ProofStep.new(assumption.get_statement().deep_replace_types({last_definition:expr_item}).as_expr_item())
 	refined_ps.justify_with_specialisation(assumption, {last_definition:expr_item})

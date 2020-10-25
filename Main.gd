@@ -10,7 +10,7 @@ onready var ui_modules := $VSplitContainer/Modules
 var root_ps : ProofStep
 
 func _set_up() -> void:
-	var w2 = ExprItemBuilder.from_string("For all(A,For all(B,For all(C,=>(=>(A,B),=>(=>(B,C),=>(A,C))))))", GlobalTypes.get_scope_stack())
+	var w2 = ExprItemBuilder.from_string("For all(A,For all(B,For all(C,=>(=>(A,B),=>(=>(B,C),=>(A,C))))))", GlobalTypes.PROOF_BOX)
 #	w2 = ExprItem.from_string("=>(=>(A,=>(B,C)),=>(=>(A,B),C))")
 #	w2 = ExprItem.from_string("=>(=>(=>(A,B),C),=>(A,=>(B,C)))")
 #	w2 = ExprItem.from_string("=>(=(A,B),=>(=>(P(A),P(C)),=>(P(B),P(C))))")
