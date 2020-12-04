@@ -1,0 +1,22 @@
+@R L1/syntax
+@R addition
+@R peano
+
+@A n1 : Nat
+@A n2 : Nat
+@> ~>(op(N(n1),L1+,N(n2)),N(+(n1,n2)))
+
+@A e1 : L1
+@A e2 : L1
+@A eop : L1op
+@A e1' : L1
+@< ~>(e1,e1')
+@> ~>(op(e1,eop,e2),op(e1',eop,e2))
+
+@A e1 : L1
+@A e2 : L1
+@A eop : L1op
+@A e1' : L1
+@< ~>(e1,e1')
+@> ~>(op(e2,eop,e1),op(e2,eop,e1'))
+

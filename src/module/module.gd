@@ -4,6 +4,7 @@ class_name MathModule
 
 var name : String
 var proof_steps := []
+var proofs := {}
 var requirements := []
 
 var proof_box : ProofBox
@@ -43,6 +44,7 @@ func _init(string : String, new_name:String, module_loader):
 			var expr_item := ExprItemBuilder.from_string(statement_string, proof_box)
 			var proof_step = ProofStep.new(expr_item)
 			proof_step.justify_with_module_proveable(self)
+			proofs[proof_step] = ProofStep.new(expr_item)
 			proof_steps.append(proof_step)
 	
 	for proof_step in proof_steps:
@@ -63,6 +65,10 @@ func _build_proof_box(definitions:Array) -> void:
 				defs.append(def) 
 	var parent_proof_box = ProofBox.new(defs)
 	proof_box = ProofBox.new(definitions, parent_proof_box)
+
+
+func get_proof(proof_step:ProofStep):
+	return proofs[proof_step]
 
 
 func get_proof_box() -> ProofBox:

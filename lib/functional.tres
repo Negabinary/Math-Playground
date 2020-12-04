@@ -10,3 +10,17 @@
 @> f(f(x))
 
 @> app2(S,0)
+
+@A 'a : TAG
+@A 'b : TAG
+@A 'c : TAG
+@D $ : ->(->('b,'c),->(->('a,'b),->('a,'c)))
+
+@A 'a : TAG
+@A 'b : TAG
+@A 'c : TAG
+@A f : ->('b,'c)
+@A g : ->('a,'b)
+@A x : 'a
+@= f(g(x))
+@> $(f,g)(x)

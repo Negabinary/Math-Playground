@@ -65,7 +65,7 @@ func is_proven() -> bool:
 	return justification.is_proven()
 
 
-func _get_justification() -> Justification:
+func get_justification() -> Justification:
 	return justification
 
 
@@ -223,7 +223,7 @@ class Justification:
 	func is_proven() -> bool:
 		var proven := true
 		for requirement in requirements:
-			if !requirement._get_justification().is_proven():
+			if !requirement.get_justification().is_proven():
 				proven = false
 				break
 		return proven
@@ -276,6 +276,9 @@ class ModuleProveableJustification extends Justification:
 	func _init(new_module, proof:ProofStep):
 		requirements = []
 		module = new_module
+	
+	func get_module():
+		return module
 	
 	func get_justification_text():
 		return "ASSUMED IN MODULE"

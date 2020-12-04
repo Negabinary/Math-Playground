@@ -4,6 +4,7 @@ class_name ExprItem
 var type : ExprItemType
 var children : Array  		# of ExprItem
 var string : String
+var all_types = null
 
 func _init(new_type:ExprItemType, new_children:=[]):
 	type = new_type
@@ -154,7 +155,7 @@ func _to_string() -> String:
 			+ "("
 			+ children_string.left(children_string.length() - 2)
 			+ ")"
-		)
+		) #+ str(get_all_types().keys())
 
 
 func get_postorder_rect_list(font:Font, offset, list:=[], string:=[""]):
@@ -187,3 +188,12 @@ func get_postorder_rect_list(font:Font, offset, list:=[], string:=[""]):
 	))
 	
 	return list
+
+
+func get_all_types() -> Dictionary:
+	if all_types == null:
+		all_types = {type:1}
+		for child in children:
+			for k in child.get_all_types():
+				all_types[k] = all_types.get(k, 0) + 1
+	return all_types

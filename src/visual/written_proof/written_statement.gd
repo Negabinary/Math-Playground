@@ -59,8 +59,16 @@ func _input(event):
 		var position = event.position - get_global_rect().position
 		for i in rects.size():
 			if rects[i].has_point(position):
-				selection = i
-				is_selected = true
-				update()
-				emit_signal("selection_changed", locators[i])
-				break
+				if Input.is_key_pressed(KEY_SHIFT):
+					var parent:Locator = locators[i].get_parent()
+					selection = i
+					is_selected = true
+					update()
+					emit_signal("selection_changed", locators[i])
+					break
+				else:
+					selection = i
+					is_selected = true
+					update()
+					emit_signal("selection_changed", locators[i])
+					break

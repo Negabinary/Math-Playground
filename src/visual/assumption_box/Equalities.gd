@@ -38,5 +38,11 @@ func update_context(proof_step:ProofStep, locator:Locator):
 			update()
 
 
+func clear_highlighting():
+	for i in equalities.size():
+		set_item_custom_bg_color(i, Color8(142,166,4,0))
+		update()
+
+
 func _on_item_activated(index):
 	emit_signal("use_equality", index)

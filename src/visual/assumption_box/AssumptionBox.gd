@@ -16,15 +16,18 @@ var ui_equality : Node
 
 
 func _ready():
-	$PopupMenu.connect("prove", self, "emit_signal",["request_to_prove"])
+	$PopupMenu.connect("prove", self, "_on_request_to_prove")
 
 # Rename to 'initialise' soon.
 func display_assumption(assumption:ProofStep, selection_handler:SelectionHandler):	
 	ui_definitions = $VBoxContainer/Definitions
+	ui_definitions.initialise(assumption, selection_handler)
 	ui_conditions = $VBoxContainer/Conditions
+	ui_conditions.initialise(assumption, selection_handler)
 	ui_conclusion = $VBoxContainer/Conclusion
+	ui_conclusion.initialise(assumption, selection_handler)
 	ui_equality = $VBoxContainer/Equality
-	
+	ui_equality.initialise(assumption, selection_handler)
 	
 	self.selection_handler = selection_handler
 	self.assumption = assumption
@@ -33,53 +36,28 @@ func display_assumption(assumption:ProofStep, selection_handler:SelectionHandler
 		modulate = Color.coral
 	else:
 		modulate = Color.white
-	
-	
-	var assumption_statement := assumption.get_statement()
-	definitions = assumption_statement.get_definitions()
-	var conditions := assumption_statement.get_conditions()
-	var conclusion:Locator = assumption_statement.get_conclusion()
-	
-	
-	if definitions.size() == 0:
-		$VBoxContainer/Definitions.hide()
-	else:
-		$VBoxContainer/Definitions.show()
-		$VBoxContainer/Definitions/Definitions.assumption = assumption
-		$VBoxContainer/Definitions/Definitions.update_definitions(definitions)
-	
-	if conditions.size() == 0:
-		$VBoxContainer/Conditions.hide()
-		$VBoxContainer/Conclusion/Then.hide()
-	else:
-		$VBoxContainer/Conditions.show()
-		$VBoxContainer/Conclusion/Then.show()
-		_update_conditions(conditions)
-	
-	if conclusion.get_type() == GlobalTypes.EQUALITY:
-		$VBoxContainer/Equality.show()
-		$VBoxContainer/Conclusion.hide()
-		$VBoxContainer/Equality/Equalities.add_equalities(UniversalLocator.new(assumption_statement, conclusion))
-		$VBoxContainer/Equality/Equalities.definitions = definitions
-	else:
-		$VBoxContainer/Equality.hide()
-		$VBoxContainer/Conclusion.show()
-		$VBoxContainer/Conclusion/Conclusion.add_item(conclusion.to_string())
-		$VBoxContainer/Conclusion/Conclusion.conclusion = UniversalLocator.new(assumption_statement, conclusion)
-		$VBoxContainer/Conclusion/Conclusion.definitions = definitions
-
-
-func _update_conditions(conditions:Array):
-	for i in conditions.size():
-		var condition : UniversalLocator = UniversalLocator.new(assumption.get_statement(), conditions[i])
-		$VBoxContainer/Conditions/Conditions.add_item(condition.to_string())
 
 
 func update_context(proof_step:ProofStep, locator:Locator):
-	if assumption.get_conclusion().get_type() == GlobalTypes.EQUALITY:
-		$VBoxContainer/Equality/Equalities.update_context(proof_step, locator)
+	if not proof_step.is_proven():
+		if locator == null:
+			$VBoxContainer/Conclusion.update_context(proof_step, 
+				Locator.new(proof_step.get_statement().as_expr_item())
+			)
+			$VBoxContainer/Equality/Equalities.clear_highlighting()
+		elif locator.get_expr_item().compare(proof_step.get_statement().as_expr_item()):
+			$VBoxContainer/Conclusion.update_context(proof_step, locator)
+			$VBoxContainer/Equality/Equalities.update_context(proof_step, locator)
+		else:
+			$VBoxContainer/Conclusion.clear_highlighting()
+			$VBoxContainer/Equality/Equalities.update_context(proof_step, locator)
 	else:
-		$VBoxContainer/Conclusion/Conclusion.update_context(proof_step, locator)
+		$VBoxContainer/Conclusion.clear_highlighting()
+		$VBoxContainer/Equality/Equalities.clear_highlighting()
+
+
+func _on_request_to_prove():
+	selection_handler.load_proof(assumption)
 
 
 func _on_expr_item_dropped_on_definition(definition:ExprItemType, locator:UniversalLocator):
@@ -98,7 +76,8 @@ func _on_Conclusion_item_activated(index):
 
 func _on_AssumptionBox_gui_input(event:InputEvent):
 	if event.is_action_released("right_click"):
-		$PopupMenu.popup(Rect2(rect_global_position + event.position, Vector2(1,1)))
+		if (assumption.get_justification() is ProofStep.ModuleProveableJustification):
+		  $PopupMenu.popup(Rect2(rect_global_position + event.position, Vector2(1,1)))
 
 
 var last_definition

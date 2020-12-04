@@ -33,24 +33,14 @@ func change_module(module:MathModule):
 	emit_signal("module_changed", module)
 
 
-func change_proof(proof:ProofStep, module:MathModule):
+func change_proof(proof:ProofStep):
 	self.proof = proof
 	emit_signal("proof_changed", proof)
-	if proof == null:
-		change_proof_step(null)
-		change_module(null)
-	else:
-		change_proof_step(proof)
-		change_module(module)
 
 
 func change_proof_step(proof_step:ProofStep):
 	self.proof_step = proof_step
 	emit_signal("proof_step_changed", proof_step)
-	if proof_step == null:
-		change_locator(null)
-	else:
-		change_locator(Locator.new(proof_step.get_statement().as_expr_item()))
 
 
 func change_locator(locator:Locator):
@@ -61,3 +51,11 @@ func change_locator(locator:Locator):
 func change_selection(proof_step:ProofStep, locator:Locator):
 	change_proof_step(proof_step)
 	change_locator(locator)
+
+
+func load_proof(proveable:ProofStep):
+	change_module(proveable.get_justification().get_module())
+	var proof = module.get_proof(proveable)
+	change_proof(proof)
+	change_proof_step(proof)
+	change_locator(null)

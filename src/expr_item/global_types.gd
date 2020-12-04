@@ -7,6 +7,7 @@ var FORALL := ExprItemType.new("For all")
 var EQUALITY := ExprItemType.new("=")
 var NOT := ExprItemType.new("¬")
 var EXISTS := ExprItemType.new("For some")
+var LAMBDA := ExprItemType.new(">>")
 
 var TAG := ExprItemType.new("TAG")
 var ANY := ExprItemType.new("ANY")

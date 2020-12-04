@@ -1,0 +1,15 @@
+@R diff
+@R real
+@R trig
+@R functional
+
+@D f : ->(Real,Real)
+
+@A x : Real
+@= f(x)
+@> sin(cos(x))
+
+@> '(f)
+
+@= f
+@> $(sin,cos)
