@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://theme/main_theme.theme" type="Theme" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
@@ -11,10 +11,12 @@
 [ext_resource path="res://theme/expr_item_font.tres" type="DynamicFont" id=9]
 [ext_resource path="res://WrittenProof.gd" type="Script" id=10]
 [ext_resource path="res://SelectionHandler.gd" type="Script" id=11]
+[ext_resource path="res://ExprItemEditTest.gd" type="Script" id=12]
 
 [node name="Main" type="ColorRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 1 )
 color = Color( 0.513726, 0.513726, 0.513726, 1 )
 script = ExtResource( 2 )
 __meta__ = {
@@ -114,9 +116,9 @@ show_line_numbers = true
 minimap_draw = true
 
 [node name="Button2" type="Button" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 24.0
+margin_top = 20.0
 margin_right = 157.0
-margin_bottom = 44.0
+margin_bottom = 40.0
 text = "Add Module From File"
 
 [node name="WindowDialog" type="ConfirmationDialog" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/VBoxContainer/Button2"]
@@ -141,13 +143,13 @@ size_flags_stretch_ratio = 2.0
 
 [node name="Proof" type="HSplitContainer" parent="VSplitContainer/VSplitContainer"]
 margin_right = 1004.0
-margin_bottom = 248.0
+margin_bottom = 184.0
 size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="Context" type="ColorRect" parent="VSplitContainer/VSplitContainer/Proof"]
 margin_right = 162.0
-margin_bottom = 248.0
+margin_bottom = 184.0
 size_flags_horizontal = 3
 color = Color( 0.768627, 0.768627, 0.768627, 1 )
 
@@ -177,9 +179,9 @@ __meta__ = {
 }
 
 [node name="Assumptions" type="ScrollContainer" parent="VSplitContainer/VSplitContainer/Proof/Context/VBoxContainer"]
-margin_top = 95.0
+margin_top = 91.0
 margin_right = 152.0
-margin_bottom = 238.0
+margin_bottom = 174.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -195,7 +197,7 @@ size_flags_horizontal = 3
 [node name="ColorRect" type="ColorRect" parent="VSplitContainer/VSplitContainer/Proof"]
 margin_left = 172.0
 margin_right = 1004.0
-margin_bottom = 248.0
+margin_bottom = 184.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.0
 theme = ExtResource( 1 )
@@ -210,7 +212,7 @@ __meta__ = {
 
 [node name="WrittenProof" type="VBoxContainer" parent="VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer"]
 margin_right = 832.0
-margin_bottom = 248.0
+margin_bottom = 184.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 2
@@ -226,9 +228,9 @@ custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
 text = "MODULE INFORMATION"
 
 [node name="Justification" type="MarginContainer" parent="VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer/WrittenProof"]
-margin_top = 248.0
+margin_top = 184.0
 margin_right = 832.0
-margin_bottom = 248.0
+margin_bottom = 184.0
 custom_constants/margin_right = 0
 custom_constants/margin_top = 0
 custom_constants/margin_left = 0
@@ -250,13 +252,31 @@ margin_left = 878.0
 margin_right = 1024.0
 margin_bottom = 600.0
 
-[node name="TextEdit" type="TextEdit" parent="VSplitContainer/VSplitContainer"]
-margin_top = 260.0
+[node name="ColorRect" type="ColorRect" parent="VSplitContainer/VSplitContainer"]
+margin_top = 196.0
 margin_right = 1004.0
 margin_bottom = 381.0
 size_flags_vertical = 3
+
+[node name="TextEdit" type="VBoxContainer" parent="VSplitContainer/VSplitContainer/ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
-syntax_highlighting = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExprItemEdit" type="Control" parent="VSplitContainer/VSplitContainer/ColorRect/TextEdit"]
+margin_right = 1004.0
+margin_bottom = 161.0
+size_flags_vertical = 3
+script = ExtResource( 12 )
+
+[node name="LineEdit" type="LineEdit" parent="VSplitContainer/VSplitContainer/ColorRect/TextEdit"]
+margin_top = 161.0
+margin_right = 1004.0
+margin_bottom = 185.0
 
 [node name="SelectionHandler" type="Node" parent="."]
 script = ExtResource( 11 )

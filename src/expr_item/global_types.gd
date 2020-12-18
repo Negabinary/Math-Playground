@@ -15,9 +15,25 @@ var PROP := ExprItemType.new("PROP")
 var F_DEF := ExprItemType.new("->")
 
 var PROOF_BOX := ProofBox.new([
-		IMPLIES, FORALL, EQUALITY, NOT, EXISTS,
+		IMPLIES, FORALL, EQUALITY, NOT, EXISTS, LAMBDA,
 		TAG, ANY, PROP, F_DEF
 	])
+
+func _init():
+	FORALL.binder = true
+	EQUALITY.binder = true
+	LAMBDA.binder = true
+	
+	IMPLIES.fm_strings = ["(",") => ",""]
+	FORALL.fm_strings = ["@A ",". (",")"]
+	EQUALITY.fm_strings = [""," = ",""]
+	NOT.fm_strings = ["¬",""]
+	EXISTS.fm_strings = ["@E",". (", ")"]
+	LAMBDA.fm_strings = ["λ"," -> (", ")"]
+	TAG.fm_strings = ["TAG"]
+	ANY.fm_strings = ["ANY"]
+	PROP.fm_strings = ["PROP"]
+	F_DEF.fm_strings = ["(",") -> ", ""]
 
 func get_map() -> Dictionary:
 	return {

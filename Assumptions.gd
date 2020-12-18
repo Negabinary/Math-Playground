@@ -4,7 +4,7 @@ var ASSUMPTION_BOX := load("res://src/visual/assumption_box/AssumptionBox.tscn")
 
 var proof_step : ProofStep
 var locator : Locator
-onready var selection_handler:SelectionHandler = $"../../../../../SelectionHandler"
+onready var selection_handler:SelectionHandler = $"../../../../../../SelectionHandler"
 
 
 func set_locator(new_location:Locator) -> void:
