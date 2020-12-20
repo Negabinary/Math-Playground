@@ -194,6 +194,7 @@ func get_all_types() -> Dictionary:
 	if all_types == null:
 		all_types = {type:1}
 		for child in children:
-			for k in child.get_all_types():
-				all_types[k] = all_types.get(k, 0) + 1
+			var child_types:Dictionary = child.get_all_types()
+			for k in child_types:
+				all_types[k] = all_types.get(k, 0) + child_types[k]
 	return all_types
