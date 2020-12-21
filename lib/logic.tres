@@ -1,0 +1,11 @@
+@D /\ : ->(PROP,->(PROP,PROP))
+
+@A A : PROP
+@A B : PROP
+@< /\(A,B)
+@> A
+
+@A A : PROP
+@A B : PROP
+@< /\(A,B)
+@> B

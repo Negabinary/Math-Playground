@@ -44,7 +44,7 @@ func _init(string : String, new_name:String, module_loader):
 			var expr_item := ExprItemBuilder.from_string(statement_string, proof_box)
 			var proof_step = ProofStep.new(expr_item)
 			proof_step.justify_with_module_proveable(self)
-			proofs[proof_step] = ProofStep.new(expr_item)
+			proofs[proof_step] = ProofStep.new(expr_item, self)
 			proof_steps.append(proof_step)
 	
 	for proof_step in proof_steps:

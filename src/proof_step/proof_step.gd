@@ -6,7 +6,7 @@ signal justified
 
 
 var context:ProofStep
-#var module:MathModule
+var module
 
 var statement:Statement
 var justification:Justification
@@ -15,12 +15,28 @@ var new_definitions := []
 var _is_tag : bool = false
 
 
-func _init(new_expr_item:ExprItem, new_justification:Justification = MissingJustification.new(), new_context:ProofStep = null, new_new_assumptions = [], new_new_definitions = []):
+func _init(new_expr_item:ExprItem, module=null, new_justification:Justification = MissingJustification.new(), new_context:ProofStep = null, new_new_assumptions = [], new_new_definitions = []):
 	statement = Statement.new(new_expr_item)
 	justification = new_justification
 	context = new_context
 	new_assumptions = new_new_assumptions
 	new_definitions = new_new_definitions
+	self.module = module
+
+
+func get_proof_box() -> ProofBox:
+	var base : ProofBox
+	if context != null:
+		base = context.get_proof_box()
+	elif module != null:
+		base = module.get_proof_box()
+	else:
+		base = GlobalTypes.PROOF_BOX
+	
+	if new_definitions == []:
+		return base
+	else:
+		return ProofBox.new(new_definitions, base)
 
 
 func mark_tag():
@@ -158,7 +174,7 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 			if implication.get_statement().get_conditions().size() == 0:
 				justify_with_specialisation(implication, matching)
 			else:
-				var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item())
+				var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item(), module)
 				refined_ps.justify_with_specialisation(implication, matching)
 				justification = ModusPonensJustificaiton.new(self, refined_ps)
 				emit_signal("justified")
@@ -178,7 +194,7 @@ func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int,
 		for definition in implication.get_statement().get_definitions():
 			matching[definition] = "*"
 		if replace_impl.get_expr_item().is_superset(replace_ps.get_expr_item(), matching):
-			var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item())
+			var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item(), module)
 			refined_ps.justify_with_specialisation(implication, matching)
 			justification = EqualityJustification.new(self, refined_ps, replace_ps, refined_ps.get_statement().get_conclusion().get_child(with_idx))
 			emit_signal("justified")
@@ -196,6 +212,11 @@ func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int,
 
 func justify_with_specialisation(generalised:ProofStep, matching) -> void:
 	justification = RefineJustification.new(self, generalised, matching)
+	emit_signal("justified")
+
+
+func justify_with_generalisation(new_identifier:String) -> void:
+	justification = RefineJustification.new(self, new_identifier, {})
 	emit_signal("justified")
 
 
@@ -295,6 +316,7 @@ class ModusPonensJustificaiton extends Justification:
 			requirements.append(
 					new_implication.get_script().new(
 							assumption.get_expr_item(),
+							context.module,
 							MissingJustification.new(),
 							context
 					)
@@ -317,12 +339,13 @@ class EqualityJustification extends Justification:
 			requirements.append(
 					equality.get_script().new(
 							assumption.get_expr_item(),
+							context.module,
 							MissingJustification.new(),
 							context
 					)
 			)
 		var with_replacement = context.get_conclusion().get_expr_item().replace_at(replace.get_indeces(), with.get_expr_item())
-		requirements.append(equality.get_script().new(with_replacement, MissingJustification.new(), context))
+		requirements.append(equality.get_script().new(with_replacement, context.module, MissingJustification.new(), context))
 
 	func get_justification_text():
 		return "USING " + requirements[0].get_statement().to_string()	
@@ -331,10 +354,25 @@ class EqualityJustification extends Justification:
 class RefineJustification extends Justification:
 	
 	func _init(
-			_context:ProofStep,
-			generalised:ProofStep,
+			context:ProofStep,
+			generalised,
 			_matching:Dictionary):
-		requirements = [generalised]
+		if generalised is String:
+			var new_type = ExprItemType.new(generalised)
+			var new_ei = ExprItem.new(
+				GlobalTypes.FORALL, [
+					ExprItem.new(new_type),
+					context.get_statement().as_expr_item()
+				]
+			)
+			requirements = [context.get_script().new(
+				new_ei,
+				context.module,
+				MissingJustification.new(),
+				context
+			)]
+		else:
+			requirements = [generalised]
 	
 	
 	func get_justification_text():
@@ -358,15 +396,17 @@ class ImplicationJustification extends Justification:
 					assum_ei = strip_existential(ctxt_definitions, conditions[i].get_expr_item(), [])
 				else:
 					assum_ei = strip_existential(ctxt_definitions, conditions[i].get_expr_item(), keep_exists_types[i])
-				var assum_ps = context.get_script().new(assum_ei)
+				var assum_ps = context.get_script().new(assum_ei, context.module)
 				assum_ps.justify_with_assumption()
 				ctxt_assumptions.append(assum_ps)
 		requirements = [
 			context.get_script().new(
 				conclusion,
+				context.module,
 				MissingJustification.new(),
 				context,
-				ctxt_assumptions
+				ctxt_assumptions,
+				ctxt_definitions
 			)
 		]
 	
@@ -410,6 +450,7 @@ class MatchingJustification extends Justification:
 						lhs.get_child(i),
 						rhs.get_child(i)
 					]),
+					context.module,
 					MissingJustification.new(),
 					context
 				)
@@ -425,6 +466,7 @@ class VacuousJustification extends Justification:
 		requirements = [
 			context.get_script().new(
 				context.get_statement().as_expr_item().get_child(0).negate(),
+				context.module,
 				MissingJustification.new(),
 				context
 			)
@@ -452,6 +494,7 @@ class ContrapositiveJustification extends Justification:
 		requirements = [
 			context.get_script().new(
 				expr_item,
+				context.module,
 				MissingJustification.new(),
 				context
 			)

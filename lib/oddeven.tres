@@ -1,0 +1,24 @@
+@R peano
+@R addition
+@R logic
+
+@D Even : ->(Nat,PROP)
+
+@A x : Nat
+@A y : Nat
+@< =(+(y,y),x)
+@> Even(x)
+
+@A x : Nat
+@< Even(x)
+@> For some(y,=(+(y,y),x))
+
+@D Odd : ->(Nat,PROP)
+
+@A x : Nat
+@< Even(x)
+@> Odd(S(x))
+
+@A x : Nat
+@< Odd(x)
+@> For some(y,/\(=(x,S(y)),Even(y)))

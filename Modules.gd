@@ -17,7 +17,8 @@ func initialise(selection_handler:SelectionHandler):
 	#for module_name in ["bool/bool_type", "bool/bool_and", "bool/bool_or", "bool/de_morgan"]:
 	#for module_name in ["2p2e4","small_numbers","addition","peano"]:
 	#for module_name in ["pres/peano","pres/2nat"]:
-	for module_name in ["peano","addition","small_numbers","l1/syntax","l1/opsemant"]:
+	#for module_name in ["peano","addition","small_numbers","l1/syntax","l1/opsemant"]:
+	for module_name in ["peano","addition","current_module","logic","oddeven"]:
 		add_module(module_loader.get_module(module_name), module_name, selection_handler)
 
 

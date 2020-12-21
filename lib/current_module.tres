@@ -2,6 +2,7 @@
 @R addition
 @R peano
 @R list
+@R oddeven
 
 @= +(2,2)
 @> 4
@@ -40,3 +41,15 @@
 @A y : Nat
 @< =(+(x,y),+(y,x))
 @> R(x)
+
+@A x : Nat
+@A y : Nat
+@< Even(x)
+@< Even(y)
+@> Even(+(x,y))
+
+@A x : Nat
+@A y : Nat
+@< Odd(x)
+@< Odd(y)
+@> Even(+(x,y))

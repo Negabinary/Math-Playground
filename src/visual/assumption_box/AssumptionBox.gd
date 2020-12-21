@@ -78,19 +78,3 @@ func _on_AssumptionBox_gui_input(event:InputEvent):
 	if event.is_action_released("right_click"):
 		if (assumption.get_justification() is ProofStep.ModuleProveableJustification):
 		  $PopupMenu.popup(Rect2(rect_global_position + event.position, Vector2(1,1)))
-
-
-var last_definition
-
-func _on_Definitions_item_activated(index):
-	if index != -1:
-		last_definition = definitions[index]
-		$EnterExprItem.popup_centered()
-
-
-func _on_EnterExprItem_confirmed():
-	var context := selection_handler.get_module().get_proof_box()
-	var expr_item = ExprItemBuilder.from_string($EnterExprItem/VBoxContainer/LineEdit.text,context)
-	var refined_ps := ProofStep.new(assumption.get_statement().deep_replace_types({last_definition:expr_item}).as_expr_item())
-	refined_ps.justify_with_specialisation(assumption, {last_definition:expr_item})
-	emit_signal("proof_step_created", refined_ps)

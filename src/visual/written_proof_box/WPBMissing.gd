@@ -5,6 +5,11 @@ var ui_implication_button
 var ui_vacuous_button
 var ui_reflexive_button
 var ui_matching_button
+var ui_custom_forall_button
+
+
+func _ready():
+	$Ideas/PanelContainer/VBoxContainer/CustomForAllButton/NewIdentifierNameDialog.connect("confirmed", self, "_on_custom_forall_confirm")
 
 
 func initialise(proof_step:ProofStep, selection_handler:SelectionHandler, active_dependency_id:=-1):
@@ -22,6 +27,9 @@ func _update_justification_box():
 	ui_reflexive_button.visible = false
 	ui_matching_button = $Ideas/PanelContainer/VBoxContainer/MatchingButton
 	ui_matching_button.visible = false
+	ui_custom_forall_button = $Ideas/PanelContainer/VBoxContainer/CustomForAllButton
+	ui_custom_forall_button.visible = true
+	ui_custom_forall_button.connect("pressed", self, "_custom_forall_button")
 	
 	var parent_type:ExprItemType = proof_step.get_statement().as_expr_item().get_type()
 	
@@ -73,3 +81,11 @@ func _reflexive_button():
 
 func _matching_button():
 	proof_step.justify_with_matching()
+
+
+func _custom_forall_button():
+	ui_custom_forall_button.get_node("NewIdentifierNameDialog").popup()
+
+
+func _on_custom_forall_confirm():
+	proof_step.justify_with_generalisation(ui_custom_forall_button.get_node("NewIdentifierNameDialog/LineEdit").text)
