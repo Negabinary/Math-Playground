@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/expr_item/expr_item_type.gd"
 }, {
+"base": "Node",
+"class": "JustificationBuilder",
+"language": "GDScript",
+"path": "res://src/proof_step/justification_buider.gd"
+}, {
 "base": "Object",
 "class": "Locator",
 "language": "GDScript",
@@ -121,6 +126,7 @@ _global_script_class_icons={
 "ExprItemEditHelper": "",
 "ExprItemEditHelperEdit": "",
 "ExprItemType": "",
+"JustificationBuilder": "",
 "Locator": "",
 "MathModule": "",
 "ModuleLoader": "",

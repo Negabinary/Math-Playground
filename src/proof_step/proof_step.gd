@@ -39,6 +39,10 @@ func get_proof_box() -> ProofBox:
 		return ProofBox.new(new_definitions, base)
 
 
+func get_module():
+	return module
+
+
 func mark_tag():
 	_is_tag = true
 
@@ -202,14 +206,6 @@ func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int,
 			assert(false)
 
 
-
-#func does_conclusion_match_with_sub(assumption:ProofStep, empty_matching:={}) -> bool:
-#	var matching := empty_matching
-#	for definition in assumption.get_statement().get_definitions():
-#		matching[definition] = "*"
-#	return assumption.get_statement().get_conclusion().get_expr_item().is_superset(statement.as_expr_item(), matching)
-
-
 func justify_with_specialisation(generalised:ProofStep, matching) -> void:
 	justification = RefineJustification.new(self, generalised, matching)
 	emit_signal("justified")
@@ -217,6 +213,11 @@ func justify_with_specialisation(generalised:ProofStep, matching) -> void:
 
 func justify_with_generalisation(new_identifier:String) -> void:
 	justification = RefineJustification.new(self, new_identifier, {})
+	emit_signal("justified")
+
+
+func justify_with_instantiation(existential, new_type) -> void:
+	justification = InstantiateJustification.new(self, existential, new_type)
 	emit_signal("justified")
 
 
@@ -377,6 +378,34 @@ class RefineJustification extends Justification:
 	
 	func get_justification_text():
 		return "IS THE GENERAL CASE OF"
+
+
+
+class InstantiateJustification extends Justification:
+	
+	func _init(context:ProofStep, existential:ProofStep, new_type:ExprItemType=null):
+		var context_ei = context.get_statement().as_expr_item()
+		var existential_ei = existential.get_statement().as_expr_item()
+		assert (existential_ei.get_type() == GlobalTypes.EXISTS)
+		var old_type = existential_ei.get_child(0).get_type()
+		if new_type == null:
+			new_type = ExprItemType.new(old_type.get_identifier())
+		var new_assumption = context.get_script().new(existential_ei.get_child(1).deep_replace_types({old_type=new_type}), context.module, context)
+		new_assumption.justify_with_assumption()
+		requirements = [
+			existential,
+			context.get_script().new(
+				context_ei,
+				context.module,
+				MissingJustification.new(),
+				context,
+				[new_assumption],
+				[new_type]
+			)
+		]
+	
+	func get_justification_text():
+		return "THUS"
 
 
 # keep_exists_types is an array where each index has an array of the types kept

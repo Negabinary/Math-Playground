@@ -140,7 +140,6 @@ func _enter_edit_mode(string:="") -> void:
 
 
 func _on_edit_done(type, flags:int):
-	print("EDIT DONE ??")
 	if flags & ExprItemEditHelperEdit.DONE_FLAGS.BOUND:
 		self.type.rename(type)
 		_exit_edit_mode()
@@ -220,7 +219,11 @@ func get_all_types() -> Dictionary:
 	return all_types
 
 
-#func get_expr_item
+func get_expr_item() -> ExprItem:
+	var ei_children = []
+	for child in get_children():
+		ei_children.append(child.get_expr_item())
+	return ExprItem.new(type, ei_children)
 
 
 
@@ -352,10 +355,8 @@ func on_backspace():
 
 
 func on_open():
-	print("SUP")
 	if caret_after:
 		if caret_part == get_child_count():
-			print("SUP")
 			append_child(null, proof_box)
 
 

@@ -142,6 +142,6 @@ script = ExtResource( 5 )
 [connection signal="gui_input" from="." to="." method="_on_AssumptionBox_gui_input"]
 [connection signal="item_activated" from="VBoxContainer/Definitions/Definitions" to="VBoxContainer/Definitions" method="_ons_item_activated"]
 [connection signal="confirmed" from="VBoxContainer/Definitions/EnterExprItem" to="VBoxContainer/Definitions" method="_on_ExprItem_confirmed"]
-[connection signal="item_activated" from="VBoxContainer/Conclusion/Conclusion" to="." method="_on_Conclusion_item_activated"]
+[connection signal="item_activated" from="VBoxContainer/Conclusion/Conclusion" to="VBoxContainer/Conclusion" method="_on_item_activated"]
 [connection signal="item_activated" from="VBoxContainer/Equality/Equalities" to="VBoxContainer/Equality/Equalities" method="_on_item_activated"]
 [connection signal="use_equality" from="VBoxContainer/Equality/Equalities" to="." method="_on_use_equality"]

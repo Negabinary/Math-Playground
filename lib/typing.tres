@@ -3,3 +3,16 @@
 @A f : ->(A,B)
 @A x : A
 @> B(f(x))
+
+@> ->(PROP,->(PROP,PROP))(=>)
+
+@A A : TAG
+@> ->(A,->(A,PROP))(=)
+
+@> ->(PROP,PROP)(¬)
+
+@> TAG(TAG)
+
+@> TAG(PROP)
+
+@> ->(TAG,->(TAG,TAG))(->)

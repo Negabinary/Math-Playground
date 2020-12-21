@@ -14,6 +14,7 @@ var fm_strings := []
 
 
 func _init(ident:String, _type_info:=""):
+	print(ident + " := ")
 	identifier = ident
 	fm_strings = [identifier]
 

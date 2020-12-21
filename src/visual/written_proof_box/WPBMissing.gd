@@ -6,10 +6,12 @@ var ui_vacuous_button
 var ui_reflexive_button
 var ui_matching_button
 var ui_custom_forall_button
+var ui_custom_implication_button
 
 
 func _ready():
 	$Ideas/PanelContainer/VBoxContainer/CustomForAllButton/NewIdentifierNameDialog.connect("confirmed", self, "_on_custom_forall_confirm")
+	$Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog.connect("confirmed", self, "_on_custom_implication_confirm")
 
 
 func initialise(proof_step:ProofStep, selection_handler:SelectionHandler, active_dependency_id:=-1):
@@ -30,6 +32,9 @@ func _update_justification_box():
 	ui_custom_forall_button = $Ideas/PanelContainer/VBoxContainer/CustomForAllButton
 	ui_custom_forall_button.visible = true
 	ui_custom_forall_button.connect("pressed", self, "_custom_forall_button")
+	ui_custom_implication_button = $Ideas/PanelContainer/VBoxContainer/CustomImplicationButton
+	ui_custom_implication_button.visible = true
+	ui_custom_implication_button.connect("pressed", self, "_custom_implication_button")
 	
 	var parent_type:ExprItemType = proof_step.get_statement().as_expr_item().get_type()
 	
@@ -89,3 +94,11 @@ func _custom_forall_button():
 
 func _on_custom_forall_confirm():
 	proof_step.justify_with_generalisation(ui_custom_forall_button.get_node("NewIdentifierNameDialog/LineEdit").text)
+
+
+func _custom_implication_button():
+	ui_custom_implication_button.get_node("NewImplicationDialog").pop_up(proof_step.get_proof_box())
+
+
+func _on_custom_implication_confirm():
+	JustificationBuilder.custom_implication(proof_step, $Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog/ExprItemEdit.get_expr_item())

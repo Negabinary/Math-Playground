@@ -21,7 +21,7 @@ var PROOF_BOX := ProofBox.new([
 
 func _init():
 	FORALL.binder = true
-	EQUALITY.binder = true
+	EXISTS.binder = true
 	LAMBDA.binder = true
 	
 	IMPLIES.fm_strings = ["(",") => ",""]

@@ -37,7 +37,7 @@ static func _generate_expr_item(intermediate:IntermediateExprItem, proof_box:Pro
 		var inner_scope := ProofBox.new(new_types, proof_box)
 		var lhs = _generate_expr_item(intermediate.children[0], inner_scope)
 		var rhs = _generate_expr_item(intermediate.children[1], inner_scope)
-		return ExprItem.new(GlobalTypes.FORALL, [lhs, rhs])
+		return ExprItem.new(GlobalTypes.EXISTS, [lhs, rhs])
 	else:
 		assert(proof_box.parse(intermediate.token) != null)
 		var type:ExprItemType = proof_box.parse(intermediate.token)

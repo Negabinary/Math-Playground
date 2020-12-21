@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://theme/warning_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://src/visual/ei_editor/expr_item_edit.gd" type="Script" id=2]
 [ext_resource path="res://theme/justification_font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://src/visual/written_proof_box/WPBMissing.gd" type="Script" id=4]
 [ext_resource path="res://src/visual/written_proof/written_statement.gd" type="Script" id=5]
+[ext_resource path="res://src/visual/written_proof_box/NewImplicationDialog.gd" type="Script" id=6]
 
 [node name="WBPMissing" type="VBoxContainer"]
 anchor_right = 1.0
@@ -15,20 +17,20 @@ __meta__ = {
 
 [node name="Ideas" type="MarginContainer" parent="."]
 margin_right = 235.0
-margin_bottom = 262.0
+margin_bottom = 295.0
 size_flags_horizontal = 0
 custom_constants/margin_left = 30
 
 [node name="PanelContainer" type="PanelContainer" parent="Ideas"]
 margin_left = 30.0
 margin_right = 235.0
-margin_bottom = 262.0
+margin_bottom = 295.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Ideas/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 198.0
-margin_bottom = 255.0
+margin_bottom = 288.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -151,19 +153,66 @@ margin_right = 200.0
 margin_bottom = 29.0
 window_title = "New Identifier Name"
 resizable = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LineEdit" type="LineEdit" parent="Ideas/PanelContainer/VBoxContainer/CustomForAllButton/NewIdentifierNameDialog"]
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_top = -12.0
-margin_bottom = 12.0
+margin_left = 8.0
+margin_top = -116.0
+margin_right = -8.0
+margin_bottom = 88.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CustomImplicationButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
+margin_top = 252.0
+margin_right = 191.0
+margin_bottom = 281.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "x, x => A : Custom Intermediate"
+flat = true
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NewImplicationDialog" type="ConfirmationDialog" parent="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton"]
+visible = true
+margin_top = -219.0
+margin_right = 200.0
+margin_bottom = 29.0
+window_title = "New Implication"
+resizable = true
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExprItemEdit" type="Control" parent="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 8.0
+margin_top = -116.0
+margin_right = -8.0
+margin_bottom = 88.0
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Statement" type="Control" parent="."]
-margin_top = 266.0
+margin_top = 299.0
 margin_right = 1024.0
-margin_bottom = 266.0
+margin_bottom = 299.0
 script = ExtResource( 5 )
+[connection signal="expr_item_changed" from="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog/ExprItemEdit" to="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog" method="_on_ExprItemEdit_expr_item_changed"]

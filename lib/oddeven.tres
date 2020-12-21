@@ -11,7 +11,7 @@
 
 @A x : Nat
 @< Even(x)
-@> For some(y,=(+(y,y),x))
+@> For some(y,/\(Nat(y),=(+(y,y),x)))
 
 @D Odd : ->(Nat,PROP)
 
@@ -22,3 +22,11 @@
 @A x : Nat
 @< Odd(x)
 @> For some(y,/\(=(x,S(y)),Even(y)))
+
+
+@A P : ->(Nat,PROP)
+@A m : Nat
+@< Even(m)
+@< P(0)
+@< For all(n,=>(P(n),P(S(S(n)))))
+@> P(m)
