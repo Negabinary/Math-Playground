@@ -390,7 +390,8 @@ class InstantiateJustification extends Justification:
 		var old_type = existential_ei.get_child(0).get_type()
 		if new_type == null:
 			new_type = ExprItemType.new(old_type.get_identifier())
-		var new_assumption = context.get_script().new(existential_ei.get_child(1).deep_replace_types({old_type=new_type}), context.module, context)
+		var new_assumption = context.get_script().new(existential_ei.get_child(1).deep_replace_types({old_type:ExprItem.new(new_type)}), context.module, context)
+		print(str(old_type) + " --> " + str(new_type))
 		new_assumption.justify_with_assumption()
 		requirements = [
 			existential,

@@ -11,7 +11,7 @@ func _init(definitions:Array, parent:ProofBox = null): #<ExprItemType,String>
 	self.parent = parent
 	self.definitions = definitions
 	for definition in definitions:
-		parse_dict[definition.to_string()] = definition
+		parse_dict[definition.get_identifier()] = definition
 
 
 func parse(string:String) -> ExprItemType:
@@ -32,6 +32,13 @@ func get_full_parse_dict() -> Dictionary:
 
 func get_definitions() -> Array:
 	return definitions
+
+
+func get_all_types() -> Array:
+	if parent == null:
+		return definitions
+	else:
+		return definitions + parent.get_all_types()
 
 
 func add_aliases(aliases:Dictionary):

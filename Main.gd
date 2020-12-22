@@ -47,6 +47,7 @@ func _ready():
 func _on_proof_step_selected(proof_step:ProofStep):
 	ui_goals.show_expression(Statement.new(proof_step.get_statement().as_expr_item()))
 	ui_assumptions.set_proof_step(proof_step)
+	#$VSplitContainer/VSplitContainer/Proof/Context/VBoxContainer/TextEdit.text = str(proof_step.get_proof_box().get_all_types())
 
 
 func _on_goal_item_selected(expr_locator:Locator):
