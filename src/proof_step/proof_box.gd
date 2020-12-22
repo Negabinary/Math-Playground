@@ -10,6 +10,12 @@ var parse_dict : Dictionary # <String, ExprItemType>
 func _init(definitions:Array, parent:ProofBox = null): #<ExprItemType,String>
 	self.parent = parent
 	self.definitions = definitions
+	update_parse_dict()
+	for definition in definitions:
+		definition.connect("renamed", self, "update_parse_dict")
+
+
+func update_parse_dict():
 	for definition in definitions:
 		parse_dict[definition.get_identifier()] = definition
 

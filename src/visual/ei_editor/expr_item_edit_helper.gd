@@ -5,6 +5,7 @@ signal click_event
 
 signal step_left
 signal step_right
+signal changed
 
 var EXPR_ITEM_EDIT_HELPER = load("res://src/visual/ei_editor/expr_item_edit_helper.gd")
 
@@ -143,16 +144,16 @@ func _on_edit_done(type, flags:int):
 	if flags & ExprItemEditHelperEdit.DONE_FLAGS.BOUND:
 		self.type.rename(type)
 		_exit_edit_mode()
-		take_caret(0, true)
+		_right_from_above(get_child(0),true)
 	else:
 		if flags & ExprItemEditHelperEdit.DONE_FLAGS.VALID:
+			_right_from_above(get_child(0),true)
 			set_type(type)
 			_exit_edit_mode()
 			if type.is_binder():
 				new_binder()
 			else:
 				remove_binder()
-			take_caret(0, true)
 		if flags & ExprItemEditHelperEdit.DONE_FLAGS.OPEN:
 			if type == null || !type.is_binder():
 				var new_child := append_child(null, proof_box)
@@ -160,7 +161,8 @@ func _on_edit_done(type, flags:int):
 					move_child(new_child, 0)
 				else:
 					move_child(new_child, 1)
-			get_child(0).take_caret(0,false)
+			get_child(0).right_from_below(true)
+	emit_signal("changed")
 	update()
 
 
@@ -357,7 +359,8 @@ func on_backspace():
 func on_open():
 	if caret_after:
 		if caret_part == get_child_count():
-			append_child(null, proof_box)
+			var child = append_child(null, proof_box)
+			child.right_from_below(true)
 
 
 # == DRAWING =================================================================
