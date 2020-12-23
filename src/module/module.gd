@@ -21,7 +21,7 @@ func _init(string : String, new_name:String, module_loader):
 			_parse_requirement(line.right(3), module_loader)
 			current_item = []
 		if line.begins_with("@D "):
-			if GlobalTypes.TYPING:
+			if GlobalTypes.TYPING and line.count(":") > 0:
 				statement_strings.append(_parse_definition(current_item, line.right(3), definitions))
 			else:
 				_parse_definition(current_item, line.right(3), definitions)
@@ -101,21 +101,26 @@ func get_definition_dict() -> Dictionary:
 
 func _parse_definition(qualifiers, def_line:String, definitions:Array):
 	var def_name_2 : String = def_line.split(":")[0].strip_edges(true,true)
-	if def_line.split(":").size() < 2:
-		def_line = def_line + " : ANY"
-	var type_info_2 : String = def_line.split(":")[1].strip_edges(true,true)
-	definitions.append(ExprItemType.new(def_name_2, type_info_2))
+	definitions.append(ExprItemType.new(def_name_2))
 	
-	var string = type_info_2 + "(" + def_name_2 + ")"
-	for qualifier in qualifiers:
-		var qualifier_type = qualifier.left(3)
-		var qualifier_payload = qualifier.right(3)
-		if qualifier_type == "@A " or qualifier_type == "@a ":
-			var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
-			var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
-			string = "For all(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
+	if def_line.split(":").size() == 2:
+		var type_info_2 : String = def_line.split(":")[1].strip_edges(true,true)
+		
+		var string = type_info_2 + "(" + def_name_2 + ")"
+		for qualifier in qualifiers:
+			var qualifier_type = qualifier.left(3)
+			var qualifier_payload = qualifier.right(3)
+			if qualifier_type == "@A " or qualifier_type == "@a ":
+				var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
+				if qualifier_payload.split(":").size() == 2:
+					var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
+					string = "For all(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
+				else:
+					string = "For all(" + def_name + "," + string + ")"
+		
+		return string
 	
-	return string
+	return null
 
 
 func _parse_statement(qualifiers:Array, conclusion) -> String:
@@ -125,8 +130,8 @@ func _parse_statement(qualifiers:Array, conclusion) -> String:
 		var qualifier_payload = qualifier.right(3)
 		if qualifier_type == "@A " or qualifier_type == "@a ":
 			var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
-			var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
-			if GlobalTypes.TYPING:
+			if GlobalTypes.TYPING and qualifier_payload.split(":").size() == 2:
+				var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
 				string = "For all(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
 			else:
 				string = "For all(" + def_name + "," + string + ")"

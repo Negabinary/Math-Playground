@@ -1,11 +1,35 @@
+@A A
+@A B
+@< =>(¬(A),B)
+@< =>(A,B)
+@> B
+
 @D /\ : ->(PROP,->(PROP,PROP))
 
-@A A : PROP
-@A B : PROP
+@A A
+@A B
 @< /\(A,B)
 @> A
 
-@A A : PROP
-@A B : PROP
+@A A
+@A B
 @< /\(A,B)
 @> B
+
+@D \/ : ->(PROP,->(PROP,PROP))
+
+@A A
+@A B
+@< \/(A,B)
+@< ¬(A)
+@> B
+
+@A A
+@A B
+@< \/(A,B)
+@< ¬(B)
+@> A
+
+@A A
+@= ¬(¬(A))
+@> A
