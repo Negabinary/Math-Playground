@@ -1,8 +1,8 @@
 extends TextureButton
 class_name WrittenJustification
 
-var j_text : String = "USING BLACK MAGIC (i.e. This is sound but I haven't implemented a visualisation for this reasoning yet)"
-var icon : String
+export var j_text : String = "USING BLACK MAGIC (i.e. This is sound but I haven't implemented a visualisation for this reasoning yet)"
+export var icon : String
 
 func set_text(new_text:String, new_icon:="") -> void:
 	j_text = new_text

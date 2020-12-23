@@ -1,0 +1,15 @@
+@R small_numbers
+@R addition
+@R peano
+
+@= +(2,2)
+@> 4
+
+@A n : Nat
+@= +(0,n)
+@> 0
+
+@A n : Nat
+@A m : Nat
+@= +(m,n)
+@> +(n,m)

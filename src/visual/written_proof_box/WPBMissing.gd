@@ -33,13 +33,13 @@ func _update_justification_box():
 	ui_matching_button = $Ideas/PanelContainer/VBoxContainer/MatchingButton
 	ui_matching_button.visible = false
 	ui_custom_forall_button = $Ideas/PanelContainer/VBoxContainer/CustomForAllButton
-	ui_custom_forall_button.visible = true
+	ui_custom_forall_button.visible = false
 	ui_custom_forall_button.connect("pressed", self, "_custom_forall_button")
 	ui_custom_implication_button = $Ideas/PanelContainer/VBoxContainer/CustomImplicationButton
-	ui_custom_implication_button.visible = true
+	ui_custom_implication_button.visible = false
 	ui_custom_implication_button.connect("pressed", self, "_custom_implication_button")
 	ui_create_lambda_button = $Ideas/PanelContainer/VBoxContainer/CreateLamdaButton
-	ui_create_lambda_button.visible = true
+	ui_create_lambda_button.visible = false
 	ui_create_lambda_button.connect("pressed", self, "_create_lambda_button")
 	ui_destroy_lambda_button = $Ideas/PanelContainer/VBoxContainer/DestroyLambdaButton
 	ui_destroy_lambda_button.connect("pressed", self, "_destroy_lambda_button")
@@ -134,3 +134,10 @@ func _on_custom_implication_confirm():
 func _on_create_lambda_confirm():
 	var create_lambda = $Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog/CreateLambda
 	proof_step.justify_with_create_lambda(create_lambda.get_locator(), create_lambda.get_argument_locations(), create_lambda.get_argument_types(), create_lambda.get_argument_values())
+
+
+func _on_Custom_pressed():
+	ui_custom_forall_button.visible = !ui_custom_forall_button.visible
+	ui_custom_implication_button.visible = !ui_custom_implication_button.visible
+	ui_create_lambda_button.visible = !ui_create_lambda_button.visible
+	$Ideas/PanelContainer/VBoxContainer/Custom.text = "More" if $Ideas/PanelContainer/VBoxContainer/Custom.text == "Less" else "Less"
