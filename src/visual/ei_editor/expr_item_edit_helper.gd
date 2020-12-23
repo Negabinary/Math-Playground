@@ -52,6 +52,7 @@ func get_fm_strings() -> Array:
 func _init(root, expr_item:ExprItem = null, 
 		   proof_box:ProofBox = GlobalTypes.PROOF_BOX, bound:=false):
 	self.root = root
+	connect("changed",root,"_on_changed", [self])
 	self.bound = bound
 	self.proof_box = proof_box
 	if expr_item == null:
@@ -138,6 +139,7 @@ func _enter_edit_mode(string:="") -> void:
 	if mode == HELPER_MODE.VIEW:
 		show_editor(string, true)
 	mode = HELPER_MODE.EDIT
+	emit_signal("changed")
 
 
 func _on_edit_done(type, flags:int):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://theme/warning_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://src/visual/ei_editor/expr_item_edit.gd" type="Script" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://src/visual/written_proof_box/WPBMissing.gd" type="Script" id=4]
 [ext_resource path="res://src/visual/written_proof/written_statement.gd" type="Script" id=5]
 [ext_resource path="res://src/visual/written_proof_box/NewImplicationDialog.gd" type="Script" id=6]
+[ext_resource path="res://src/visual/options/CreateLambda.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/visual/written_proof_box/CreateLambdaDialog.gd" type="Script" id=8]
 
 [node name="WBPMissing" type="VBoxContainer"]
 anchor_right = 1.0
@@ -17,20 +19,20 @@ __meta__ = {
 
 [node name="Ideas" type="MarginContainer" parent="."]
 margin_right = 235.0
-margin_bottom = 295.0
+margin_bottom = 361.0
 size_flags_horizontal = 0
 custom_constants/margin_left = 30
 
 [node name="PanelContainer" type="PanelContainer" parent="Ideas"]
 margin_left = 30.0
 margin_right = 235.0
-margin_bottom = 295.0
+margin_bottom = 361.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Ideas/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 198.0
-margin_bottom = 288.0
+margin_bottom = 354.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -147,7 +149,6 @@ __meta__ = {
 }
 
 [node name="NewIdentifierNameDialog" type="ConfirmationDialog" parent="Ideas/PanelContainer/VBoxContainer/CustomForAllButton"]
-visible = true
 margin_top = -219.0
 margin_right = 200.0
 margin_bottom = 29.0
@@ -188,8 +189,8 @@ __meta__ = {
 [node name="NewImplicationDialog" type="ConfirmationDialog" parent="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton"]
 visible = true
 margin_top = -219.0
-margin_right = 200.0
-margin_bottom = 29.0
+margin_right = 250.0
+margin_bottom = -99.0
 window_title = "New Implication"
 resizable = true
 script = ExtResource( 6 )
@@ -197,22 +198,74 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ExprItemEdit" type="Control" parent="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog"]
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
+[node name="CenterContainer" type="CenterContainer" parent="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog"]
 margin_left = 8.0
-margin_top = -116.0
-margin_right = -8.0
-margin_bottom = 88.0
+margin_top = 8.0
+margin_right = 242.0
+margin_bottom = 84.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExprItemEdit" type="Control" parent="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog/CenterContainer"]
+margin_left = 117.0
+margin_top = 38.0
+margin_right = 117.0
+margin_bottom = 38.0
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CreateLamdaButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
+margin_top = 285.0
+margin_right = 191.0
+margin_bottom = 314.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "Create lambda"
+flat = true
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WindowDialog" type="ConfirmationDialog" parent="Ideas/PanelContainer/VBoxContainer/CreateLamdaButton"]
+visible = true
+margin_right = 325.0
+margin_bottom = 125.0
+window_title = "Create Lambda"
+resizable = true
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreateLambda" parent="Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog" instance=ExtResource( 7 )]
+
+[node name="DestroyLambdaButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
+margin_top = 318.0
+margin_right = 191.0
+margin_bottom = 347.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "Destroy Lambda"
+flat = true
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Statement" type="Control" parent="."]
-margin_top = 299.0
+margin_top = 365.0
 margin_right = 1024.0
-margin_bottom = 299.0
+margin_bottom = 365.0
 script = ExtResource( 5 )
-[connection signal="expr_item_changed" from="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog/ExprItemEdit" to="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog" method="_on_ExprItemEdit_expr_item_changed"]
+[connection signal="expr_item_changed" from="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog/CenterContainer/ExprItemEdit" to="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog" method="_on_ExprItemEdit_expr_item_changed"]
+[connection signal="update" from="Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog/CreateLambda" to="Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog" method="_on_CreateLambda_update"]

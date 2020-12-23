@@ -30,7 +30,7 @@ func is_root():
 	return indeces == []
 
 
-func get_root():
+func get_root() -> ExprItem:
 	return root_expr_item
 
 
@@ -49,11 +49,33 @@ func get_type() -> ExprItemType:
 func get_child(idx:int) -> Locator:
 	var new_indeces := indeces.duplicate()
 	new_indeces.push_back(idx)
-	return get_script().new(expr_item, new_indeces, expr_item.get_child(idx), self)
+	return get_script().new(root_expr_item, new_indeces, expr_item.get_child(idx), self)
+
+
+func get_proof_box(root_proof_box:ProofBox):
+	if parent == null:
+		return root_proof_box
+	elif parent.get_type().is_binder() and get_indeces()[-1] == 1:
+		return ProofBox.new(
+			[parent.get_child(0).get_type()],
+			parent.get_proof_box(root_proof_box)
+		)
+	else:
+		return parent.get_proof_box(root_proof_box)
 
 
 func _to_string():
 	return expr_item.to_string()
+
+
+func find_all(find:ExprItem) -> Array: #<Locator>
+	if expr_item.compare(find):
+		return [self]
+	else:
+		var result = []
+		for i in get_child_count():
+			result += get_child(i).find_all(find)
+		return result
 
 
 func get_postorder_locator_list(list=[]):

@@ -144,13 +144,13 @@ size_flags_stretch_ratio = 2.0
 
 [node name="Proof" type="HSplitContainer" parent="VSplitContainer/VSplitContainer"]
 margin_right = 1004.0
-margin_bottom = 184.0
+margin_bottom = 381.0
 size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="Context" type="ColorRect" parent="VSplitContainer/VSplitContainer/Proof"]
 margin_right = 162.0
-margin_bottom = 184.0
+margin_bottom = 381.0
 size_flags_horizontal = 3
 color = Color( 0.768627, 0.768627, 0.768627, 1 )
 
@@ -192,7 +192,7 @@ wrap_enabled = true
 [node name="Assumptions" type="ScrollContainer" parent="VSplitContainer/VSplitContainer/Proof/Context/VBoxContainer"]
 margin_top = 91.0
 margin_right = 152.0
-margin_bottom = 174.0
+margin_bottom = 371.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -208,7 +208,7 @@ size_flags_horizontal = 3
 [node name="ColorRect" type="ColorRect" parent="VSplitContainer/VSplitContainer/Proof"]
 margin_left = 172.0
 margin_right = 1004.0
-margin_bottom = 184.0
+margin_bottom = 381.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.0
 theme = ExtResource( 1 )
@@ -223,7 +223,7 @@ __meta__ = {
 
 [node name="WrittenProof" type="VBoxContainer" parent="VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer"]
 margin_right = 832.0
-margin_bottom = 184.0
+margin_bottom = 381.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 2
@@ -239,9 +239,9 @@ custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
 text = "MODULE INFORMATION"
 
 [node name="Justification" type="MarginContainer" parent="VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer/WrittenProof"]
-margin_top = 184.0
+margin_top = 381.0
 margin_right = 832.0
-margin_bottom = 184.0
+margin_bottom = 381.0
 custom_constants/margin_right = 0
 custom_constants/margin_top = 0
 custom_constants/margin_left = 0
@@ -264,6 +264,7 @@ margin_right = 1024.0
 margin_bottom = 600.0
 
 [node name="ColorRect" type="ColorRect" parent="VSplitContainer/VSplitContainer"]
+visible = false
 margin_top = 196.0
 margin_right = 1004.0
 margin_bottom = 381.0

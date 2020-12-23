@@ -221,6 +221,19 @@ func justify_with_instantiation(existential, new_type) -> void:
 	emit_signal("justified")
 
 
+func justify_with_create_lambda(location:Locator, argument_locations:Array, argument_types:Array, argument_values:Array): #Array<ExprItemType> # Array<Array<Locator>> 
+	justification = EliminatedLambdaJustification.new(self, location, argument_locations, argument_types, argument_values)
+	emit_signal("justified")
+
+
+func justify_with_destroy_lambda(location:Locator):
+	assert (location.get_type() == GlobalTypes.LAMBDA)
+	assert (location.get_child_count() >= 3)
+	justification = IntroducedLambdaJustification.new(self, location)
+	emit_signal("justified")
+
+
+
 func get_requirements() -> Array:
 	return justification.get_requirements()
 
@@ -529,3 +542,30 @@ class ContrapositiveJustification extends Justification:
 				context
 			)
 		]
+
+
+class EliminatedLambdaJustification extends Justification:
+	func _init(context:ProofStep, location:Locator, argument_locations:Array, argument_types:Array, argument_values:Array): #Array<ExprItemType> # Array<Array<Locator>> 
+		requirements = [context.get_script().new(
+			ExprItemLambdaHelper.create_lambda(location, argument_locations, argument_types, argument_values),
+			context.module,
+			MissingJustification.new(),
+			context
+		)]
+	
+	func get_justification_text():
+		return "APPLYING A FUNCTION"
+
+
+
+class IntroducedLambdaJustification extends Justification:
+	func _init(context:ProofStep, location:Locator): #Array<ExprItemType> # Array<Array<Locator>> 
+		requirements = [context.get_script().new(
+			ExprItemLambdaHelper.apply_lambda(location),
+			context.module,
+			MissingJustification.new(),
+			context
+		)]
+	
+	func get_justification_text():
+		return "INTRODUCING A FUNCTION"
