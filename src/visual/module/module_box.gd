@@ -1,4 +1,4 @@
-extends PanelContainer
+extends Container
 
 signal request_to_prove
 signal proof_step_created
@@ -16,9 +16,9 @@ func set_selection_handler(selection_handler:SelectionHandler):
 
 func load_module(module:MathModule, name:String):
 	module_name = name
-	ui_assumptions = $ScrollContainer/VBoxContainer/ModuleAssumptions
+	ui_assumptions = $ScrollContainer/Control/VBoxContainer/ModuleAssumptions
 	
-	$ScrollContainer/VBoxContainer/ModuleName.text = name
+	$ScrollContainer/Control/VBoxContainer/ModuleName.text = name
 	
 	self.module = module
 	for proof_step in module.get_proof_steps():
@@ -38,7 +38,7 @@ func load_module(module:MathModule, name:String):
 		string = "Definitions: "
 		for d in definitions:
 			string += "\n - " + PoolStringArray(([d.to_string()] + Tagger.get_type_tags(d))).join(": ")
-	$ScrollContainer/VBoxContainer/ModuleDefinitions.text = string
+	$ScrollContainer/Control/VBoxContainer/ModuleDefinitions.text = string
 	
 	var requirements := module.get_requirements()
 	if requirements.size() == 0:
@@ -47,14 +47,14 @@ func load_module(module:MathModule, name:String):
 		string = "Requirements: "
 		for r in requirements:
 			string += "\n - " + r.get_name()
-	$ScrollContainer/VBoxContainer/ModuleRequirements.text = string
+	$ScrollContainer/Control/VBoxContainer/ModuleRequirements.text = string
 
 
 func _on_proof_step_created(proof_step:ProofStep):
 	emit_signal("proof_step_created", proof_step)
 
 func _on_locator_changed(locator:Locator):
-	for assumption_box in $ScrollContainer/VBoxContainer/ModuleAssumptions.get_children():
+	for assumption_box in $ScrollContainer/Control/VBoxContainer/ModuleAssumptions.get_children():
 		assumption_box.update_context(selection_handler.get_proof_step(), locator)
 
 func _on_assumption_conclusion_used(assumption:ProofStep, _index:int):

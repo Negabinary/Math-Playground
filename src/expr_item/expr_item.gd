@@ -9,7 +9,7 @@ var all_types = null
 func _init(new_type:ExprItemType, new_children:=[]):
 	type = new_type
 	children = new_children
-	#string = to_string()
+	string = to_string()
 
 
 static func from_string(string:String, types:={}) -> ExprItem:
@@ -110,7 +110,12 @@ func compare(other:ExprItem) -> bool:
 
 
 func is_superset(other:ExprItem, matching:={}) -> bool:
-	if matching.has(type):
+	if type == other.type and get_child_count() == other.get_child_count():
+		for i in get_child_count():
+			if not get_child(i).is_superset(other.get_child(i), matching):
+				return false
+		return true
+	elif matching.has(type):
 		if get_child_count() > other.get_child_count():
 			return false
 		elif matching[type] is String:
@@ -125,11 +130,6 @@ func is_superset(other:ExprItem, matching:={}) -> bool:
 				return true
 			else:
 				return false
-	elif type == other.type and get_child_count() == other.get_child_count():
-		for i in get_child_count():
-			if not get_child(i).is_superset(other.get_child(i), matching):
-				return false
-		return true
 	else:
 		return false
 
@@ -137,7 +137,7 @@ func is_superset(other:ExprItem, matching:={}) -> bool:
 func _to_string() -> String:
 	if children.size() == 0:
 		return type.to_string()
-	elif type == GlobalTypes.IMPLIES:
+	elif type == GlobalTypes.IMPLIES and children.size() == 2:
 		var children_string = ""
 		if children[0].get_type() == GlobalTypes.IMPLIES:
 			children_string += "(" + children[0].to_string() + ")"

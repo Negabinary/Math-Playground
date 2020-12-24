@@ -173,6 +173,10 @@ gdscript/warnings/return_value_discarded=false
 
 enabled=PoolStringArray( "gut", "zylann.project_stats" )
 
+[gui]
+
+theme/custom_font="res://theme/ui_font.tres"
+
 [input]
 
 ui_accept={

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/visual/assumption_box/AssumptionBox.gd" type="Script" id=1]
 [ext_resource path="res://src/visual/assumption_box/ABEquality.gd" type="Script" id=2]
@@ -9,27 +9,19 @@
 [ext_resource path="res://src/visual/assumption_box/ABConditions.gd" type="Script" id=8]
 [ext_resource path="res://src/visual/assumption_box/ABConclusion.gd" type="Script" id=9]
 
-[sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 4.0
-content_margin_right = 4.0
-content_margin_top = 4.0
-content_margin_bottom = 4.0
-bg_color = Color( 0.231373, 0.192157, 0.235294, 1 )
-
 [node name="AssumptionBox" type="PanelContainer"]
 margin_right = 49.0
 margin_bottom = 108.0
-custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 45.0
-margin_bottom = 104.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 42.0
+margin_bottom = 101.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -47,7 +39,7 @@ rect_min_size = Vector2( 32, 0 )
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
 custom_constants/line_spacing = 0
-text = "forall"
+text = "∀"
 align = 2
 valign = 1
 
