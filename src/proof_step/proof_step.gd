@@ -113,6 +113,11 @@ func can_justify_with_assumption(assumption:ProofStep) -> bool:
 		return does_conclusion_match_with_sub(assumption)
 
 
+func justify_with_missing() -> void:
+	justification = MissingJustification.new()
+	emit_signal("justified")
+
+
 func justify_with_assumption() -> void:
 	justification = AssumedJustification.new()
 	emit_signal("justified")

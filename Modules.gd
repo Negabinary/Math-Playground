@@ -13,9 +13,10 @@ var selection_handler
 func initialise(selection_handler:SelectionHandler):
 	self.selection_handler = selection_handler
 	#for module_name in ["diff_test","diff","fib","test","typing","trig","real_test","real","the_set_of_all_sets","functional","list","current_module","peano", "boolean", "small_numbers","addition"]:
+	for module_name in ["fib", "list", "peano", "small_numbers"]:
 	#for module_name in ["trig","real_test","real"]:
 	#for module_name in ["logic","bool/bool_type", "bool/bool_and", "bool/bool_or", "bool/de_morgan"]:
-	for module_name in ["examples","small_numbers","addition","peano"]:
+	#for module_name in ["examples","small_numbers","addition","peano"]:
 	#for module_name in ["pres/peano","pres/2nat"]:
 	#for module_name in ["peano","addition","small_numbers","l1/syntax","l1/opsemant"]:
 	#for module_name in ["typing","peano","addition","current_module","logic","oddeven"]:
