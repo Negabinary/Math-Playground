@@ -1,13 +1,14 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://theme/warning_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://theme/fonts/warning_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://src/visual/ei_editor/expr_item_edit.gd" type="Script" id=2]
-[ext_resource path="res://theme/justification_font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://theme/fonts/justification_font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://src/visual/written_proof_box/WPBMissing.gd" type="Script" id=4]
 [ext_resource path="res://src/visual/written_proof/written_statement.gd" type="Script" id=5]
 [ext_resource path="res://src/visual/written_proof_box/NewImplicationDialog.gd" type="Script" id=6]
 [ext_resource path="res://src/visual/options/CreateLambda.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/visual/written_proof_box/CreateLambdaDialog.gd" type="Script" id=8]
+
 
 [node name="WBPMissing" type="VBoxContainer"]
 anchor_right = 1.0

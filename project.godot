@@ -59,6 +59,36 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/module/module.gd"
 }, {
+"base": "Reference",
+"class": "ModuleDeserializer",
+"language": "GDScript",
+"path": "res://src/module/module_deserializer.gd"
+}, {
+"base": "Node",
+"class": "ModuleItem",
+"language": "GDScript",
+"path": "res://src/module/module_item.gd"
+}, {
+"base": "ModuleItem",
+"class": "ModuleItemAssumption",
+"language": "GDScript",
+"path": "res://src/module/module_item_assumption.gd"
+}, {
+"base": "ModuleItem",
+"class": "ModuleItemDefinition",
+"language": "GDScript",
+"path": "res://src/module/module_item_definition.gd"
+}, {
+"base": "ModuleItemDefinition",
+"class": "ModuleItemTaggedDefintion",
+"language": "GDScript",
+"path": "res://src/module/module_item_tagged_definition.gd"
+}, {
+"base": "ModuleItem",
+"class": "ModuleItemTheorem",
+"language": "GDScript",
+"path": "res://src/module/module_item_theorem.gd"
+}, {
 "base": "Node",
 "class": "ModuleLoader",
 "language": "GDScript",
@@ -135,6 +165,12 @@ _global_script_class_icons={
 "JustificationBuilder": "",
 "Locator": "",
 "MathModule": "",
+"ModuleDeserializer": "",
+"ModuleItem": "",
+"ModuleItemAssumption": "",
+"ModuleItemDefinition": "",
+"ModuleItemTaggedDefintion": "",
+"ModuleItemTheorem": "",
 "ModuleLoader": "",
 "ProofBox": "",
 "ProofStep": "",
@@ -175,7 +211,7 @@ enabled=PoolStringArray( "gut", "zylann.project_stats" )
 
 [gui]
 
-theme/custom_font="res://theme/ui_font.tres"
+theme/custom_font="res://theme/fonts/ui_font.tres"
 
 [input]
 
@@ -209,6 +245,16 @@ ui_open={
 ui_close={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":48,"unicode":0,"echo":false,"script":null)
+ ]
+}
+close={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":48,"unicode":0,"echo":false,"script":null)
+ ]
+}
+comma={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":44,"unicode":0,"echo":false,"script":null)
  ]
 }
 
