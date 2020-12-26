@@ -6,7 +6,7 @@ signal step_right
 signal backspace
 signal done_edit
 
-enum DONE_FLAGS {VALID=1, OPEN=2, BOUND=4}
+enum DONE_FLAGS {VALID=1, OPEN=2, COMMA=4, BOUND=8}
 
 var root
 var bound
@@ -57,15 +57,20 @@ func _input(event):
 			if caret_position == 0:
 				accept_event()
 				emit_signal("backspace")
-		elif event.is_action_pressed("ui_accept"):
+		elif event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_close"):
 			if bound:
+				accept_event()
 				emit_signal("done_edit", text, DONE_FLAGS.BOUND)
 			else:
 				if proof_box.parse(text) != null:
+					accept_event()
 					emit_signal("done_edit", proof_box.parse(text), DONE_FLAGS.VALID)
 		elif event.is_action_pressed("ui_open"):
 			accept_event()
-			if proof_box.parse(text) == null:
-				emit_signal("done_edit", null, DONE_FLAGS.OPEN)
+			if bound:
+				emit_signal("done_edit", text, DONE_FLAGS.BOUND + DONE_FLAGS.OPEN)
 			else:
-				emit_signal("done_edit", proof_box.parse(text), DONE_FLAGS.OPEN + DONE_FLAGS.VALID)
+				if proof_box.parse(text) == null:
+					emit_signal("done_edit", null, DONE_FLAGS.OPEN)
+				else:
+					emit_signal("done_edit", proof_box.parse(text), DONE_FLAGS.OPEN + DONE_FLAGS.VALID)

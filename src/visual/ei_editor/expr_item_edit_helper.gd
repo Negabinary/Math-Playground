@@ -146,7 +146,8 @@ func _on_edit_done(type, flags:int):
 	if flags & ExprItemEditHelperEdit.DONE_FLAGS.BOUND:
 		self.type.rename(type)
 		_exit_edit_mode()
-		_right_from_above(get_child(0),true)
+		right_from_below(true)
+		right()
 	else:
 		if flags & ExprItemEditHelperEdit.DONE_FLAGS.VALID:
 			_right_from_above(get_child(0),true)
