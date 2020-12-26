@@ -24,12 +24,12 @@ func _init():
 	EXISTS.binder = true
 	LAMBDA.binder = true
 	
-	IMPLIES.fm_strings = ["(",") => ",""]
-	FORALL.fm_strings = ["@A ",". (",")"]
+	IMPLIES.fm_strings = ["if (",") then (",")"]
+	FORALL.fm_strings = ["∀",". ",""]
 	EQUALITY.fm_strings = [""," = ",""]
 	NOT.fm_strings = ["¬",""]
-	EXISTS.fm_strings = ["@E",". (", ")"]
-	LAMBDA.fm_strings = ["λ"," -> (", ")"]
+	EXISTS.fm_strings = ["∃",". ", ""]
+	LAMBDA.fm_strings = ["λ"," -> ", ""]
 	TAG.fm_strings = ["TAG"]
 	ANY.fm_strings = ["ANY"]
 	PROP.fm_strings = ["PROP"]
