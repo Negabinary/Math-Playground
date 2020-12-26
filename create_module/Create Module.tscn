@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://theme/fonts/ui_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://theme/fonts/title.tres" type="DynamicFont" id=2]
 [ext_resource path="res://theme/fonts/heading_1.tres" type="DynamicFont" id=3]
-[ext_resource path="res://src/visual/PageContainer.gd" type="Script" id=4]
+[ext_resource path="res://create_module/Create Module.gd" type="Script" id=4]
 [ext_resource path="res://theme/main_theme.theme" type="Theme" id=5]
+[ext_resource path="res://create_module/Requirements.gd" type="Script" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 4.0
@@ -32,7 +33,7 @@ size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
 margin_right = 614.4
-margin_bottom = 205.0
+margin_bottom = 274.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 20
 custom_constants/margin_top = 30
@@ -43,7 +44,7 @@ custom_constants/margin_bottom = 30
 margin_left = 10.0
 margin_top = 30.0
 margin_right = 594.0
-margin_bottom = 175.0
+margin_bottom = 244.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 custom_styles/panel = SubResource( 1 )
@@ -52,7 +53,7 @@ custom_styles/panel = SubResource( 1 )
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 580.0
-margin_bottom = 141.0
+margin_bottom = 210.0
 custom_constants/separation = 10
 
 [node name="ModuleName" type="Label" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
@@ -80,3 +81,30 @@ text = "Requirements"
 margin_top = 137.0
 margin_right = 576.0
 margin_bottom = 137.0
+script = ExtResource( 6 )
+
+[node name="AddRequirement" type="HBoxContainer" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
+margin_top = 147.0
+margin_right = 576.0
+margin_bottom = 172.0
+
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement"]
+margin_right = 250.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 250, 0 )
+placeholder_text = "Module Name"
+
+[node name="Button" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement"]
+margin_left = 254.0
+margin_right = 407.0
+margin_bottom = 25.0
+text = "Add Required Module"
+
+[node name="RequirementsLabel2" type="Label" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
+margin_top = 182.0
+margin_right = 576.0
+margin_bottom = 206.0
+custom_fonts/font = ExtResource( 3 )
+text = "Content"
+[connection signal="text_entered" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement/LineEdit" to="." method="add_requirement"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement/Button" to="." method="add_requirement"]

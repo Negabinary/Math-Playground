@@ -1,4 +1,5 @@
 extends Container
+class_name PageContainer
 
 export var page_width := 1000
 

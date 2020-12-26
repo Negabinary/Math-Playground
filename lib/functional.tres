@@ -3,7 +3,7 @@
 @A T : TAG
 @D app2 : ->(->(T,T),->(T,T))
 
-@a T : TAG
+@A T : TAG
 @A f : ->(T,T)
 @A x : T
 @= app2(f,x)

@@ -12,6 +12,9 @@ func get_module(module_name:String, module_content = null) -> MathModule:
 	else:
 		if module_content == null:
 			var f = File.new()
+			var filename := PATH_PRE + module_name + PATH_SUF
+			if !f.file_exists(filename):
+				return null
 			f.open("res://lib/"+module_name+".tres",File.READ)
 			var module = ModuleDeserializer.new(f.get_as_text(), module_name, self).get_module()
 			f.close()

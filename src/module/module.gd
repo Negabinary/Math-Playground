@@ -2,6 +2,9 @@ extends Object
 class_name MathModule
 
 
+signal requirements_updated
+
+
 var name : String
 var description : String  # Unimplemented
 
@@ -23,6 +26,7 @@ func append_item(item:ModuleItem):
 
 func append_requirement(requirement:MathModule):
 	requirements.append(requirement)
+	emit_signal("requirements_updated")
 
 
 func get_proof(proof_step:ProofStep) -> ProofStep:
