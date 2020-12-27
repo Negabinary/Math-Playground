@@ -22,8 +22,6 @@ func set_definition_item(definition_item:ModuleItemDefinition, typed:=true):
 	var proof_box = definition_item.get_module().get_proof_box(definition_item.get_index())
 	$TopLine/ExprItemEdit.set_expr_item(definition_item.get_tag(), proof_box)
 	$TopLine/LineEdit.text = definition_item.get_definition().get_identifier()
-	
-	
 
 
 func _on_menu_item(idx:int):

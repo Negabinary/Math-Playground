@@ -27,3 +27,6 @@ func get_as_assumption() -> ProofStep:
 
 func delete() -> void:
 	emit_signal("request_delete")
+
+func get_docstring() -> String:
+	return docstring

@@ -39,3 +39,12 @@ func add_definition():
 	ui_content.add_definition(
 		new_definition
 	)
+
+
+func add_theorem():
+	var new_theorem = ModuleItemTheorem.new(
+		module,
+		null
+	)
+	module.append_item(new_theorem)
+	ui_content.add_theorem(new_theorem)

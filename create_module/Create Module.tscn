@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://theme/fonts/ui_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://theme/fonts/title.tres" type="DynamicFont" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://create_module/requirements/Requirements.gd" type="Script" id=6]
 [ext_resource path="res://create_module/content/Definition.tscn" type="PackedScene" id=7]
 [ext_resource path="res://create_module/Content.gd" type="Script" id=8]
+[ext_resource path="res://create_module/content/Theorem.tscn" type="PackedScene" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 10.0
@@ -22,6 +23,7 @@ anchor_left = -0.000315964
 anchor_right = 0.999684
 anchor_bottom = 1.0
 margin_top = 21.0
+rect_clip_content = true
 theme = ExtResource( 5 )
 script = ExtResource( 4 )
 __meta__ = {
@@ -32,6 +34,7 @@ __meta__ = {
 anchor_left = 0.2
 anchor_right = 0.8
 anchor_bottom = 1.0
+rect_clip_content = false
 size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
@@ -126,6 +129,7 @@ margin_right = 564.0
 margin_bottom = 306.0
 script = ExtResource( 8 )
 DEFINITION_SCENE = ExtResource( 7 )
+THEOREM_SCENE = ExtResource( 9 )
 
 [node name="Whitespace2" type="Control" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
 margin_top = 316.0
@@ -161,3 +165,4 @@ margin_bottom = 373.0
 [connection signal="text_entered" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement/LineEdit" to="." method="add_requirement"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement/Button" to="." method="add_requirement"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddContent/NewDefinition" to="." method="add_definition"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddContent/NewTheorem" to="." method="add_theorem"]
