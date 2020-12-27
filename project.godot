@@ -89,6 +89,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/module/module_loader.gd"
 }, {
+"base": "Reference",
+"class": "ModuleSerializer",
+"language": "GDScript",
+"path": "res://src/module/module_serializer.gd"
+}, {
 "base": "Container",
 "class": "PageContainer",
 "language": "GDScript",
@@ -171,6 +176,7 @@ _global_script_class_icons={
 "ModuleItemDefinition": "",
 "ModuleItemTheorem": "",
 "ModuleLoader": "",
+"ModuleSerializer": "",
 "PageContainer": "",
 "ProofBox": "",
 "ProofStep": "",

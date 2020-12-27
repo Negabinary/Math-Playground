@@ -4,6 +4,8 @@ onready var ui_module_name = $ScrollContainer/MarginContainer/PanelContainer/VBo
 onready var ui_requirements = $ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/Requirements
 onready var ui_enter_requirement = $ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement/LineEdit
 onready var ui_content = $ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/Content
+onready var ui_serial = $ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/Serial
+onready var ui_toggle_serial_button = $ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/ToggleSerialButton
 
 
 var module_loader : ModuleLoader = ModuleLoader.new()
@@ -19,6 +21,7 @@ func _load_module(module:MathModule):
 	ui_module_name.text = module.get_name().replace("_", " ").capitalize()
 	ui_requirements.set_module(module)
 	ui_content.set_module(module)
+	module.connect("serial_changed", self, "_on_serial_changed")
 
 
 func add_requirement(req_name := ui_enter_requirement.text):
@@ -48,3 +51,16 @@ func add_theorem():
 	)
 	module.append_item(new_theorem)
 	ui_content.add_theorem(new_theorem)
+
+
+func _on_serial_changed():
+	ui_serial.text = ModuleSerializer.serialize(module)
+
+
+func _on_toggle_serial():
+	if ui_serial.visible:
+		ui_serial.hide()
+		ui_toggle_serial_button.text = "Show raw output"
+	else:
+		ui_serial.show()
+		ui_toggle_serial_button.text = "Hide raw output"

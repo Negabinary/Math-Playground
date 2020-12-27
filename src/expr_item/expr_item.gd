@@ -89,6 +89,13 @@ func get_children() -> Array:
 	return children.duplicate()
 
 
+func apply(x:ExprItem):
+	return get_script().new(
+		get_type(),
+		get_children() + [x]
+	)
+
+
 func abandon_lowest(count:int) -> ExprItem:
 	assert (count <= children.size())
 	var new_children = []

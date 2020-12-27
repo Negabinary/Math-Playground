@@ -2,6 +2,7 @@ extends Node
 class_name ModuleItem
 
 signal request_delete
+signal serial_changed
 
 var module # : Module
 var docstring := ""
@@ -30,3 +31,6 @@ func delete() -> void:
 
 func get_docstring() -> String:
 	return docstring
+
+func _sc():
+	emit_signal("serial_changed")

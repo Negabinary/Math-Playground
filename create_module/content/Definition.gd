@@ -64,5 +64,5 @@ func _on_tag_changed():
 	if ui_tag_editor.has_holes():
 		definition_item.set_tag(null)
 	else:
-		definition_item.set_tag(ui_tag_editor.get_expr_item())
+		definition_item.set_tag(ui_tag_editor.get_expr_item().apply(ExprItem.new(definition_item.get_definition())))
 	_check_valid()

@@ -10,6 +10,7 @@ func _init(module, statement:ExprItem, previously_proven := false, docstring:=""
 
 func update_statement(new_expr_item:ExprItem) -> void:
 	self.statement = new_expr_item
+	_sc()
 
 
 func get_statement() -> ExprItem:

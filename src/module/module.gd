@@ -3,6 +3,7 @@ class_name MathModule
 
 
 signal requirements_updated
+signal serial_changed
 
 
 var name : String
@@ -18,20 +19,28 @@ var proofs := {}
 
 func _init(name:String):
 	self.name = name
+	_sc()
 
 
 func append_item(item:ModuleItem):
 	items.append(item)
 	item.connect("request_delete", self, "_on_item_deleted", [item])
+	item.connect("serial_changed", self, "_sc")
+	_sc()
 
 
 func get_item_index(item:ModuleItem):
 	return items.find(item)
 
 
+func get_items() -> Array:
+	return items
+
+
 func append_requirement(requirement:MathModule):
 	requirements.append(requirement)
 	emit_signal("requirements_updated")
+	_sc()
 
 
 func get_proof(proof_step:ProofStep) -> ProofStep:
@@ -80,3 +89,8 @@ func get_name() -> String:
 
 func _on_item_deleted(item):
 	items.erase(item)
+	_sc()
+
+
+func _sc():
+	emit_signal("serial_changed")

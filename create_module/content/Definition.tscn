@@ -1,9 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://create_module/Definition.gd" type="Script" id=1]
+[ext_resource path="res://create_module/content/Definition.gd" type="Script" id=1]
 [ext_resource path="res://src/visual/ei_editor/expr_item_edit.gd" type="Script" id=2]
 [ext_resource path="res://theme/fonts/warning_font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://theme/fonts/bold.tres" type="DynamicFont" id=4]
+
 
 [node name="Definition" type="VBoxContainer"]
 margin_right = 564.0

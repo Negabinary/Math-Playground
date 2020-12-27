@@ -43,9 +43,16 @@ placeholder_text = "Theorem name"
 
 [node name="Whitespace" type="Control" parent="TopLine"]
 margin_left = 247.0
-margin_right = 534.0
+margin_right = 480.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
+
+[node name="Button" type="Button" parent="TopLine"]
+margin_left = 484.0
+margin_right = 534.0
+margin_bottom = 25.0
+disabled = true
+text = "Prove"
 
 [node name="MenuButton" type="MenuButton" parent="TopLine"]
 margin_left = 538.0

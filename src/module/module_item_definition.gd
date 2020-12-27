@@ -2,6 +2,7 @@ extends ModuleItem
 class_name ModuleItemDefinition
 
 var type : ExprItemType
+var alpha_tags : Array # [ExprItemType]
 var tag : ExprItem
 
 
@@ -12,6 +13,7 @@ func _init(module, tag=null, expr_item_type:=ExprItemType.new("???"), docstring:
 
 func rename_type(new_name:String) -> void:
 	type.rename(new_name)
+	_sc()
 
 
 func get_tag() -> ExprItem:
@@ -20,6 +22,7 @@ func get_tag() -> ExprItem:
 
 func set_tag(tag:ExprItem) -> void:
 	self.tag = tag
+	_sc()
 
 
 func get_definition() -> ExprItemType:

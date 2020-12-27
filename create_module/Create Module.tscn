@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://theme/fonts/ui_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://theme/fonts/title.tres" type="DynamicFont" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://create_module/content/Definition.tscn" type="PackedScene" id=7]
 [ext_resource path="res://create_module/Content.gd" type="Script" id=8]
 [ext_resource path="res://create_module/content/Theorem.tscn" type="PackedScene" id=9]
+[ext_resource path="res://create_module/Button2.gd" type="Script" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 10.0
@@ -39,7 +40,7 @@ size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
 margin_right = 614.4
-margin_bottom = 453.0
+margin_bottom = 490.0
 size_flags_horizontal = 3
 custom_constants/margin_right = 20
 custom_constants/margin_top = 30
@@ -50,7 +51,7 @@ custom_constants/margin_bottom = 30
 margin_left = 10.0
 margin_top = 30.0
 margin_right = 594.0
-margin_bottom = 423.0
+margin_bottom = 460.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 custom_styles/panel = SubResource( 1 )
@@ -59,45 +60,88 @@ custom_styles/panel = SubResource( 1 )
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 574.0
-margin_bottom = 383.0
+margin_bottom = 420.0
 custom_constants/separation = 10
 
-[node name="ModuleName" type="Label" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
 margin_right = 564.0
-margin_bottom = 68.0
+margin_bottom = 19.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_right = 44.0
+margin_bottom = 19.0
+text = "Save"
+script = ExtResource( 10 )
+
+[node name="Button" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 48.0
+margin_right = 92.0
+margin_bottom = 19.0
+text = "Load"
+
+[node name="ToggleSerialButton" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 96.0
+margin_right = 199.0
+margin_bottom = 19.0
+text = "Show raw file"
+
+[node name="Serial" type="TextEdit" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
+visible = false
+margin_top = 29.0
+margin_right = 560.0
+margin_bottom = 229.0
+rect_min_size = Vector2( 0, 200 )
+readonly = true
+show_line_numbers = true
+
+[node name="LineEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
+margin_top = 29.0
+margin_right = 564.0
+margin_bottom = 105.0
+custom_fonts/font = ExtResource( 2 )
+placeholder_text = "Module Name"
+
+[node name="ModuleName" type="Label" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
+visible = false
+margin_top = 86.0
+margin_right = 564.0
+margin_bottom = 154.0
 custom_fonts/font = ExtResource( 2 )
 text = "ModuleName."
 
 [node name="ModuleDescription" type="Label" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 78.0
+margin_top = 115.0
 margin_right = 564.0
-margin_bottom = 115.0
+margin_bottom = 152.0
 custom_fonts/font = ExtResource( 1 )
 text = "This is brief description of this module, for commenting and all those good programming pratices. Maybe even put a license in here?"
 autowrap = true
 
 [node name="HSeparator2" type="HSeparator" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 125.0
+margin_top = 162.0
 margin_right = 564.0
-margin_bottom = 133.0
+margin_bottom = 170.0
 
 [node name="RequirementsLabel" type="Label" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 143.0
+margin_top = 180.0
 margin_right = 564.0
-margin_bottom = 183.0
+margin_bottom = 220.0
 custom_fonts/font = ExtResource( 3 )
 text = "Requirements"
 
 [node name="Requirements" type="VBoxContainer" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 193.0
+margin_top = 230.0
 margin_right = 564.0
-margin_bottom = 193.0
+margin_bottom = 230.0
 script = ExtResource( 6 )
 
 [node name="AddRequirement" type="HBoxContainer" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 203.0
+margin_top = 240.0
 margin_right = 564.0
-margin_bottom = 228.0
+margin_bottom = 265.0
 
 [node name="LineEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement"]
 margin_right = 250.0
@@ -112,34 +156,34 @@ margin_bottom = 25.0
 text = "Add Required Module"
 
 [node name="HSeparator" type="HSeparator" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 238.0
+margin_top = 275.0
 margin_right = 564.0
-margin_bottom = 246.0
+margin_bottom = 283.0
 
 [node name="ContentLabel" type="Label" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 256.0
+margin_top = 293.0
 margin_right = 564.0
-margin_bottom = 296.0
+margin_bottom = 333.0
 custom_fonts/font = ExtResource( 3 )
 text = "Content"
 
 [node name="Content" type="VBoxContainer" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 306.0
+margin_top = 343.0
 margin_right = 564.0
-margin_bottom = 306.0
+margin_bottom = 343.0
 script = ExtResource( 8 )
 DEFINITION_SCENE = ExtResource( 7 )
 THEOREM_SCENE = ExtResource( 9 )
 
 [node name="Whitespace2" type="Control" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 316.0
+margin_top = 353.0
 margin_right = 564.0
-margin_bottom = 316.0
+margin_bottom = 353.0
 
 [node name="AddContent" type="HBoxContainer" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 326.0
+margin_top = 363.0
 margin_right = 564.0
-margin_bottom = 345.0
+margin_bottom = 382.0
 custom_constants/separation = 10
 
 [node name="NewDefinition" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddContent"]
@@ -154,14 +198,15 @@ margin_bottom = 19.0
 text = "Add Theorem"
 
 [node name="HSeparator3" type="HSeparator" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 355.0
+margin_top = 392.0
 margin_right = 564.0
-margin_bottom = 363.0
+margin_bottom = 400.0
 
 [node name="Whitespace" type="Control" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-margin_top = 373.0
+margin_top = 410.0
 margin_right = 564.0
-margin_bottom = 373.0
+margin_bottom = 410.0
+[connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/ToggleSerialButton" to="." method="_on_toggle_serial"]
 [connection signal="text_entered" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement/LineEdit" to="." method="add_requirement"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement/Button" to="." method="add_requirement"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddContent/NewDefinition" to="." method="add_definition"]

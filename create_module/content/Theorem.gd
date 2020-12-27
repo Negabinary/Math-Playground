@@ -15,10 +15,13 @@ func _ready():
 
 
 func set_theorem_item(theorem_item:ModuleItemTheorem, typed:=true):
+	statement_editor = $BottomLine/ExprItemEdit
+	ui_exclamation = $BottomLine/Exclamation
 	self.theorem_item = theorem_item
 	var proof_box = theorem_item.get_module().get_proof_box(theorem_item.get_index())
 	$TopLine/LineEdit.text = theorem_item.get_docstring()
 	$BottomLine/ExprItemEdit.set_expr_item(theorem_item.get_statement(), proof_box)
+	_check_valid()
 
 
 func _on_menu_item(idx:int):
