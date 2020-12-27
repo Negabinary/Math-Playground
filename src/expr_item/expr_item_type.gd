@@ -3,6 +3,7 @@ class_name ExprItemType
 
 
 signal renamed
+signal deleted
 
 
 var identifier : String
@@ -42,3 +43,7 @@ func get_fm_strings():
 
 func is_binder():
 	return binder
+
+
+func delete():
+	emit_signal("deleted")

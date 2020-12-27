@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/LineEditTexture.png-d5397ccb3880fcd248b902d5bc278038.stex"
+path="res://.import/LineEditTexture.png-6e3010d5a5cb48dba22c4bf816ee5166.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://theme/LineEditTexture.png"
-dest_files=[ "res://.import/LineEditTexture.png-d5397ccb3880fcd248b902d5bc278038.stex" ]
+source_file="res://theme/LineEdit/LineEditTexture.png"
+dest_files=[ "res://.import/LineEditTexture.png-6e3010d5a5cb48dba22c4bf816ee5166.stex" ]
 
 [params]
 

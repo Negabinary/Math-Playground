@@ -16,6 +16,7 @@ func _init(root, proof_box, bound:=false):
 	self.root = root
 	self.proof_box = proof_box
 	self.bound = bound
+	add_stylebox_override("normal",load("res://theme/LineEdit/ExprItemEditTexture.tres"))
 
 func set_proof_box(proof_box:ProofBox):
 	self.proof_box = proof_box

@@ -135,9 +135,9 @@ func show_editor(string:="", focus:=false) -> void:
 		line_edit.caret_position = line_edit.text.length()
 
 
-func _enter_edit_mode(string:="") -> void:
+func _enter_edit_mode(string:="", focus:=true) -> void:
 	if mode == HELPER_MODE.VIEW:
-		show_editor(string, true)
+		show_editor(string, focus)
 	mode = HELPER_MODE.EDIT
 	emit_signal("changed")
 
@@ -194,9 +194,11 @@ func set_proof_box(proof_box:ProofBox) -> void:
 func set_type(new_type:ExprItemType) -> void:
 	if type != null && type.is_connected("renamed", self, "_on_type_renamed"):
 		type.disconnect("renamed", self, "_on_type_renamed")
+		type.disconnect("deleted", self, "_on_type_deleted")
 	type = new_type
 	if type != null:
 		type.connect("renamed", self, "_on_type_renamed")
+		type.connect("deleted", self, "_on_type_deleted")
 
 
 # == EXTRACTION ===============================================================
@@ -334,6 +336,11 @@ func _right_from_above(from:Node,travel:=false):
 
 # == INPUT ====================================================================
 
+func _on_type_deleted():
+	on_backspace(false)
+	update()
+
+
 func _gui_input(event):
 	if event.is_action_pressed("mouse_left"):
 		take_caret(get_child_count(), true)
@@ -351,9 +358,9 @@ func _gui_input(event):
 		on_open()
 
 
-func on_backspace():
+func on_backspace(focus:=true):
 	if mode == HELPER_MODE.VIEW:
-		_enter_edit_mode(type.get_identifier())
+		_enter_edit_mode(type.get_identifier(), focus)
 		update()
 	elif mode == HELPER_MODE.EDIT:
 		update()

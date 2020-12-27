@@ -1,0 +1,70 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://create_module/Definition.gd" type="Script" id=1]
+[ext_resource path="res://src/visual/ei_editor/expr_item_edit.gd" type="Script" id=2]
+[ext_resource path="res://theme/fonts/warning_font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://theme/fonts/bold.tres" type="DynamicFont" id=4]
+
+[node name="Definition" type="VBoxContainer"]
+margin_right = 564.0
+margin_bottom = 25.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopLine" type="HBoxContainer" parent="."]
+margin_right = 564.0
+margin_bottom = 27.0
+
+[node name="Exclamation" type="Label" parent="TopLine"]
+margin_top = 2.0
+margin_right = 17.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 17, 17 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 1, 0.72549, 0, 1 )
+text = "!"
+align = 1
+
+[node name="Label" type="Label" parent="TopLine"]
+margin_left = 21.0
+margin_top = 5.0
+margin_right = 101.0
+margin_bottom = 22.0
+custom_fonts/font = ExtResource( 4 )
+text = "identifier  "
+
+[node name="LineEdit" type="LineEdit" parent="TopLine"]
+margin_left = 105.0
+margin_right = 255.0
+margin_bottom = 27.0
+rect_min_size = Vector2( 150, 0 )
+placeholder_text = "Identifier name"
+
+[node name="Label2" type="Label" parent="TopLine"]
+margin_left = 259.0
+margin_top = 5.0
+margin_right = 264.0
+margin_bottom = 22.0
+text = ":"
+
+[node name="ExprItemEdit" type="Control" parent="TopLine"]
+margin_left = 268.0
+margin_right = 268.0
+margin_bottom = 27.0
+script = ExtResource( 2 )
+
+[node name="Whitespace" type="Control" parent="TopLine"]
+margin_left = 272.0
+margin_right = 534.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+
+[node name="MenuButton" type="MenuButton" parent="TopLine"]
+margin_left = 538.0
+margin_right = 564.0
+margin_bottom = 27.0
+text = "⋮"
+flat = false
+items = [ "Delete", null, 0, false, false, 0, 0, null, "", false, "Tagged", null, 1, true, false, 1, 0, null, "", false ]

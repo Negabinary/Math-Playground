@@ -65,6 +65,7 @@ func _parse_definition(item : Array, proof_box:ProofBox) -> ModuleItemDefinition
 		eassert(item.size() == 0, "Untyped definition shouldn't have any qualifiers")
 		return ModuleItemDefinition.new(
 			module,
+			null,
 			ExprItemType.new(m.strip_edges())
 		)
 	else:
@@ -85,7 +86,7 @@ func _parse_definition(item : Array, proof_box:ProofBox) -> ModuleItemDefinition
 		
 		var tag := ExprItemBuilder.from_string(tag_string, ProofBox.new([new_type], proof_box))
 		
-		return ModuleItemTaggedDefintion.new(
+		return ModuleItemDefinition.new(
 			module,
 			tag,
 			new_type

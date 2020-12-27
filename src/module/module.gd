@@ -22,6 +22,11 @@ func _init(name:String):
 
 func append_item(item:ModuleItem):
 	items.append(item)
+	item.connect("request_delete", self, "_on_item_deleted", [item])
+
+
+func get_item_index(item:ModuleItem):
+	return items.find(item)
 
 
 func append_requirement(requirement:MathModule):
@@ -71,3 +76,7 @@ func get_requirements() -> Array:
 
 func get_name() -> String:
 	return name
+
+
+func _on_item_deleted(item):
+	items.erase(item)

@@ -35,6 +35,8 @@ __meta__ = {
 }
 
 [node name="Create Module" parent="TabContainer" instance=ExtResource( 14 )]
+anchor_left = 0.0
+anchor_right = 1.0
 
 [node name="Proof" type="Control" parent="TabContainer"]
 visible = false
