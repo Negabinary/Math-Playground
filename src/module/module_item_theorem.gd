@@ -3,6 +3,7 @@ class_name ModuleItemTheorem
 
 var statement : ExprItem
 var previously_proven := false
+var proof : ProofStep
 
 func _init(module, statement:ExprItem, previously_proven := false, docstring:="").(module,docstring):
 	update_statement(statement)
@@ -10,6 +11,7 @@ func _init(module, statement:ExprItem, previously_proven := false, docstring:=""
 
 func update_statement(new_expr_item:ExprItem) -> void:
 	self.statement = new_expr_item
+	self.proof = ProofStep.new(statement, module)
 	_sc()
 
 
@@ -18,8 +20,7 @@ func get_statement() -> ExprItem:
 
 
 func get_proof() -> ProofStep:
-	assert (false) # NOT SURE WHAT TO DO HERE...
-	return null
+	return proof
 
 
 func get_as_assumption():

@@ -49,7 +49,6 @@ size_flags_horizontal = 3
 margin_left = 484.0
 margin_right = 534.0
 margin_bottom = 23.0
-disabled = true
 text = "Prove"
 
 [node name="MenuButton" type="MenuButton" parent="TopLine"]
@@ -59,3 +58,4 @@ margin_bottom = 23.0
 text = "⋮"
 flat = false
 items = [ "Delete", null, 0, false, false, 0, 0, null, "", false ]
+[connection signal="pressed" from="TopLine/Button" to="." method="_on_prove"]

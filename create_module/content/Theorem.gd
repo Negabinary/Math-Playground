@@ -5,6 +5,7 @@ onready var menu_popup := menu_button.get_popup()
 #onready var ui_docstring_editor := $TopLine/LineEdit
 onready var ui_exclamation := $TopLine/Exclamation
 onready var statement_editor := $TopLine/ExprItemEdit
+onready var ui_prove_buttom := $TopLine/Button
 
 var theorem_item : ModuleItemTheorem
 
@@ -17,6 +18,7 @@ func _ready():
 func set_theorem_item(theorem_item:ModuleItemTheorem, typed:=true):
 	statement_editor = $TopLine/ExprItemEdit
 	ui_exclamation = $TopLine/Exclamation
+	ui_prove_buttom = $TopLine/Button
 	self.theorem_item = theorem_item
 	var proof_box = theorem_item.get_module().get_proof_box(theorem_item.get_index())
 	#$TopLine/LineEdit.text = theorem_item.get_docstring()
@@ -37,6 +39,11 @@ func _on_statement_changed():
 
 
 func _check_valid():
-	ui_exclamation.text = "!" if \
-	statement_editor.has_holes() \
-	else ""
+	var valid = !statement_editor.has_holes()
+	
+	ui_exclamation.text = "" if valid else "!"
+	ui_prove_buttom.disabled = !valid
+
+
+func _on_prove():
+	$"../../../../../../../..".enter_proof_mode(theorem_item.get_proof())

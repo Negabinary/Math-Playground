@@ -23,12 +23,25 @@ func initialise(selection_handler:SelectionHandler):
 		add_module(module_loader.get_module(module_name), module_name, selection_handler)
 
 
+func display_modules(proof_step:ProofStep):
+	# Remove previous modules
+	for child in $ScrollContainer/MarginContainer/HBoxContainer.get_children():
+		if not (child is VBoxContainer):
+			$ScrollContainer/MarginContainer/HBoxContainer.remove_child(child)
+	
+	# Add new modules
+	add_module(proof_step.get_module(), proof_step.get_module().get_name(), selection_handler)
+	for req in proof_step.get_module().get_requirements():
+		add_module(req, req.get_name(), selection_handler)
+
+
 func add_module(module:MathModule, mname:String, selection_handler:SelectionHandler) -> void:
 	var module_box : Node = MODULE.instance()
 	module_box.set_selection_handler(selection_handler)
 	module_box.load_module(module, mname)
 	$ScrollContainer/MarginContainer/HBoxContainer.add_child(module_box)
 	$ScrollContainer/MarginContainer/HBoxContainer.move_child(module_box, module_box.get_index() - 1)
+	module_box.set_name(mname)
 	module_box.connect("request_to_prove", self, "_on_proof_request")
 	module_box.connect("proof_step_created", self, "_on_proof_step_created")
 

@@ -3,7 +3,7 @@ extends Control
 onready var ui_assumptions := $VSplitContainer/VSplitContainer/Proof/Context/VBoxContainer/Assumptions
 onready var ui_goals := $VSplitContainer/VSplitContainer/Proof/Goals
 onready var ui_proof_steps := $VSplitContainer/VSplitContainer/Proof/ProofSteps
-onready var ui_written_proof := $VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer/WrittenProof
+onready var ui_written_proof := $VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer/MarginContainer/PanelContainer/WrittenProof
 onready var ui_modules := $VSplitContainer/Modules
 #onready var ui_buttons := $ColorRect/Buttons
 
@@ -55,5 +55,6 @@ func _on_goal_item_selected(expr_locator:Locator):
 
 
 func _set_proof(proof_step:ProofStep):
+	ui_modules.display_modules(proof_step)
 	ui_written_proof.display_proof(proof_step)
 	_on_proof_step_selected(proof_step)

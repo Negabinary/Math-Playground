@@ -1,0 +1,323 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://theme/fonts/expr_item_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://theme/fonts/justification_font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://theme/main_theme.theme" type="Theme" id=3]
+[ext_resource path="res://src/visual/PageContainer.gd" type="Script" id=4]
+[ext_resource path="res://WrittenProof.gd" type="Script" id=5]
+[ext_resource path="res://ProofSteps.gd" type="Script" id=6]
+[ext_resource path="res://Main.gd" type="Script" id=7]
+[ext_resource path="res://Assumptions.gd" type="Script" id=9]
+[ext_resource path="res://Modules.gd" type="Script" id=11]
+[ext_resource path="res://SelectionHandler.gd" type="Script" id=12]
+[ext_resource path="res://Debugger.tscn" type="PackedScene" id=13]
+[ext_resource path="res://src/visual/expression_viewer/ExpressionViewer.tscn" type="PackedScene" id=14]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 1, 1, 1, 1 )
+shadow_size = 2
+
+[node name="Proof" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 21.0
+theme = ExtResource( 3 )
+color = Color( 0.894118, 0.894118, 0.894118, 1 )
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSplitContainer" type="HSplitContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSplitContainer" type="VSplitContainer" parent="VSplitContainer"]
+margin_right = 762.0
+margin_bottom = 579.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.0
+
+[node name="Proof" type="HSplitContainer" parent="VSplitContainer/VSplitContainer"]
+margin_right = 762.0
+margin_bottom = 579.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.0
+custom_constants/separation = 10
+
+[node name="Context" type="ColorRect" parent="VSplitContainer/VSplitContainer/Proof"]
+margin_right = 122.0
+margin_bottom = 579.0
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/VSplitContainer/Proof/Context"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VSplitContainer/VSplitContainer/Proof/Context/VBoxContainer"]
+margin_right = 112.0
+margin_bottom = 76.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_constants/line_spacing = -11
+custom_constants/shadow_offset_y = 0
+text = "CURRENT ASSUMPTIONS
+(Double click on Green)"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="VSplitContainer/VSplitContainer/Proof/Context/VBoxContainer"]
+visible = false
+margin_top = 67.0
+margin_right = 152.0
+margin_bottom = 162.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+readonly = true
+wrap_enabled = true
+
+[node name="Assumptions" type="ScrollContainer" parent="VSplitContainer/VSplitContainer/Proof/Context/VBoxContainer"]
+margin_top = 80.0
+margin_right = 112.0
+margin_bottom = 569.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/VSplitContainer/Proof/Context/VBoxContainer/Assumptions"]
+margin_right = 112.0
+size_flags_horizontal = 3
+custom_constants/separation = 3
+
+[node name="ColorRect" type="Container" parent="VSplitContainer/VSplitContainer/Proof"]
+margin_left = 132.0
+margin_right = 762.0
+margin_bottom = 579.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+theme = ExtResource( 3 )
+script = ExtResource( 4 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VSplitContainer/VSplitContainer/Proof/ColorRect"]
+margin_right = 400.0
+margin_bottom = 400.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer"]
+margin_right = 400.0
+margin_bottom = 400.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 20
+custom_constants/margin_top = 30
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 30
+
+[node name="PanelContainer" type="PanelContainer" parent="VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer/MarginContainer"]
+margin_left = 10.0
+margin_top = 30.0
+margin_right = 380.0
+margin_bottom = 370.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 1 )
+
+[node name="WrittenProof" type="VBoxContainer" parent="VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer/MarginContainer/PanelContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 360.0
+margin_bottom = 330.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
+script = ExtResource( 5 )
+
+[node name="ModuleInformation" type="Label" parent="VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer/MarginContainer/PanelContainer/WrittenProof"]
+visible = false
+margin_top = 577.0
+margin_right = 632.0
+margin_bottom = 600.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
+text = "MODULE INFORMATION"
+
+[node name="Justification" type="MarginContainer" parent="VSplitContainer/VSplitContainer/Proof/ColorRect/ScrollContainer/MarginContainer/PanelContainer/WrittenProof"]
+margin_top = 320.0
+margin_right = 350.0
+margin_bottom = 320.0
+custom_constants/margin_right = 0
+custom_constants/margin_top = 0
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 0
+
+[node name="Debugger" parent="VSplitContainer/VSplitContainer/Proof" instance=ExtResource( 13 )]
+
+[node name="ProofSteps" type="Tree" parent="VSplitContainer/VSplitContainer/Proof"]
+visible = false
+margin_left = 636.0
+margin_right = 762.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+script = ExtResource( 6 )
+
+[node name="Goals" parent="VSplitContainer/VSplitContainer/Proof" instance=ExtResource( 14 )]
+visible = false
+margin_left = 878.0
+margin_right = 1024.0
+margin_bottom = 600.0
+
+[node name="Modules" type="ColorRect" parent="VSplitContainer"]
+margin_left = 774.0
+margin_right = 1024.0
+margin_bottom = 579.0
+rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VSplitContainer/Modules"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -10.0
+scroll_vertical_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="VSplitContainer/Modules/ScrollContainer"]
+margin_right = 250.0
+margin_bottom = 569.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="TabContainer" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 245.0
+margin_bottom = 564.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tab_align = 0
+
+[node name="Add" type="VBoxContainer" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 21.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add"]
+margin_right = 240.0
+margin_bottom = 19.0
+text = "Add Module From Text"
+
+[node name="CodeDialog" type="ConfirmationDialog" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button"]
+margin_top = 48.0
+margin_right = 407.0
+margin_bottom = 318.0
+window_title = "Enter Code"
+resizable = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button/CodeDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -35.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="LineEdit" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button/CodeDialog/VBoxContainer"]
+margin_right = 391.0
+margin_bottom = 25.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Label2" type="TextEdit" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button/CodeDialog/VBoxContainer"]
+margin_top = 29.0
+margin_right = 391.0
+margin_bottom = 223.0
+size_flags_vertical = 3
+show_line_numbers = true
+minimap_draw = true
+
+[node name="Button2" type="Button" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add"]
+margin_top = 23.0
+margin_right = 240.0
+margin_bottom = 42.0
+text = "Add built-in module"
+
+[node name="WindowDialog" type="ConfirmationDialog" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button2"]
+margin_top = 24.0
+margin_right = 200.0
+margin_bottom = 94.0
+window_title = "Enter File Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="LineEdit" parent="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button2/WindowDialog"]
+anchor_right = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = 35.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="HSeparator" type="HSeparator" parent="VSplitContainer/Modules"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -8.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectionHandler" type="Node" parent="."]
+script = ExtResource( 12 )
+[connection signal="proof_step_created" from="VSplitContainer/Modules" to="VSplitContainer/VSplitContainer/Proof/Context/VBoxContainer/Assumptions" method="_on_Modules_proof_step_created"]
+[connection signal="pressed" from="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button" to="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button/CodeDialog" method="popup"]
+[connection signal="confirmed" from="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button/CodeDialog" to="VSplitContainer/Modules" method="_on_CodeDialog_confirmed"]
+[connection signal="pressed" from="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button2" to="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button2/WindowDialog" method="popup"]
+[connection signal="confirmed" from="VSplitContainer/Modules/ScrollContainer/MarginContainer/HBoxContainer/Add/Button2/WindowDialog" to="VSplitContainer/Modules" method="_on_WindowDialog_confirmed"]
