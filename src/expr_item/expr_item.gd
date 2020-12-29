@@ -141,6 +141,14 @@ func is_superset(other:ExprItem, matching:={}) -> bool:
 		return false
 
 
+func serialize() -> String:
+	var string = ""
+	string += type.to_string()
+	for child in children:
+		string += "(" + child.serialize() + ")"
+	return string
+
+
 func _to_string() -> String:
 	if children.size() == 0:
 		return type.to_string()

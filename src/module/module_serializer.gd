@@ -3,10 +3,6 @@ class_name ModuleSerializer
 static func serialize(module:MathModule) -> String:
 	var string = ""
 	
-	string += "@M " + module.get_name() + "\n"
-	
-	string += "\n"
-	
 	for requirement in module.get_requirements():
 		string += "@R " + requirement.get_name() + "\n"
 	
@@ -38,7 +34,7 @@ static func _parse_definition(item:ModuleItemDefinition) -> String:
 			string += "@A " + item_tag.get_child(0).get_type().get_identifier() + "\n"
 			item_tag = item_tag.get_child(1)
 		item_tag = item_tag.abandon_lowest(1)
-		string += "@D " + item.get_definition().get_identifier() + " : " + item_tag.to_string() + "\n\n"
+		string += "@D " + item.get_definition().get_identifier() + " : " + item_tag.serialize() + "\n\n"
 		return string
 
 
@@ -46,4 +42,4 @@ static func _parse_theorem(item:ModuleItemTheorem) -> String:
 	if item.get_statement() == null:
 		return ""
 	else:
-		return "@> " + item.get_statement().to_string() + "\n\n"
+		return "@> " + item.get_statement().serialize() + "\n\n"

@@ -15,12 +15,11 @@ __meta__ = {
 
 [node name="TopLine" type="HBoxContainer" parent="."]
 margin_right = 564.0
-margin_bottom = 25.0
+margin_bottom = 23.0
 
 [node name="Exclamation" type="Label" parent="TopLine"]
-margin_top = 1.0
 margin_right = 17.0
-margin_bottom = 24.0
+margin_bottom = 23.0
 rect_min_size = Vector2( 17, 17 )
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 0.72549, 0, 1 )
@@ -28,62 +27,35 @@ align = 1
 
 [node name="Label" type="Label" parent="TopLine"]
 margin_left = 21.0
-margin_top = 4.0
+margin_top = 3.0
 margin_right = 89.0
-margin_bottom = 21.0
+margin_bottom = 20.0
 custom_fonts/font = ExtResource( 4 )
 text = "theorem  "
 
-[node name="LineEdit" type="LineEdit" parent="TopLine"]
+[node name="ExprItemEdit" type="Control" parent="TopLine"]
 margin_left = 93.0
-margin_right = 243.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 150, 0 )
-placeholder_text = "Theorem name"
+margin_right = 93.0
+margin_bottom = 23.0
+script = ExtResource( 2 )
 
 [node name="Whitespace" type="Control" parent="TopLine"]
-margin_left = 247.0
+margin_left = 97.0
 margin_right = 480.0
-margin_bottom = 25.0
+margin_bottom = 23.0
 size_flags_horizontal = 3
 
 [node name="Button" type="Button" parent="TopLine"]
 margin_left = 484.0
 margin_right = 534.0
-margin_bottom = 25.0
+margin_bottom = 23.0
 disabled = true
 text = "Prove"
 
 [node name="MenuButton" type="MenuButton" parent="TopLine"]
 margin_left = 538.0
 margin_right = 564.0
-margin_bottom = 25.0
+margin_bottom = 23.0
 text = "⋮"
 flat = false
 items = [ "Delete", null, 0, false, false, 0, 0, null, "", false ]
-
-[node name="BottomLine" type="HBoxContainer" parent="."]
-margin_top = 29.0
-margin_right = 564.0
-margin_bottom = 52.0
-
-[node name="Exclamation" type="Label" parent="BottomLine"]
-margin_right = 17.0
-margin_bottom = 23.0
-rect_min_size = Vector2( 17, 17 )
-custom_fonts/font = ExtResource( 3 )
-custom_colors/font_color = Color( 1, 0.72549, 0, 1 )
-text = "!"
-align = 1
-
-[node name="Whitespace2" type="Control" parent="BottomLine"]
-margin_left = 21.0
-margin_right = 89.0
-margin_bottom = 23.0
-rect_min_size = Vector2( 68, 0 )
-
-[node name="ExprItemEdit" type="Control" parent="BottomLine"]
-margin_left = 93.0
-margin_right = 93.0
-margin_bottom = 23.0
-script = ExtResource( 2 )

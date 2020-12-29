@@ -2,25 +2,25 @@ extends VBoxContainer
 
 onready var menu_button:MenuButton = $TopLine/MenuButton
 onready var menu_popup := menu_button.get_popup()
-onready var ui_docstring_editor := $TopLine/LineEdit
-onready var ui_exclamation := $BottomLine/Exclamation
-onready var statement_editor := $BottomLine/ExprItemEdit
+#onready var ui_docstring_editor := $TopLine/LineEdit
+onready var ui_exclamation := $TopLine/Exclamation
+onready var statement_editor := $TopLine/ExprItemEdit
 
 var theorem_item : ModuleItemTheorem
 
 func _ready():
 	menu_popup.connect("index_pressed", self, "_on_menu_item")
-	ui_docstring_editor.connect("text_changed", self, "_on_docstring_changed")
+	#ui_docstring_editor.connect("text_changed", self, "_on_docstring_changed")
 	statement_editor.connect("expr_item_changed", self, "_on_statement_changed")
 
 
 func set_theorem_item(theorem_item:ModuleItemTheorem, typed:=true):
-	statement_editor = $BottomLine/ExprItemEdit
-	ui_exclamation = $BottomLine/Exclamation
+	statement_editor = $TopLine/ExprItemEdit
+	ui_exclamation = $TopLine/Exclamation
 	self.theorem_item = theorem_item
 	var proof_box = theorem_item.get_module().get_proof_box(theorem_item.get_index())
-	$TopLine/LineEdit.text = theorem_item.get_docstring()
-	$BottomLine/ExprItemEdit.set_expr_item(theorem_item.get_statement(), proof_box)
+	#$TopLine/LineEdit.text = theorem_item.get_docstring()
+	$TopLine/ExprItemEdit.set_expr_item(theorem_item.get_statement(), proof_box)
 	_check_valid()
 
 

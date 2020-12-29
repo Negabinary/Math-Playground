@@ -8,6 +8,15 @@ var module : MathModule
 
 func set_module(module:MathModule):
 	self.module = module
+	for child in get_children():
+		remove_child(child)
+	for item in module.get_items():
+		if item is ModuleItemDefinition:
+			add_definition(item)
+		elif item is ModuleItemTheorem:
+			add_theorem(item)
+		else:
+			assert (false)
 
 
 func add_definition(definition_item:ModuleItemDefinition):

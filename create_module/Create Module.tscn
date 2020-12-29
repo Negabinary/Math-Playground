@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://theme/fonts/ui_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://theme/fonts/title.tres" type="DynamicFont" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://create_module/Content.gd" type="Script" id=8]
 [ext_resource path="res://create_module/content/Theorem.tscn" type="PackedScene" id=9]
 [ext_resource path="res://create_module/Button2.gd" type="Script" id=10]
+[ext_resource path="res://create_module/LoadButton.gd" type="Script" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 10.0
@@ -63,26 +64,54 @@ margin_right = 574.0
 margin_bottom = 420.0
 custom_constants/separation = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="FileOptions" type="HBoxContainer" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
 margin_right = 564.0
 margin_bottom = 19.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button2" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="SaveButton" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions"]
 margin_right = 44.0
 margin_bottom = 19.0
 text = "Save"
 script = ExtResource( 10 )
 
-[node name="Button" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="FileDialog" type="FileDialog" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions/SaveButton"]
+visible = true
+margin_right = 685.0
+margin_bottom = 502.0
+resizable = true
+current_dir = "res://lib"
+current_path = "res://lib/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoadButton" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions"]
 margin_left = 48.0
 margin_right = 92.0
 margin_bottom = 19.0
 text = "Load"
+script = ExtResource( 11 )
 
-[node name="ToggleSerialButton" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="FileDialog2" type="FileDialog" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions/LoadButton"]
+visible = true
+margin_left = -48.0
+margin_right = 637.0
+margin_bottom = 502.0
+window_title = "Load a File"
+resizable = true
+mode_overrides_title = false
+mode = 0
+filters = PoolStringArray( "*.tres ; Modules" )
+current_dir = "res://lib"
+current_path = "res://lib/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToggleSerialButton" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions"]
 margin_left = 96.0
 margin_right = 199.0
 margin_bottom = 19.0
@@ -97,20 +126,12 @@ rect_min_size = Vector2( 0, 200 )
 readonly = true
 show_line_numbers = true
 
-[node name="LineEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
+[node name="ModuleNameEdit" type="LineEdit" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
 margin_top = 29.0
 margin_right = 564.0
 margin_bottom = 105.0
 custom_fonts/font = ExtResource( 2 )
 placeholder_text = "Module Name"
-
-[node name="ModuleName" type="Label" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
-visible = false
-margin_top = 86.0
-margin_right = 564.0
-margin_bottom = 154.0
-custom_fonts/font = ExtResource( 2 )
-text = "ModuleName."
 
 [node name="ModuleDescription" type="Label" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]
 margin_top = 115.0
@@ -171,6 +192,7 @@ text = "Content"
 margin_top = 343.0
 margin_right = 564.0
 margin_bottom = 343.0
+custom_constants/separation = 30
 script = ExtResource( 8 )
 DEFINITION_SCENE = ExtResource( 7 )
 THEOREM_SCENE = ExtResource( 9 )
@@ -206,7 +228,7 @@ margin_bottom = 400.0
 margin_top = 410.0
 margin_right = 564.0
 margin_bottom = 410.0
-[connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/ToggleSerialButton" to="." method="_on_toggle_serial"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions/ToggleSerialButton" to="." method="_on_toggle_serial"]
 [connection signal="text_entered" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement/LineEdit" to="." method="add_requirement"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddRequirement/Button" to="." method="add_requirement"]
 [connection signal="pressed" from="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/AddContent/NewDefinition" to="." method="add_definition"]

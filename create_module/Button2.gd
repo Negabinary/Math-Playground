@@ -2,26 +2,9 @@ extends Button
 
 
 func _ready():
-	connect("pressed", self, "_test")
+	connect("pressed", self, "_pressed")
 
 
-func can_drop_data(position, data):
-	return true
-
-
-func drop_data(position, data):
-	print(data)
-
-
-func _test():
-	var f := File.new()
-	f.open("user://test.dat", File.WRITE)
-	f.store_line("Test")
-	f.store_line("Test2\nTest3")
-	f.close()
-	
-	f = File.new()
-	f.open("C:/Users/Matt/Unsafe/test.dat", File.WRITE)
-	f.store_line("Test")
-	f.store_line("Test2\nTest3")
-	f.close()
+func _pressed():
+	$FileDialog.current_file = $"../../ModuleNameEdit".text.to_lower().replace(" ","_") + ".tres"
+	$FileDialog.popup_centered()
