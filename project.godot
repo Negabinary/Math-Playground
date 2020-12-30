@@ -22,17 +22,17 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "ExprItemEdit",
 "language": "GDScript",
-"path": "res://src/visual/ei_editor/expr_item_edit.gd"
+"path": "res://ui/components/ei_editor/expr_item_edit.gd"
 }, {
 "base": "Control",
 "class": "ExprItemEditHelper",
 "language": "GDScript",
-"path": "res://src/visual/ei_editor/expr_item_edit_helper.gd"
+"path": "res://ui/components/ei_editor/expr_item_edit_helper.gd"
 }, {
 "base": "LineEdit",
 "class": "ExprItemEditHelperEdit",
 "language": "GDScript",
-"path": "res://src/visual/ei_editor/expr_item_edit_helper_edit.gd"
+"path": "res://ui/components/ei_editor/expr_item_edit_helper_edit.gd"
 }, {
 "base": "Node",
 "class": "ExprItemLambdaHelper",
@@ -97,7 +97,7 @@ _global_script_classes=[ {
 "base": "Container",
 "class": "PageContainer",
 "language": "GDScript",
-"path": "res://src/visual/PageContainer.gd"
+"path": "res://ui/components/PageContainer.gd"
 }, {
 "base": "Object",
 "class": "ProofBox",
@@ -112,12 +112,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "SelectionHandler",
 "language": "GDScript",
-"path": "res://SelectionHandler.gd"
-}, {
-"base": "Object",
-"class": "Selector",
-"language": "GDScript",
-"path": "res://src/expr_item/selector.gd"
+"path": "res://ui/proof/SelectionHandler.gd"
 }, {
 "base": "Object",
 "class": "Statement",
@@ -137,27 +132,27 @@ _global_script_classes=[ {
 "base": "VBoxContainer",
 "class": "WPBParent",
 "language": "GDScript",
-"path": "res://src/visual/written_proof_box/WPBParent.gd"
+"path": "res://ui/proof/written_proof_box/WPBParent.gd"
 }, {
 "base": "TextureButton",
 "class": "WrittenJustification",
 "language": "GDScript",
-"path": "res://src/visual/written_proof/written_justification.gd"
+"path": "res://ui/proof/written_proof/written_justification.gd"
 }, {
 "base": "WPBParent",
 "class": "WrittenProofBox",
 "language": "GDScript",
-"path": "res://src/visual/written_proof_box/WrittenProofBox.gd"
+"path": "res://ui/proof/written_proof_box/WrittenProofBox.gd"
 }, {
 "base": "Reference",
 "class": "WrittenProofBoxBuilder",
 "language": "GDScript",
-"path": "res://src/visual/written_proof_box/wp_box_builder.gd"
+"path": "res://ui/proof/written_proof_box/wp_box_builder.gd"
 }, {
 "base": "Control",
 "class": "WrittenStatement",
 "language": "GDScript",
-"path": "res://src/visual/written_proof/written_statement.gd"
+"path": "res://ui/proof/written_proof/written_statement.gd"
 } ]
 _global_script_class_icons={
 "ExprItem": "",
@@ -181,7 +176,6 @@ _global_script_class_icons={
 "ProofBox": "",
 "ProofStep": "",
 "SelectionHandler": "",
-"Selector": "",
 "Statement": "",
 "Tag": "",
 "UniversalLocator": "",
@@ -195,8 +189,7 @@ _global_script_class_icons={
 [application]
 
 config/name="DiscMath Playground"
-run/main_scene="res://Main.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://ui/Main.tscn"
 
 [autoload]
 
@@ -217,8 +210,8 @@ enabled=PoolStringArray( "gut", "zylann.project_stats" )
 
 [gui]
 
-theme/custom="res://theme/main_theme.theme"
-theme/custom_font="res://theme/fonts/ui_font.tres"
+theme/custom="res://ui/theme/main_theme.theme"
+theme/custom_font="res://ui/theme/fonts/ui_font.tres"
 
 [input]
 
@@ -269,4 +262,3 @@ comma={
 
 quality/driver/driver_name="GLES2"
 environment/default_clear_color=Color( 1, 1, 1, 1 )
-environment/default_environment="res://default_env.tres"

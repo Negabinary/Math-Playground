@@ -1,0 +1,139 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://ui/proof/assumption_box/AssumptionBox.gd" type="Script" id=1]
+[ext_resource path="res://ui/proof/popups/EnterExprItem.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/proof/assumption_box/ABDefinitions.gd" type="Script" id=3]
+[ext_resource path="res://ui/proof/assumption_box/ABConclusion.gd" type="Script" id=4]
+[ext_resource path="res://ui/proof/assumption_box/Equalities.gd" type="Script" id=5]
+[ext_resource path="res://ui/proof/assumption_box/PopupMenu.gd" type="Script" id=6]
+[ext_resource path="res://ui/proof/assumption_box/ABConditions.gd" type="Script" id=7]
+[ext_resource path="res://ui/proof/assumption_box/ABEquality.gd" type="Script" id=8]
+
+[node name="AssumptionBox" type="PanelContainer"]
+margin_right = 49.0
+margin_bottom = 108.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 45.0
+margin_bottom = 104.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Definitions" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+margin_right = 41.0
+margin_bottom = 14.0
+script = ExtResource( 3 )
+
+[node name="With" type="Label" parent="VBoxContainer/Definitions"]
+margin_right = 32.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 32, 0 )
+size_flags_vertical = 0
+custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
+custom_constants/line_spacing = 0
+text = "∀"
+align = 2
+valign = 1
+
+[node name="Definitions" type="ItemList" parent="VBoxContainer/Definitions"]
+margin_left = 36.0
+margin_right = 41.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+auto_height = true
+max_columns = 100
+
+[node name="EnterExprItem" parent="VBoxContainer/Definitions" instance=ExtResource( 2 )]
+margin_top = 8.0
+margin_bottom = 78.0
+
+[node name="Conditions" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+margin_top = 18.0
+margin_right = 41.0
+margin_bottom = 32.0
+script = ExtResource( 7 )
+
+[node name="If" type="Label" parent="VBoxContainer/Conditions"]
+margin_right = 32.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 32, 0 )
+size_flags_vertical = 1
+custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
+text = "if"
+align = 2
+
+[node name="Conditions" type="ItemList" parent="VBoxContainer/Conditions"]
+margin_left = 36.0
+margin_right = 41.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+auto_height = true
+
+[node name="Conclusion" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+margin_top = 18.0
+margin_right = 41.0
+margin_bottom = 32.0
+script = ExtResource( 4 )
+
+[node name="Then" type="Label" parent="VBoxContainer/Conclusion"]
+margin_right = 32.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 32, 0 )
+size_flags_vertical = 1
+custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
+text = "then"
+align = 2
+
+[node name="Conclusion" type="ItemList" parent="VBoxContainer/Conclusion"]
+margin_left = 36.0
+margin_right = 41.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+auto_height = true
+
+[node name="Equality" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+margin_right = 41.0
+margin_bottom = 14.0
+script = ExtResource( 8 )
+
+[node name="Equals" type="Label" parent="VBoxContainer/Equality"]
+margin_right = 32.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 32, 0 )
+size_flags_vertical = 5
+custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
+text = "="
+align = 2
+valign = 2
+
+[node name="Equalities" type="ItemList" parent="VBoxContainer/Equality"]
+margin_left = 36.0
+margin_right = 41.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+auto_height = true
+script = ExtResource( 5 )
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 45.0
+margin_bottom = 104.0
+script = ExtResource( 6 )
+[connection signal="gui_input" from="." to="." method="_on_AssumptionBox_gui_input"]
+[connection signal="item_activated" from="VBoxContainer/Definitions/Definitions" to="VBoxContainer/Definitions" method="_ons_item_activated"]
+[connection signal="confirmed" from="VBoxContainer/Definitions/EnterExprItem" to="VBoxContainer/Definitions" method="_on_ExprItem_confirmed"]
+[connection signal="item_activated" from="VBoxContainer/Conclusion/Conclusion" to="VBoxContainer/Conclusion" method="_on_item_activated"]
+[connection signal="item_activated" from="VBoxContainer/Equality/Equalities" to="VBoxContainer/Equality/Equalities" method="_on_item_activated"]
+[connection signal="use_equality" from="VBoxContainer/Equality/Equalities" to="." method="_on_use_equality"]

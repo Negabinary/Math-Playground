@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://ui/theme/main_theme.theme" type="Theme" id=1]
+[ext_resource path="res://ui/proof/Proof.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/create_module/Create Module.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ui/components/ei_editor/expr_item_edit.gd" type="Script" id=4]
+[ext_resource path="res://ui/Main.gd" type="Script" id=5]
+
+[node name="ColorRect" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Create Module" parent="TabContainer" instance=ExtResource( 3 )]
+anchor_left = 0.0
+anchor_right = 1.0
+
+[node name="Proof" parent="TabContainer" instance=ExtResource( 2 )]
+visible = false
+
+[node name="Testing Interfaces" type="ColorRect" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 21.0
+size_flags_vertical = 3
+
+[node name="EditorTester" type="VBoxContainer" parent="TabContainer/Testing Interfaces"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExprItemEdit" type="Control" parent="TabContainer/Testing Interfaces/EditorTester"]
+margin_right = 1004.0
+margin_bottom = 72.0
+size_flags_vertical = 3
+script = ExtResource( 4 )
+editable = false
+
+[node name="ExprItemEdit2" type="Control" parent="TabContainer/Testing Interfaces/EditorTester"]
+margin_top = 76.0
+margin_right = 1004.0
+margin_bottom = 148.0
+size_flags_vertical = 3
+script = ExtResource( 4 )
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/Testing Interfaces/EditorTester"]
+margin_top = 152.0
+margin_right = 1004.0
+margin_bottom = 177.0
+caret_blink = true
+caret_blink_speed = 0.5

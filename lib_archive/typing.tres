@@ -1,5 +1,0 @@
-@A A : TAG
-@A B : TAG
-@A f : ->(A,B)
-@A x : A
-@> B(f(x))
