@@ -56,11 +56,11 @@ func _on_proof_step_created(proof_step:ProofStep):
 
 
 func _on_WindowDialog_confirmed():
-	var module_name = $ScrollContainer/MarginContainer/HBoxContainer/VBoxContainer/Button2/WindowDialog/Label2.text
+	var module_name = $ScrollContainer/MarginContainer/HBoxContainer/Add/Button2/WindowDialog/Label2.text
 	add_module(module_loader.get_module(module_name), module_name, selection_handler)
 
 
 func _on_CodeDialog_confirmed():
-	var module_name = $ScrollContainer/MarginContainer/HBoxContainer/VBoxContainer/Button/CodeDialog/VBoxContainer/Label3.text
-	var module_content = $ScrollContainer/MarginContainer/HBoxContainer/VBoxContainer/Button/CodeDialog/VBoxContainer/Label2.text
+	var module_name = $ScrollContainer/MarginContainer/HBoxContainer/Add/Button/CodeDialog/VBoxContainer/Label3.text
+	var module_content = $ScrollContainer/MarginContainer/HBoxContainer/Add/Button/CodeDialog/VBoxContainer/Label2.text
 	add_module(module_loader.get_module(module_name, module_content), module_name, selection_handler)
