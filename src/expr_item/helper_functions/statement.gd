@@ -15,11 +15,11 @@ func _init(new_root:ExprItem):
 	var locator := Locator.new(root)
 	while (
 			locator.get_type() == GlobalTypes.FORALL 
-			or locator.get_type() == GlobalTypes.IMPLIES):
+			or (locator.get_type() == GlobalTypes.IMPLIES and locator.get_child_count() == 2)):
 		while locator.get_type() == GlobalTypes.FORALL:
 			definitions.append(locator.get_child(0).get_type())
 			locator = locator.get_child(1)
-		while locator.get_type() == GlobalTypes.IMPLIES:
+		while locator.get_type() == GlobalTypes.IMPLIES and locator.get_child_count() == 2:
 			conditions.append(locator.get_child(0))
 			locator = locator.get_child(1)
 	conclusion = locator

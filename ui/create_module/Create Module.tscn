@@ -12,9 +12,6 @@
 [ext_resource path="res://ui/create_module/Button2.gd" type="Script" id=10]
 [ext_resource path="res://ui/create_module/LoadButton.gd" type="Script" id=11]
 
-
-
-
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 10.0
 content_margin_right = 10.0
@@ -74,8 +71,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="NewButton" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions"]
+margin_right = 41.0
+margin_bottom = 19.0
+text = "New"
+
 [node name="SaveButton" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions"]
-margin_right = 44.0
+margin_left = 45.0
+margin_right = 89.0
 margin_bottom = 19.0
 text = "Save"
 script = ExtResource( 10 )
@@ -91,8 +94,8 @@ __meta__ = {
 }
 
 [node name="LoadButton" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions"]
-margin_left = 48.0
-margin_right = 92.0
+margin_left = 93.0
+margin_right = 137.0
 margin_bottom = 19.0
 text = "Load"
 script = ExtResource( 11 )
@@ -113,8 +116,8 @@ __meta__ = {
 }
 
 [node name="ToggleSerialButton" type="Button" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions"]
-margin_left = 96.0
-margin_right = 199.0
+margin_left = 141.0
+margin_right = 244.0
 margin_bottom = 19.0
 text = "Show raw file"
 
@@ -139,7 +142,7 @@ margin_top = 115.0
 margin_right = 564.0
 margin_bottom = 172.0
 custom_fonts/font = ExtResource( 1 )
-text = "This paragraph is not vital to the functioning of this programming, in fact it has no function, but aesthetically, this editor looks a lot nicer when there's a paragraph of text here."
+text = "This paragraph is not vital to the functioning of this program, in fact it has no function, but aesthetically, this editor looks a lot nicer when there's a paragraph of text here."
 autowrap = true
 
 [node name="HSeparator2" type="HSeparator" parent="ScrollContainer/MarginContainer/PanelContainer/VBoxContainer"]

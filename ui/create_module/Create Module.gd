@@ -1,5 +1,6 @@
 extends PageContainer
 
+onready var ui_new_button = $ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions/NewButton
 onready var ui_save_button = $ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions/SaveButton
 onready var ui_save_dialog = $ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions/SaveButton/FileDialog
 onready var ui_load_button = $ScrollContainer/MarginContainer/PanelContainer/VBoxContainer/FileOptions/LoadButton
@@ -20,6 +21,7 @@ func _ready():
 	_load_module(MathModule.new("current_module"))
 	ui_save_dialog.connect("file_selected", self, "_on_save_file")
 	ui_load_dialog.connect("file_selected", self, "_on_load_file")
+	ui_new_button.connect("pressed", self, "_on_new_file")
 
 
 func _load_module(module:MathModule):
@@ -90,3 +92,7 @@ func _on_load_file(path:String):
 	_load_module(
 		ModuleDeserializer.new(module_text, path.split("/")[-1], module_loader).get_module()
 	)
+
+
+func _on_new_file():
+	_load_module(MathModule.new("current_module"))
