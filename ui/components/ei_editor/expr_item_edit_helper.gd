@@ -1,3 +1,8 @@
+"""
+NOTE: This class is in much need of a re-write, I had no idea this would be the 
+longest script - I need to come up with some clever way to shorten / split it.
+"""
+
 class_name ExprItemEditHelper
 extends Control
 
@@ -6,6 +11,7 @@ signal click_event
 signal step_left
 signal step_right
 signal changed
+signal backspace
 
 var EXPR_ITEM_EDIT_HELPER = load("res://ui/components/ei_editor/expr_item_edit_helper.gd")
 
@@ -45,6 +51,26 @@ func get_fm_strings() -> Array:
 		strings[-1] += "("
 		strings += [")"]
 	return strings
+
+
+func is_binder() -> bool:
+	return type.is_binder()
+
+
+func get_child_index(child:ExprItemEditHelper) -> int:
+	match mode:
+		HELPER_MODE.EDIT:
+			return child.get_index() - 1
+		_:
+			return child.get_index()
+
+
+func get_expr_child(idx:int) -> Node:
+	match mode:
+		HELPER_MODE.EDIT:
+			return get_child(idx + 1)
+		_:
+			return get_child(idx)
 
 
 # == INITALISATION ============================================================
@@ -113,9 +139,34 @@ func append_child(expr_item:ExprItem, proof_box, bound:=false) -> ExprItemEditHe
 	new_child.connect("step_left", self, "_left_from_above")
 	new_child.connect("step_right", self, "_right_from_above")
 	new_child.connect("resized", self, "update")
+	new_child.connect("backspace", self, "_on_child_backspace", [new_child])
 	add_child(new_child)
 	update()
 	return new_child
+
+
+func delete_child(child:ExprItemEditHelper):
+	if (is_binder() and get_child_index(child) < 2):
+		if get_child_index(child) == 0:
+			_enter_edit_mode(type.get_identifier(), true)
+		else:
+			_delete_child(child)
+			_delete_child(get_expr_child(0))
+			_enter_edit_mode(type.get_identifier(), true)
+	else:
+		_left_from_above(child, false)
+		_delete_child(child)
+		update()
+		if child.get_child_count() != 1:
+			append_child(null, proof_box)
+
+
+func _delete_child(child:ExprItemEditHelper):
+	child.disconnect("step_left", self, "_left_from_above")
+	child.disconnect("step_right", self, "_right_from_above")
+	child.disconnect("resized", self, "update")
+	child.disconnect("backspace", self, "_on_child_backspace")
+	remove_child(child)
 
 
 func show_editor(string:="", focus:=false) -> void:
@@ -126,6 +177,7 @@ func show_editor(string:="", focus:=false) -> void:
 	line_edit.connect("done_edit", self, "_on_edit_done")
 	line_edit.connect("step_left", self, "_left_from_above")
 	line_edit.connect("step_right", self, "_right_from_above")
+	line_edit.connect("backspace", self, "_on_editor_backspace")
 	add_child(line_edit)
 	move_child(line_edit, 0)
 	update()
@@ -169,6 +221,10 @@ func _on_edit_done(type, flags:int):
 	update()
 
 
+func _on_child_backspace(child:ExprItemEditHelper):
+	delete_child(child)
+
+
 func _exit_edit_mode() -> void:
 	if mode == HELPER_MODE.EDIT:
 		if get_child(0) is ExprItemEditHelperEdit:
@@ -199,6 +255,11 @@ func set_type(new_type:ExprItemType) -> void:
 	if type != null:
 		type.connect("renamed", self, "_on_type_renamed")
 		type.connect("deleted", self, "_on_type_deleted")
+
+
+func _on_type_deleted():
+	on_backspace(false)
+	update()
 
 
 # == EXTRACTION ===============================================================
@@ -336,10 +397,6 @@ func _right_from_above(from:Node,travel:=false):
 
 # == INPUT ====================================================================
 
-func _on_type_deleted():
-	on_backspace(false)
-	update()
-
 
 func _gui_input(event):
 	if event.is_action_pressed("mouse_left"):
@@ -371,6 +428,10 @@ func on_open():
 		if caret_part == get_child_count():
 			var child = append_child(null, proof_box)
 			child.right_from_below(true)
+
+
+func _on_editor_backspace():
+	emit_signal("backspace")
 
 
 # == DRAWING =================================================================
