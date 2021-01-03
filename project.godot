@@ -120,11 +120,6 @@ _global_script_classes=[ {
 "path": "res://src/expr_item/helper_functions/statement.gd"
 }, {
 "base": "Object",
-"class": "Tag",
-"language": "GDScript",
-"path": "res://src/tags/tag.gd"
-}, {
-"base": "Object",
 "class": "UniversalLocator",
 "language": "GDScript",
 "path": "res://src/expr_item/universal_locator.gd"
@@ -177,7 +172,6 @@ _global_script_class_icons={
 "ProofStep": "",
 "SelectionHandler": "",
 "Statement": "",
-"Tag": "",
 "UniversalLocator": "",
 "WPBParent": "",
 "WrittenJustification": "",

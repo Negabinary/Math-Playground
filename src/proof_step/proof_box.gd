@@ -45,8 +45,3 @@ func get_all_types() -> Array:
 		return definitions
 	else:
 		return definitions + parent.get_all_types()
-
-
-func add_aliases(aliases:Dictionary):
-	for alias in aliases:
-		parse_dict[alias] = aliases[alias]
