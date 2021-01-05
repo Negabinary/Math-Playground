@@ -25,13 +25,13 @@ func get_fm_strings():
 	return [text]
 
 func decaret():
-	print("DECARET")
+	pass
+
 
 func caret(caret_part, caret_char):
 	assert (caret_part == 0)
 	caret_position = caret_char
 	grab_focus()
-	print("YOO")
 
 
 func left_from_below(travel:=false):

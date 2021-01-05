@@ -29,7 +29,6 @@ func get_expr_item() -> ExprItem:
 
 func _on_changed(_expr_item:ExprItem):
 	emit_signal("expr_item_changed")
-	print("CHANGE!")
 
 
 func _on_minimum_size_change():

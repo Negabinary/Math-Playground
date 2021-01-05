@@ -18,7 +18,6 @@ func _sort_children():
 	var self_size = rect_size
 	var width = min(page_width, rect_size.x)
 	var height = rect_size.y
-	print(str(width,",",height))
 	get_combined_minimum_size()
 	fit_child_in_rect(
 		get_child(0),

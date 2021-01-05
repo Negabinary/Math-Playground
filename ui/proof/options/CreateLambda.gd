@@ -16,7 +16,6 @@ var valid : bool
 
 func setup(proof_step:ProofStep, locator:Locator, new_type:=ExprItemType.new("x")) -> void:
 	self.locator = locator
-	print(locator.get_indeces())
 	self.argument_types = [new_type]
 	self.argument_locations = [[]]
 	self.new_type = new_type
@@ -27,7 +26,6 @@ func setup(proof_step:ProofStep, locator:Locator, new_type:=ExprItemType.new("x"
 	ui_with.set_text(new_type.get_identifier())
 	ui_with.connect("text_changed", self, "_on_identifier_changed")
 	ui_preview.set_expr_item(locator.get_root(), proof_step.get_proof_box()) # hrmmm shouldn't have to give it a proof_box...
-	print(locator.get_indeces())
 
 func is_valid():
 	return !ui_replace.has_holes()
@@ -52,8 +50,6 @@ func _on_replace_changed():
 			locator, argument_locations, argument_types, argument_values
 		)
 		ui_preview.set_expr_item(ei)
-		print("---------")
-		print(ei)
 	emit_signal("update")
 
 func _on_identifier_changed(_t):

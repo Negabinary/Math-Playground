@@ -9,7 +9,8 @@ var all_types = null
 func _init(new_type:ExprItemType, new_children:=[]):
 	type = new_type
 	children = new_children
-	string = to_string()
+	if GlobalTypes:
+		string = to_string()
 
 
 static func from_string(string:String, types:={}) -> ExprItem:

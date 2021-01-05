@@ -38,7 +38,6 @@ func update_context(proof_step:ProofStep, locator:Locator):
 	elif assumption.get_statement().get_conclusion().get_expr_item().is_superset(locator.get_expr_item(), matching) and proof_step.needs_justification():
 		$Conclusion.modulate = Color.yellow
 	elif assumption.get_statement().get_conclusion().get_expr_item().get_type() == GlobalTypes.EXISTS and assumption.get_statement().get_definitions().size() == 0:
-		print("IT EXISTS!")
 		$Conclusion.modulate = Color.cyan
 	else:
 		$Conclusion.modulate = Color.white
