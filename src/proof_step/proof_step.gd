@@ -88,7 +88,7 @@ func get_justification() -> Justification:
 
 
 func is_tag():
-	return get_proof_box().is_tag(get_statement().as_expr_item().abandon_lowest(1))
+	return get_proof_box().is_tag(get_statement().as_expr_item().abandon_lowest(1)) if statement.as_expr_item().get_child_count() > 0 else false
 
 
 func does_conclusion_match_exactly(assumption:ProofStep) -> bool:
