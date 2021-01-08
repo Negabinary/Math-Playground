@@ -6,9 +6,10 @@ var root_expr_item : ExprItem
 var expr_item : ExprItem
 var indeces : Array
 var parent : Locator
+var abandon := 0
 
 
-func _init(new_root_expr_item, new_indeces:=[], new_expr_item:ExprItem=null, parent=null):
+func _init(new_root_expr_item, new_indeces:=[], new_expr_item:ExprItem=null, parent=null, abandon=0):
 	self.root_expr_item = new_root_expr_item
 	self.indeces = new_indeces
 	self.parent = parent
@@ -52,6 +53,11 @@ func get_child(idx:int) -> Locator:
 	return get_script().new(root_expr_item, new_indeces, expr_item.get_child(idx), self)
 
 
+func abandon_lowest(n:int) -> Locator:
+	return get_script().new(root_expr_item, indeces, expr_item.abandon_lowest(n), self, abandon + n)
+
+
+"""
 func get_proof_box(root_proof_box:ProofBox):
 	if parent == null:
 		return root_proof_box
@@ -62,7 +68,7 @@ func get_proof_box(root_proof_box:ProofBox):
 		)
 	else:
 		return parent.get_proof_box(root_proof_box)
-
+"""
 
 func _to_string():
 	return expr_item.to_string()

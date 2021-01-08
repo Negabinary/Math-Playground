@@ -58,6 +58,18 @@ func get_proof_box(up_to := items.size()) -> ProofBox:
 			if not (def in defs):
 				defs.append(def)
 	var parent_proof_box = ProofBox.new(defs)
+	for tag in GlobalTypes.PROOF_BOX.tagging_proof_steps.values():
+		parent_proof_box.add_tag(tag)
+	for requirement in requirements:
+		for type in requirement.get_proof_box().tags:
+			for tag in requirement.get_proof_box().tags[type]:
+				parent_proof_box.add_tag(tag)
+	for module in requirements + [self]:
+		for item in module.items:
+			if item.has_as_assumption():
+				var statement = item.get_as_assumption().get_statement().as_expr_item()
+				if statement.get_child_count() != 0 && statement.get_child(statement.get_child_count()-1).get_child_count() == 0:
+					parent_proof_box.add_tag(item.get_as_assumption())
 	var new_defs := []
 	for item_idx in up_to:
 		var new_def = items[item_idx].get_definition()

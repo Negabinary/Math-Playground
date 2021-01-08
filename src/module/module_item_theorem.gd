@@ -28,7 +28,11 @@ func get_as_assumption():
 	if statement != null:
 		var proof_step = ProofStep.new(
 			statement,
-			module
+			module,
+			ProofStep.ModuleAxiomJustification.new(module)
 		)
-		proof_step.justify_with_module_axiom(module)
 		return proof_step
+
+
+func has_as_assumption() -> bool:
+	return statement != null

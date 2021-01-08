@@ -12,7 +12,6 @@ var statement:Statement
 var justification:Justification
 var new_assumptions := []
 var new_definitions := []
-var _is_tag : bool = false
 
 
 func _init(new_expr_item:ExprItem, module=null, new_justification:Justification = MissingJustification.new(), new_context:ProofStep = null, new_new_assumptions = [], new_new_definitions = []):
@@ -22,6 +21,9 @@ func _init(new_expr_item:ExprItem, module=null, new_justification:Justification 
 	new_assumptions = new_new_assumptions
 	new_definitions = new_new_definitions
 	self.module = module
+	
+	if justification is MissingJustification:
+		attempt_auto_tag_proof()
 
 
 func get_proof_box() -> ProofBox:
@@ -41,10 +43,6 @@ func get_proof_box() -> ProofBox:
 
 func get_module():
 	return module
-
-
-func mark_tag():
-	_is_tag = true
 
 
 func get_assumptions() -> Dictionary:
@@ -90,7 +88,7 @@ func get_justification() -> Justification:
 
 
 func is_tag():
-	return _is_tag
+	return get_proof_box().is_tag(get_statement().as_expr_item().abandon_lowest(1))
 
 
 func does_conclusion_match_exactly(assumption:ProofStep) -> bool:
@@ -256,6 +254,14 @@ func clear_justification():
 	emit_signal("justified")
 
 
+func attempt_auto_tag_proof() -> void:
+	if statement.as_expr_item().get_child_count() > 0:
+		var proof_box = get_proof_box()
+		if proof_box.is_tag(statement.as_expr_item().abandon_lowest(1)):
+			if proof_box.find_tag(statement.as_expr_item().get_child(statement.as_expr_item().get_child_count()-1), statement.as_expr_item()) != null:
+				justify_with_assumption()
+
+
 class Justification:
 	
 	var requirements : Array
@@ -409,7 +415,6 @@ class InstantiateJustification extends Justification:
 		if new_type == null:
 			new_type = ExprItemType.new(old_type.get_identifier())
 		var new_assumption = context.get_script().new(existential_ei.get_child(1).deep_replace_types({old_type:ExprItem.new(new_type)}), context.module, context)
-		print(str(old_type) + " --> " + str(new_type))
 		new_assumption.justify_with_assumption()
 		requirements = [
 			existential,

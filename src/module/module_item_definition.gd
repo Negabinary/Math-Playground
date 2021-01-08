@@ -37,12 +37,13 @@ func delete():
 func get_as_assumption() -> ProofStep:
 	if tag != null:
 		var proof_step = ProofStep.new(
-			ExprItem.new(
-				tag.get_type(),
-				tag.get_children() + [ExprItem.new(type)]
-			),
-			module
+			tag,
+			module,
+			ProofStep.ModuleAxiomJustification.new(module)
 		)
-		proof_step.justify_with_module_axiom(module)
 		return proof_step
 	return null
+
+
+func has_as_assumption() -> bool:
+	return tag != null

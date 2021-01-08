@@ -39,10 +39,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/expr_item/helper_functions/expr_item_lambda_helper.gd"
 }, {
+"base": "Reference",
+"class": "ExprItemTagHelper",
+"language": "GDScript",
+"path": "res://src/expr_item/helper_functions/expr_item_tag_helper.gd"
+}, {
 "base": "Object",
 "class": "ExprItemType",
 "language": "GDScript",
 "path": "res://src/expr_item/expr_item_type.gd"
+}, {
+"base": "Reference",
+"class": "ExprItemUnrollHelper",
+"language": "GDScript",
+"path": "res://src/expr_item/helper_functions/expr_item_unroll_helper.gd"
 }, {
 "base": "Node",
 "class": "JustificationBuilder",
@@ -156,7 +166,9 @@ _global_script_class_icons={
 "ExprItemEditHelper": "",
 "ExprItemEditHelperEdit": "",
 "ExprItemLambdaHelper": "",
+"ExprItemTagHelper": "",
 "ExprItemType": "",
+"ExprItemUnrollHelper": "",
 "JustificationBuilder": "",
 "Locator": "",
 "MathModule": "",
@@ -188,7 +200,6 @@ run/main_scene="res://ui/Main.tscn"
 [autoload]
 
 GlobalTypes="*res://src/expr_item/global_types.gd"
-Tagger="*res://src/tags/tagger.gd"
 
 [debug]
 

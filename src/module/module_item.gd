@@ -23,6 +23,9 @@ func get_definition() -> ExprItemType:
 func get_proof() -> ProofStep:
 	return null
 
+func has_as_assumption() -> bool:
+	return false
+
 func get_as_assumption() -> ProofStep:
 	return null
 
