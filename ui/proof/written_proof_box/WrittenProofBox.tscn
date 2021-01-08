@@ -31,8 +31,8 @@ custom_constants/margin_left = 30
 [node name="Requirements" type="PanelContainer" parent="MarginContainer"]
 visible = false
 margin_left = 30.0
-margin_right = 44.0
-margin_bottom = 14.0
+margin_right = 38.0
+margin_bottom = 8.0
 size_flags_horizontal = 0
 script = ExtResource( 2 )
 
