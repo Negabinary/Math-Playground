@@ -17,15 +17,69 @@ var proof_steps := []
 var proofs := {}
 
 
+# zero_proof_box := GlobalTypes.PROOF_BOX
+var one_proof_box := ProofBox.new([],GlobalTypes.PROOF_BOX)   # Contains requirements, GlobalTypes
+var two_proof_box := ProofBox.new([],one_proof_box)           # Contains new assumptions and definitions
+
+
 func _init(name:String):
 	self.name = name
 	_sc()
+
+
+func _update_one_proof_box() -> void:
+	var markings := {}
+	var one_definitions = one_proof_box.get_all_definitions()
+	var one_assumptions = one_proof_box.get_all_assumptions()
+	for requirement in requirements:
+		var req_proof_box:ProofBox = requirement.get_proof_box()
+		
+		# Add missing definitions
+		var req_definitions = req_proof_box.get_all_definitions()
+		for req_definition in req_definitions:
+			if not (req_definition in one_definitions):
+				one_proof_box.add_definition(req_definition)
+				one_definitions = one_proof_box.get_all_definitions()
+			markings[req_definition] = true
+		
+		# Add missing assumptions
+		var req_assumptions = req_proof_box.get_all_assumptions()
+		for req_assumption in req_assumptions:
+			if not (req_assumption in one_assumptions):
+				one_proof_box.add_assumption(req_assumption)
+				one_assumptions = one_proof_box.get_all_assumptions()
+			markings[req_assumption] = true
+	
+	#Remove old definitions
+	for one_definition in one_proof_box.get_definitions():
+		if !markings.has(one_definition):
+			one_proof_box.remove_definition(one_definition)
+			assert(false) # This hasn't been thought about...
+	
+	#Remove old assumptions
+	for one_assumption in one_proof_box.get_assumptions():
+		if !markings.has(one_assumption):
+			one_proof_box.remove_assumption(one_assumption)
+			assert(false) # This hasn't been thought about...
 
 
 func append_item(item:ModuleItem):
 	items.append(item)
 	item.connect("request_delete", self, "_on_item_deleted", [item])
 	item.connect("serial_changed", self, "_sc")
+	if item.has_as_assumption():
+		two_proof_box.add_assumption(item.get_as_assumption())
+	if item.get_definition() != null:
+		two_proof_box.add_definition(item.get_definition())
+	_sc()
+
+
+func _on_item_deleted(item):
+	items.erase(item)
+	if item.has_as_assumption():
+		two_proof_box.remove_assumption(item.get_as_assumption())
+	if item.get_definition() != null:
+		two_proof_box.remove_definition(item.get_definition())
 	_sc()
 
 
@@ -40,6 +94,7 @@ func get_items() -> Array:
 func append_requirement(requirement:MathModule):
 	requirements.append(requirement)
 	emit_signal("requirements_updated")
+	_update_one_proof_box()
 	_sc()
 
 
@@ -51,44 +106,18 @@ func get_proof(proof_step:ProofStep) -> ProofStep:
 	return null
 
 
-func get_proof_box(up_to := items.size()) -> ProofBox:
-	var defs := GlobalTypes.PROOF_BOX.get_definitions().duplicate()
-	for requirement in requirements:
-		for def in requirement.get_proof_box().get_definitions():
-			if not (def in defs):
-				defs.append(def)
-	var parent_proof_box = ProofBox.new(defs)
-	for tag in GlobalTypes.PROOF_BOX.tagging_proof_steps.values():
-		parent_proof_box.add_tag(tag)
-	for requirement in requirements:
-		for type in requirement.get_proof_box().tags:
-			for tag in requirement.get_proof_box().tags[type]:
-				parent_proof_box.add_tag(tag)
-	for module in requirements + [self]:
-		for item in module.items:
-			if item.has_as_assumption():
-				var statement = item.get_as_assumption().get_statement().as_expr_item()
-				if statement.get_child_count() != 0 && statement.get_child(statement.get_child_count()-1).get_child_count() == 0:
-					parent_proof_box.add_tag(item.get_as_assumption())
-	var new_defs := []
-	for item_idx in up_to:
-		var new_def = items[item_idx].get_definition()
-		if new_def != null:
-			new_defs.append(new_def)
-	return ProofBox.new(new_defs, parent_proof_box)
+# TODO : make _up_to work
+func get_proof_box(_up_to := items.size()) -> ProofBox:
+	return two_proof_box
 
 
-func get_proof_steps(up_to := items.size()) -> Array:
-	var result := []
-	for item_idx in up_to:
-		var x = items[item_idx].get_as_assumption()
-		if x != null:
-			result.append(x)
-	return result
+# TODO : make _up_to work
+func get_proof_steps(_up_to := items.size()) -> Array:
+	return get_proof_box(_up_to).get_assumptions()
 
 
-func get_definitions(up_to := items.size()) -> Array:
-	return get_proof_box(up_to).get_definitions()
+func get_definitions(_up_to := items.size()) -> Array:
+	return get_proof_box(_up_to).get_definitions()
 
 
 func get_requirements() -> Array:
@@ -97,11 +126,6 @@ func get_requirements() -> Array:
 
 func get_name() -> String:
 	return name
-
-
-func _on_item_deleted(item):
-	items.erase(item)
-	_sc()
 
 
 func _sc():

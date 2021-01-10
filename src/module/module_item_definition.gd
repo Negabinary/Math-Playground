@@ -4,11 +4,18 @@ class_name ModuleItemDefinition
 var type : ExprItemType
 var alpha_tags : Array # [ExprItemType]
 var tag : ExprItem
+var as_assumption : ProofStep
 
 
 func _init(module, tag=null, expr_item_type:=ExprItemType.new("???"), docstring:="").(module,docstring):
 	self.type = expr_item_type
 	self.tag = tag
+	if tag != null:
+		as_assumption = ProofStep.new(
+				tag,
+				module,
+				ProofStep.ModuleAxiomJustification.new(module)
+			)
 
 
 func rename_type(new_name:String) -> void:
@@ -36,12 +43,7 @@ func delete():
 
 func get_as_assumption() -> ProofStep:
 	if tag != null:
-		var proof_step = ProofStep.new(
-			tag,
-			module,
-			ProofStep.ModuleAxiomJustification.new(module)
-		)
-		return proof_step
+		return as_assumption
 	return null
 
 

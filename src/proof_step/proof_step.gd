@@ -5,6 +5,7 @@ class_name ProofStep
 signal justified
 
 
+var outer_box : ProofBox
 var context:ProofStep
 var module
 
@@ -22,11 +23,6 @@ func _init(new_expr_item:ExprItem, module=null, new_justification:Justification 
 	new_definitions = new_new_definitions
 	self.module = module
 	
-	if justification is MissingJustification:
-		attempt_auto_tag_proof()
-
-
-func get_proof_box() -> ProofBox:
 	var base : ProofBox
 	if context != null:
 		base = context.get_proof_box()
@@ -34,11 +30,17 @@ func get_proof_box() -> ProofBox:
 		base = module.get_proof_box()
 	else:
 		base = GlobalTypes.PROOF_BOX
-	
 	if new_definitions == []:
-		return base
+		outer_box = base
 	else:
-		return ProofBox.new(new_definitions, base)
+		outer_box = ProofBox.new(new_definitions, base)
+	
+	if justification is MissingJustification:
+		attempt_auto_tag_proof()
+
+
+func get_proof_box() -> ProofBox:
+	return outer_box
 
 
 func get_module():
@@ -80,7 +82,7 @@ func needs_justification() -> bool:
 
 
 func is_proven() -> bool:
-	return justification.is_proven()
+	return justification.verify(statement.as_expr_item())
 
 
 func get_justification() -> Justification:
@@ -261,7 +263,7 @@ func attempt_auto_tag_proof() -> void:
 			if proof_box.find_tag(statement.as_expr_item().get_child(statement.as_expr_item().get_child_count()-1), statement.as_expr_item()) != null:
 				justify_with_assumption()
 
-
+"""
 class Justification:
 	
 	var requirements : Array
@@ -279,18 +281,7 @@ class Justification:
 	
 	func get_justification_text():
 		return "Justification Text Not Implemented"
-
-
-class MissingJustification extends Justification:
-	
-	func is_proven() -> bool:
-		return false
-	
-	func _init():
-		requirements = []
-		
-	func get_justification_text():
-		return "MISSING JUSTIFICATION"
+"""
 
 
 class AssumedJustification extends Justification:

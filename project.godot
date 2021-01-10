@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/expr_item/helper_functions/expr_item_unroll_helper.gd"
 }, {
+"base": "Reference",
+"class": "Justification",
+"language": "GDScript",
+"path": "res://src/proof_step/justification.gd"
+}, {
 "base": "Node",
 "class": "JustificationBuilder",
 "language": "GDScript",
@@ -68,6 +73,11 @@ _global_script_classes=[ {
 "class": "MathModule",
 "language": "GDScript",
 "path": "res://src/module/module.gd"
+}, {
+"base": "Justification",
+"class": "MissingJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/missing_justification.gd"
 }, {
 "base": "Reference",
 "class": "ModuleDeserializer",
@@ -169,9 +179,11 @@ _global_script_class_icons={
 "ExprItemTagHelper": "",
 "ExprItemType": "",
 "ExprItemUnrollHelper": "",
+"Justification": "",
 "JustificationBuilder": "",
 "Locator": "",
 "MathModule": "",
+"MissingJustification": "",
 "ModuleDeserializer": "",
 "ModuleItem": "",
 "ModuleItemAssumption": "",

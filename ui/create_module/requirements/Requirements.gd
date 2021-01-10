@@ -24,5 +24,5 @@ func _on_requirements_updated():
 
 func _add_requirement(requirement:MathModule):
 	var label = Label.new()
-	label.text = requirement.get_name() + " - " + str(requirement.get_definitions())
+	label.text = requirement.get_name() + " - " + str(requirement.get_definitions(),"      (",requirement.get_proof_box().get_parent().get_all_definitions(),")")
 	add_child(label)

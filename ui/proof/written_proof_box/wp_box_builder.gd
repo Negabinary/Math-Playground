@@ -6,7 +6,7 @@ const WP_IMPLICATION = preload("res://ui/proof/written_proof_box/WPBImplication.
 
 static func build(proof_step:ProofStep, selection_handler:SelectionHandler) -> Node:
 	var node : Node
-	if proof_step.justification is ProofStep.MissingJustification:
+	if proof_step.justification is MissingJustification:
 		node = WP_MISSING.instance()
 	elif proof_step.justification is ProofStep.ImplicationJustification:
 		node = WP_IMPLICATION.instance()
