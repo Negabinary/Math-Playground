@@ -105,7 +105,7 @@ func justify_with_matching() -> void:
 
 
 func justify_with_vacuous() -> void:
-	justify(VacuousJustification.new(self))
+	justify(VacuousJustification.new(outer_box, get_statement().get_conditions()[0].get_expr_item()))
 
 
 func justify_with_contrapositive() -> void:
@@ -347,21 +347,6 @@ class MatchingJustification extends Justification:
 	
 	func get_justification_text():
 		return "SO THIS MATCHES"
-
-
-class VacuousJustification extends Justification:
-	
-	func _init(context:ProofStep):
-		requirements = [
-			context.get_script().new(
-				context.get_statement().as_expr_item().get_child(0).negate(),
-				context.get_proof_box(),
-				MissingJustification.new()
-			)
-		]
-	
-	func get_justification_text():
-		return "MAKES THE FOLLOWING VACUOUS"
 
 
 class ContrapositiveJustification extends Justification:
