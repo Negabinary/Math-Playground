@@ -23,29 +23,5 @@ func get_generalized():
 	return requirements[0]
 
 
-
-"""
-func _init(
-		context:ProofStep,
-		generalised,
-		_matching:Dictionary):
-	if generalised is String:
-		var new_type = ExprItemType.new(generalised)
-		var new_ei = ExprItem.new(
-			GlobalTypes.FORALL, [
-				ExprItem.new(new_type),
-				context.get_statement().as_expr_item()
-			]
-		)
-		requirements = [context.get_script().new(
-			new_ei,
-			context.get_proof_box(),
-			MissingJustification.new()
-		)]
-	else:
-		requirements = [generalised]
-
-
 func get_justification_text():
-	return "IS THE GENERAL CASE OF"
-"""
+	return "IS THE GENERAL CASE OF (" + str(matching) + ")"

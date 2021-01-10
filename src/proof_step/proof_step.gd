@@ -146,12 +146,14 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int, replace_ps:Locator) -> void:
 	assert(implication.get_statement().get_conclusion().get_type() == GlobalTypes.EQUALITY)
 	if implication.get_statement().get_definitions().size() == 0:
-		justify(EqualityJustification.new(
+		var justification = EqualityJustification.new(
 			outer_box, replace_ps,
 			implication.get_statement().get_conclusion().get_child(with_idx).get_expr_item(),
 			implication.get_statement().get_condition_eis(),
 			replace_idx == 0
-		))
+		)
+		justification.get_equality_proof_step().justify(implication.get_justification())
+		justify(justification)
 	else:
 		var matching := {}
 		for definition in implication.get_statement().get_definitions():
@@ -174,7 +176,7 @@ func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int,
 
 func justify_with_specialisation(generalised:ProofStep, matching) -> void:
 	var j = RefineJustification.new(outer_box, generalised.get_statement().as_expr_item(), matching)
-	j.get_generalized().justify_with_assumption()
+	j.get_generalized().justify(generalised.get_justification())
 	justify(j)
 
 
