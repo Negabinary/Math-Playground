@@ -136,7 +136,7 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 				justify_with_specialisation(implication, matching)
 			else:
 				var refined_ei = implication.get_statement().deep_replace_types(matching).as_expr_item()
-				var j = ModusPonensJustification.new(get_proof_box(), implication.get_statement().as_expr_item())
+				var j = ModusPonensJustification.new(get_proof_box(), refined_ei)
 				j.get_implication_proof_step().justify_with_specialisation(implication, matching)
 				justify(j)
 		else:

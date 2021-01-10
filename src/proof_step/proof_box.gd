@@ -100,10 +100,10 @@ func get_all_assumptions() -> Array:
 
 
 func get_assumptions_not_in_module() -> Array:
-	if parent == null or parent == GlobalTypes.PROOF_BOX:
+	if (parent == null or parent == GlobalTypes.PROOF_BOX) and module == null:
 		return get_assumptions()
 	elif module == null:
-		return get_assumptions() + parent.get_assumptions()
+		return get_assumptions() + parent.get_assumptions_not_in_module()
 	else:
 		return []
 
