@@ -12,7 +12,7 @@ func _init(module, statement:ExprItem, previously_proven := false, docstring:=""
 func update_statement(new_expr_item:ExprItem) -> void:
 	self.statement = new_expr_item
 	if statement != null:
-		self.proof = ProofStep.new(statement, module)
+		self.proof = ProofStep.new(statement, module.get_proof_box())
 	_sc()
 
 
@@ -28,8 +28,8 @@ func get_as_assumption():
 	if statement != null:
 		var proof_step = ProofStep.new(
 			statement,
-			module,
-			ProofStep.ModuleAxiomJustification.new(module)
+			module.get_proof_box(),
+			AssumptionJustification.new(module.get_proof_box())
 		)
 		return proof_step
 

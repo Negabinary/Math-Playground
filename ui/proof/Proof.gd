@@ -8,7 +8,7 @@ var root_ps : ProofStep
 
 func _set_up() -> void:
 	var w2 = ExprItemBuilder.from_string("For all(A,For all(B,For all(C,=>(=>(A,B),=>(=>(B,C),=>(A,C))))))", GlobalTypes.PROOF_BOX)
-	root_ps = ProofStep.new(w2)
+	root_ps = ProofStep.new(w2, ProofBox.new([],GlobalTypes.PROOF_BOX))
 	ui_written_proof.display_proof(root_ps)
 
 

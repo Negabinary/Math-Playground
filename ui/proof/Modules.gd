@@ -30,8 +30,8 @@ func display_modules(proof_step:ProofStep):
 			$ScrollContainer/MarginContainer/HBoxContainer.remove_child(child)
 	
 	# Add new modules
-	add_module(proof_step.get_module(), proof_step.get_module().get_name(), selection_handler)
-	for req in proof_step.get_module().get_requirements():
+	add_module(proof_step.get_proof_box().get_module(), proof_step.get_proof_box().get_module().get_name(), selection_handler)
+	for req in proof_step.get_proof_box().get_module().get_requirements():
 		add_module(req, req.get_name(), selection_handler)
 
 

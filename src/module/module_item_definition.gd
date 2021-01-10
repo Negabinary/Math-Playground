@@ -13,8 +13,8 @@ func _init(module, tag=null, expr_item_type:=ExprItemType.new("???"), docstring:
 	if tag != null:
 		as_assumption = ProofStep.new(
 				tag,
-				module,
-				ProofStep.ModuleAxiomJustification.new(module)
+				module.get_proof_box(),
+				AssumptionJustification.new(module.get_proof_box())
 			)
 
 

@@ -29,14 +29,30 @@ var assumptions := []  # Array<ProofStep>
 var parse_dict : Dictionary # <String, ExprItemType>
 var tags : Dictionary
 var tagging_proof_steps : Dictionary #<ExprItemTagHelper,ProofStep>
+var level : int
+var module
 
 
-func _init(definitions:Array, parent:ProofBox = null): #<ExprItemType,String>
+func _init(definitions:Array, parent:ProofBox = null, module = null): #<ExprItemType,String>
 	self.parent = parent
+	if parent == null:
+		level = 0
+	else:
+		level = parent.get_level() + 1
 	self.definitions = definitions
+	self.module = module
 	update_parse_dict()
 	for definition in definitions:
 		definition.connect("renamed", self, "update_parse_dict")
+
+
+func get_module():
+	if module != null:
+		return module
+	elif parent != null:
+		return parent.get_module()
+	else:
+		return null
 
 
 func add_definition(definition:ExprItemType) -> void:
@@ -81,6 +97,15 @@ func get_all_assumptions() -> Array:
 		return get_assumptions()
 	else:
 		return get_assumptions() + parent.get_assumptions()
+
+
+func get_assumptions_not_in_module() -> Array:
+	if parent == null or parent == GlobalTypes.PROOF_BOX:
+		return get_assumptions()
+	elif module == null:
+		return get_assumptions() + parent.get_assumptions()
+	else:
+		return []
 
 
 func update_parse_dict():
@@ -143,9 +168,22 @@ func find_tag(expr:ExprItem, tagging_check:ExprItem): # -> ProofStep
 		return null
 
 
+func check_assumption(proof_step):
+	if proof_step in assumptions:
+		return true
+	elif parent != null:
+		return parent.check_assumption(proof_step)
+	else:
+		return false
+
+
 func is_tag(expr:ExprItem):
 	return find_tag(expr, ExprItem.new(GlobalTypes.TAG,[expr]))
 
 
 func get_parent() -> ProofBox:
 	return parent
+
+
+func get_level() -> int:
+	return level

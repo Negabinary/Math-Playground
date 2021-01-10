@@ -34,7 +34,7 @@ func _clear_assumptions():
 
 func _update_assumptions() -> void:
 	_clear_assumptions()
-	for assumption in proof_step.get_assumptions():
+	for assumption in proof_step.get_proof_box().get_assumptions_not_in_module():
 		save_assumption(assumption)
 
 
@@ -51,7 +51,7 @@ func _on_assumption_conclusion_used(assumption:ProofStep, _index):
 	assert (_index == 0)
 	if locator.get_expr_item().compare(assumption.get_statement().get_conclusion().get_expr_item()):
 		if assumption.get_statement().get_conditions().size() == 0:
-			proof_step.justify_with_assumption()
+			proof_step.justify_with_assumption(proof_step.get_proof_box())
 		else:
 			proof_step.justify_with_modus_ponens(assumption)
 	else:

@@ -13,11 +13,15 @@ func get_requirements() -> Array: #<ProofStep>
 	return requirements
 
 
-func verify(statement:ExprItem) -> bool:
-	return _verify(statement) && _verify_requirements()
+func verify(proof_step) -> bool:
+	return _verify(proof_step) && _verify_requirements()
 
 
-func _verify(statement:ExprItem) -> bool:
+func _verify(proof_step) -> bool:
+	return _verify_ei(proof_step.get_statement().as_expr_item())
+
+
+func _verify_ei(expr_item:ExprItem) -> bool:
 	return is_proven()
 
 
@@ -26,3 +30,7 @@ func _verify_requirements() -> bool:
 		if !requirement.is_proven():
 			return false
 	return true
+
+
+func get_justification_text():
+	return "USING SOMETHING OR OTHER"

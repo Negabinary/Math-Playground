@@ -19,7 +19,7 @@ var proofs := {}
 
 # zero_proof_box := GlobalTypes.PROOF_BOX
 var one_proof_box := ProofBox.new([],GlobalTypes.PROOF_BOX)   # Contains requirements, GlobalTypes
-var two_proof_box := ProofBox.new([],one_proof_box)           # Contains new assumptions and definitions
+var two_proof_box := ProofBox.new([],one_proof_box, self)           # Contains new assumptions and definitions
 
 
 func _init(name:String):

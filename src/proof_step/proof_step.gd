@@ -6,34 +6,14 @@ signal justified
 
 
 var outer_box : ProofBox
-var context:ProofStep
-var module
-
 var statement:Statement
 var justification:Justification
-var new_assumptions := []
-var new_definitions := []
 
 
-func _init(new_expr_item:ExprItem, module=null, new_justification:Justification = MissingJustification.new(), new_context:ProofStep = null, new_new_assumptions = [], new_new_definitions = []):
+func _init(new_expr_item:ExprItem, proof_box=null, new_justification:Justification = MissingJustification.new()):
 	statement = Statement.new(new_expr_item)
+	outer_box = proof_box
 	justification = new_justification
-	context = new_context
-	new_assumptions = new_new_assumptions
-	new_definitions = new_new_definitions
-	self.module = module
-	
-	var base : ProofBox
-	if context != null:
-		base = context.get_proof_box()
-	elif module != null:
-		base = module.get_proof_box()
-	else:
-		base = GlobalTypes.PROOF_BOX
-	if new_definitions == []:
-		outer_box = base
-	else:
-		outer_box = ProofBox.new(new_definitions, base)
 	
 	if justification is MissingJustification:
 		attempt_auto_tag_proof()
@@ -44,29 +24,7 @@ func get_proof_box() -> ProofBox:
 
 
 func get_module():
-	return module
-
-
-func get_assumptions() -> Dictionary:
-	var assumptions : Dictionary
-	if context == null:
-		assumptions = {}
-	else:
-		assumptions = context.get_assumptions()
-	for new_assumption in new_assumptions:
-		assumptions[new_assumption] = self
-	return assumptions
-
-
-func get_definitions() -> Array:
-	var definitions : Array
-	if context == null:
-		definitions = []
-	else:
-		definitions = context.get_definitions()
-	for new_definition in new_definitions:
-		definitions.push_front(new_definition)
-	return definitions
+	return outer_box.get_module()
 
 
 func get_statement() -> Statement:
@@ -82,7 +40,7 @@ func needs_justification() -> bool:
 
 
 func is_proven() -> bool:
-	return justification.verify(statement.as_expr_item())
+	return justification.verify(self)
 
 
 func get_justification() -> Justification:
@@ -105,7 +63,7 @@ func does_conclusion_match_with_sub(assumption:ProofStep, empty_matching:={}) ->
 
 
 func can_justify_with_assumption(assumption:ProofStep) -> bool:
-	if not (assumption in get_assumptions()):
+	if not (outer_box.check_assumption(assumption)):
 		return false
 	elif does_conclusion_match_exactly(assumption):
 		return true # Matches exactly
@@ -118,20 +76,13 @@ func justify_with_missing() -> void:
 	emit_signal("justified")
 
 
-func justify_with_assumption() -> void:
-	justification = AssumedJustification.new()
+func justify_with_assumption(proof_box:ProofBox) -> void:
+	justification = AssumptionJustification.new(proof_box)
 	emit_signal("justified")
 
 
-func justify_with_module_axiom(math_module) -> void:
-	justification = ModuleAxiomJustification.new(math_module)
-	emit_signal("justified")
-
-
-func justify_with_module_proveable(math_module, proof:ProofStep = null) -> void:
-	if proof == null:
-		proof = get_script().new(get_statement().as_expr_item())
-	justification = ModuleProveableJustification.new(math_module, proof)
+func justify_with_module_assumption(math_module) -> void:
+	justification = AssumptionJustification.new(math_module.get_proof_box())
 	emit_signal("justified")
 
 
@@ -161,7 +112,7 @@ func justify_with_contrapositive() -> void:
 
 
 func can_justify_with_modus_ponens(assumption:ProofStep) -> bool:
-	if not (assumption in get_assumptions()):
+	if not (outer_box.check_assumption(assumption)):
 		return false
 	elif does_conclusion_match_exactly(assumption):
 		return true
@@ -175,7 +126,7 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 			justification = implication.justification
 			emit_signal("justified")
 		else:
-			justification = ModusPonensJustificaiton.new(self, implication)
+			justification = ModusPonensJustification.new(self, implication)
 			emit_signal("justified")
 	else:
 		var matching := {}
@@ -183,9 +134,9 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 			if implication.get_statement().get_conditions().size() == 0:
 				justify_with_specialisation(implication, matching)
 			else:
-				var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item(), module)
+				var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item(), outer_box)
 				refined_ps.justify_with_specialisation(implication, matching)
-				justification = ModusPonensJustificaiton.new(self, refined_ps)
+				justification = ModusPonensJustification.new(self, refined_ps)
 				emit_signal("justified")
 		else:
 			assert(false)
@@ -203,7 +154,7 @@ func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int,
 		for definition in implication.get_statement().get_definitions():
 			matching[definition] = "*"
 		if replace_impl.get_expr_item().is_superset(replace_ps.get_expr_item(), matching):
-			var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item(), module)
+			var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item(), outer_box)
 			refined_ps.justify_with_specialisation(implication, matching)
 			justification = EqualityJustification.new(self, refined_ps, replace_ps, refined_ps.get_statement().get_conclusion().get_child(with_idx))
 			emit_signal("justified")
@@ -261,67 +212,11 @@ func attempt_auto_tag_proof() -> void:
 		var proof_box = get_proof_box()
 		if proof_box.is_tag(statement.as_expr_item().abandon_lowest(1)):
 			if proof_box.find_tag(statement.as_expr_item().get_child(statement.as_expr_item().get_child_count()-1), statement.as_expr_item()) != null:
-				justify_with_assumption()
-
-"""
-class Justification:
-	
-	var requirements : Array
-	
-	func is_proven() -> bool:
-		var proven := true
-		for requirement in requirements:
-			if !requirement.get_justification().is_proven():
-				proven = false
-				break
-		return proven
-	
-	func get_requirements() -> Array: # <ProofStep>
-		return requirements
-	
-	func get_justification_text():
-		return "Justification Text Not Implemented"
-"""
+				justify_with_assumption(proof_box)
 
 
-class AssumedJustification extends Justification:
-	
-	func _init():
-		requirements = []
-	
-	func get_justification_text():
-		return "ASSUMED"
 
-
-class ModuleAxiomJustification extends Justification:
-	
-	var module # : MathModule
-	
-	func _init(new_module):
-		requirements = []
-		module = new_module
-	
-	func get_justification_text():
-		return "ASSUMED IN MODULE"
-
-
-class ModuleProveableJustification extends Justification:
-	
-	var module # : MathModule
-	var proof : ProofStep
-	
-	func _init(new_module, proof:ProofStep):
-		requirements = []
-		module = new_module
-	
-	func get_module():
-		return module
-	
-	func get_justification_text():
-		return "ASSUMED IN MODULE"
-
-
-class ModusPonensJustificaiton extends Justification:
+class ModusPonensJustification extends Justification:
 	
 	var implication:ProofStep
 	
@@ -332,16 +227,15 @@ class ModusPonensJustificaiton extends Justification:
 			requirements.append(
 					new_implication.get_script().new(
 							assumption.get_expr_item(),
-							context.module,
-							MissingJustification.new(),
-							context
+							context.get_proof_box(),
+							MissingJustification.new()
 					)
 			)
 	
 	func get_justification_text():
 		return "USING " + requirements[0].get_statement().to_string()
-#
-#
+
+
 class EqualityJustification extends Justification:
 #
 	func _init(
@@ -355,13 +249,12 @@ class EqualityJustification extends Justification:
 			requirements.append(
 					equality.get_script().new(
 							assumption.get_expr_item(),
-							context.module,
-							MissingJustification.new(),
-							context
+							context.get_proof_box(),
+							MissingJustification.new()
 					)
 			)
 		var with_replacement = context.get_conclusion().get_expr_item().replace_at(replace.get_indeces(), with.get_expr_item())
-		requirements.append(equality.get_script().new(with_replacement, context.module, MissingJustification.new(), context))
+		requirements.append(equality.get_script().new(with_replacement, context.get_proof_box(), MissingJustification.new()))
 
 	func get_justification_text():
 		return "USING " + requirements[0].get_statement().to_string()	
@@ -383,9 +276,8 @@ class RefineJustification extends Justification:
 			)
 			requirements = [context.get_script().new(
 				new_ei,
-				context.module,
-				MissingJustification.new(),
-				context
+				context.get_proof_box(),
+				MissingJustification.new()
 			)]
 		else:
 			requirements = [generalised]
@@ -405,17 +297,16 @@ class InstantiateJustification extends Justification:
 		var old_type = existential_ei.get_child(0).get_type()
 		if new_type == null:
 			new_type = ExprItemType.new(old_type.get_identifier())
-		var new_assumption = context.get_script().new(existential_ei.get_child(1).deep_replace_types({old_type:ExprItem.new(new_type)}), context.module, context)
+		var new_assumption = context.get_script().new(existential_ei.get_child(1).deep_replace_types({old_type:ExprItem.new(new_type)}), context.get_proof_box(), context)
 		new_assumption.justify_with_assumption()
+		var new_proof_box = ProofBox.new([new_type],context.get_proof_box())
+		new_proof_box.add_assumption(new_assumption)
 		requirements = [
 			existential,
 			context.get_script().new(
 				context_ei,
-				context.module,
-				MissingJustification.new(),
-				context,
-				[new_assumption],
-				[new_type]
+				new_proof_box,
+				MissingJustification.new()
 			)
 		]
 	
@@ -440,17 +331,17 @@ class ImplicationJustification extends Justification:
 					assum_ei = strip_existential(ctxt_definitions, conditions[i].get_expr_item(), [])
 				else:
 					assum_ei = strip_existential(ctxt_definitions, conditions[i].get_expr_item(), keep_exists_types[i])
-				var assum_ps = context.get_script().new(assum_ei, context.module)
-				assum_ps.justify_with_assumption()
+				var assum_ps = context.get_script().new(assum_ei, context.get_proof_box())
+				assum_ps.justify_with_assumption(context.get_proof_box())
 				ctxt_assumptions.append(assum_ps)
+		var new_proof_box = ProofBox.new(ctxt_definitions, context.get_proof_box())
+		for ctxt_assumption in ctxt_assumptions:
+			new_proof_box.add_assumption(ctxt_assumption)
 		requirements = [
 			context.get_script().new(
 				conclusion,
-				context.module,
-				MissingJustification.new(),
-				context,
-				ctxt_assumptions,
-				ctxt_definitions
+				new_proof_box,
+				MissingJustification.new()
 			)
 		]
 	
@@ -494,9 +385,8 @@ class MatchingJustification extends Justification:
 						lhs.get_child(i),
 						rhs.get_child(i)
 					]),
-					context.module,
-					MissingJustification.new(),
-					context
+					context.get_proof_box(),
+					MissingJustification.new()
 				)
 			)
 	
@@ -510,9 +400,8 @@ class VacuousJustification extends Justification:
 		requirements = [
 			context.get_script().new(
 				context.get_statement().as_expr_item().get_child(0).negate(),
-				context.module,
-				MissingJustification.new(),
-				context
+				context.get_proof_box(),
+				MissingJustification.new()
 			)
 		]
 	
@@ -538,9 +427,8 @@ class ContrapositiveJustification extends Justification:
 		requirements = [
 			context.get_script().new(
 				expr_item,
-				context.module,
-				MissingJustification.new(),
-				context
+				context.get_proof_box(),
+				MissingJustification.new()
 			)
 		]
 
@@ -549,9 +437,8 @@ class EliminatedLambdaJustification extends Justification:
 	func _init(context:ProofStep, location:Locator, argument_locations:Array, argument_types:Array, argument_values:Array): #Array<ExprItemType> # Array<Array<Locator>> 
 		requirements = [context.get_script().new(
 			ExprItemLambdaHelper.create_lambda(location, argument_locations, argument_types, argument_values),
-			context.module,
-			MissingJustification.new(),
-			context
+			context.get_proof_box(),
+			MissingJustification.new()
 		)]
 	
 	func get_justification_text():
@@ -563,9 +450,8 @@ class IntroducedLambdaJustification extends Justification:
 	func _init(context:ProofStep, location:Locator): #Array<ExprItemType> # Array<Array<Locator>> 
 		requirements = [context.get_script().new(
 			ExprItemLambdaHelper.apply_lambda(location),
-			context.module,
-			MissingJustification.new(),
-			context
+			context.get_proof_box(),
+			MissingJustification.new()
 		)]
 	
 	func get_justification_text():

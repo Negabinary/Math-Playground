@@ -58,7 +58,8 @@ func _ready():
 func _add_tag(type, expr) -> void:
 	PROOF_BOX.add_tag(
 		ProofStep.new(
-			expr
+			expr,
+			PROOF_BOX
 		)
 	)
 

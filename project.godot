@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Justification",
+"class": "AssumptionJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/assumption_justification.gd"
+}, {
 "base": "Object",
 "class": "ExprItem",
 "language": "GDScript",
@@ -170,6 +175,7 @@ _global_script_classes=[ {
 "path": "res://ui/proof/written_proof/written_statement.gd"
 } ]
 _global_script_class_icons={
+"AssumptionJustification": "",
 "ExprItem": "",
 "ExprItemBuilder": "",
 "ExprItemEdit": "",
