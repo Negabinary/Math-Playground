@@ -51,6 +51,11 @@ func is_tag():
 	return get_proof_box().is_tag(get_statement().as_expr_item().abandon_lowest(1)) if statement.as_expr_item().get_child_count() > 0 else false
 
 
+func justify(justification:Justification):
+	self.justification = justification
+	emit_signal("justified")
+
+
 func does_conclusion_match_exactly(assumption:ProofStep) -> bool:
 	return statement.as_expr_item().compare(assumption.get_statement().get_conclusion().get_expr_item())
 
@@ -126,7 +131,8 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 			justification = implication.justification
 			emit_signal("justified")
 		else:
-			justification = ModusPonensJustification.new(self, implication)
+			justification = ModusPonensJustification.new(get_proof_box(), implication.get_statement().as_expr_item())
+			justification.get_implication_proof_step().justify(implication.get_justification())
 			emit_signal("justified")
 	else:
 		var matching := {}
@@ -134,9 +140,9 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 			if implication.get_statement().get_conditions().size() == 0:
 				justify_with_specialisation(implication, matching)
 			else:
-				var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item(), outer_box)
-				refined_ps.justify_with_specialisation(implication, matching)
-				justification = ModusPonensJustification.new(self, refined_ps)
+				var refined_ei = implication.get_statement().deep_replace_types(matching).as_expr_item()
+				justification = ModusPonensJustification.new(get_proof_box(), implication.get_statement().as_expr_item())
+				justification.get_implication_proof_step().justify_with_specialisation(implication, matching)
 				emit_signal("justified")
 		else:
 			assert(false)
@@ -213,27 +219,6 @@ func attempt_auto_tag_proof() -> void:
 		if proof_box.is_tag(statement.as_expr_item().abandon_lowest(1)):
 			if proof_box.find_tag(statement.as_expr_item().get_child(statement.as_expr_item().get_child_count()-1), statement.as_expr_item()) != null:
 				justify_with_assumption(proof_box)
-
-
-
-class ModusPonensJustification extends Justification:
-	
-	var implication:ProofStep
-	
-	func _init(context:ProofStep, new_implication:ProofStep):
-		implication = new_implication
-		requirements = [implication]
-		for assumption in implication.statement.get_conditions():
-			requirements.append(
-					new_implication.get_script().new(
-							assumption.get_expr_item(),
-							context.get_proof_box(),
-							MissingJustification.new()
-					)
-			)
-	
-	func get_justification_text():
-		return "USING " + requirements[0].get_statement().to_string()
 
 
 class EqualityJustification extends Justification:

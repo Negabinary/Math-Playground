@@ -171,10 +171,19 @@ func find_tag(expr:ExprItem, tagging_check:ExprItem): # -> ProofStep
 func check_assumption(proof_step):
 	if proof_step in assumptions:
 		return true
+	elif _any_assumption_matches(proof_step):
+		return true
 	elif parent != null:
 		return parent.check_assumption(proof_step)
 	else:
 		return false
+
+
+func _any_assumption_matches(proof_step):
+	for assumption in assumptions:
+		if assumption.get_statement().as_expr_item().compare(proof_step.get_statement().as_expr_item()):
+			return true
+	return false
 
 
 func is_tag(expr:ExprItem):

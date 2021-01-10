@@ -1,39 +1,28 @@
-"""
 extends Justification
 class_name ModusPonensJustification
 
 
-var implication : ExprItem
+var implication : Statement
 
 
-func _init(implication:ExprItem):
-	assert(false)
+func _init(context:ProofBox, implication:ExprItem):
+	self.implication = Statement.new(implication)
+	requirements = [PROOF_STEP.new(implication, context)]
+	for condition in self.implication.get_conditions():
+		requirements.append(PROOF_STEP.new(
+			condition.get_expr_item(),
+			context
+		))
 
 
 func _verify(proof_step)->bool:
-	assert(false)
-	return false
+	return implication.get_conclusion().get_expr_item().compare(proof_step.get_statement().as_expr_item()) \
+	and implication.get_definitions() != []
 
-"""
 
-"""
-class ModusPonensJustificaiton extends Justification:
-	
-	var implication:ProofStep
-	
-	func _init(context:ProofStep, new_implication:ProofStep):
-		implication = new_implication
-		requirements = [implication]
-		for assumption in implication.statement.get_conditions():
-			requirements.append(
-					new_implication.get_script().new(
-							assumption.get_expr_item(),
-							context.module,
-							MissingJustification.new(),
-							context
-					)
-			)
-	
-	func get_justification_text():
-		return "USING " + requirements[0].get_statement().to_string()
-"""
+func get_implication_proof_step():
+	return requirements[0]
+
+
+func get_justification_text():
+	return "USING " + get_implication_proof_step().get_statement().to_string()
