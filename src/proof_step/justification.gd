@@ -1,8 +1,20 @@
 class_name Justification
 
 
+signal justified
+
+
 var requirements : Array #<ProofStep>     ProofStep also stores the box?
 var PROOF_STEP = load("res://src/proof_step/proof_step.gd")
+
+
+func _init():
+	for requirement in requirements:
+		requirement.connect("justified", self, "_on_justified")
+
+
+func _on_justified():
+	emit_signal("justified")
 
 
 func is_proven() -> bool:
@@ -18,10 +30,10 @@ func verify(proof_step) -> bool:
 
 
 func _verify(proof_step) -> bool:
-	return _verify_ei(proof_step.get_statement().as_expr_item())
+	return _verify_expr_item(proof_step.get_statement().as_expr_item())
 
 
-func _verify_ei(expr_item:ExprItem) -> bool:
+func _verify_expr_item(expr_item:ExprItem) -> bool:
 	return is_proven()
 
 

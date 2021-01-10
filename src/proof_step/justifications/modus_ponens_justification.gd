@@ -15,9 +15,9 @@ func _init(context:ProofBox, implication:ExprItem):
 		))
 
 
-func _verify(proof_step)->bool:
-	return implication.get_conclusion().get_expr_item().compare(proof_step.get_statement().as_expr_item()) \
-	and implication.get_definitions() != []
+func _verify_expr_item(expr_item:ExprItem) -> bool:
+	return implication.get_conclusion().get_expr_item().compare(expr_item) \
+	and implication.get_definitions() == []
 
 
 func get_implication_proof_step():

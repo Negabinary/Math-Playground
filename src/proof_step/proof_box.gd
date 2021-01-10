@@ -148,20 +148,15 @@ func add_tag(tagging) -> void: # tagging:ProofStep
 
 
 func find_tag(expr:ExprItem, tagging_check:ExprItem): # -> ProofStep
-	if expr.get_type() == GlobalTypes.F_DEF:
-		print(str(expr, " : ", tagging_check))
 	if tags.has(expr.get_type()):
 		for type_taging in tags[expr.get_type()]:
 			if expr.get_child_count() == 0:
-				print("'soup")
-				print("> Normal Match")
 				return tagging_proof_steps[type_taging]
 			else:
-				print("'sup")
-				print(type_taging.get_return_tag(expr.get_child_count()-1))
 				if type_taging.get_return_tag(expr.get_child_count()-1).get_expr_item().compare(tagging_check.abandon_lowest(1)):
-					print("> Application Match")
 					#return tagging_proof_steps[type_taging]
+					#assert(false)
+					pass
 	if parent != null:
 		return parent.find_tag(expr, tagging_check)
 	else:

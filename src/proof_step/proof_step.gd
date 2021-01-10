@@ -13,7 +13,7 @@ var justification:Justification
 func _init(new_expr_item:ExprItem, proof_box=null, new_justification:Justification = MissingJustification.new()):
 	statement = Statement.new(new_expr_item)
 	outer_box = proof_box
-	justification = new_justification
+	justify(new_justification)
 	
 	if justification is MissingJustification:
 		attempt_auto_tag_proof()
@@ -52,7 +52,11 @@ func is_tag():
 
 
 func justify(justification:Justification):
+	if self.justification != null:
+		self.justification.disconnect("justified", self, "emit_signal")
 	self.justification = justification
+	if self.justification != null:
+		self.justification.connect("justified", self, "emit_signal", ["justified"])
 	emit_signal("justified")
 
 
@@ -77,43 +81,35 @@ func can_justify_with_assumption(assumption:ProofStep) -> bool:
 
 
 func justify_with_missing() -> void:
-	justification = MissingJustification.new()
-	emit_signal("justified")
+	justify(MissingJustification.new())
 
 
-func justify_with_assumption(proof_box:ProofBox) -> void:
-	justification = AssumptionJustification.new(proof_box)
-	emit_signal("justified")
+func justify_with_assumption(proof_box:=outer_box) -> void:
+	justify(AssumptionJustification.new(proof_box))
 
 
 func justify_with_module_assumption(math_module) -> void:
-	justification = AssumptionJustification.new(math_module.get_proof_box())
-	emit_signal("justified")
+	justify(AssumptionJustification.new(math_module.get_proof_box()))
 
 
 func justify_with_implication() -> void:
-	justification = ImplicationJustification.new(self)
-	emit_signal("justified")
+	justify(ImplicationJustification.new(self))
 
 
 func justify_with_reflexivity() -> void:
-	justification = ReflexiveJustification.new()
-	emit_signal("justified")
+	justify(ReflexiveJustification.new())
 
 
 func justify_with_matching() -> void:
-	justification = MatchingJustification.new(self)
-	emit_signal("justified")
+	justify(MatchingJustification.new(self))
 
 
 func justify_with_vacuous() -> void:
-	justification = VacuousJustification.new(self)
-	emit_signal("justified")
+	justify(VacuousJustification.new(self))
 
 
 func justify_with_contrapositive() -> void:
-	justification = ContrapositiveJustification.new(self)
-	emit_signal("justified")
+	justify(ContrapositiveJustification.new(self))
 
 
 func can_justify_with_modus_ponens(assumption:ProofStep) -> bool:
@@ -128,12 +124,11 @@ func can_justify_with_modus_ponens(assumption:ProofStep) -> bool:
 func justify_with_modus_ponens(implication:ProofStep) -> void:
 	if does_conclusion_match_exactly(implication):
 		if implication.get_statement().get_conditions().size() == 0:
-			justification = implication.justification
-			emit_signal("justified")
+			justify(implication.justification)
 		else:
-			justification = ModusPonensJustification.new(get_proof_box(), implication.get_statement().as_expr_item())
-			justification.get_implication_proof_step().justify(implication.get_justification())
-			emit_signal("justified")
+			var j = ModusPonensJustification.new(get_proof_box(), implication.get_statement().as_expr_item())
+			j.get_implication_proof_step().justify(implication.get_justification())
+			justify(j)
 	else:
 		var matching := {}
 		if does_conclusion_match_with_sub(implication, matching):
@@ -141,9 +136,9 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 				justify_with_specialisation(implication, matching)
 			else:
 				var refined_ei = implication.get_statement().deep_replace_types(matching).as_expr_item()
-				justification = ModusPonensJustification.new(get_proof_box(), implication.get_statement().as_expr_item())
-				justification.get_implication_proof_step().justify_with_specialisation(implication, matching)
-				emit_signal("justified")
+				var j = ModusPonensJustification.new(get_proof_box(), implication.get_statement().as_expr_item())
+				j.get_implication_proof_step().justify_with_specialisation(implication, matching)
+				justify(j)
 		else:
 			assert(false)
 
@@ -153,8 +148,7 @@ func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int,
 	var replace_impl := implication.get_statement().get_conclusion().get_child(replace_idx)
 	var with := implication.get_statement().get_conclusion().get_child(with_idx)
 	if replace_impl.get_expr_item().compare(replace_ps.get_expr_item()):
-		justification = EqualityJustification.new(self, implication, replace_ps, with)
-		emit_signal("justified")
+		justify(EqualityJustification.new(self, implication, replace_ps, with))
 	else:
 		var matching := {}
 		for definition in implication.get_statement().get_definitions():
@@ -162,37 +156,41 @@ func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int,
 		if replace_impl.get_expr_item().is_superset(replace_ps.get_expr_item(), matching):
 			var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item(), outer_box)
 			refined_ps.justify_with_specialisation(implication, matching)
-			justification = EqualityJustification.new(self, refined_ps, replace_ps, refined_ps.get_statement().get_conclusion().get_child(with_idx))
-			emit_signal("justified")
+			justify(EqualityJustification.new(self, refined_ps, replace_ps, refined_ps.get_statement().get_conclusion().get_child(with_idx)))
 		else:
 			assert(false)
 
 
 func justify_with_specialisation(generalised:ProofStep, matching) -> void:
-	justification = RefineJustification.new(self, generalised, matching)
-	emit_signal("justified")
+	var j = RefineJustification.new(outer_box, generalised.get_statement().as_expr_item(), matching)
+	j.get_generalized().justify_with_assumption()
+	justify(j)
 
 
 func justify_with_generalisation(new_identifier:String) -> void:
-	justification = RefineJustification.new(self, new_identifier, {})
-	emit_signal("justified")
+	var new_type := ExprItemType.new(new_identifier)
+	var new_statement := ExprItem.new(
+		GlobalTypes.FORALL,
+		[
+			ExprItem.new(new_type),
+			get_statement().as_expr_item()
+		]
+	)
+	justify(RefineJustification.new(outer_box, new_statement, {new_type=""}))
 
 
 func justify_with_instantiation(existential, new_type) -> void:
-	justification = InstantiateJustification.new(self, existential, new_type)
-	emit_signal("justified")
+	justify(InstantiateJustification.new(self, existential, new_type))
 
 
 func justify_with_create_lambda(location:Locator, argument_locations:Array, argument_types:Array, argument_values:Array): #Array<ExprItemType> # Array<Array<Locator>> 
-	justification = EliminatedLambdaJustification.new(self, location, argument_locations, argument_types, argument_values)
-	emit_signal("justified")
+	justify(EliminatedLambdaJustification.new(self, location, argument_locations, argument_types, argument_values))
 
 
 func justify_with_destroy_lambda(location:Locator):
 	assert (location.get_type() == GlobalTypes.LAMBDA)
 	assert (location.get_child_count() >= 3)
-	justification = IntroducedLambdaJustification.new(self, location)
-	emit_signal("justified")
+	justify(IntroducedLambdaJustification.new(self, location))
 
 
 
@@ -209,8 +207,7 @@ func get_justification_text():
 
 
 func clear_justification():
-	justification = MissingJustification.new()
-	emit_signal("justified")
+	justify(MissingJustification.new())
 
 
 func attempt_auto_tag_proof() -> void:
@@ -243,33 +240,6 @@ class EqualityJustification extends Justification:
 
 	func get_justification_text():
 		return "USING " + requirements[0].get_statement().to_string()	
-
-
-class RefineJustification extends Justification:
-	
-	func _init(
-			context:ProofStep,
-			generalised,
-			_matching:Dictionary):
-		if generalised is String:
-			var new_type = ExprItemType.new(generalised)
-			var new_ei = ExprItem.new(
-				GlobalTypes.FORALL, [
-					ExprItem.new(new_type),
-					context.get_statement().as_expr_item()
-				]
-			)
-			requirements = [context.get_script().new(
-				new_ei,
-				context.get_proof_box(),
-				MissingJustification.new()
-			)]
-		else:
-			requirements = [generalised]
-	
-	
-	func get_justification_text():
-		return "IS THE GENERAL CASE OF"
 
 
 
