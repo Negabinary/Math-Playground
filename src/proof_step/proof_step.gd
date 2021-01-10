@@ -145,20 +145,31 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 
 func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int, replace_ps:Locator) -> void:
 	assert(implication.get_statement().get_conclusion().get_type() == GlobalTypes.EQUALITY)
-	var replace_impl := implication.get_statement().get_conclusion().get_child(replace_idx)
-	var with := implication.get_statement().get_conclusion().get_child(with_idx)
-	if replace_impl.get_expr_item().compare(replace_ps.get_expr_item()):
-		justify(EqualityJustification.new(self, implication, replace_ps, with))
+	if implication.get_statement().get_definitions().size() == 0:
+		justify(EqualityJustification.new(
+			outer_box, replace_ps,
+			implication.get_statement().get_conclusion().get_child(with_idx).get_expr_item(),
+			implication.get_statement().get_condition_eis(),
+			replace_idx == 0
+		))
 	else:
 		var matching := {}
 		for definition in implication.get_statement().get_definitions():
 			matching[definition] = "*"
-		if replace_impl.get_expr_item().is_superset(replace_ps.get_expr_item(), matching):
-			var refined_ps = get_script().new(implication.get_statement().deep_replace_types(matching).as_expr_item(), outer_box)
-			refined_ps.justify_with_specialisation(implication, matching)
-			justify(EqualityJustification.new(self, refined_ps, replace_ps, refined_ps.get_statement().get_conclusion().get_child(with_idx)))
-		else:
-			assert(false)
+		var replace_impl := implication.get_statement().get_conclusion().get_child(replace_idx)
+		# TODO : Check that foralls aren't lost
+		var is_superset = replace_impl.get_expr_item().is_superset(replace_ps.get_expr_item(), matching)
+		assert(is_superset)
+		
+		var specified_statement = implication.get_statement().deep_replace_types(matching)
+		var justification = EqualityJustification.new(
+			outer_box, replace_ps,
+			specified_statement.get_conclusion().get_child(with_idx).get_expr_item(),
+			specified_statement.get_condition_eis(),
+			replace_idx == 0
+		)
+		justification.get_equality_proof_step().justify_with_specialisation(implication, matching)
+		justify(justification)
 
 
 func justify_with_specialisation(generalised:ProofStep, matching) -> void:
@@ -216,31 +227,6 @@ func attempt_auto_tag_proof() -> void:
 		if proof_box.is_tag(statement.as_expr_item().abandon_lowest(1)):
 			if proof_box.find_tag(statement.as_expr_item().get_child(statement.as_expr_item().get_child_count()-1), statement.as_expr_item()) != null:
 				justify_with_assumption(proof_box)
-
-
-class EqualityJustification extends Justification:
-#
-	func _init(
-			context:ProofStep,
-			new_equality:ProofStep, 
-			replace:Locator, # Within parent CONCLUSION
-			with:Locator): # Within equality
-		var equality = new_equality
-		requirements = [equality]
-		for assumption in equality.statement.get_conditions():
-			requirements.append(
-					equality.get_script().new(
-							assumption.get_expr_item(),
-							context.get_proof_box(),
-							MissingJustification.new()
-					)
-			)
-		var with_replacement = context.get_conclusion().get_expr_item().replace_at(replace.get_indeces(), with.get_expr_item())
-		requirements.append(equality.get_script().new(with_replacement, context.get_proof_box(), MissingJustification.new()))
-
-	func get_justification_text():
-		return "USING " + requirements[0].get_statement().to_string()	
-
 
 
 class InstantiateJustification extends Justification:

@@ -55,6 +55,13 @@ func get_conditions() -> Array:
 	return conditions
 
 
+func get_condition_eis() -> Array:
+	var condition_eis := []
+	for condition in conditions:
+		condition_eis.append(condition.get_expr_item())
+	return condition_eis
+
+
 func as_expr_item() -> ExprItem:
 	return root
 
