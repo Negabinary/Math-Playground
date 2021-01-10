@@ -321,6 +321,7 @@ class ImplicationJustification extends Justification:
 		var conclusion = context.get_statement().get_conclusion().get_expr_item()
 		var ctxt_assumptions = []
 		var ctxt_definitions = context.get_statement().get_definitions().duplicate()
+		var new_proof_box = ProofBox.new(ctxt_definitions, context.get_proof_box())
 		var conditions := context.get_statement().get_conditions()
 		for i in range( context.get_statement().get_conditions().size()-1, -1, -1):
 			if i in keep_condition_ids:
@@ -331,10 +332,9 @@ class ImplicationJustification extends Justification:
 					assum_ei = strip_existential(ctxt_definitions, conditions[i].get_expr_item(), [])
 				else:
 					assum_ei = strip_existential(ctxt_definitions, conditions[i].get_expr_item(), keep_exists_types[i])
-				var assum_ps = context.get_script().new(assum_ei, context.get_proof_box())
-				assum_ps.justify_with_assumption(context.get_proof_box())
+				var assum_ps = context.get_script().new(assum_ei, new_proof_box)
+				assum_ps.justify_with_assumption(new_proof_box)
 				ctxt_assumptions.append(assum_ps)
-		var new_proof_box = ProofBox.new(ctxt_definitions, context.get_proof_box())
 		for ctxt_assumption in ctxt_assumptions:
 			new_proof_box.add_assumption(ctxt_assumption)
 		requirements = [
