@@ -15,9 +15,6 @@ var ui_conclusion : Node
 var ui_equality : Node
 
 
-func _ready():
-	$PopupMenu.connect("prove", self, "_on_request_to_prove")
-
 # Rename to 'initialise' soon.
 func display_assumption(assumption:ProofStep, selection_handler:SelectionHandler):	
 	ui_definitions = $VBoxContainer/Definitions
@@ -56,10 +53,6 @@ func update_context(proof_step:ProofStep, locator:Locator):
 		$VBoxContainer/Equality/Equalities.clear_highlighting()
 
 
-func _on_request_to_prove():
-	selection_handler.load_proof(assumption)
-
-
 func _on_expr_item_dropped_on_definition(definition:ExprItemType, locator:UniversalLocator):
 	var refined_ps := ProofStep.new(assumption.get_statement().deep_replace_types({definition:locator.get_expr_item()}).as_expr_item())
 	refined_ps.justify_with_specialisation(assumption, {definition:locator.get_expr_item()})
@@ -73,8 +66,3 @@ func _on_use_equality(index:int):
 func _on_Conclusion_item_activated(index):
 	emit_signal("assumption_conclusion_used", assumption, index)
 
-
-func _on_AssumptionBox_gui_input(event:InputEvent):
-	if event.is_action_released("right_click"):
-		if (assumption.get_justification() is ProofStep.ModuleProveableJustification):
-		  $PopupMenu.popup(Rect2(rect_global_position + event.position, Vector2(1,1)))
