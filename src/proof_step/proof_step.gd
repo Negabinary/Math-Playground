@@ -193,7 +193,7 @@ func justify_with_generalisation(new_identifier:String) -> void:
 
 
 func justify_with_instantiation(existential, new_type) -> void:
-	justify(InstantiateJustification.new(self, existential, new_type))
+	justify(InstantiateJustification.new(outer_box, new_type, existential, get_statement().as_expr_item()))
 
 
 func justify_with_create_lambda(location:Locator, argument_locations:Array, argument_types:Array, argument_values:Array): #Array<ExprItemType> # Array<Array<Locator>> 
@@ -229,32 +229,6 @@ func attempt_auto_tag_proof() -> void:
 		if proof_box.is_tag(statement.as_expr_item().abandon_lowest(1)):
 			if proof_box.find_tag(statement.as_expr_item().get_child(statement.as_expr_item().get_child_count()-1), statement.as_expr_item()) != null:
 				justify_with_assumption(proof_box)
-
-
-class InstantiateJustification extends Justification:
-	
-	func _init(context:ProofStep, existential:ProofStep, new_type:ExprItemType=null):
-		var context_ei = context.get_statement().as_expr_item()
-		var existential_ei = existential.get_statement().as_expr_item()
-		assert (existential_ei.get_type() == GlobalTypes.EXISTS)
-		var old_type = existential_ei.get_child(0).get_type()
-		if new_type == null:
-			new_type = ExprItemType.new(old_type.get_identifier())
-		var new_assumption = context.get_script().new(existential_ei.get_child(1).deep_replace_types({old_type:ExprItem.new(new_type)}), context.get_proof_box(), context)
-		new_assumption.justify_with_assumption()
-		var new_proof_box = ProofBox.new([new_type],context.get_proof_box())
-		new_proof_box.add_assumption(new_assumption)
-		requirements = [
-			existential,
-			context.get_script().new(
-				context_ei,
-				new_proof_box,
-				MissingJustification.new()
-			)
-		]
-	
-	func get_justification_text():
-		return "THUS"
 
 
 # keep_exists_types is an array where each index has an array of the types kept

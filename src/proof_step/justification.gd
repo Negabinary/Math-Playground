@@ -4,7 +4,7 @@ class_name Justification
 signal justified
 
 
-var requirements : Array #<ProofStep>     ProofStep also stores the box?
+var requirements := [] #<ProofStep>     ProofStep also stores the box?
 var PROOF_STEP = load("res://src/proof_step/proof_step.gd")
 
 
