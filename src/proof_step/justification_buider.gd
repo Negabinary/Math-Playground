@@ -2,13 +2,9 @@ extends Node
 class_name JustificationBuilder
 
 
-static func conditional_instantiation_justify(justified:ProofStep, cond_exist:ProofStep, new_type:ExprItemType=null):
+static func conditional_instantiation_justify(justified:ProofStep, cond_exist:ProofStep):
 	assert (cond_exist.get_statement().get_definitions().size() == 0)
 	assert (cond_exist.get_conclusion().get_expr_item().get_type() == GlobalTypes.EXISTS)
-	
-	if new_type == null:
-			var old_type = cond_exist.get_conclusion().get_expr_item().get_child(0).get_type()
-			new_type = ExprItemType.new(old_type.get_identifier())
 	
 	var uncond_exist : ProofStep
 	if cond_exist.get_statement().get_conditions().size() == 0:
@@ -21,7 +17,7 @@ static func conditional_instantiation_justify(justified:ProofStep, cond_exist:Pr
 		)
 		uncond_exist.justify_with_modus_ponens(cond_exist)
 	
-	justified.justify_with_instantiation(uncond_exist, new_type)
+	justified.justify_with_instantiation(uncond_exist)
 
 
 static func custom_implication(proof_step:ProofStep, custom:ExprItem):

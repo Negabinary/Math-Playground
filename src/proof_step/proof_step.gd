@@ -192,8 +192,10 @@ func justify_with_generalisation(new_identifier:String) -> void:
 	justify(RefineJustification.new(outer_box, new_statement, {new_type=""}))
 
 
-func justify_with_instantiation(existential, new_type) -> void:
-	justify(InstantiateJustification.new(outer_box, new_type, existential, get_statement().as_expr_item()))
+func justify_with_instantiation(existential) -> void:
+	var justification = InstantiateJustification.new(outer_box, existential.get_statement().as_expr_item().get_child(0).get_type().get_identifier(), existential.get_statement().as_expr_item().get_child(0).get_type(), existential.get_statement().as_expr_item().get_child(1), get_statement().as_expr_item())
+	justification.get_existential_requirement().justify(existential.get_justification())
+	justify(justification)
 
 
 func justify_with_create_lambda(location:Locator, argument_locations:Array, argument_types:Array, argument_values:Array): #Array<ExprItemType> # Array<Array<Locator>> 
