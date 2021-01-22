@@ -25,13 +25,14 @@ func _ready():
 	ui_tag_editor.connect("expr_item_changed", self, "_on_tag_changed")
 
 
-func set_definition_item(definition_item:ModuleItemDefinition, typed:=true):
+func set_definition_item(definition_item:ModuleItemDefinition):
 	_find_ui_elements()
 	self.definition_item = definition_item
 	var proof_box = definition_item.get_module().get_proof_box(definition_item.get_index())
 	var tag = definition_item.get_tag()
 	if tag == null:
 		ui_tag_editor.set_expr_item(null, proof_box)
+		toggle_tagged()
 	else:
 		ui_tag_editor.set_expr_item(definition_item.get_tag().abandon_lowest(1), proof_box)
 	ui_name_editor.text = definition_item.get_definition().get_identifier()

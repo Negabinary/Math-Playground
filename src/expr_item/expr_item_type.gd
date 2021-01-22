@@ -11,6 +11,7 @@ var binder := false
 
 var fm_expected_args := 1
 var fm_strings := []
+var two_line := false
 #var n := int(rand_range(0,99))
 
 

@@ -1,5 +1,5 @@
 """
-NOTE: This class is in much need of a re-write, I had no idea this would be the 
+NOTE: This class is in much need of a re-write, I had no idea this would be the
 longest script - I need to come up with some clever way to shorten / split it.
 """
 
@@ -23,7 +23,6 @@ var root
 var type : ExprItemType = null
 var proof_box := ProofBox.new([])
 
-var selected := false
 var caret_part := 0
 var caret_after := false
 
@@ -35,7 +34,7 @@ var bound := false
 static func sum_array(array:Array) -> int:
 	var sum = 0
 	for element in array:
-		 sum += element
+		sum += element
 	return sum
 
 
@@ -73,10 +72,18 @@ func get_expr_child(idx:int) -> Node:
 			return get_child(idx)
 
 
+func get_expr_child_count() -> int:
+	match mode:
+		HELPER_MODE.EDIT:
+			return get_child_count() - 1
+		_:
+			return get_child_count()
+
+
 # == INITALISATION ============================================================
 
-func _init(root, expr_item:ExprItem = null, 
-		   proof_box:ProofBox = GlobalTypes.PROOF_BOX, bound:=false):
+func _init(root, expr_item:ExprItem = null,
+	proof_box:ProofBox = GlobalTypes.PROOF_BOX, bound:=false):
 	self.root = root
 	connect("changed",root,"_on_changed", [self])
 	self.bound = bound
@@ -300,20 +307,18 @@ func get_expr_item() -> ExprItem:
 func take_caret(part:int, after:bool):
 	self.caret_after = after
 	self.caret_part = part
-	self.selected = true
 	update()
 	grab_focus()
 
 
 func _on_lose_focus():
-	self.selected = false
 	update()
 
 
 # We could probably replace these 6 functions with just 2...
 
 func left():
-	assert (selected)
+	assert (has_focus())
 	if caret_after:
 		take_caret(caret_part, false)
 		if caret_part == 0:
@@ -358,7 +363,7 @@ func _left_from_above(from:Node,travel:=true):
 
 
 func right():
-	assert (selected)
+	assert (has_focus())
 	if !caret_after:
 		take_caret(caret_part, true)
 	else:
@@ -400,7 +405,7 @@ func _right_from_above(from:Node,travel:=false):
 
 func _gui_input(event):
 	if event.is_action_pressed("mouse_left"):
-		take_caret(get_child_count(), true)
+		take_caret(0, true)
 	if event.is_action_pressed("ui_left"):
 		accept_event()
 		left()
@@ -441,21 +446,82 @@ func _on_type_renamed():
 
 
 func _draw():
-	var font : Font = get_font("font", "ExprItemEdit")
-	var ascent := font.get_height() - font.get_descent()
-	var font_color : Color = get_color("font_color", "ExprItemEdit")
-	
-	if selected:
+	if has_focus():
 		draw_style_box(get_stylebox("highlight_box", "ExprItemEdit"), Rect2(Vector2.ZERO,rect_size))
+	
+	if type and type.two_line and get_expr_child_count() == 2 and mode == HELPER_MODE.VIEW:
+		_draw_two_line()
+	else:
+		_draw_one_line()
+
+
+func _draw_two_line():
+	var font := get_font("bold_font", "ExprItemEdit")
+	var font_height := font.get_height()
+	var font_ascent := font_height - font.get_descent()
+	var font_color := get_color("font_color", "ExprItemEdit")
+	var strings := get_fm_strings()
+	
+	var current_x := 0.0
+	var current_y := 0.0
+	var caret_pos = null
+	
+	draw_string(font, Vector2(0, current_y + font_ascent), strings[0], font_color)
+	if has_focus() and caret_part == 0:
+		caret_pos = Vector2(current_x + (font.get_string_size(strings[0]).x if caret_after else 0), current_y)
+	current_x += font.get_string_size(strings[0]).x
+	
+	get_expr_child(0).set_position(Vector2(current_x,current_y))
+	
+	if caret_part == 1 and not caret_after:
+		caret_pos = Vector2(current_x + get_expr_child(0).rect_min_size.x,current_y)
+	current_x = 0
+	current_y += max(font_height, get_expr_child(0).rect_min_size.y)
+	
+	draw_string(font, Vector2(0, current_y + font_ascent), strings[1], font_color)
+	if has_focus() and caret_part == 1 and caret_after:
+		caret_pos = Vector2(current_x + font.get_string_size(strings[1]).x, current_y)
+	current_x += font.get_string_size(strings[1]).x
+	
+	get_expr_child(1).set_position(Vector2(current_x,current_y))
+	
+	if caret_part == 2:
+		caret_pos = Vector2(current_x + get_expr_child(1).rect_min_size.x,current_y)
+	
+	
+	var height = max(font_height, get_expr_child(0).rect_min_size.y) \
+		+ max(font_height, get_expr_child(1).rect_min_size.y)
+	
+	var width = max(
+		get_expr_child(0).rect_min_size.x + font.get_string_size(strings[0]).x,
+		get_expr_child(1).rect_min_size.x + font.get_string_size(strings[1]).x
+	) + 2
+	
+	if has_focus() and caret_pos != null:
+		draw_line(
+			caret_pos,
+			Vector2(caret_pos.x, caret_pos.y + font.get_ascent() + font.get_descent()),
+			get_color("caret_color","ExprItemEdit"),
+			get_constant("caret_width","ExprItemEdit")
+		)
+	
+	
+	set_custom_minimum_size(Vector2(width, height))
+	set_size(rect_min_size)
+	get_parent().update()
+
+
+func _draw_one_line():
+	var font := get_font("font", "ExprItemEdit")
+	var ascent := font.get_height() - font.get_descent()
+	var font_color := get_color("font_color", "ExprItemEdit")
 	
 	var strings := get_fm_strings()
 	var current_x := 0.0
 	var caret_x = null
 	
-	if mode == HELPER_MODE.EDIT:
-		draw_style_box(get_stylebox("exit_box","ExprItemEdit"), Rect2(Vector2(current_x, ascent), font.get_string_size(strings[0])))
 	draw_string(font, Vector2(current_x, ascent), strings[0], font_color)
-	if selected and caret_part == 0:
+	if has_focus() and caret_part == 0:
 		caret_x = current_x + (font.get_string_size(strings[0]).x if caret_after else 0)
 	current_x += font.get_string_size(strings[0]).x
 	
@@ -463,18 +529,19 @@ func _draw():
 		get_child(i).set_position(Vector2(current_x, 0))
 		current_x += get_child(i).rect_size.x
 		draw_string(font, Vector2(current_x, ascent), strings[i+1], font_color)
-		if selected and caret_part - 1 == i:
+		if has_focus() and caret_part - 1 == i:
 			caret_x = current_x + (font.get_string_size(strings[i+1]).x if caret_after else 0)
 		current_x += font.get_string_size(strings[i+1]).x
 	
 	if caret_x != null:
 		draw_line(
-				Vector2(caret_x, 0),
-				Vector2(caret_x, font.get_ascent() + font.get_descent()),
-				get_color("caret_color","ExprItemEdit"),
-				get_constant("caret_width","ExprItemEdit")
+			Vector2(caret_x, 0),
+			Vector2(caret_x, font.get_ascent() + font.get_descent()),
+			get_color("caret_color","ExprItemEdit"),
+			get_constant("caret_width","ExprItemEdit")
 			)
 	
 	set_custom_minimum_size(Vector2(current_x, font.get_ascent() + font.get_descent()))
 	set_size(rect_min_size)
 	get_parent().update()
+

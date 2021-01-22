@@ -27,9 +27,9 @@ align = 1
 
 [node name="Label" type="Label" parent="TopLine"]
 margin_left = 21.0
-margin_top = 3.0
 margin_right = 89.0
-margin_bottom = 20.0
+margin_bottom = 17.0
+size_flags_vertical = 0
 custom_fonts/font = ExtResource( 4 )
 text = "theorem  "
 

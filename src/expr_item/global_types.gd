@@ -25,7 +25,9 @@ func _init():
 	LAMBDA.binder = true
 	
 	IMPLIES.fm_strings = ["if (",") then (",")"]
+	IMPLIES.fm_strings = ["if ","",""]
 	FORALL.fm_strings = ["∀",". ",""]
+	FORALL.fm_strings = ["∀","",""]
 	EQUALITY.fm_strings = [""," = ",""]
 	NOT.fm_strings = ["¬",""]
 	EXISTS.fm_strings = ["∃",". ", ""]
@@ -34,6 +36,9 @@ func _init():
 	ANY.fm_strings = ["ANY"]
 	PROP.fm_strings = ["PROP"]
 	F_DEF.fm_strings = ["(",") -> ", ""]
+	
+	IMPLIES.two_line = true
+	FORALL.two_line = true
 
 
 func _ready():
