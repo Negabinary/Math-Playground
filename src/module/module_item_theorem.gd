@@ -4,8 +4,10 @@ class_name ModuleItemTheorem
 var statement : ExprItem
 var previously_proven := false
 var proof : ProofStep
+var is_axiom := false
 
-func _init(module, statement:ExprItem, previously_proven := false, docstring:="").(module,docstring):
+func _init(module, statement:ExprItem, is_axiom:bool, previously_proven := false, docstring:="").(module,docstring):
+	self.is_axiom = is_axiom
 	update_statement(statement)
 
 
@@ -22,6 +24,15 @@ func get_statement() -> ExprItem:
 
 func get_proof() -> ProofStep:
 	return proof
+
+
+func get_is_axiom() -> bool:
+	return is_axiom
+
+
+func set_is_axiom(is_axiom:bool) -> void:
+	self.is_axiom = is_axiom
+	_sc()
 
 
 func get_as_assumption():

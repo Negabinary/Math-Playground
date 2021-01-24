@@ -3,7 +3,7 @@ class_name ModuleLoader
 
 var modules := {}
 var PATH_PRE := "res://lib/"
-var PATH_SUF := ".tres"
+var PATH_SUF := ".mml"
 
 
 func get_module(module_name:String, module_content = null) -> MathModule:
@@ -15,7 +15,7 @@ func get_module(module_name:String, module_content = null) -> MathModule:
 			var filename := PATH_PRE + module_name + PATH_SUF
 			if !f.file_exists(filename):
 				return null
-			f.open("res://lib/"+module_name+".tres",File.READ)
+			f.open("res://lib/"+module_name+".mml",File.READ)
 			var module = ModuleDeserializer.new(f.get_as_text(), module_name, self).get_module()
 			f.close()
 			modules[module_name] = module

@@ -41,21 +41,32 @@ script = ExtResource( 2 )
 
 [node name="Whitespace" type="Control" parent="TopLine"]
 margin_left = 97.0
-margin_right = 480.0
+margin_right = 413.0
 margin_bottom = 23.0
 size_flags_horizontal = 3
+
+[node name="AssumeButton" type="Button" parent="TopLine"]
+margin_left = 417.0
+margin_right = 480.0
+margin_bottom = 19.0
+size_flags_vertical = 0
+toggle_mode = true
+text = "Assume"
 
 [node name="Button" type="Button" parent="TopLine"]
 margin_left = 484.0
 margin_right = 534.0
-margin_bottom = 23.0
+margin_bottom = 19.0
+size_flags_vertical = 0
 text = "Prove"
 
 [node name="MenuButton" type="MenuButton" parent="TopLine"]
 margin_left = 538.0
 margin_right = 564.0
-margin_bottom = 23.0
+margin_bottom = 19.0
+size_flags_vertical = 0
 text = "⋮"
 flat = false
 items = [ "Delete", null, 0, false, false, 0, 0, null, "", false ]
+[connection signal="pressed" from="TopLine/AssumeButton" to="." method="_on_assume"]
 [connection signal="pressed" from="TopLine/Button" to="." method="_on_prove"]

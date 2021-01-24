@@ -1,0 +1,22 @@
+
+@D NAT
+
+@D S
+
+@D 0
+
+@X 
+@> NAT(0)
+
+@X 
+@> For all(x)(=>(NAT(x))(NAT(S(x))))
+
+@> For all(x)(=>(NAT(x))(=>(¬(=(x)(0)))(For some(y)(=(x)(S(y))))))
+
+@X 
+@> For all(x)(=>(NAT(S(x)))(NAT(x)))
+
+@X 
+@> For all(x)(=>(NAT(x))(For all(P)(=>(For all(y)(=>(NAT(y))(PROP(P(y)))))(=>(P(0))(=>(For all(y)(=>(P(y))(P(S(y)))))(P(x)))))))
+
+

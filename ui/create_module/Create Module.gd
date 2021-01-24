@@ -27,6 +27,8 @@ func _ready():
 func _load_module(module:MathModule):
 	self.module = module
 	ui_module_name.text = module.get_name().replace("_", " ").capitalize()
+	if ui_module_name.text.ends_with(".mml"):
+		ui_module_name.text = ui_module_name.text.left(ui_module_name.text.length()-4)
 	ui_requirements.set_module(module)
 	ui_content.set_module(module)
 	module.connect("serial_changed", self, "_on_serial_changed")
@@ -55,7 +57,8 @@ func add_definition():
 func add_theorem():
 	var new_theorem = ModuleItemTheorem.new(
 		module,
-		null
+		null,
+		false
 	)
 	module.append_item(new_theorem)
 	ui_content.add_theorem(new_theorem)

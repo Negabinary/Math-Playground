@@ -35,11 +35,11 @@ func _create_items(string : String) -> void:
 		match code:
 			"@R ":
 				requirement_strings.append(line)
-			"@D ","@> ","@L ","@X ":
+			"@D ","@> ","@L ":
 				current_item.push_front(line)
 				item_strings.append(current_item)
 				current_item = []
-			"@A ","@E ","@< ","@= ":
+			"@A ","@E ","@< ","@= ","@X ":
 				current_item.push_front(line)
 
 
@@ -95,6 +95,7 @@ func _parse_definition(item : Array, proof_box:ProofBox) -> ModuleItemDefinition
 
 func _parse_statement(item:Array, proof_box:ProofBox) -> ModuleItem:
 	var string = item.pop_front().right(3)
+	var axiom := false
 	for qualifier in item:
 		var qualifier_type = qualifier.left(3)
 		var qualifier_payload = qualifier.right(3)
@@ -109,7 +110,10 @@ func _parse_statement(item:Array, proof_box:ProofBox) -> ModuleItem:
 			string = "=>(" + qualifier_payload + "," + string + ")"
 		elif qualifier_type == "@= ":
 			string = "=(" + qualifier_payload + "," + string + ")"
+		elif qualifier_type == "@X ":
+			axiom = true
 	return ModuleItemTheorem.new(
 		module,
-		ExprItemBuilder.from_string(string, proof_box)
+		ExprItemBuilder.from_string(string, proof_box),
+		axiom
 	)

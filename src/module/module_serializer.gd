@@ -42,4 +42,4 @@ static func _parse_theorem(item:ModuleItemTheorem) -> String:
 	if item.get_statement() == null:
 		return ""
 	else:
-		return "@> " + item.get_statement().serialize() + "\n\n"
+		return ("@X \n@> " if item.get_is_axiom()  else "@> ") + item.get_statement().serialize() + "\n\n"
