@@ -1,7 +1,0 @@
-@D tsos : TAG
-
-@A x : ANY
-@< tsos(x)
-@> ¬(x(x))
-
-@> ¬(tsos(tsos))

@@ -1,9 +1,0 @@
-@R bool/bool_type
-@R bool/bool_and
-@R bool/bool_or
-@R logic
-
-@A A : Boolean
-@A B : Boolean
-@= AND(A,B)
-@> NOT(OR(NOT(A),NOT(B)))
