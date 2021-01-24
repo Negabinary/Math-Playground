@@ -47,6 +47,10 @@ func deep_replace_types(replacements:Dictionary, additional_definitions:=[]) -> 
 	return get_script().new(new_expr_item)
 
 
+func compare_expr_item(ei:ExprItem) -> bool:
+	return root.compare(ei)
+
+
 func get_definitions() -> Array:
 	return definitions
 

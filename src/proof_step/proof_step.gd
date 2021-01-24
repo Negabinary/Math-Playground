@@ -93,7 +93,7 @@ func justify_with_module_assumption(math_module) -> void:
 
 
 func justify_with_implication() -> void:
-	justify(ImplicationJustification.new(self))
+	justify(ImplicationJustification.new(outer_box, get_statement()))
 
 
 func justify_with_reflexivity() -> void:
@@ -232,54 +232,6 @@ func attempt_auto_tag_proof() -> void:
 			if proof_box.find_tag(statement.as_expr_item().get_child(statement.as_expr_item().get_child_count()-1), statement.as_expr_item()) != null:
 				justify_with_assumption(proof_box)
 
-
-# keep_exists_types is an array where each index has an array of the types kept
-class ImplicationJustification extends Justification:
-	
-	func _init(context:ProofStep, keep_condition_ids:=[], keep_forall_ids:=[], keep_exists_types:=[]):
-		var conclusion = context.get_statement().get_conclusion().get_expr_item()
-		var ctxt_assumptions = []
-		var ctxt_definitions = context.get_statement().get_definitions().duplicate()
-		var new_proof_box = ProofBox.new(ctxt_definitions, context.get_proof_box())
-		var conditions := context.get_statement().get_conditions()
-		for i in range( context.get_statement().get_conditions().size()-1, -1, -1):
-			if i in keep_condition_ids:
-				conclusion = ExprItem.new(GlobalTypes.IMPLIES, [conditions[i],conclusion])
-			else:
-				var assum_ei:ExprItem
-				if keep_exists_types.size() <= i:
-					assum_ei = strip_existential(ctxt_definitions, conditions[i].get_expr_item(), [])
-				else:
-					assum_ei = strip_existential(ctxt_definitions, conditions[i].get_expr_item(), keep_exists_types[i])
-				var assum_ps = context.get_script().new(assum_ei, new_proof_box)
-				assum_ps.justify_with_assumption(new_proof_box)
-				ctxt_assumptions.append(assum_ps)
-		for ctxt_assumption in ctxt_assumptions:
-			new_proof_box.add_assumption(ctxt_assumption)
-		requirements = [
-			context.get_script().new(
-				conclusion,
-				new_proof_box,
-				MissingJustification.new()
-			)
-		]
-	
-	static func strip_existential(return_types:Array, expr_item:ExprItem, keep_ids:=[]):
-		var counter = 0
-		var keepers = []
-		while expr_item.get_type() == GlobalTypes.EXISTS:
-			if counter in keep_ids:
-				keepers.push_front(expr_item.get_child(0).get_type())
-			else:
-				return_types.append(expr_item.get_child(0).get_type())
-			expr_item = expr_item.get_child(1)
-			counter += 1
-		for keeper in keepers:
-			expr_item = ExprItem.new(GlobalTypes.EXISTS, [ExprItem.new(keeper), expr_item])
-		return expr_item
-
-	func get_justification_text():
-		return "THUS"
 
 
 class ReflexiveJustification extends Justification:

@@ -8,7 +8,7 @@ static func build(proof_step:ProofStep, selection_handler:SelectionHandler) -> N
 	var node : Node
 	if proof_step.justification is MissingJustification:
 		node = WP_MISSING.instance()
-	elif proof_step.justification is ProofStep.ImplicationJustification:
+	elif proof_step.justification is ImplicationJustification:
 		node = WP_IMPLICATION.instance()
 	else:
 		node= WP_BOX.instance()
