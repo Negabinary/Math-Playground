@@ -15,18 +15,15 @@ signal backspace
 
 var EXPR_ITEM_EDIT_HELPER = load("res://ui/components/ei_editor/expr_item_edit_helper.gd")
 
-enum HELPER_MODE {EDIT, VIEW}
-var mode:int = HELPER_MODE.EDIT
 var root
-
-# VIEW MODE
 var type : ExprItemType = null
 var proof_box := ProofBox.new([])
+var bound := false
 
-var caret_part := 0
+enum HELPER_MODE {EDIT, VIEW}
+var mode:int = HELPER_MODE.EDIT
 var caret_after := false
 
-var bound := false
 
 
 # == HELPERS ==================================================================
@@ -223,7 +220,7 @@ func _on_edit_done(type, flags:int):
 					move_child(new_child, 0)
 				else:
 					move_child(new_child, 1)
-			get_child(0).right_from_below(true)
+			get_child(0).get_child(0).right_from_below()
 	emit_signal("changed")
 	update()
 
@@ -304,9 +301,8 @@ func get_expr_item() -> ExprItem:
 
 # == SELECTION UPDATES ========================================================
 
-func take_caret(part:int, after:bool):
+func take_caret(after:bool):
 	self.caret_after = after
-	self.caret_part = part
 	update()
 	grab_focus()
 
@@ -320,84 +316,47 @@ func _on_lose_focus():
 func left():
 	assert (has_focus())
 	if caret_after:
-		take_caret(caret_part, false)
-		if caret_part == 0:
-			emit_signal("step_left", self, false)
-		else:
-			get_child(caret_part-1).left_from_below(false)
-	else:
-		if caret_part == 0:
-			emit_signal("step_left", self, true)
-		else:
-			get_child(caret_part-1).left_from_below(true)
-
-
-func left_from_below(travel:=false):
-	if travel:
 		if get_child_count() == 0:
-			take_caret(0, false)
-			emit_signal("step_left", self, get_fm_strings()[0] == "")
+			take_caret(false)
 		else:
-			get_child(get_child_count()-1).left_from_below(get_fm_strings()[-1] == "")
+			get_child(get_child_count()-1).left_from_below()
 	else:
-		take_caret(get_child_count(), true)
+		emit_signal("step_left", self, true)
+
+
+func left_from_below(_travel:=false):
+	take_caret(true)
 
 
 func _left_from_above(from:Node,travel:=true):
 	var index_from = from.get_index()
-	if travel:
-		if index_from == 0:
-			take_caret(0, false)
-			emit_signal("step_left", self, get_fm_strings()[0] == "")
-		else:
-			get_child(index_from-1).left_from_below(get_fm_strings()[index_from] == "")
+	if index_from == 0:
+		take_caret(false)
 	else:
-		if get_fm_strings()[index_from] == "":
-			if index_from == 0:
-				take_caret(0, false)
-				emit_signal("step_left", self, false)
-			else:
-				get_child(index_from-1).left_from_below(false)
-		else:
-			take_caret(index_from, true)
+		get_child(index_from-1).left_from_below()
 
 
 func right():
 	assert (has_focus())
 	if !caret_after:
-		take_caret(caret_part, true)
-	else:
-		if caret_part == get_child_count():
-			emit_signal("step_right", self, true)
+		if get_child_count() == 0:
+			take_caret(true)
 		else:
-			get_child(caret_part).right_from_below(true)
+			get_child(0).right_from_below()
+	else:
+		emit_signal("step_right", self, true)
 
 
 func right_from_below(travel:=true):
-	if travel:
-		if get_fm_strings()[0] == "":
-			if get_child_count() == 0:
-				emit_signal("step_right", self, true)
-			else:
-				get_child(0).right_from_below(true)
-		else:
-			take_caret(0, true)
-	else:
-		take_caret(0, false)
+	take_caret(false)
 
 
 func _right_from_above(from:Node,travel:=false):
 	var index_to = from.get_index() + 1
-	if travel:
-		if get_fm_strings()[index_to] == "":
-			if get_child_count() == index_to:
-				emit_signal("step_right", self, true)
-			else:
-				get_child(index_to).right_from_below(true)
-		else:
-			take_caret(index_to, true)
+	if index_to == get_child_count():
+		take_caret(true)
 	else:
-		take_caret(index_to, false)
+		get_child(index_to).right_from_below()
 
 
 # == INPUT ====================================================================
@@ -405,7 +364,7 @@ func _right_from_above(from:Node,travel:=false):
 
 func _gui_input(event):
 	if event.is_action_pressed("mouse_left"):
-		take_caret(0, true)
+		take_caret(false)
 	if event.is_action_pressed("ui_left"):
 		accept_event()
 		left()
@@ -430,9 +389,9 @@ func on_backspace(focus:=true):
 
 func on_open():
 	if caret_after:
-		if caret_part == get_child_count():
-			var child = append_child(null, proof_box)
-			child.right_from_below(true)
+		var child = append_child(null, proof_box)
+		child.get_child(0).right_from_below()
+	#TODO: if not caret_after:
 
 
 func _on_editor_backspace():
@@ -464,29 +423,19 @@ func _draw_two_line():
 	
 	var current_x := 0.0
 	var current_y := 0.0
-	var caret_pos = null
 	
 	draw_string(font, Vector2(0, current_y + font_ascent), strings[0], font_color)
-	if has_focus() and caret_part == 0:
-		caret_pos = Vector2(current_x + (font.get_string_size(strings[0]).x if caret_after else 0), current_y)
 	current_x += font.get_string_size(strings[0]).x
 	
 	get_expr_child(0).set_position(Vector2(current_x,current_y))
 	
-	if caret_part == 1 and not caret_after:
-		caret_pos = Vector2(current_x + get_expr_child(0).rect_min_size.x,current_y)
 	current_x = 0
 	current_y += max(font_height, get_expr_child(0).rect_min_size.y)
 	
 	draw_string(font, Vector2(0, current_y + font_ascent), strings[1], font_color)
-	if has_focus() and caret_part == 1 and caret_after:
-		caret_pos = Vector2(current_x + font.get_string_size(strings[1]).x, current_y)
 	current_x += font.get_string_size(strings[1]).x
 	
 	get_expr_child(1).set_position(Vector2(current_x,current_y))
-	
-	if caret_part == 2:
-		caret_pos = Vector2(current_x + get_expr_child(1).rect_min_size.x,current_y)
 	
 	
 	var height = max(font_height, get_expr_child(0).rect_min_size.y) \
@@ -497,14 +446,20 @@ func _draw_two_line():
 		get_expr_child(1).rect_min_size.x + font.get_string_size(strings[1]).x
 	) + 2
 	
-	if has_focus() and caret_pos != null:
-		draw_line(
-			caret_pos,
-			Vector2(caret_pos.x, caret_pos.y + font.get_ascent() + font.get_descent()),
-			get_color("caret_color","ExprItemEdit"),
-			get_constant("caret_width","ExprItemEdit")
-		)
 	
+	if has_focus():
+		if !caret_after:
+			draw_line(
+				Vector2(0,0), Vector2(0,height),
+				get_color("caret_color","ExprItemEdit"),
+				get_constant("caret_width","ExprItemEdit")
+			)
+		else:
+			draw_line(
+				Vector2(width,0), Vector2(width,height),
+				get_color("caret_color","ExprItemEdit"),
+				get_constant("caret_width","ExprItemEdit")
+			)
 	
 	set_custom_minimum_size(Vector2(width, height))
 	set_size(rect_min_size)
@@ -518,27 +473,31 @@ func _draw_one_line():
 	
 	var strings := get_fm_strings()
 	var current_x := 0.0
-	var caret_x = null
 	
 	draw_string(font, Vector2(current_x, ascent), strings[0], font_color)
-	if has_focus() and caret_part == 0:
-		caret_x = current_x + (font.get_string_size(strings[0]).x if caret_after else 0)
 	current_x += font.get_string_size(strings[0]).x
 	
 	for i in len(strings)-1:
 		get_child(i).set_position(Vector2(current_x, 0))
 		current_x += get_child(i).rect_size.x
 		draw_string(font, Vector2(current_x, ascent), strings[i+1], font_color)
-		if has_focus() and caret_part - 1 == i:
-			caret_x = current_x + (font.get_string_size(strings[i+1]).x if caret_after else 0)
 		current_x += font.get_string_size(strings[i+1]).x
 	
-	if caret_x != null:
-		draw_line(
-			Vector2(caret_x, 0),
-			Vector2(caret_x, font.get_ascent() + font.get_descent()),
-			get_color("caret_color","ExprItemEdit"),
-			get_constant("caret_width","ExprItemEdit")
+	var width = current_x
+	var height = font.get_ascent() + font.get_descent()
+	
+	if has_focus():
+		if !caret_after:
+			draw_line(
+				Vector2(0,0), Vector2(0,height),
+				get_color("caret_color","ExprItemEdit"),
+				get_constant("caret_width","ExprItemEdit")
+			)
+		else:
+			draw_line(
+				Vector2(width,0), Vector2(width,height),
+				get_color("caret_color","ExprItemEdit"),
+				get_constant("caret_width","ExprItemEdit")
 			)
 	
 	set_custom_minimum_size(Vector2(current_x, font.get_ascent() + font.get_descent()))

@@ -6,5 +6,5 @@ func _ready():
 
 
 func _pressed():
-	$FileDialog.current_file = $"../../ModuleNameEdit".text.to_lower().replace(" ","_") + ".tres"
+	$FileDialog.current_file = $"../../ModuleNameEdit".text.to_lower().replace(" ","_") + ".mml"
 	$FileDialog.popup_centered()
