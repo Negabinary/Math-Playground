@@ -7,6 +7,12 @@ signal justified
 var requirements := [] #<ProofStep>     ProofStep also stores the box?
 var PROOF_STEP = load("res://src/proof_step/proof_step.gd")
 
+enum OPTION_TYPES {
+	BOOLEAN,
+	NAME,
+	MATH
+}
+
 
 func _init():
 	for requirement in requirements:
@@ -42,6 +48,30 @@ func _verify_requirements() -> bool:
 		if !requirement.is_proven():
 			return false
 	return true
+
+
+func get_options() -> Array:
+	return []
+
+
+func get_option_type(option_idx:int) -> int:
+	return OPTION_TYPES.BOOLEAN
+
+
+func get_option_proof_box(option_idx:int):
+	return null
+
+
+func set_option(option_idx:int, value) -> void:
+	pass
+
+
+func get_option(option_idx:int):
+	return null
+
+
+func get_option_disabled(option_idx:int) -> bool:
+	return false
 
 
 func get_justification_text():

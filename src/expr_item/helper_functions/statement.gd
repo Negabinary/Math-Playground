@@ -47,6 +47,20 @@ func deep_replace_types(replacements:Dictionary, additional_definitions:=[]) -> 
 	return get_script().new(new_expr_item)
 
 
+func construct_without(keep_definition_ids:Array, keep_condition_ids:Array) -> ExprItem:
+	var return_value := conclusion.get_expr_item()
+	
+	for i in range(conditions.size()-1, -1, -1):
+		if i in keep_condition_ids:
+			return_value = ExprItem.new(GlobalTypes.IMPLIES, [conditions[i].get_expr_item(), return_value])
+	
+	for i in range(definitions.size()-1, -1, -1):
+		if i in keep_definition_ids:
+			return_value = ExprItem.new(GlobalTypes.FORALL, [ExprItem.new(definitions[i]), return_value])
+	
+	return return_value
+
+
 func compare_expr_item(ei:ExprItem) -> bool:
 	return root.compare(ei)
 

@@ -21,7 +21,7 @@ func initialise(proof_step:ProofStep, selection_handler:SelectionHandler, active
 func _find_ui_elements():
 	ui_active_dependency = $ActiveDependency
 	ui_justification_label = $JustificationLabel
-	ui_requirements = $MarginContainer/Requirements
+	ui_requirements = $MarginContainer/Options
 	._find_ui_elements()
 
 
@@ -54,5 +54,5 @@ func _update_justification_label():
 
 
 func _update_justification_box():
-	ui_requirements.display_requirements(proof_step, self, active_dependency_id)
+	ui_requirements.display_justification(proof_step.get_justification(), active_dependency_id)
 	ui_requirements.connect("dependency_selected", self, "_update_active_dependency")
