@@ -25,7 +25,7 @@ func _calculate_requirements():
 		if not (i in keep_definition_ids):
 			box_definitions.append(statement_definitions[i])
 	
-	var proof_box = ProofBox.new(box_definitions)
+	var proof_box = ProofBox.new(box_definitions, context)
 	
 	var statement_conditions = statement.get_conditions()
 	for i in statement_conditions.size():

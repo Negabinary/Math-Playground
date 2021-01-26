@@ -17,7 +17,7 @@ var EXPR_ITEM_EDIT_HELPER = load("res://ui/components/ei_editor/expr_item_edit_h
 
 var root
 var type : ExprItemType = null
-var proof_box := ProofBox.new([])
+var proof_box := ProofBox.new([], null)
 var bound := false
 
 enum HELPER_MODE {EDIT, VIEW}

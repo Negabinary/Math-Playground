@@ -33,7 +33,7 @@ var level : int
 var module
 
 
-func _init(definitions:Array, parent:ProofBox = null, module = null): #<ExprItemType,String>
+func _init(definitions:Array, parent:ProofBox, module = null): #<ExprItemType,String>
 	self.parent = parent
 	if parent == null:
 		level = 0

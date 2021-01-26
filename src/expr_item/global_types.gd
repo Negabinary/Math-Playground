@@ -17,7 +17,7 @@ var F_DEF := ExprItemType.new("->")
 var PROOF_BOX := ProofBox.new([
 		IMPLIES, FORALL, EQUALITY, NOT, EXISTS, LAMBDA,
 		TAG, ANY, PROP, F_DEF
-	])
+	], null)
 
 func _init():
 	FORALL.binder = true
