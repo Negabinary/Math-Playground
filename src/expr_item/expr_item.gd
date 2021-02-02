@@ -105,14 +105,25 @@ func abandon_lowest(count:int) -> ExprItem:
 	return get_script().new(type, new_children)
 
 
-func compare(other:ExprItem) -> bool:
+func compare(other:ExprItem, conversion:={}) -> bool:
 	if type != other.type:
-		return false
+		return conversion.get(type) == other.type
 	elif children.size() != other.children.size():
 		return false
+	elif type.is_binder():
+		var from_type:ExprItemType = children[0].get_type()
+		var to_type:ExprItemType = other.children[0].get_type()
+		var new_conversion = conversion.duplicate()
+		new_conversion[from_type] = to_type
+		if !children[1].compare(other.children[1], new_conversion):
+			return false
+		for child_id in range(2,children.size()):
+			if !children[child_id].compare(other.children[child_id], conversion):
+				return false
+		return true
 	else:
 		for child_id in children.size():
-			if !children[child_id].compare(other.children[child_id]):
+			if !children[child_id].compare(other.children[child_id], conversion):
 				return false
 		return true
 
