@@ -49,7 +49,8 @@ func _on_minimum_size_change():
 "
 
 [node name="WBPMissing" type="VBoxContainer"]
-anchor_right = 1.0
+anchor_left = 0.000976563
+anchor_right = 1.00098
 anchor_bottom = 1.0
 script = ExtResource( 6 )
 __meta__ = {
@@ -58,20 +59,20 @@ __meta__ = {
 
 [node name="Ideas" type="MarginContainer" parent="."]
 margin_right = 259.0
-margin_bottom = 261.0
+margin_bottom = 290.0
 size_flags_horizontal = 0
 custom_constants/margin_left = 30
 
 [node name="PanelContainer" type="PanelContainer" parent="Ideas"]
 margin_left = 30.0
 margin_right = 259.0
-margin_bottom = 261.0
+margin_bottom = 290.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Ideas/PanelContainer"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 225.0
-margin_bottom = 257.0
+margin_bottom = 286.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -183,6 +184,53 @@ custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
 text = "Destroy Lambda"
 flat = true
 align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WitnessButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
+margin_top = 228.0
+margin_right = 221.0
+margin_bottom = 253.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "Witness"
+flat = true
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WitnessDialog" type="ConfirmationDialog" parent="Ideas/PanelContainer/VBoxContainer/WitnessButton"]
+visible = true
+margin_top = -219.0
+margin_right = 250.0
+margin_bottom = -99.0
+window_title = "New Implication"
+resizable = true
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 242.0
+margin_bottom = 85.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExprItemEdit" type="Control" parent="Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog/CenterContainer"]
+margin_left = 117.0
+margin_top = 38.0
+margin_right = 117.0
+margin_bottom = 38.0
+script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -306,9 +354,9 @@ __meta__ = {
 margin_bottom = -35.0
 
 [node name="Custom" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
-margin_top = 228.0
+margin_top = 257.0
 margin_right = 221.0
-margin_bottom = 253.0
+margin_bottom = 282.0
 focus_mode = 0
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
@@ -320,10 +368,11 @@ flat = true
 align = 0
 
 [node name="Statement" type="Control" parent="."]
-margin_top = 265.0
+margin_top = 294.0
 margin_right = 1024.0
-margin_bottom = 265.0
+margin_bottom = 294.0
 script = ExtResource( 5 )
+[connection signal="expr_item_changed" from="Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog/CenterContainer/ExprItemEdit" to="Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog" method="_on_ExprItemEdit_expr_item_changed"]
 [connection signal="expr_item_changed" from="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog/CenterContainer/ExprItemEdit" to="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog" method="_on_ExprItemEdit_expr_item_changed"]
 [connection signal="update" from="Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog/CreateLambda" to="Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog" method="_on_CreateLambda_update"]
 [connection signal="pressed" from="Ideas/PanelContainer/VBoxContainer/Custom" to="." method="_on_Custom_pressed"]

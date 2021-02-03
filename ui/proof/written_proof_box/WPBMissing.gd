@@ -9,12 +9,14 @@ var ui_custom_forall_button
 var ui_custom_implication_button
 var ui_create_lambda_button
 var ui_destroy_lambda_button
+var ui_witness_button
 
 
 func _ready():
 	$Ideas/PanelContainer/VBoxContainer/CustomForAllButton/NewIdentifierNameDialog.connect("confirmed", self, "_on_custom_forall_confirm")
 	$Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog.connect("confirmed", self, "_on_custom_implication_confirm")
 	$Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog.connect("confirmed",self,"_on_create_lambda_confirm")
+	$Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog.connect("confirmed", self, "_on_witness_confirm")
 
 
 func initialise(proof_step:ProofStep, selection_handler:SelectionHandler, active_dependency_id:=-1):
@@ -44,6 +46,10 @@ func _update_justification_box():
 	ui_destroy_lambda_button = $Ideas/PanelContainer/VBoxContainer/DestroyLambdaButton
 	ui_destroy_lambda_button.connect("pressed", self, "_destroy_lambda_button")
 	ui_destroy_lambda_button.visible = selection_handler.get_locator().get_type() == GlobalTypes.LAMBDA
+	ui_witness_button = $Ideas/PanelContainer/VBoxContainer/WitnessButton
+	ui_witness_button.connect("pressed", self, "_witness_button")
+	ui_witness_button.visible = false
+	
 	selection_handler.connect("locator_changed", self, "_on_locator_changed")
 	
 	var parent_type:ExprItemType = proof_step.get_statement().as_expr_item().get_type()
@@ -71,6 +77,9 @@ func _update_justification_box():
 			$Ideas/PanelContainer/VBoxContainer/Label2.visible = true
 			ui_matching_button.visible = true
 			ui_matching_button.connect("pressed", self, "_matching_button")
+	elif parent_type == GlobalTypes.EXISTS:
+		print("HERE!!")
+		ui_witness_button.show()
 	else:
 		ui_implication_button.visible = false
 		ui_vacuous_button.visible = false
@@ -106,6 +115,10 @@ func _custom_forall_button():
 	ui_custom_forall_button.get_node("NewIdentifierNameDialog").popup()
 
 
+func _witness_button():
+	ui_witness_button.get_node("WitnessDialog").pop_up(proof_step.get_proof_box())
+
+
 func _create_lambda_button():
 	var locator
 	if selection_handler.get_proof_step() == proof_step:
@@ -134,6 +147,11 @@ func _on_custom_implication_confirm():
 func _on_create_lambda_confirm():
 	var create_lambda = $Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog/CreateLambda
 	proof_step.justify_with_create_lambda(create_lambda.get_locator(), create_lambda.get_argument_locations(), create_lambda.get_argument_types(), create_lambda.get_argument_values())
+
+
+func _on_witness_confirm():
+	var ei = $Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog/CenterContainer/ExprItemEdit.get_expr_item()
+	proof_step.justify_with_witness(ei)
 
 
 func _on_Custom_pressed():

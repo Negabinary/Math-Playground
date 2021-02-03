@@ -184,6 +184,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/proof/written_proof_box/WPBParent.gd"
 }, {
+"base": "Justification",
+"class": "WitnessJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/witness_justification.gd"
+}, {
 "base": "TextureButton",
 "class": "WrittenJustification",
 "language": "GDScript",
@@ -240,6 +245,7 @@ _global_script_class_icons={
 "UniversalLocator": "",
 "VacuousJustification": "",
 "WPBParent": "",
+"WitnessJustification": "",
 "WrittenJustification": "",
 "WrittenProofBox": "",
 "WrittenProofBoxBuilder": "",

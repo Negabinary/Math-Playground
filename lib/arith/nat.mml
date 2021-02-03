@@ -17,6 +17,6 @@
 @> For all(x)(=>(NAT(S(x)))(NAT(x)))
 
 @X 
-@> For all(x)(=>(NAT(x))(For all(P)(=>(For all(y)(=>(NAT(y))(PROP(P(y)))))(=>(P(0))(=>(For all(y)(=>(P(y))(P(S(y)))))(P(x)))))))
+@> For all(x)(=>(NAT(x))(For all(P)(=>(For all(y)(=>(P(y))(P(S(y)))))(=>(P(0))(P(x))))))
 
 

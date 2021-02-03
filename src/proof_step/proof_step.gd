@@ -15,8 +15,8 @@ func _init(new_expr_item:ExprItem, proof_box=null, new_justification:Justificati
 	outer_box = proof_box
 	justify(new_justification)
 	
-	if justification is MissingJustification:
-		attempt_auto_tag_proof()
+#	if justification is MissingJustification:
+#		attempt_auto_tag_proof()
 
 
 func get_proof_box() -> ProofBox:
@@ -110,6 +110,15 @@ func justify_with_vacuous() -> void:
 
 func justify_with_contrapositive() -> void:
 	justify(ContrapositiveJustification.new(self))
+
+
+func justify_with_witness(witness:ExprItem) -> void:
+	justify(WitnessJustification.new(
+		outer_box,
+		get_statement().as_expr_item().get_child(0).get_type(),
+		get_statement().as_expr_item().get_child(1),
+		witness
+	))
 
 
 func can_justify_with_modus_ponens(assumption:ProofStep) -> bool:
