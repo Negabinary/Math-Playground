@@ -9,6 +9,8 @@ var ui_requirements
 func initialise(proof_step:ProofStep, selection_handler:SelectionHandler, active_dependency_id:=-1):
 	.initialise(proof_step, selection_handler, active_dependency_id)
 	
+	$MarginContainer/Options/VBoxContainer/HBoxContainer/UnproveButton.connect("pressed", self, "_on_unprove")
+	
 	var requirements := proof_step.get_requirements()
 	if active_dependency_id == -1:
 		active_dependency_id = requirements.size() - 1
@@ -56,3 +58,7 @@ func _update_justification_label():
 func _update_justification_box():
 	ui_requirements.display_justification(proof_step.get_justification(), active_dependency_id)
 	ui_requirements.connect("dependency_selected", self, "_update_active_dependency")
+
+
+func _on_unprove():
+	proof_step.justify(MissingJustification.new())

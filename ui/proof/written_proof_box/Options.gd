@@ -15,7 +15,7 @@ func _toggle_visibility():
 func display_justification(justification:Justification, req_id:int):
 	self.justification = justification
 	_display_requirements(req_id)
-	$VBoxContainer/VBoxContainer/JustificationName.text = justification.get_script().resource_name
+	$VBoxContainer/HBoxContainer/JustificationName.text = "Justification Options"
 	_display_options()
 
 
@@ -25,7 +25,7 @@ func _on_requirements_pressed(req_id:int):
 
 
 func _display_requirements(req_id:int):
-	var ui_requirements := $VBoxContainer/Requirements
+	var ui_requirements := $VBoxContainer/VBoxContainer/Requirements
 	for child in ui_requirements.get_children():
 		ui_requirements.remove_child(child)
 	var requirements := justification.get_requirements()
@@ -38,7 +38,7 @@ func _display_requirements(req_id:int):
 
 
 func _display_options():
-	var ui_options := $VBoxContainer/VBoxContainer/Options
+	var ui_options := $VBoxContainer/VBoxContainer/VBoxContainer/Options
 	var options := justification.get_options()
 	for i in options.size():
 		var new_label = WrittenJustification.new()

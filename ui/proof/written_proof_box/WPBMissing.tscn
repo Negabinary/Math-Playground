@@ -205,7 +205,6 @@ __meta__ = {
 }
 
 [node name="WitnessDialog" type="ConfirmationDialog" parent="Ideas/PanelContainer/VBoxContainer/WitnessButton"]
-visible = true
 margin_top = -219.0
 margin_right = 250.0
 margin_bottom = -99.0
