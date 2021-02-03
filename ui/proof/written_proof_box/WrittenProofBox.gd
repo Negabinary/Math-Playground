@@ -17,7 +17,6 @@ func initialise(proof_step:ProofStep, selection_handler:SelectionHandler, active
 	_update_active_dependency(active_dependency_id)
 	
 	_update_justification_label()
-	_update_justification_box()
 
 
 func _find_ui_elements():
@@ -43,6 +42,8 @@ func _update_active_dependency(new_active_dependency_id):
 		active_dependency.connect("justified", self, "_update_active_dependency", [new_active_dependency_id])
 	else:
 		active_dependency = null
+	
+	_update_justification_box()
 
 
 func _on_selected_proof_step_changed(new_proof_step):
