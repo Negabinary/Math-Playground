@@ -1,0 +1,15 @@
+@R arith/nat
+
+@D +
+
+@X 
+@> For all(x)(=(+(x)(0))(x))
+
+@X 
+@> For all(x)(For all(y)(=(+(x)(S(y)))(S(+(x)(y)))))
+
+@> For all(x)(=(+(0)(x))(x))
+
+@> For all(x)(For all(y)(=(+(x)(y))(+(y)(x))))
+
+
