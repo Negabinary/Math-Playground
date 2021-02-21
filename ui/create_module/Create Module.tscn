@@ -87,8 +87,9 @@ script = ExtResource( 10 )
 margin_right = 685.0
 margin_bottom = 502.0
 resizable = true
-current_dir = "res://lib"
-current_path = "res://lib/"
+access = 1
+current_dir = "user://lib"
+current_path = "user://lib/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -108,9 +109,11 @@ window_title = "Load a File"
 resizable = true
 mode_overrides_title = false
 mode = 0
+access = 1
 filters = PoolStringArray( "*.tres, *.mml ; Modules" )
-current_dir = "res://lib"
-current_path = "res://lib/"
+current_dir = "user://lib"
+current_file = "lib"
+current_path = "user://lib/lib"
 __meta__ = {
 "_edit_use_anchors_": false
 }

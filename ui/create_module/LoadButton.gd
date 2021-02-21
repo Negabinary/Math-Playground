@@ -6,4 +6,5 @@ func _ready():
 
 
 func _pressed():
+	$FileDialog2.invalidate()
 	$FileDialog2.popup_centered()

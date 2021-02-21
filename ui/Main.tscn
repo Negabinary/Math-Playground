@@ -1,10 +1,20 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://ui/theme/main_theme.theme" type="Theme" id=1]
 [ext_resource path="res://ui/proof/Proof.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/create_module/Create Module.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ui/components/ei_editor/expr_item_edit.gd" type="Script" id=4]
 [ext_resource path="res://ui/Main.gd" type="Script" id=5]
+[ext_resource path="res://ui/components/PageContainer.gd" type="Script" id=6]
+[ext_resource path="res://ui/FileSystem.gd" type="Script" id=7]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 1, 1, 1, 1 )
+shadow_size = 2
 
 [node name="ColorRect" type="ColorRect"]
 anchor_right = 1.0
@@ -26,10 +36,79 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Firebase" type="TextEdit" parent="TabContainer"]
+[node name="Filesystem" type="ColorRect" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 21.0
+color = Color( 0.894118, 0.894118, 0.894118, 1 )
+
+[node name="PageContainer" type="Container" parent="TabContainer/Filesystem"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Filesystem/PageContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 30
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 30
+
+[node name="PanelContainer" type="PanelContainer" parent="TabContainer/Filesystem/PageContainer/MarginContainer"]
+margin_left = 10.0
+margin_top = 30.0
+margin_right = 386.0
+margin_bottom = 93.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 366.0
+margin_bottom = 53.0
+script = ExtResource( 7 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer"]
+margin_right = 356.0
+margin_bottom = 19.0
+
+[node name="Button" type="Button" parent="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_right = 128.0
+margin_bottom = 19.0
+text = "Store -> Textbox"
+
+[node name="Button2" type="Button" parent="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 132.0
+margin_right = 260.0
+margin_bottom = 19.0
+text = "Textbox -> Store"
+
+[node name="Button3" type="Button" parent="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 264.0
+margin_right = 356.0
+margin_bottom = 19.0
+text = "Lib -> Store"
+
+[node name="HSeparator" type="HSeparator" parent="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer"]
+margin_top = 23.0
+margin_right = 356.0
+margin_bottom = 31.0
+
+[node name="TextEdit" type="TextEdit" parent="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer"]
+margin_top = 35.0
+margin_right = 356.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+show_line_numbers = true
+wrap_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Create Module" parent="TabContainer" instance=ExtResource( 3 )]
 visible = false
@@ -75,3 +154,5 @@ margin_right = 1004.0
 margin_bottom = 177.0
 caret_blink = true
 caret_blink_speed = 0.5
+[connection signal="pressed" from="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Button" to="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer" method="serialize"]
+[connection signal="pressed" from="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Button2" to="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer" method="deserialize"]

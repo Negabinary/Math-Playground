@@ -6,5 +6,6 @@ func _ready():
 
 
 func _pressed():
+	$FileDialog.invalidate()
 	$FileDialog.current_file = $"../../ModuleNameEdit".text.to_lower().replace(" ","_") + ".mml"
 	$FileDialog.popup_centered()

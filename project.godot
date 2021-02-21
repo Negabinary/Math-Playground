@@ -271,7 +271,20 @@ gdscript/warnings/return_value_discarded=false
 
 [editor_plugins]
 
-enabled=PoolStringArray( "gut", "zylann.project_stats" )
+enabled=PoolStringArray( "zylann.project_stats" )
+
+[firebase]
+
+environment_variables/apiKey="AIzaSyBnmaolbnY1TRzWGJVGt6Px2sXv4sam6FM"
+environment_variables/authDomain="math-playground-faf08.firebaseapp.com"
+environment_variables/databaseURL=""
+environment_variables/projectId="math-playground-faf08"
+environment_variables/storageBucket="math-playground-faf08.appspot.com"
+environment_variables/messagingSenderId="306594356559"
+environment_variables/appId="1:306594356559:web:d8a25b293ac10c79bc793a"
+environment_variables/measurementId="G-1T6D85JE2R"
+environment_variables/clientId="306594356559-aliph5olg6mc3pirsd2ifl1fgfuea1qp.apps.googleusercontent.com"
+environment_variables/clientSecret="0Jb4RlOx9XSN2Bcet-uiotdk"
 
 [gui]
 

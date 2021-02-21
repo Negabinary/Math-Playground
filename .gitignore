@@ -8,3 +8,4 @@ addons/
 # Mono-specific ignores
 .mono/
 data_*/
+override.cfg
