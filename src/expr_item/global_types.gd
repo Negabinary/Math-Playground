@@ -2,12 +2,12 @@ extends Node
 
 var TYPING := true
 
-var IMPLIES := ExprItemType.new("=>")
-var FORALL := ExprItemType.new("For all")     #  ALWAYS HAS EXACTLY 2 ARGUMENTS
+var IMPLIES := ExprItemType.new("if")
+var FORALL := ExprItemType.new("forall")     #  ALWAYS HAS EXACTLY 2 ARGUMENTS
 var EQUALITY := ExprItemType.new("=")
 var NOT := ExprItemType.new("¬")
-var EXISTS := ExprItemType.new("For some")    #  ALWAYS HAS EXACTLY 2 ARGUMENTS
-var LAMBDA := ExprItemType.new(">>")          # ALWAYS HAS AT LEAST 2 ARGUMENTS
+var EXISTS := ExprItemType.new("exists")    #  ALWAYS HAS EXACTLY 2 ARGUMENTS
+var LAMBDA := ExprItemType.new("lambda")          # ALWAYS HAS AT LEAST 2 ARGUMENTS
 
 var TAG := ExprItemType.new("TAG")
 var ANY := ExprItemType.new("ANY")
@@ -67,17 +67,3 @@ func _add_tag(type, expr) -> void:
 			PROOF_BOX
 		)
 	)
-
-
-func get_map() -> Dictionary:
-	return {
-		"=>":IMPLIES, 
-		"For all":FORALL, 
-		"=":EQUALITY, 
-		"¬":NOT, 
-		"For some":EXISTS,
-		"TAG":TAG,
-		"ANY":ANY,
-		"PROP":PROP,
-		"->":F_DEF,
-	}

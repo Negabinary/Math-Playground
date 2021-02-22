@@ -3,7 +3,7 @@ class_name WrittenStatement
 
 signal selection_changed
 
-var expr_item : ExprItem = ExprItem.from_string("MISSING")
+var expr_item : ExprItem
 
 var is_selected = true
 var selection = 0

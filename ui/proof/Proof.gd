@@ -7,7 +7,7 @@ onready var ui_modules := $VSplitContainer/Modules
 var root_ps : ProofStep
 
 func _set_up() -> void:
-	var w2 = ExprItemBuilder.from_string("For all(A,For all(B,For all(C,=>(=>(A,B),=>(=>(B,C),=>(A,C))))))", GlobalTypes.PROOF_BOX)
+	var w2 = ExprItemBuilder.from_string("forall(A,forall(B,forall(C,if(if(A,B),if(if(B,C),if(A,C))))))", GlobalTypes.PROOF_BOX)
 	root_ps = ProofStep.new(w2, ProofBox.new([],GlobalTypes.PROOF_BOX))
 	ui_written_proof.display_proof(root_ps)
 

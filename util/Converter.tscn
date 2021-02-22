@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends VBoxContainer
+
+func _on_Button_pressed():
+	$Control/TextEdit2.text = \\
+	$Control/TextEdit.text.replace(\"For all\",\"forall\").replace(\"For some\", \"exists\").replace(\"=>\",\"if\").replace(\">>\",\"lambda\")
+"
+
+[node name="VBoxContainer" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_right = 1024.0
+margin_bottom = 19.0
+text = "V1 -> V2"
+
+[node name="Control" type="HSplitContainer" parent="."]
+margin_top = 23.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="Control"]
+margin_right = 506.0
+margin_bottom = 577.0
+size_flags_horizontal = 3
+
+[node name="TextEdit2" type="TextEdit" parent="Control"]
+margin_left = 518.0
+margin_right = 1024.0
+margin_bottom = 577.0
+size_flags_horizontal = 3
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

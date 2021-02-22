@@ -13,29 +13,6 @@ func _init(new_type:ExprItemType, new_children:=[]):
 		string = to_string()
 
 
-static func from_string(string:String, types:={}) -> ExprItem:
-	for global_type in GlobalTypes.get_map():
-		types[global_type] = GlobalTypes.get_map()[global_type]
-	var context_stack := [[]]
-	var current_string := ""
-	for i in range(string.length() - 1, -1, -1): # BACKWARDS
-		var chr = string[i]
-		if chr == ")":
-			context_stack.push_front([])
-		elif chr == "," or chr == "(":
-			var current_children = context_stack.pop_front()
-			types[current_string] = types.get(current_string, ExprItemType.new(current_string))
-			context_stack[0].push_front(load("res://src/expr_item/expr_item.gd").new(types[current_string], current_children))
-			if chr == ",":
-				context_stack.push_front([])
-			current_string = ""
-		else:
-			current_string = chr + current_string
-	var current_children = context_stack.pop_front()
-	types[current_string] = types.get(current_string, ExprItemType.new(current_string))
-	return load("res://src/expr_item/expr_item.gd").new(types[current_string], current_children)
-
-
 func deep_replace_types(types:Dictionary) -> ExprItem: #<ExprItemType, ExprItem>
 	var new_children = []
 	for child in children:
