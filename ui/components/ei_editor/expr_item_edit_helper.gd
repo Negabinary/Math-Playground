@@ -49,8 +49,8 @@ func get_fm_strings() -> Array:
 	return strings
 
 
-func is_binder() -> bool:
-	return type.is_binder()
+func get_binder_type() -> int:
+	return type.get_binder_type()
 
 
 func get_child_index(child:ExprItemEditHelper) -> int:
@@ -96,12 +96,20 @@ func _init(root, expr_item:ExprItem = null,
 	else:
 		mode = HELPER_MODE.VIEW
 		set_type(expr_item.get_type())
-		if type.is_binder():
+		if type.get_binder_type() == ExprItemType.BINDER.BINDER:
 			append_child(expr_item.get_child(0), proof_box, true)
 			var bound_type = expr_item.get_child(0).get_type()
 			var new_proof_box = ProofBox.new([bound_type], proof_box)
 			append_child(expr_item.get_child(1), new_proof_box)
 			for i in range(2, expr_item.get_child_count()):
+				append_child(expr_item.get_child(i), proof_box)
+		elif type.get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER:
+			append_child(expr_item.get_child(0), proof_box, true)
+			append_child(expr_item.get_child(1), proof_box, false)
+			var bound_type = expr_item.get_child(0).get_type()
+			var new_proof_box = ProofBox.new([bound_type], proof_box)
+			append_child(expr_item.get_child(2), new_proof_box)
+			for i in range(3, expr_item.get_child_count()):
 				append_child(expr_item.get_child(i), proof_box)
 		else:
 			for child in expr_item.get_children():
@@ -150,13 +158,22 @@ func append_child(expr_item:ExprItem, proof_box, bound:=false) -> ExprItemEditHe
 
 
 func delete_child(child:ExprItemEditHelper):
-	if (is_binder() and get_child_index(child) < 2):
+	if (get_binder_type() == ExprItemType.BINDER.BINDER and get_child_index(child) < 2):
 		if get_child_index(child) == 0:
 			_enter_edit_mode(type.get_identifier(), true)
 		else:
 			_delete_child(child)
 			_delete_child(get_expr_child(0))
 			_enter_edit_mode(type.get_identifier(), true)
+	if (get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER and get_child_index(child) < 3):
+		if get_child_index(child) == 0:
+			_enter_edit_mode(type.get_identifier(), true)
+		else:
+			_delete_child(get_expr_child(2))
+			_delete_child(get_expr_child(1))
+			_delete_child(get_expr_child(0))
+			_enter_edit_mode(type.get_identifier(), true)
+		
 	else:
 		_left_from_above(child, false)
 		_delete_child(child)
@@ -209,12 +226,12 @@ func _on_edit_done(type, flags:int):
 			_right_from_above(get_child(0),true)
 			set_type(type)
 			_exit_edit_mode()
-			if type.is_binder():
+			if type.get_binder_type() != ExprItemType.BINDER.NOT_BINDER:
 				new_binder()
 			else:
 				remove_binder()
 		if flags & ExprItemEditHelperEdit.DONE_FLAGS.OPEN:
-			if type == null || !type.is_binder():
+			if type == null || type.get_binder_type() == ExprItemType.BINDER.NOT_BINDER:
 				var new_child := append_child(null, proof_box)
 				if mode == HELPER_MODE.EDIT:
 					move_child(new_child, 0)
@@ -242,13 +259,17 @@ func _exit_edit_mode() -> void:
 
 func set_proof_box(proof_box:ProofBox) -> void:
 	self.proof_box = proof_box
-	if type.is_binder():
+	for child in get_children():
+			child.set_proof_box(proof_box)
+	if get_binder_type() == ExprItemType.BINDER.BINDER:
 		var bound_type = get_child(0).get_type()
 		var new_proof_box = ProofBox.new([bound_type], proof_box)
 		get_child(1).set_proof_box(new_proof_box)
-	else:
-		for child in get_children():
-			child.set_proof_box(proof_box)
+	elif get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER:
+		var bound_type = get_child(0).get_type()
+		var new_proof_box = ProofBox.new([bound_type], proof_box)
+		get_child(1).set_proof_box(proof_box)
+		get_child(2).set_proof_box(new_proof_box)
 
 
 func set_type(new_type:ExprItemType) -> void:

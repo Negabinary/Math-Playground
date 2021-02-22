@@ -87,7 +87,7 @@ func compare(other:ExprItem, conversion:={}) -> bool:
 		return conversion.get(type) == other.type
 	elif children.size() != other.children.size():
 		return false
-	elif type.is_binder():
+	elif type.get_binder_type() == ExprItemType.BINDER.BINDER:
 		var from_type:ExprItemType = children[0].get_type()
 		var to_type:ExprItemType = other.children[0].get_type()
 		var new_conversion = conversion.duplicate()
@@ -95,6 +95,19 @@ func compare(other:ExprItem, conversion:={}) -> bool:
 		if !children[1].compare(other.children[1], new_conversion):
 			return false
 		for child_id in range(2,children.size()):
+			if !children[child_id].compare(other.children[child_id], conversion):
+				return false
+		return true
+	elif type.get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER:
+		var from_type:ExprItemType = children[0].get_type()
+		var to_type:ExprItemType = other.children[0].get_type()
+		var new_conversion = conversion.duplicate()
+		new_conversion[from_type] = to_type
+		if !children[1].compare(other.children[1], conversion):
+			return false
+		if !children[2].compare(other.children[2], new_conversion):
+			return false
+		for child_id in range(3,children.size()):
 			if !children[child_id].compare(other.children[child_id], conversion):
 				return false
 		return true

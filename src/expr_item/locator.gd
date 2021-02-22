@@ -61,7 +61,12 @@ func abandon_lowest(n:int) -> Locator:
 func get_proof_box(root_proof_box):
 	if parent == null:
 		return root_proof_box
-	elif parent.get_type().is_binder() and get_indeces()[-1] == 1:
+	elif parent.get_type().get_binder_type() == ExprItemType.BINDER.BINDER and get_indeces()[-1] == 1:
+		return root_proof_box.get_script().new(
+			[parent.get_child(0).get_type()],
+			parent.get_proof_box(root_proof_box)
+		)
+	elif parent.get_type().get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER and get_indeces()[-1] == 2:
 		return root_proof_box.get_script().new(
 			[parent.get_child(0).get_type()],
 			parent.get_proof_box(root_proof_box)

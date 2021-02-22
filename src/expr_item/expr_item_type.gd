@@ -7,7 +7,8 @@ signal deleted
 
 
 var identifier : String
-var binder := false
+enum BINDER {NOT_BINDER, BINDER, TAGGED_BINDER}
+var binder : int = BINDER.NOT_BINDER
 
 var fm_expected_args := 1
 var fm_strings := []
@@ -42,7 +43,7 @@ func get_fm_strings():
 	return fm_strings
 
 
-func is_binder():
+func get_binder_type() -> int:
 	return binder
 
 

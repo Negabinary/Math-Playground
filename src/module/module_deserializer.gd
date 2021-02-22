@@ -71,7 +71,7 @@ func _parse_definition(item : Array, proof_box:ProofBox) -> ModuleItemDefinition
 	else:
 		eassert(m.count(":") == 1,"TOO MANY COLONS")
 		var identifier := m.split(":")[0].strip_edges()
-		var tag_string := m.split(":")[1].strip_edges() + "(" + identifier + ")"
+		var tag_string := m.split(":")[1].strip_edges()
 		
 		var new_type := ExprItemType.new(identifier)
 		
@@ -82,9 +82,11 @@ func _parse_definition(item : Array, proof_box:ProofBox) -> ModuleItemDefinition
 			else:
 				eassert(line.split(":")[1].strip_edges() == "TAG", "Tag variable must be a tag")
 				tag_variable = line.split(":")[0].right(3).strip_edges()
-			tag_string = "For all(" + tag_variable + ",=>(TAG(" + tag_variable + ")," + tag_string + "))"
+			tag_string = "<>(" + tag_variable + "," + tag_string + ")"
 		
-		var tag := ExprItemBuilder.from_string(tag_string, ProofBox.new([new_type], proof_box))
+		var tag_proof_box = TagShorthand.make_proof_box(proof_box)
+		
+		var tag := ExprItemBuilder.from_string(tag_string, ProofBox.new([new_type], tag_proof_box))
 		
 		return ModuleItemDefinition.new(
 			module,
@@ -103,11 +105,11 @@ func _parse_statement(item:Array, proof_box:ProofBox) -> ModuleItem:
 			var def_name : String = qualifier_payload.split(":")[0].strip_edges(true,true)
 			if GlobalTypes.TYPING and qualifier_payload.split(":").size() == 2:
 				var type_info : String = qualifier_payload.split(":")[1].strip_edges(true,true)
-				string = "For all(" + def_name + ",=>(" + type_info + "(" + def_name + ")" + "," + string + "))"
+				string = "forall(" + def_name + ",if(" + type_info + "(" + def_name + ")" + "," + string + "))"
 			else:
-				string = "For all(" + def_name + "," + string + ")"
+				string = "forall(" + def_name + "," + string + ")"
 		elif qualifier_type == "@< ":
-			string = "=>(" + qualifier_payload + "," + string + ")"
+			string = "if(" + qualifier_payload + "," + string + ")"
 		elif qualifier_type == "@= ":
 			string = "=(" + qualifier_payload + "," + string + ")"
 		elif qualifier_type == "@X ":

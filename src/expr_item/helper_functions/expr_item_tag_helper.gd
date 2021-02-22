@@ -31,7 +31,7 @@ func _init(root:ExprItem):
 	tagged_type = locator.get_child(locator.get_child_count()-1).get_type()
 	locator = locator.abandon_lowest(1)
 	while true:
-		if locator.get_type() == GlobalTypes.F_DEF and locator.get_child_count() == 2:
+		if locator.get_type() == TagShorthand.F_DEF and locator.get_child_count() == 2:
 			arguments.append(locator.get_child(0))
 			return_types.append(locator.get_child(1))
 			locator = locator.get_child(1)

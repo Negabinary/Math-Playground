@@ -12,17 +12,16 @@ var LAMBDA := ExprItemType.new("lambda")          # ALWAYS HAS AT LEAST 2 ARGUME
 var TAG := ExprItemType.new("TAG")
 var ANY := ExprItemType.new("ANY")
 var PROP := ExprItemType.new("PROP")
-var F_DEF := ExprItemType.new("->")
 
 var PROOF_BOX := ProofBox.new([
 		IMPLIES, FORALL, EQUALITY, NOT, EXISTS, LAMBDA,
-		TAG, ANY, PROP, F_DEF
+		TAG, ANY, PROP
 	], null)
 
 func _init():
-	FORALL.binder = true
-	EXISTS.binder = true
-	LAMBDA.binder = true
+	FORALL.binder = ExprItemType.BINDER.BINDER
+	EXISTS.binder = ExprItemType.BINDER.BINDER
+	LAMBDA.binder = ExprItemType.BINDER.BINDER
 	
 	IMPLIES.fm_strings = ["if (",") then (",")"]
 	IMPLIES.fm_strings = ["if ","",""]
@@ -35,7 +34,6 @@ func _init():
 	TAG.fm_strings = ["TAG"]
 	ANY.fm_strings = ["ANY"]
 	PROP.fm_strings = ["PROP"]
-	F_DEF.fm_strings = ["(",") -> ", ""]
 	
 	IMPLIES.two_line = true
 	FORALL.two_line = true
@@ -46,18 +44,17 @@ func _ready():
 	var any = ExprItem.new(ANY)
 	var prop = ExprItem.new(PROP)
 	
-	var proptoprop = ExprItem.new(F_DEF, [prop, prop])
-	var anytoprop = ExprItem.new(F_DEF, [any, prop])
-	var tagtotag = ExprItem.new(F_DEF, [tag,tag])
+	var proptoprop = ExprItem.new(TagShorthand.F_DEF, [prop, prop])
+	var anytoprop = ExprItem.new(TagShorthand.F_DEF, [any, prop])
+	var tagtotag = ExprItem.new(TagShorthand.F_DEF, [tag,tag])
 	
 	_add_tag(TAG, ExprItem.new(TAG, [tag]))
 	_add_tag(ANY, ExprItem.new(TAG, [any]))
 	_add_tag(PROP, ExprItem.new(TAG, [prop]))
 	
-	_add_tag(NOT, ExprItem.new(F_DEF, [prop,prop,ExprItem.new(NOT)]))
-	_add_tag(IMPLIES, ExprItem.new(F_DEF, [prop,proptoprop,ExprItem.new(IMPLIES)]))
-	_add_tag(EQUALITY, ExprItem.new(F_DEF, [any,anytoprop,ExprItem.new(EQUALITY)]))
-	_add_tag(F_DEF, ExprItem.new(F_DEF, [tag, tagtotag, ExprItem.new(F_DEF)]))
+	_add_tag(NOT, ExprItem.new(TagShorthand.F_DEF, [prop,prop,ExprItem.new(NOT)]))
+	_add_tag(IMPLIES, ExprItem.new(TagShorthand.F_DEF, [prop,proptoprop,ExprItem.new(IMPLIES)]))
+	_add_tag(EQUALITY, ExprItem.new(TagShorthand.F_DEF, [any,anytoprop,ExprItem.new(EQUALITY)]))
 
 
 func _add_tag(type, expr) -> void:

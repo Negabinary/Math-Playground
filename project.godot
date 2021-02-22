@@ -260,6 +260,7 @@ run/main_scene="res://ui/Main.tscn"
 [autoload]
 
 GlobalTypes="*res://src/expr_item/global_types.gd"
+TagShorthand="*res://src/expr_item/tag_shorthand.gd"
 
 [debug]
 

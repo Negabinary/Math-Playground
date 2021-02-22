@@ -26,25 +26,27 @@ static func _generate_intermediate(string:String) -> IntermediateExprItem:
 
 
 static func _generate_expr_item(intermediate:IntermediateExprItem, proof_box:ProofBox) -> ExprItem:
-	if intermediate.token == GlobalTypes.FORALL.get_identifier():
-		var new_types := deep_generate_types(intermediate.children[0])
-		var inner_scope := ProofBox.new(new_types, proof_box)
-		var lhs = _generate_expr_item(intermediate.children[0], inner_scope)
-		var rhs = _generate_expr_item(intermediate.children[1], inner_scope)
-		return ExprItem.new(GlobalTypes.FORALL, [lhs, rhs])
-	elif intermediate.token == GlobalTypes.EXISTS.get_identifier():
-		var new_types := deep_generate_types(intermediate.children[0])
-		var inner_scope := ProofBox.new(new_types, proof_box)
-		var lhs = _generate_expr_item(intermediate.children[0], inner_scope)
-		var rhs = _generate_expr_item(intermediate.children[1], inner_scope)
-		return ExprItem.new(GlobalTypes.EXISTS, [lhs, rhs])
-	else:
-		assert(proof_box.parse(intermediate.token) != null)
-		var type:ExprItemType = proof_box.parse(intermediate.token)
-		var new_chidlren := []
-		for child in intermediate.children:
-			new_chidlren.append(_generate_expr_item(child, proof_box))
-		return ExprItem.new(type, new_chidlren)
+	assert(proof_box.parse(intermediate.token) != null)
+	var type:ExprItemType = proof_box.parse(intermediate.token)
+	var inner_proof_box
+	if type.get_binder_type() != ExprItemType.BINDER.NOT_BINDER:
+		inner_proof_box = ProofBox.new(deep_generate_types(intermediate.children[0]), proof_box)
+	var new_chidlren := []
+	for child in intermediate.children:
+		match type.get_binder_type():
+			ExprItemType.BINDER.NOT_BINDER:
+				new_chidlren.append(_generate_expr_item(child, proof_box))
+			ExprItemType.BINDER.BINDER:
+				if intermediate.children.find(child) in [0,1]:
+					new_chidlren.append(_generate_expr_item(child, inner_proof_box))
+				else:
+					new_chidlren.append(_generate_expr_item(child, proof_box))
+			ExprItemType.BINDER.TAGGED_BINDER:
+				if intermediate.children.find(child) in [0,2]:
+					new_chidlren.append(_generate_expr_item(child, inner_proof_box))
+				else:
+					new_chidlren.append(_generate_expr_item(child, proof_box))
+	return ExprItem.new(type, new_chidlren)
 
 static func deep_generate_types(intermediate:IntermediateExprItem, new_types=[]) -> Array:
 	new_types.append(ExprItemType.new(intermediate.token))

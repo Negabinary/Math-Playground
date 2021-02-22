@@ -34,7 +34,7 @@ func set_definition_item(definition_item:ModuleItemDefinition):
 		ui_tag_editor.set_expr_item(null, proof_box)
 		toggle_tagged()
 	else:
-		ui_tag_editor.set_expr_item(definition_item.get_tag().abandon_lowest(1), proof_box)
+		ui_tag_editor.set_expr_item(definition_item.get_tag(), proof_box)
 	ui_name_editor.text = definition_item.get_definition().get_identifier()
 	_check_valid()
 
