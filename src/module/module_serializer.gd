@@ -29,13 +29,14 @@ static func _parse_definition(item:ModuleItemDefinition) -> String:
 	if item_tag == null:
 		return "@D " + item.get_definition().get_identifier() + "\n\n"
 	else:
-		var string = ""
-		while (item_tag.get_type() == GlobalTypes.FORALL):
-			string += "@A " + item_tag.get_child(0).get_type().get_identifier() + "\n"
-			item_tag = item_tag.get_child(1)
-		item_tag = item_tag.abandon_lowest(1)
-		string += "@D " + item.get_definition().get_identifier() + " : " + item_tag.serialize() + "\n\n"
-		return string
+		#var string = ""
+		#while (item_tag.get_type() == GlobalTypes.FORALL):
+		#	string += "@A " + item_tag.get_child(0).get_type().get_identifier() + "\n"
+		#	item_tag = item_tag.get_child(1)
+		#item_tag = item_tag.abandon_lowest(1)
+		#string += "@D " + item.get_definition().get_identifier() + " : " + item_tag.serialize() + "\n\n"
+		return "@D " + item.get_definition().get_identifier() + " : " + item_tag.serialize() + "\n\n"
+		#return string
 
 
 static func _parse_theorem(item:ModuleItemTheorem) -> String:

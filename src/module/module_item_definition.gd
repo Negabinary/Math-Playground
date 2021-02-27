@@ -12,7 +12,7 @@ func _init(module, tag=null, expr_item_type:=ExprItemType.new("???"), docstring:
 	self.tag = tag
 	if tag != null:
 		as_assumption = ProofStep.new(
-				tag.apply(ExprItem.new(type)),
+				ExprItemTagHelper.tag_to_statement(tag, ExprItem.new(type)),
 				module.get_proof_box(),
 				AssumptionJustification.new(module.get_proof_box())
 			)

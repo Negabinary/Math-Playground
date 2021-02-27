@@ -57,3 +57,41 @@ func is_valid() -> bool:
 
 func get_tagged_type() -> ExprItemType:
 	return tagged_type
+
+
+
+static func tag_to_statement(tag:ExprItem, tagged:ExprItem) -> ExprItem:
+	if tag.get_type() == TagShorthand.T_GEN:
+		return ExprItem.new(
+			GlobalTypes.FORALL,
+			[
+				tag.get_child(0),
+				ExprItem.new(
+					GlobalTypes.IMPLIES,
+					[
+						ExprItem.new(GlobalTypes.TAG, [tag.get_child(0)]),
+						tag_to_statement(tag.get_child(1), tagged)
+					]
+				)
+			])
+	elif tag.get_type() == TagShorthand.F_DEF:
+		var new_type := ExprItem.new(ExprItemType.new(gen_name()))
+		return ExprItem.new(
+			GlobalTypes.FORALL,
+			[
+				new_type,
+				ExprItem.new(
+					GlobalTypes.IMPLIES,
+					[
+						tag_to_statement(tag.get_child(0), new_type),
+						tag_to_statement(tag.get_child(1), tagged.apply(new_type))
+					]
+				)
+			]
+		)
+	else:
+		return tag.apply(tagged)
+
+
+static func gen_name():
+	return "T" + str(int(rand_range(100, 999)))

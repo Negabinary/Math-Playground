@@ -28,7 +28,7 @@ func _ready():
 func set_definition_item(definition_item:ModuleItemDefinition):
 	_find_ui_elements()
 	self.definition_item = definition_item
-	var proof_box = definition_item.get_module().get_proof_box(definition_item.get_index())
+	var proof_box = TagShorthand.make_proof_box(definition_item.get_module().get_proof_box(definition_item.get_index()))
 	var tag = definition_item.get_tag()
 	if tag == null:
 		ui_tag_editor.set_expr_item(null, proof_box)
@@ -79,5 +79,5 @@ func _on_tag_changed():
 	if ui_tag_editor.has_holes():
 		definition_item.set_tag(null)
 	else:
-		definition_item.set_tag(ui_tag_editor.get_expr_item().apply(ExprItem.new(definition_item.get_definition())))
+		definition_item.set_tag(ui_tag_editor.get_expr_item())
 	_check_valid()
