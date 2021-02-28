@@ -89,6 +89,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/expr_item/locator.gd"
 }, {
+"base": "Justification",
+"class": "MatchingJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/matching_justification.gd"
+}, {
 "base": "Object",
 "class": "MathModule",
 "language": "GDScript",
@@ -159,6 +164,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/refine_justification.gd"
 }, {
+"base": "Justification",
+"class": "ReflexiveJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/reflexive_justification.gd"
+}, {
 "base": "Node",
 "class": "SelectionHandler",
 "language": "GDScript",
@@ -226,6 +236,7 @@ _global_script_class_icons={
 "Justification": "",
 "JustificationBuilder": "",
 "Locator": "",
+"MatchingJustification": "",
 "MathModule": "",
 "MissingJustification": "",
 "ModuleDeserializer": "",
@@ -240,6 +251,7 @@ _global_script_class_icons={
 "ProofBox": "",
 "ProofStep": "",
 "RefineJustification": "",
+"ReflexiveJustification": "",
 "SelectionHandler": "",
 "Statement": "",
 "UniversalLocator": "",

@@ -101,7 +101,7 @@ func justify_with_reflexivity() -> void:
 
 
 func justify_with_matching() -> void:
-	justify(MatchingJustification.new(self))
+	justify(MatchingJustification.new(outer_box, get_statement().as_expr_item().get_child(0), get_statement().as_expr_item().get_child(1)))
 
 
 func justify_with_vacuous() -> void:
@@ -240,38 +240,6 @@ func attempt_auto_tag_proof() -> void:
 		if proof_box.is_tag(statement.as_expr_item().abandon_lowest(1)):
 			if proof_box.find_tag(statement.as_expr_item().get_child(statement.as_expr_item().get_child_count()-1), statement.as_expr_item()) != null:
 				justify_with_assumption(proof_box)
-
-
-
-class ReflexiveJustification extends Justification:
-	
-	func _init():
-		requirements = []
-	
-	func get_justification_text():
-		return "BECAUSE ANYTHING EQUALS ITSELF"
-
-
-class MatchingJustification extends Justification:
-	
-	func _init(context:ProofStep):
-		requirements = []
-		var lhs := context.get_statement().as_expr_item().get_child(0)
-		var rhs := context.get_statement().as_expr_item().get_child(1)
-		for i in lhs.get_child_count():
-			requirements.append(
-				context.get_script().new(
-					ExprItem.new(GlobalTypes.EQUALITY,[
-						lhs.get_child(i),
-						rhs.get_child(i)
-					]),
-					context.get_proof_box(),
-					MissingJustification.new()
-				)
-			)
-	
-	func get_justification_text():
-		return "SO THIS MATCHES"
 
 
 class ContrapositiveJustification extends Justification:
