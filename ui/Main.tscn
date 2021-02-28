@@ -136,22 +136,22 @@ __meta__ = {
 
 [node name="ExprItemEdit" type="Control" parent="TabContainer/Testing Interfaces/EditorTester"]
 margin_right = 1004.0
-margin_bottom = 72.0
+margin_bottom = 263.0
 size_flags_vertical = 3
 script = ExtResource( 4 )
 editable = false
 
 [node name="ExprItemEdit2" type="Control" parent="TabContainer/Testing Interfaces/EditorTester"]
-margin_top = 76.0
+margin_top = 267.0
 margin_right = 1004.0
-margin_bottom = 148.0
+margin_bottom = 530.0
 size_flags_vertical = 3
 script = ExtResource( 4 )
 
 [node name="LineEdit" type="LineEdit" parent="TabContainer/Testing Interfaces/EditorTester"]
-margin_top = 152.0
+margin_top = 534.0
 margin_right = 1004.0
-margin_bottom = 177.0
+margin_bottom = 559.0
 caret_blink = true
 caret_blink_speed = 0.5
 [connection signal="pressed" from="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer/HBoxContainer/Button" to="TabContainer/Filesystem/PageContainer/MarginContainer/PanelContainer/VBoxContainer" method="serialize"]
