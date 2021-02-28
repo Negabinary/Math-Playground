@@ -45,7 +45,7 @@ func _update_justification_box():
 	ui_create_lambda_button.connect("pressed", self, "_create_lambda_button")
 	ui_destroy_lambda_button = $Ideas/PanelContainer/VBoxContainer/DestroyLambdaButton
 	ui_destroy_lambda_button.connect("pressed", self, "_destroy_lambda_button")
-	ui_destroy_lambda_button.visible = selection_handler.get_locator().get_type() == GlobalTypes.LAMBDA
+	ui_destroy_lambda_button.visible = selection_handler.get_locator().get_type() == GlobalTypes.LAMBDA && selection_handler.get_locator().get_child_count() >= 3
 	ui_witness_button = $Ideas/PanelContainer/VBoxContainer/WitnessButton
 	ui_witness_button.connect("pressed", self, "_witness_button")
 	ui_witness_button.visible = false
