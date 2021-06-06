@@ -4,7 +4,7 @@ longest script - I need to come up with some clever way to shorten / split it.
 """
 
 class_name ExprItemEditHelper
-extends Control
+extends ExprItemEditHelperVisual
 
 signal click_event
 
@@ -13,7 +13,7 @@ signal step_right
 signal changed
 signal backspace
 
-var EXPR_ITEM_EDIT_HELPER = load("res://ui/components/ei_editor/expr_item_edit_helper.gd")
+var EXPR_ITEM_EDIT_HELPER = load("res://ui/components/ei_editor/expr_item_edit_helper_logical.gd")
 
 var root
 var type : ExprItemType = null

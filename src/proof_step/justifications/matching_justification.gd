@@ -7,6 +7,8 @@ var rhs : ExprItem
 
 func _init(context:ProofBox, lhs:ExprItem, rhs:ExprItem):
 	requirements = []
+	self.lhs = lhs
+	self.rhs = rhs
 	for i in lhs.get_child_count():
 		requirements.append(
 			PROOF_STEP.new(
