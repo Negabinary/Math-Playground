@@ -121,6 +121,13 @@ func justify_with_witness(witness:ExprItem) -> void:
 	))
 
 
+func justify_with_introduced_double_negative(location:Locator):
+	justify(IntroducedDoubleNegativeJustification.new(
+		outer_box,
+		location
+	))
+
+
 func can_justify_with_modus_ponens(assumption:ProofStep) -> bool:
 	if not (outer_box.check_assumption(assumption)):
 		return false

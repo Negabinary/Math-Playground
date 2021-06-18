@@ -1,0 +1,23 @@
+{
+  "adt": {
+    "list.mml": "\n@D LIST : ->(TAG)(TAG)\n\n@D [] : <>(T)(LIST(T))\n\n@D ; : <>(T)(->(T)(->(LIST(T))(LIST(T))))\n\n\n",
+    "option.mml": "\n@D OPTION : ->(TAG)(TAG)\n\n@D Some : <>(T)(->(T)(OPTION(T)))\n\n@D None : <>(T)(OPTION(T))\n\n\n"
+  },
+  "arith": {
+    "int.mml": "@R arith/nat\n\n@D INT : TAG\n\n@D Int : ->(NAT)(->(NAT)(INT))\n\n@X \n@> =(0)(Int(0)(0))\n\n@X \n@> forall(a)(forall(b)(forall(c)(forall(d)(if(=(+(a)(d))(+(b)(c)))(=(Int(a)(b))(Int(c)(d)))))))\n\n@X \n@> forall(a)(forall(b)(forall(c)(forall(d)(if(=(Int(a)(b))(Int(c)(d)))(=(+(a)(d))(+(b)(c)))))))\n\n@X \n@> forall(x)(forall(y)(if(INT(x))(if(INT(y))(INT(+(x)(y))))))\n\n@X \n@> forall(x)(forall(y)(if(INT(x))(if(INT(y))(INT(-(y)(x))))))\n\n@X \n@> forall(a)(forall(b)(=(S(Int(a)(b)))(Int(S(a))(b))))\n\n@X \n@> forall(x)(if(INT(x))(INT(S(x))))\n\n@> forall(a)(forall(b)(forall(c)(if(INT(a))(if(INT(b))(if(INT(c))(=(+(a)(+(b)(c)))(+(+(a)(b))(c))))))))\n\n@X \n@> forall(x)(if(INT(x))(exists(y)(exists(z)(=(x)(Int(y)(z))))))\n\n\n",
+    "nat": {
+      "gcd.mml": "\n",
+      "small_numbers.mml": "@R arith/nat\n\n@D 1 : NAT\n\n@D 2 : NAT\n\n@D 3 : NAT\n\n@D 4 : NAT\n\n@D 5 : NAT\n\n@X \n@> =(1)(S(0))\n\n@X \n@> =(2)(S(S(0)))\n\n@X \n@> =(3)(S(S(S(0))))\n\n@X \n@> =(4)(S(S(S(S(0)))))\n\n@X \n@> =(5)(S(S(S(S(S(0))))))\n\n\n"
+    },
+    "nat.mml": "@R adt/option\n\n@D NAT : TAG\n\n@D S : ->(NAT)(NAT)\n\n@D 0 : NAT\n\n@X \n@> forall(x)(if(NAT(x))(if(¬(=(x)(0)))(exists(y)(=(x)(S(y))))))\n\n@X \n@> forall(x)(if(NAT(S(x)))(NAT(x)))\n\n@X \n@> forall(x)(if(NAT(x))(forall(P)(if(forall(y)(if(P(y))(P(S(y)))))(if(P(0))(P(x))))))\n\n@D + : ->(NAT)(->(NAT)(NAT))\n\n@X \n@> forall(x)(=(+(x)(0))(x))\n\n@X \n@> forall(x)(forall(y)(=(+(x)(S(y)))(S(+(x)(y)))))\n\n@> forall(x)(=(+(0)(x))(x))\n\n@> forall(x)(forall(y)(=(+(x)(y))(+(y)(x))))\n\n@> forall(x)(if(NAT(x))(forall(y)(if(NAT(y))(forall(z)(if(NAT(z))(=(+(x)(+(y)(z)))(+(+(x)(y))(z))))))))\n\n@D * : ->(NAT)(->(NAT)(NAT))\n\n@X \n@> forall(x)(=(*(x)(0))(0))\n\n@X \n@> forall(x)(forall(y)(=(*(x)(S(y)))(+(*(x)(y))(x))))\n\n@> forall(x)(if(NAT(x))(forall(y)(if(NAT(y))(=(*(x)(y))(*(y)(x))))))\n\n@D - : ->(NAT)(->(NAT)(OPTION(NAT)))\n\n@X \n@> forall(x)(=(-(x)(0))(Some(x)))\n\n@> forall(x)(=(-(0)(S(x)))(None))\n\n@> forall(x)(forall(y)(=(-(S(x))(S(y)))(-(x)(y))))\n\n\n",
+    "real.mml": "@R logic/basic\n\n@D REAL : TAG\n\n@D < : ->(REAL)(->(REAL)(PROP))\n\n@X \n@> forall(x)(forall(y)(if(<(x)(y))(¬(<(y)(x)))))\n\n@X \n@> forall(x)(forall(z)(if(<(x)(z))(exists(y)(/\\(<(x)(y))(<(y)(z))))))\n\n@> forall(X)(if(forall(x)(if(X(x))(REAL(x))))(forall(Y)(if(forall(y)(if(Y(y))(REAL(y))))(if(forall(x)(if(X(x))(forall(y)(if(Y(y))(<(x)(y))))))(exists(z)(forall(x)(if(X(x))(forall(y)(if(Y(y))(/\\(<(x)(z))(<(z)(y))))))))))))\n\n@> forall(x)(forall(y)(forall(z)(if(REAL(x))(if(REAL(y))(if(REAL(z))(if(<(x)(y))(if(<(y)(z))(<(x)(z)))))))))\n\n\n"
+  },
+  "lambda_test.mml": "@R arith/nat\n\n@D plus\n\n@X \n@> =(plus)(lambda(x_1)(lambda(x_2)(lambda(f)(lambda(x)(x_1(f)(x_2(f)(x)))))))\n\n@X \n@> =(0)(lambda(f)(lambda(x)(x)))\n\n@X \n@> forall(x)(=(S(x))(lambda(f)(lambda(y)(f(x(f)(y))))))\n\n@> forall(x)(if(NAT(x))(forall(y)(if(NAT(y))(=(plus(x)(y))(+(x)(y))))))\n\n\n",
+  "len.mml": "@R arith/nat\n@R adt/list\n@R arith/nat/small_numbers\n\n@D len : <>(T)(->(LIST(T))(NAT))(len)\n\n@X \n@> =(len([]))(0)\n\n@X \n@> forall(x)(forall(xs)(=(len(;(x)(xs)))(S(len(xs)))))\n\n@> LIST(NAT)([])\n\n@> LIST(NAT)(;(0)([]))\n\n@> =(3)(len(;(0)(;(0)(;(1)([])))))\n\n\n",
+  "logic": {
+    "basic.mml": "\n@D /\\ : ->(PROP)(->(PROP)(PROP))\n\n@D \\/ : ->(PROP)(->(PROP)(PROP))\n\n@X \n@> forall(A)(forall(B)(if(/\\(A)(B))(A)))\n\n@X \n@> forall(A)(forall(B)(if(/\\(A)(B))(B)))\n\n@X \n@> forall(A)(forall(B)(if(A)(if(B)(/\\(A)(B)))))\n\n@X \n@> forall(A)(forall(B)(if(\\/(A)(B))(if(¬(A))(B))))\n\n@> forall(A)(forall(B)(if(if(¬(A))(B))(\\/(A)(B))))\n\n\n"
+  },
+  "philosophy": {
+    "contingency.mml": "@R logic/basic\n\n@D actually_exists\n\n@D explains\n\n@D necessary\n\n@X \n@> forall(x)(if(actually_exists(x))(\\/(exists(y)(/\\(¬(=(y)(x)))(explains(y)(x))))(necessary(x))))\n\n@D universe\n\n@X \n@> ¬(necessary(universe))\n\n@X \n@> forall(y)(if(explains(y)(universe))(¬(universe(y))))\n\n@D abstract\n\n@D god\n\n@X \n@> forall(y)(if(¬(universe(y)))(\\/(abstract(y))(god(y))))\n\n@X \n@> forall(y)(if(explains(y)(universe))(¬(abstract(y))))\n\n@X \n@> actually_exists(universe)\n\n@> exists(g)(/\\(god(g))(explains(g)(universe)))\n\n\n"
+  }
+}

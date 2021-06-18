@@ -59,20 +59,20 @@ __meta__ = {
 
 [node name="Ideas" type="MarginContainer" parent="."]
 margin_right = 259.0
-margin_bottom = 290.0
+margin_bottom = 319.0
 size_flags_horizontal = 0
 custom_constants/margin_left = 30
 
 [node name="PanelContainer" type="PanelContainer" parent="Ideas"]
 margin_left = 30.0
 margin_right = 259.0
-margin_bottom = 290.0
+margin_bottom = 319.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Ideas/PanelContainer"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 225.0
-margin_bottom = 286.0
+margin_bottom = 315.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -188,10 +188,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="WitnessButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
+[node name="DoubleNegativeButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
 margin_top = 228.0
 margin_right = 221.0
 margin_bottom = 253.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "¬¬A => A : Double Negative"
+flat = true
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WitnessButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
+margin_top = 257.0
+margin_right = 221.0
+margin_bottom = 282.0
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -353,9 +369,9 @@ __meta__ = {
 margin_bottom = -35.0
 
 [node name="Custom" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
-margin_top = 257.0
+margin_top = 286.0
 margin_right = 221.0
-margin_bottom = 282.0
+margin_bottom = 311.0
 focus_mode = 0
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
@@ -367,9 +383,9 @@ flat = true
 align = 0
 
 [node name="Statement" type="Control" parent="."]
-margin_top = 294.0
+margin_top = 323.0
 margin_right = 1024.0
-margin_bottom = 294.0
+margin_bottom = 323.0
 script = ExtResource( 5 )
 [connection signal="expr_item_changed" from="Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog/CenterContainer/ExprItemEdit" to="Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog" method="_on_ExprItemEdit_expr_item_changed"]
 [connection signal="expr_item_changed" from="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog/CenterContainer/ExprItemEdit" to="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog" method="_on_ExprItemEdit_expr_item_changed"]

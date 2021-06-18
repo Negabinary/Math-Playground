@@ -10,6 +10,7 @@ var ui_custom_implication_button
 var ui_create_lambda_button
 var ui_destroy_lambda_button
 var ui_witness_button
+var ui_double_negative_button
 
 
 func _ready():
@@ -45,7 +46,11 @@ func _update_justification_box():
 	ui_create_lambda_button.connect("pressed", self, "_create_lambda_button")
 	ui_destroy_lambda_button = $Ideas/PanelContainer/VBoxContainer/DestroyLambdaButton
 	ui_destroy_lambda_button.connect("pressed", self, "_destroy_lambda_button")
+	ui_double_negative_button = $Ideas/PanelContainer/VBoxContainer/DoubleNegativeButton
 	ui_destroy_lambda_button.visible = selection_handler.get_locator().get_type() == GlobalTypes.LAMBDA && selection_handler.get_locator().get_child_count() >= 3
+	ui_double_negative_button.connect("pressed", self, "_double_negative_button")
+	var locator := selection_handler.get_locator()
+	ui_double_negative_button.visible = (locator != null) && (locator.get_type() == GlobalTypes.NOT) && (locator.get_child_count() == 1) && (locator.get_child(0).get_type() == GlobalTypes.NOT)
 	ui_witness_button = $Ideas/PanelContainer/VBoxContainer/WitnessButton
 	ui_witness_button.connect("pressed", self, "_witness_button")
 	ui_witness_button.visible = false
@@ -89,6 +94,7 @@ func _update_justification_box():
 
 func _on_locator_changed(locator:Locator):
 	ui_destroy_lambda_button.visible = (locator != null) && (locator.get_type() == GlobalTypes.LAMBDA) && (locator.get_child_count() >= 3)
+	ui_double_negative_button.visible = (locator != null) && (locator.get_type() == GlobalTypes.NOT) && (locator.get_child_count() == 1) && (locator.get_child(0).get_type() == GlobalTypes.NOT)
 
 
 func _implication_button():
@@ -147,6 +153,10 @@ func _on_custom_implication_confirm():
 func _on_create_lambda_confirm():
 	var create_lambda = $Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog/CreateLambda
 	proof_step.justify_with_create_lambda(create_lambda.get_locator(), create_lambda.get_argument_locations(), create_lambda.get_argument_types(), create_lambda.get_argument_values())
+
+
+func _double_negative_button():
+	proof_step.justify_with_introduced_double_negative(selection_handler.get_locator())
 
 
 func _on_witness_confirm():
