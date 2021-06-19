@@ -16,6 +16,9 @@ func _init(root, proof_box, bound:=false):
 	self.root = root
 	self.proof_box = proof_box
 	self.bound = bound
+	#if bound:
+	#	add_stylebox_override("normal",load("res://ui/theme/LineEdit/LineEditTexture.tres"))
+	#else:
 	add_stylebox_override("normal",load("res://ui/theme/LineEdit/ExprItemEditTexture.tres"))
 
 func set_proof_box(proof_box:ProofBox):
@@ -34,14 +37,14 @@ func caret(caret_part, caret_char):
 	grab_focus()
 
 
-func left_from_below(travel:=false):
+func left_from_below():
 	grab_focus()
-	caret_position = min(1,text.length()) if travel else 0
+	caret_position = text.length()
 
 
-func right_from_below(travel:=false):
+func right_from_below():
 	grab_focus()
-	caret_position = max(0,text.length()-1) if travel else text.length()
+	caret_position = 0
 
 
 func _input(event):
@@ -66,6 +69,9 @@ func _input(event):
 				if proof_box.parse(text) != null:
 					accept_event()
 					emit_signal("done_edit", proof_box.parse(text), DONE_FLAGS.VALID)
+				elif event.is_action_pressed("ui_close"):
+					accept_event()
+					emit_signal("done_edit", null, 0)
 		elif event.is_action_pressed("ui_open"):
 			accept_event()
 			if bound:

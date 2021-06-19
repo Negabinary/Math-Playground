@@ -4,7 +4,7 @@ longest script - I need to come up with some clever way to shorten / split it.
 """
 
 class_name ExprItemEditHelper
-extends ExprItemEditHelperVisual
+extends Control
 
 signal click_event
 
@@ -219,11 +219,11 @@ func _on_edit_done(type, flags:int):
 	if flags & ExprItemEditHelperEdit.DONE_FLAGS.BOUND:
 		self.type.rename(type)
 		_exit_edit_mode()
-		right_from_below(true)
+		right_from_below()
 		right()
 	else:
+		_right_from_above(get_child(0),true)
 		if flags & ExprItemEditHelperEdit.DONE_FLAGS.VALID:
-			_right_from_above(get_child(0),true)
 			set_type(type)
 			_exit_edit_mode()
 			if type.get_binder_type() != ExprItemType.BINDER.NOT_BINDER:
@@ -234,10 +234,11 @@ func _on_edit_done(type, flags:int):
 			if type == null || type.get_binder_type() == ExprItemType.BINDER.NOT_BINDER:
 				var new_child := append_child(null, proof_box)
 				if mode == HELPER_MODE.EDIT:
-					move_child(new_child, 0)
-				else:
 					move_child(new_child, 1)
-			get_child(0).get_child(0).right_from_below()
+					get_child(1).get_child(0).right_from_below()
+				else:
+					move_child(new_child, 0)
+					get_child(0).get_child(0).right_from_below()
 	emit_signal("changed")
 	update()
 
@@ -345,14 +346,20 @@ func left():
 		emit_signal("step_left", self, true)
 
 
-func left_from_below(_travel:=false):
-	take_caret(true)
+func left_from_below():
+	if (mode == HELPER_MODE.EDIT) && get_child_count() == 1:
+		get_child(0).left_from_below()
+	else:
+		take_caret(true)
 
 
 func _left_from_above(from:Node,travel:=true):
 	var index_from = from.get_index()
 	if index_from == 0:
-		take_caret(false)
+		if (mode == HELPER_MODE.EDIT):
+			emit_signal("step_left", self, true)
+		else:
+			take_caret(false)
 	else:
 		get_child(index_from-1).left_from_below()
 
@@ -368,14 +375,20 @@ func right():
 		emit_signal("step_right", self, true)
 
 
-func right_from_below(travel:=true):
-	take_caret(false)
+func right_from_below():
+	if (mode == HELPER_MODE.EDIT):
+		get_child(0).right_from_below()
+	else:
+		take_caret(false)
 
 
 func _right_from_above(from:Node,travel:=false):
 	var index_to = from.get_index() + 1
 	if index_to == get_child_count():
-		take_caret(true)
+		if (mode == HELPER_MODE.EDIT) && get_child_count() == 1:
+			emit_signal("step_right", self, true)
+		else:
+			take_caret(true)
 	else:
 		get_child(index_to).right_from_below()
 

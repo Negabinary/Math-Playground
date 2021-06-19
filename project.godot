@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/components/ei_editor/expr_item_edit.gd"
 }, {
-"base": "ExprItemEditHelperVisual",
+"base": "Control",
 "class": "ExprItemEditHelper",
 "language": "GDScript",
 "path": "res://ui/components/ei_editor/expr_item_edit_helper_logical.gd"
@@ -43,11 +43,6 @@ _global_script_classes=[ {
 "class": "ExprItemEditHelperEdit",
 "language": "GDScript",
 "path": "res://ui/components/ei_editor/expr_item_edit_helper_edit.gd"
-}, {
-"base": "Control",
-"class": "ExprItemEditHelperVisual",
-"language": "GDScript",
-"path": "res://ui/components/ei_editor/expr_item_edit_helper_visual.gd"
 }, {
 "base": "Node",
 "class": "ExprItemLambdaHelper",
@@ -237,7 +232,6 @@ _global_script_class_icons={
 "ExprItemEdit": "",
 "ExprItemEditHelper": "",
 "ExprItemEditHelperEdit": "",
-"ExprItemEditHelperVisual": "",
 "ExprItemLambdaHelper": "",
 "ExprItemTagHelper": "",
 "ExprItemType": "",
