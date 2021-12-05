@@ -79,6 +79,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/introduce_double_negative_justification.gd"
 }, {
+"base": "Node",
+"class": "ItemParser2",
+"language": "GDScript",
+"path": "res://src/module2/item_parser2.gd"
+}, {
 "base": "Reference",
 "class": "Justification",
 "language": "GDScript",
@@ -119,6 +124,31 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/module/module_item.gd"
 }, {
+"base": "Reference",
+"class": "ModuleItem2",
+"language": "GDScript",
+"path": "res://src/module2/module_item2.gd"
+}, {
+"base": "ModuleItem2",
+"class": "ModuleItem2Assumption",
+"language": "GDScript",
+"path": "res://src/module2/module_item2_assume.gd"
+}, {
+"base": "ModuleItem2",
+"class": "ModuleItem2Definition",
+"language": "GDScript",
+"path": "res://src/module2/module_item2_define.gd"
+}, {
+"base": "ModuleItem2",
+"class": "ModuleItem2Import",
+"language": "GDScript",
+"path": "res://src/module2/module_item2_import.gd"
+}, {
+"base": "ModuleItem2",
+"class": "ModuleItem2Theorem",
+"language": "GDScript",
+"path": "res://src/module2/module_item2_theorem.gd"
+}, {
 "base": "ModuleItem",
 "class": "ModuleItemAssumption",
 "language": "GDScript",
@@ -149,10 +179,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/modus_ponens_justification.gd"
 }, {
+"base": "PanelContainer",
+"class": "NotebookCell",
+"language": "GDScript",
+"path": "res://ui/notebook/cell.gd"
+}, {
 "base": "Container",
 "class": "PageContainer",
 "language": "GDScript",
 "path": "res://ui/components/PageContainer.gd"
+}, {
+"base": "Reference",
+"class": "Parser2",
+"language": "GDScript",
+"path": "res://src/module2/parser2.gd"
 }, {
 "base": "Object",
 "class": "ProofBox",
@@ -183,6 +223,11 @@ _global_script_classes=[ {
 "class": "Statement",
 "language": "GDScript",
 "path": "res://src/expr_item/helper_functions/statement.gd"
+}, {
+"base": "Reference",
+"class": "Token2",
+"language": "GDScript",
+"path": "res://src/module2/token2.gd"
 }, {
 "base": "Object",
 "class": "UniversalLocator",
@@ -239,6 +284,7 @@ _global_script_class_icons={
 "ImplicationJustification": "",
 "InstantiateJustification": "",
 "IntroducedDoubleNegativeJustification": "",
+"ItemParser2": "",
 "Justification": "",
 "JustificationBuilder": "",
 "Locator": "",
@@ -247,19 +293,27 @@ _global_script_class_icons={
 "MissingJustification": "",
 "ModuleDeserializer": "",
 "ModuleItem": "",
+"ModuleItem2": "",
+"ModuleItem2Assumption": "",
+"ModuleItem2Definition": "",
+"ModuleItem2Import": "",
+"ModuleItem2Theorem": "",
 "ModuleItemAssumption": "",
 "ModuleItemDefinition": "",
 "ModuleItemTheorem": "",
 "ModuleLoader": "",
 "ModuleSerializer": "",
 "ModusPonensJustification": "",
+"NotebookCell": "",
 "PageContainer": "",
+"Parser2": "",
 "ProofBox": "",
 "ProofStep": "",
 "RefineJustification": "",
 "ReflexiveJustification": "",
 "SelectionHandler": "",
 "Statement": "",
+"Token2": "",
 "UniversalLocator": "",
 "VacuousJustification": "",
 "WPBParent": "",
@@ -352,6 +406,11 @@ close={
 comma={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":44,"unicode":0,"echo":false,"script":null)
+ ]
+}
+enter={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":true,"meta":false,"command":true,"pressed":false,"scancode":16777221,"unicode":0,"echo":false,"script":null)
  ]
 }
 

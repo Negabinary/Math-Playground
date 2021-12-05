@@ -24,19 +24,6 @@ func _update_definitions(new_definitions:Array): # Array<ExprItemType>
 		$Definitions.add_item(definition.to_string())
 
 
-func can_drop_data_fw(position, data):
-	if $Definitions.get_item_at_position(position) != -1 and data is UniversalLocator:
-		return data.get_statement() != assumption
-	else:
-		return false
-
-
-func drop_data(position, data):
-	var item:int = $Definitions.get_item_at_position(position)
-	if item != -1 and data is UniversalLocator:
-		emit_signal("expr_item_dropped_on_definition", definitions[item], data)
-
-
 var last_definition
 
 func _ons_item_activated(index):

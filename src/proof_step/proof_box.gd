@@ -24,22 +24,31 @@ Layer 0 : Global
 
 
 var parent : ProofBox
+var name : String
+
 var definitions := []  # Array<ExprItemType>
-var assumptions := []  # Array<ProofStep>
+var assumption_statements := []
+var imports := []
+var stars : Dictionary
 var parse_dict : Dictionary # <String, ExprItemType>
 var tags : Dictionary
 var tagging_proof_steps : Dictionary #<ExprItemTagHelper,ProofStep>
 var level : int
 var module
 
+var PROOF_STEP = load("res://src/proof_step/proof_step.gd")
 
-func _init(definitions:Array, parent:ProofBox, module = null): #<ExprItemType,String>
+
+func _init(definitions:Array, parent:ProofBox, module = null, name = "", assumption_statements := [], imports := []): #<ExprItemType,String>
 	self.parent = parent
+	self.name = name
+	self.imports = imports
 	if parent == null:
 		level = 0
 	else:
 		level = parent.get_level() + 1
 	self.definitions = definitions
+	self.assumption_statements = assumption_statements
 	self.module = module
 	update_parse_dict()
 	for definition in definitions:
@@ -71,41 +80,64 @@ func get_definitions() -> Array:
 
 
 func get_all_definitions() -> Array:
+	var imported_definitions := []
+	for import in imports:
+		imported_definitions += import.get_all_definitions()
 	if parent == null or parent == GlobalTypes.PROOF_BOX:
-		return get_definitions()
+		return get_definitions() + imported_definitions
 	else:
-		return get_definitions() + parent.get_definitions()
+		return get_definitions() + parent.get_definitions() + imported_definitions
 
 
-func add_assumption(assumption) -> void: # assumption:ProofStep
-	assumptions.append(assumption)
-	if assumption.get_statement().as_expr_item().get_child_count() > 0:
-		if is_tag(assumption.get_statement().as_expr_item().abandon_lowest(1)):
+func add_assumption(assumption, star=true) -> void: # assumption:ProofStep
+	var ei:ExprItem = assumption.get_statement().as_expr_item()
+	assumption_statements.append(ei)
+	if ei.get_child_count() > 0:
+		if is_tag(ei.abandon_lowest(1)):
 			add_tag(assumption)
+	stars[ei] = star
 
 
 func remove_assumption(assumption) -> void: # assumption:ProofStep
-	assumptions.erase(assumption)
+	assumption_statements.erase(assumption.get_statement().as_expr_item())
+	stars.erase(assumption.get_statement().as_expr_item())
 
 
 func get_assumptions() -> Array:
-	return assumptions
+	var result := []
+	
+	for statement in assumption_statements:
+		result.append(
+			PROOF_STEP.new(
+				statement, self, AssumptionJustification.new(self)
+			)
+		)
+	return result
 
 
 func get_all_assumptions() -> Array:
+	var imported_assumptions := []
+	for import in imports:
+		imported_assumptions += import.get_all_definitions()
 	if parent == null or parent == GlobalTypes.PROOF_BOX:
-		return get_assumptions()
+		return get_assumptions() + imported_assumptions
 	else:
-		return get_assumptions() + parent.get_assumptions()
+		return get_assumptions() + parent.get_assumptions() + imported_assumptions
 
 
-func get_assumptions_not_in_module() -> Array:
-	if (parent == null or parent == GlobalTypes.PROOF_BOX) and module == null:
-		return get_assumptions()
-	elif module == null:
-		return get_assumptions() + parent.get_assumptions_not_in_module()
-	else:
-		return []
+func get_starred_assumptions() -> Array:
+	var result := []
+	if parent != null and parent != GlobalTypes.PROOF_BOX:
+		result = parent.get_starred_assumptions()
+	var all_assumptions = get_all_assumptions()
+	all_assumptions.invert()
+	for assumption in all_assumptions:
+		if stars[assumption.get_statement().as_expr_item()]:
+			result.push_front(PROOF_STEP.new(
+				assumption, self, AssumptionJustification.new(self)
+			))
+	all_assumptions.invert()
+	return result
 
 
 func update_parse_dict():
@@ -116,24 +148,29 @@ func update_parse_dict():
 func parse(string:String) -> ExprItemType:
 	if string in parse_dict:
 		return parse_dict[string]
-	elif parent != null:
+	for import in imports:
+		var p = import.parse(string)
+		if p != null:
+			return p
+	if parent != null:
 		return parent.parse(string)
 	else:
 		return null
 
 
 func get_full_parse_dict() -> Dictionary:
-	var fpd = parent.get_full_parse_dict()
+	var fpd = parent.get_full_parse_dict().duplicate()
+	for import in imports:
+		var ifpd = import.get_full_parse_dict()
+		for k in ifpd:
+			fpd[k] = ifpd[k]
 	for string in parse_dict:
 		fpd[string] = parse_dict[string]
 	return fpd
 
 
 func get_all_types() -> Array:
-	if parent == null:
-		return definitions
-	else:
-		return definitions + parent.get_all_types()
+	return get_all_definitions()
 
 
 func add_tag(tagging) -> void: # tagging:ProofStep
@@ -157,6 +194,9 @@ func find_tag(expr:ExprItem, tagging_check:ExprItem): # -> ProofStep
 					#return tagging_proof_steps[type_taging]
 					#assert(false)
 					pass
+	for import in imports:
+		if import.find_tag(expr, tagging_check) != null:
+			return import.find_tag(expr, tagging_check)
 	if parent != null:
 		return parent.find_tag(expr, tagging_check)
 	else:
@@ -164,19 +204,20 @@ func find_tag(expr:ExprItem, tagging_check:ExprItem): # -> ProofStep
 
 
 func check_assumption(proof_step):
-	if proof_step in assumptions:
+	if _any_assumption_matches(proof_step):
 		return true
-	elif _any_assumption_matches(proof_step):
-		return true
-	elif parent != null:
+	for import in imports:
+		if import.check_assumption(proof_step):
+			return true
+	if parent != null:
 		return parent.check_assumption(proof_step)
 	else:
 		return false
 
 
 func _any_assumption_matches(proof_step):
-	for assumption in assumptions:
-		if assumption.get_statement().as_expr_item().compare(proof_step.get_statement().as_expr_item()):
+	for assumption in assumption_statements:
+		if assumption.compare(proof_step.get_statement().as_expr_item()):
 			return true
 	return false
 

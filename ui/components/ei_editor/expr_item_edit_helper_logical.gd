@@ -50,7 +50,10 @@ func get_fm_strings() -> Array:
 
 
 func get_binder_type() -> int:
-	return type.get_binder_type()
+	if type == null:
+		return ExprItemType.BINDER.NOT_BINDER
+	else:
+		return type.get_binder_type()
 
 
 func get_child_index(child:ExprItemEditHelper) -> int:
@@ -89,7 +92,7 @@ func _init(root, expr_item:ExprItem = null,
 		if bound:
 			set_type(ExprItemType.new("???"))
 			mode = HELPER_MODE.EDIT
-			show_editor("???")
+			show_editor("")
 		else:
 			mode = HELPER_MODE.EDIT
 			show_editor("")
@@ -228,6 +231,7 @@ func _on_edit_done(type, flags:int):
 			_exit_edit_mode()
 			if type.get_binder_type() != ExprItemType.BINDER.NOT_BINDER:
 				new_binder()
+				get_expr_child(0).right_from_below()
 			else:
 				remove_binder()
 		if flags & ExprItemEditHelperEdit.DONE_FLAGS.OPEN:

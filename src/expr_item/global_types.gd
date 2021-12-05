@@ -8,13 +8,15 @@ var EQUALITY := ExprItemType.new("=")
 var NOT := ExprItemType.new("¬")
 var EXISTS := ExprItemType.new("exists")    #  ALWAYS HAS EXACTLY 2 ARGUMENTS
 var LAMBDA := ExprItemType.new("lambda")          # ALWAYS HAS AT LEAST 2 ARGUMENTS
+var AND := ExprItemType.new("and")
+var OR := ExprItemType.new("or")
 
 var TAG := ExprItemType.new("TAG")
 var ANY := ExprItemType.new("ANY")
 var PROP := ExprItemType.new("PROP")
 
 var PROOF_BOX := ProofBox.new([
-		IMPLIES, FORALL, EQUALITY, NOT, EXISTS, LAMBDA,
+		IMPLIES, FORALL, EQUALITY, NOT, EXISTS, LAMBDA, AND, OR,
 		TAG, ANY, PROP
 	], null)
 
@@ -29,6 +31,8 @@ func _init():
 	FORALL.fm_strings = ["∀","",""]
 	EQUALITY.fm_strings = [""," = ",""]
 	NOT.fm_strings = ["¬",""]
+	AND.fm_strings = [""," and ", ""]
+	OR.fm_strings = [""," or ",""]
 	EXISTS.fm_strings = ["∃",". ", ""]
 	LAMBDA.fm_strings = ["λ"," -> ", ""]
 	TAG.fm_strings = ["TAG"]
@@ -55,7 +59,8 @@ func _ready():
 	_add_tag(NOT, ExprItem.new(TagShorthand.F_DEF, [prop,prop,ExprItem.new(NOT)]))
 	_add_tag(IMPLIES, ExprItem.new(TagShorthand.F_DEF, [prop,proptoprop,ExprItem.new(IMPLIES)]))
 	_add_tag(EQUALITY, ExprItem.new(TagShorthand.F_DEF, [any,anytoprop,ExprItem.new(EQUALITY)]))
-
+	_add_tag(AND, ExprItem.new(TagShorthand.F_DEF, [prop,proptoprop,ExprItem.new(AND)]))
+	_add_tag(OR, ExprItem.new(TagShorthand.F_DEF, [prop,proptoprop,ExprItem.new(OR)]))
 
 func _add_tag(type, expr) -> void:
 	PROOF_BOX.add_tag(

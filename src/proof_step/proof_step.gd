@@ -5,7 +5,7 @@ class_name ProofStep
 signal justified
 
 
-var outer_box : ProofBox
+var outer_box #: ProofBox
 var statement:Statement
 var justification:Justification
 
@@ -19,7 +19,7 @@ func _init(new_expr_item:ExprItem, proof_box=null, new_justification:Justificati
 #		attempt_auto_tag_proof()
 
 
-func get_proof_box() -> ProofBox:
+func get_proof_box(): #-> ProofBox:
 	return outer_box
 
 

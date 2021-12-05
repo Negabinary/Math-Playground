@@ -6,10 +6,12 @@ signal serial_changed
 
 var module # : Module
 var docstring := ""
+var proof_box : ProofBox
 
-func _init(module, docstring=""):
+func _init(module, proof_box, docstring=""):
 	self.module = module
 	self.docstring = docstring
+	self.proof_box = proof_box
 
 func get_index():
 	return module.get_item_index(self)
