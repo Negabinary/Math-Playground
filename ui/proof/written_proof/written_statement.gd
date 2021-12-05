@@ -18,6 +18,12 @@ var rects := []
 var string := ""
 
 
+func get_locator() -> Locator:
+	if len(locators) == 0:
+		return Locator.new(expr_item)
+	return locators[selection]
+
+
 func set_expr_item(new_expr_item:ExprItem) -> void:
 	expr_item = new_expr_item
 	selection = 0
@@ -27,6 +33,13 @@ func set_expr_item(new_expr_item:ExprItem) -> void:
 
 func deselect():
 	is_selected = false
+	update()
+
+
+func select_whole():
+	selection = 0
+	is_selected = true
+	update()
 
 
 func _draw():

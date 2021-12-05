@@ -21,9 +21,9 @@ func _ready():
 
 
 func initialise(proof_step:ProofStep, selection_handler:SelectionHandler, active_dependency_id:=-1):
-	selection_handler.change_selection(proof_step, Locator.new(proof_step.get_statement().as_expr_item()))
 	.initialise(proof_step, selection_handler, active_dependency_id)
-	ui_statement.connect("selection_changed", selection_handler, "change_locator")
+	ui_statement.select_whole()
+	selection_handler.take_selection(self)
 	_update_justification_box()
 
 
@@ -49,13 +49,12 @@ func _update_justification_box():
 	ui_double_negative_button = $Ideas/PanelContainer/VBoxContainer/DoubleNegativeButton
 	ui_destroy_lambda_button.visible = selection_handler.get_locator().get_type() == GlobalTypes.LAMBDA && selection_handler.get_locator().get_child_count() >= 3
 	ui_double_negative_button.connect("pressed", self, "_double_negative_button")
-	var locator := selection_handler.get_locator()
+	var locator:Locator = selection_handler.get_locator()
 	ui_double_negative_button.visible = (locator != null) && (locator.get_type() == GlobalTypes.NOT) && (locator.get_child_count() == 1) && (locator.get_child(0).get_type() == GlobalTypes.NOT)
 	ui_witness_button = $Ideas/PanelContainer/VBoxContainer/WitnessButton
 	ui_witness_button.connect("pressed", self, "_witness_button")
 	ui_witness_button.visible = false
 	
-	selection_handler.connect("locator_changed", self, "_on_locator_changed")
 	
 	var parent_type:ExprItemType = proof_step.get_statement().as_expr_item().get_type()
 	
@@ -92,9 +91,12 @@ func _update_justification_box():
 		ui_reflexive_button.visible = false
 
 
-func _on_locator_changed(locator:Locator):
-	ui_destroy_lambda_button.visible = (locator != null) && (locator.get_type() == GlobalTypes.LAMBDA) && (locator.get_child_count() >= 3)
-	ui_double_negative_button.visible = (locator != null) && (locator.get_type() == GlobalTypes.NOT) && (locator.get_child_count() == 1) && (locator.get_child(0).get_type() == GlobalTypes.NOT)
+func _on_locator_changed(x):
+	._on_locator_changed(x)
+	ui_double_negative_button = $Ideas/PanelContainer/VBoxContainer/DoubleNegativeButton
+	ui_destroy_lambda_button = $Ideas/PanelContainer/VBoxContainer/DestroyLambdaButton
+	ui_destroy_lambda_button.visible = (get_selected_locator() != null) && (get_selected_locator().get_type() == GlobalTypes.LAMBDA) && (get_selected_locator().get_child_count() >= 3)
+	ui_double_negative_button.visible = (get_selected_locator() != null) && (get_selected_locator().get_type() == GlobalTypes.NOT) && (get_selected_locator().get_child_count() == 1) && (get_selected_locator().get_child(0).get_type() == GlobalTypes.NOT)
 
 
 func _implication_button():

@@ -44,10 +44,6 @@ func add_module(module:MathModule, mname:String, selection_handler:SelectionHand
 	module_box.set_name(mname)
 	module_box.connect("request_to_prove", self, "_on_proof_request")
 	module_box.connect("proof_step_created", self, "_on_proof_step_created")
-
-
-func _on_proof_request(proof_step:ProofStep, module:MathModule):
-	selection_handler.change_proof(proof_step, module)
 	
 
 func _on_proof_step_created(proof_step:ProofStep):
