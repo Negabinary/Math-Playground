@@ -4,7 +4,21 @@ var ASSUMPTION_BOX := load("res://ui/proof/assumption_box/AssumptionBox.tscn")
 
 var proof_step : ProofStep
 var locator : Locator
-onready var selection_handler:SelectionHandler = $"../../../../../../SelectionHandler"
+onready var selection_handler:SelectionHandler = $"../../../..//SelectionHandler"
+
+
+func _ready():
+	selection_handler.connect("proof_step_changed", self, "_on_proof_step_selected")
+	selection_handler.connect("locator_changed", self, "_on_goal_item_selected")
+	selection_handler.connect("proof_changed", self, "_set_proof")
+
+
+func _on_proof_step_selected(proof_step:ProofStep):
+	set_proof_step(proof_step)
+
+
+func _on_goal_item_selected(expr_locator:Locator):
+	set_locator(expr_locator)
 
 
 func set_locator(new_location:Locator) -> void:

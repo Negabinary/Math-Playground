@@ -27,9 +27,9 @@ var parent : ProofBox
 var name : String
 
 var definitions := []  # Array<ExprItemType>
-var assumption_statements := []
+var assumption_statements : Array
 var imports := []
-var stars : Dictionary
+const stars := {}
 var parse_dict : Dictionary # <String, ExprItemType>
 var tags : Dictionary
 var tagging_proof_steps : Dictionary #<ExprItemTagHelper,ProofStep>
@@ -92,10 +92,16 @@ func get_all_definitions() -> Array:
 func add_assumption(assumption, star=true) -> void: # assumption:ProofStep
 	var ei:ExprItem = assumption.get_statement().as_expr_item()
 	assumption_statements.append(ei)
-	if ei.get_child_count() > 0:
-		if is_tag(ei.abandon_lowest(1)):
-			add_tag(assumption)
-	stars[ei] = star
+	#TODO: tagging
+	if star:
+		stars[ei] = self
+
+
+func add_assumption_statement(assumption, star=true) -> void:
+	assumption_statements.append(assumption)
+	#TODO: tagging
+	if star:
+		stars[assumption] = self
 
 
 func remove_assumption(assumption) -> void: # assumption:ProofStep
@@ -132,9 +138,9 @@ func get_starred_assumptions() -> Array:
 	var all_assumptions = get_all_assumptions()
 	all_assumptions.invert()
 	for assumption in all_assumptions:
-		if stars[assumption.get_statement().as_expr_item()]:
+		if stars.has(assumption.get_statement().as_expr_item()):
 			result.push_front(PROOF_STEP.new(
-				assumption, self, AssumptionJustification.new(self)
+				assumption.get_statement().as_expr_item(), self, AssumptionJustification.new(self)
 			))
 	all_assumptions.invert()
 	return result

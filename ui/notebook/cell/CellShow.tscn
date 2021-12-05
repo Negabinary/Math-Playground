@@ -30,15 +30,15 @@ text = "S"
 [node name="Label" type="Label" parent="HBoxContainer3"]
 margin_left = 40.0
 margin_top = 1.0
-margin_right = 140.0
+margin_right = 100.0
 margin_bottom = 18.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 60, 0 )
 custom_fonts/font = ExtResource( 3 )
 text = "show"
 align = 2
 
 [node name="Name" type="Label" parent="HBoxContainer3"]
-margin_left = 160.0
+margin_left = 120.0
 margin_top = 1.0
 margin_right = 755.0
 margin_bottom = 18.0

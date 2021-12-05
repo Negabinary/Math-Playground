@@ -6,7 +6,7 @@ var keywords = [
 	"forall", "exists", "fun", "if", "then",
 	"_import_", "_define_", "_assume_", "_show_", 
 	"_forall_", "_exists_", "_fun_", "_if_", "_then_",
-	".", ",", ":", "(", ")", "->", "_->_"
+	".", ",", ":", "(", ")", "->", "_->_", "="
 ]
 
 var tokens : Array
@@ -23,7 +23,7 @@ static func err(token, string):
 	return {error=true, error_type=string, token=token}
 
 
-func _init(tokens:Array, proof_box:ProofBox):
+func _init(tokens:Array, proof_box):
 	self.tokens = tokens
 	self.proof_box = proof_box
 	var result = eat_toplevel()
@@ -60,7 +60,8 @@ func eat_toplevel():
 			return {error=false, type="define", items=[name_item]}
 		if tokens[i].contents == "=":
 			i += 1
-			var expr_parse := eat_expr(proof_box)
+			var new_proof_box = ProofBox.new(bindings_parse.types, proof_box)
+			var expr_parse := eat_expr(new_proof_box)
 			if expr_parse.error:
 				return expr_parse
 			bindings_parse.types.invert()
@@ -80,7 +81,7 @@ func eat_toplevel():
 			var def_item := ModuleItem2Assumption.new(proof_box, expr_item)
 			proof_box = def_item.get_next_proof_box()
 			return {error=false, type="define", items=[name_item, def_item]}
-		elif tokens[i] == ":":
+		elif tokens[i].contents == ":":
 			i += 1
 			var tag_parse := eat_tag(proof_box)
 			if tag_parse.error:
@@ -237,6 +238,8 @@ func eat_bindings(proof_box:ProofBox) -> Dictionary:
 	var types := []
 	var tags := {}
 	while not i == len(tokens):
+		if tokens[i].contents in keywords:
+			break
 		var name := eat_name()
 		if name.error:
 			return name

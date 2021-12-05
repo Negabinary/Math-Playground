@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ui/components/PageContainer.gd" type="Script" id=1]
 [ext_resource path="res://ui/notebook/cell/Cell.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/proof/SelectionHandler.gd" type="Script" id=3]
+[ext_resource path="res://ui/theme/fonts/expr_item_font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://ui/proof/Assumptions.gd" type="Script" id=5]
 
 [node name="Notebook" type="ColorRect"]
 anchor_right = 1.0
@@ -19,11 +21,62 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Library" type="ColorRect" parent="HSplitContainer"]
+[node name="Context" type="ColorRect" parent="HSplitContainer"]
 margin_right = 198.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Context"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HSplitContainer/Context/VBoxContainer"]
+margin_right = 188.0
+margin_bottom = 50.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_constants/line_spacing = -11
+custom_constants/shadow_offset_y = 0
+text = "CURRENT ASSUMPTIONS
+(Double click on Green)"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="HSplitContainer/Context/VBoxContainer"]
+visible = false
+margin_top = 67.0
+margin_right = 152.0
+margin_bottom = 162.0
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+readonly = true
+wrap_enabled = true
+
+[node name="Assumptions" type="ScrollContainer" parent="HSplitContainer/Context/VBoxContainer"]
+margin_top = 54.0
+margin_right = 188.0
+margin_bottom = 590.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Context/VBoxContainer/Assumptions"]
+margin_right = 188.0
+size_flags_horizontal = 3
+custom_constants/separation = 3
 
 [node name="Container" type="Container" parent="HSplitContainer"]
 margin_left = 210.0
