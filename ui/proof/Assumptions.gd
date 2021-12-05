@@ -8,9 +8,7 @@ onready var selection_handler:SelectionHandler = $"../../../..//SelectionHandler
 
 
 func _ready():
-	selection_handler.connect("proof_step_changed", self, "_on_proof_step_selected")
 	selection_handler.connect("locator_changed", self, "_on_goal_item_selected")
-	selection_handler.connect("proof_changed", self, "_set_proof")
 
 
 func _on_proof_step_selected(proof_step:ProofStep):
