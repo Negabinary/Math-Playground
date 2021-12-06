@@ -2,7 +2,7 @@ extends VBoxContainer
 
 var root_ps : ProofStep
 onready var main = $"../../../.."
-onready var selection_handler = $"../../../../../../../../../../../SelectionHandler"
+onready var selection_handler = $"../../../../../../../../../../../../SelectionHandler"
 
 
 func display_proof(root_proof_step:ProofStep):

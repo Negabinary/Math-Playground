@@ -11,16 +11,8 @@ func _ready():
 	selection_handler.connect("locator_changed", self, "_on_goal_item_selected")
 
 
-func _on_proof_step_selected(proof_step:ProofStep):
-	set_proof_step(proof_step)
-
-
 func _on_goal_item_selected(expr_locator:Locator):
-	set_locator(expr_locator)
-
-
-func set_locator(new_location:Locator) -> void:
-	set_proof_step(proof_step, new_location)
+	set_proof_step(selection_handler.get_proof_step(), expr_locator)
 
 
 func set_proof_step(new_proof_step:ProofStep, new_location:Locator=null) -> void:

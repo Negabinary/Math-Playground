@@ -4,8 +4,7 @@ class_name NotebookCell
 signal request_delete # TODO
 signal request_move_up # TODO
 signal request_move_down # TODO
-
-var module : MathModule
+signal update
 
 onready var ui_edit_button := $VBoxContainer/HBoxContainer/EditButton
 onready var ui_eval_button := $VBoxContainer/HBoxContainer/ParseButton
@@ -24,17 +23,30 @@ onready var scene_cell_show := load("res://ui/notebook/cell/CellShow.tscn")
 onready var scene_cell_import := load("res://ui/notebook/cell/CellImport.tscn")
 
 
+var top_proof_box := GlobalTypes.PROOF_BOX
+var bottom_proof_box := top_proof_box
+
+
 func _ready():
 	ui_edit_button.connect("pressed", self, "edit")
 	ui_eval_button.connect("pressed", self, "eval")
 	ui_up_button.connect("pressed", self, "_on_request_move_up_button")
 	ui_down_button.connect("pressed", self, "_on_request_move_down_button")
 	ui_delete_button.connect("pressed", self, "_on_request_delete_button")
-	initialise(MathModule.new("test"))
 
 
-func initialise(module:MathModule):
-	self.module = module
+func set_top_proof_box(tpb:ProofBox) -> void:
+	self.top_proof_box = tpb
+	self.bottom_proof_box = tpb
+	if ui_use_area.visible:
+		edit(false)
+		eval(false)
+	elif ui_error_box.visible:
+		eval(false)
+
+
+func get_bottom_proof_box() -> ProofBox:
+	return bottom_proof_box
 
 
 func _input(event):
@@ -44,12 +56,14 @@ func _input(event):
 			eval()
 
 
-func eval():
+func eval(notify=true):
 	var string := ui_entry_box.text
-	var parse_result := Parser2.create_items(GlobalTypes.PROOF_BOX, string)
+	var parse_result := Parser2.create_items(top_proof_box, string)
 	if parse_result.error:
 		ui_error_box.text = str(parse_result)
 		ui_error_box.show()
+	elif parse_result.items.size() == 0:
+		pass
 	else:
 		ui_eval_button.hide()
 		ui_error_box.hide()
@@ -76,13 +90,19 @@ func eval():
 				nc.initialise(item)
 		ui_use_area.show()
 		ui_edit_button.show()
+		bottom_proof_box = parse_result.proof_box
+		if notify:
+			emit_signal("update")
 
 
-func edit():
+func edit(notify=true):
 	ui_use_area.hide()
 	ui_edit_button.hide()
 	ui_eval_button.show()
 	ui_edit_area.show()
+	bottom_proof_box = top_proof_box
+	if notify:
+		emit_signal("update")
 
 
 func _on_request_delete_button():

@@ -26,6 +26,10 @@ func get_selected_locator() -> Locator:
 	return ui_statement.get_locator()
 
 
+func get_proof_step() -> ProofStep:
+	return proof_step
+
+
 func _on_locator_changed(x):
 	if selection_handler.get_wpb() != self:
 		ui_statement.deselect()

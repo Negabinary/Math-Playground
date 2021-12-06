@@ -13,7 +13,6 @@ shadow_size = 2
 [node name="Cell" type="PanelContainer"]
 margin_right = 775.0
 margin_bottom = 382.0
-rect_min_size = Vector2( 0, 300 )
 size_flags_horizontal = 3
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
