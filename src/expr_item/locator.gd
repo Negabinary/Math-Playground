@@ -23,6 +23,10 @@ func get_parent()->Locator:
 	return parent
 
 
+func get_parent_type() -> ExprItemType:
+	return null if parent == null else parent.get_type()
+
+
 func get_indeces():
 	return indeces
 

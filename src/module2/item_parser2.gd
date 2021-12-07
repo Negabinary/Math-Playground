@@ -87,7 +87,7 @@ func eat_toplevel():
 			if tag_parse.error:
 				return tag_parse
 			var def_item := ModuleItem2Assumption.new(
-				proof_box, tag_parse.expr_item.apply(ExprItem.new(type))
+				proof_box, ExprItemTagHelper.tag_to_statement(tag_parse.tag, ExprItem.new(type))
 			)
 			proof_box = def_item.get_next_proof_box()
 			return {error=false, type="define", items=[name_item, def_item]}
@@ -148,7 +148,7 @@ func eat_expr(proof_box:ProofBox) -> Dictionary:
 				if type in bindings_parse.tags:
 					result = ExprItem.new(GlobalTypes.IMPLIES,
 						[
-							bindings_parse.tags[type].apply(ExprItem.new(type)),
+							ExprItemTagHelper.tag_to_statement(bindings_parse.tags[type],ExprItem.new(type)),
 							result
 						]
 					)
@@ -174,7 +174,7 @@ func eat_expr(proof_box:ProofBox) -> Dictionary:
 				if type in bindings_parse.tags:
 					result = ExprItem.new(GlobalTypes.AND,
 						[
-							bindings_parse.tags[type].apply(ExprItem.new(type)),
+							ExprItemTagHelper.tag_to_statement(bindings_parse.tags[type],ExprItem.new(type)),
 							result
 						]
 					)
@@ -230,7 +230,7 @@ func eat_expr(proof_box:ProofBox) -> Dictionary:
 				var tag_parse := eat_tag(proof_box)
 				if tag_parse.error:
 					return tag_parse
-				return {error=false, expr_item=tag_parse.tag.apply(stuff_parse.expr_item)}
+				return {error=false, expr_item=ExprItemTagHelper.tag_to_statement(tag_parse.tag, stuff_parse.expr_item)}
 			else:
 				return {error=false, expr_item=stuff_parse.expr_item}
 

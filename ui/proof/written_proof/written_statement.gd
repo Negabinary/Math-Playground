@@ -9,6 +9,7 @@ var is_selected = true
 var selection = 0
 
 var font : Font
+var bold_font : Font
 var offset : int
 var font_color : Color
 
@@ -44,6 +45,148 @@ func select_whole():
 
 func _draw():
 	font = get_font("font", "WrittenStatement")
+	bold_font = get_font("bold_font", "WrittenStatement")
+	offset = get_constant("indentation", "WrittenProof")
+	font_color = get_color("font_color", "WrittenStatement")
+	
+	locators = []
+	rects = []
+	var xe = _draw_locator(Locator.new(expr_item), offset)
+	
+	if is_selected:
+		var rect = rects[selection]
+		draw_style_box(get_stylebox("highlighted", "WrittenStatement"), rect)
+	
+	xe = _draw_locator(Locator.new(expr_item), offset)
+	
+	set_custom_minimum_size(Vector2(xe, font.get_height()))
+
+
+func _draw_locator(locator:Locator, x0:float) -> float:
+	var xe : float
+	if locator.get_type() == GlobalTypes.IMPLIES and locator.get_child_count() == 2:
+		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
+			var x1 = _draw_string("(", x0)
+			var x2 = _draw_string("if ", x1, true)
+			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x4 = _draw_string(" then ", x3, true)
+			var x5 = _draw_locator(locator.get_child(1), x4)
+			xe = _draw_string(")", x5)
+		else:
+			var x2 = _draw_string("if ", x0, true)
+			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x4 = _draw_string(" then ", x3, true)
+			xe = _draw_locator(locator.get_child(1), x4)
+	elif locator.get_type() == GlobalTypes.FORALL and locator.get_child_count() == 2:
+		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
+			var x1 = _draw_string("(", x0)
+			var x2 = _draw_string("forall ", x1, true)
+			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x4 = _draw_string(". ", x3)
+			var x5 = _draw_locator(locator.get_child(1), x4)
+			xe = _draw_string(")", x5)
+		else:
+			var x2 = _draw_string("forall ", x0, true)
+			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x4 = _draw_string(". ", x3)
+			xe = _draw_locator(locator.get_child(1), x4)
+	elif locator.get_type() == GlobalTypes.EXISTS and locator.get_child_count() == 2:
+		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
+			var x1 = _draw_string("(", x0)
+			var x2 = _draw_string("exists ", x1, true)
+			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x4 = _draw_string(". ", x3, true)
+			var x5 = _draw_locator(locator.get_child(1), x4)
+			xe = _draw_string(")", x5)
+		else:
+			var x2 = _draw_string("exists ", x0, true)
+			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x4 = _draw_string(". ", x3)
+			xe = _draw_locator(locator.get_child(1), x4)
+	elif locator.get_type() == GlobalTypes.LAMBDA and locator.get_child_count() == 2:
+		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
+			var x1 = _draw_string("(", x0)
+			var x2 = _draw_string("lambda ", x1, true)
+			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x4 = _draw_string(". ", x3)
+			var x5 = _draw_locator(locator.get_child(1), x4)
+			xe = _draw_string(")", x5)
+		else:
+			var x2 = _draw_string("lambda ", x0, true)
+			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x4 = _draw_string(". ", x3, true)
+			xe = _draw_locator(locator.get_child(1), x4)
+	elif locator.get_type() == GlobalTypes.LAMBDA and locator.get_child_count() > 2:
+		var x1 = _draw_string("(", x0)
+		var x2 = _draw_string("lambda ", x1, true)
+		var x3 = _draw_locator(locator.get_child(0), x2)
+		var x4 = _draw_string(". ", x3)
+		var x5 = _draw_locator(locator.get_child(1), x4)
+		xe = _draw_string(")", x5)
+		xe = _draw_string("(", xe)
+		for i in range(2, locator.get_child_count()):
+			xe = _draw_locator(locator.get_child(i), xe)
+			if i < locator.get_child_count() - 1:
+				xe = _draw_string(", ", xe)
+		xe = _draw_string(")", xe)
+	elif locator.get_type() == GlobalTypes.AND and locator.get_child_count() == 2:
+		if locator.get_parent_type() in [GlobalTypes.EQUALITY, GlobalTypes.AND]:
+			var x1 = _draw_string("(", x0)
+			var x3 = _draw_locator(locator.get_child(0), x1)
+			var x4 = _draw_string(" and ", x3, true)
+			var x5 = _draw_locator(locator.get_child(1), x4)
+			xe = _draw_string(")", x5)
+		else:
+			var x3 = _draw_locator(locator.get_child(0), x0)
+			var x4 = _draw_string(" and ", x3, true)
+			xe = _draw_locator(locator.get_child(1), x4)
+	elif locator.get_type() == GlobalTypes.OR and locator.get_child_count() == 2:
+		if locator.get_parent_type() in [GlobalTypes.EQUALITY, GlobalTypes.AND, GlobalTypes.OR]:
+			var x1 = _draw_string("(", x0)
+			var x3 = _draw_locator(locator.get_child(0), x1)
+			var x4 = _draw_string(" or ", x3, true)
+			var x5 = _draw_locator(locator.get_child(1), x4)
+			xe = _draw_string(")", x5)
+		else:
+			var x3 = _draw_locator(locator.get_child(0), x0)
+			var x4 = _draw_string(" or ", x3, true)
+			xe = _draw_locator(locator.get_child(1), x4)
+	elif locator.get_type() == GlobalTypes.EQUALITY and locator.get_child_count() == 2:
+		if locator.get_parent_type() in [GlobalTypes.EQUALITY]:
+			var x1 = _draw_string("(", x0)
+			var x3 = _draw_locator(locator.get_child(0), x1)
+			var x4 = _draw_string(" = ", x3)
+			var x5 = _draw_locator(locator.get_child(1), x4)
+			xe = _draw_string(")", x5)
+		else:
+			var x3 = _draw_locator(locator.get_child(0), x0)
+			var x4 = _draw_string(" = ", x3)
+			xe = _draw_locator(locator.get_child(1), x4)
+	else:
+		xe = _draw_string(locator.get_type().to_string(), x0)
+		if locator.get_child_count() > 0:
+			xe = _draw_string("(", xe)
+			for i in range(0, locator.get_child_count()):
+				xe = _draw_locator(locator.get_child(i), xe)
+				if i < locator.get_child_count() - 1:
+					xe = _draw_string(", ", xe)
+			xe = _draw_string(")", xe)
+	
+	locators.append(locator)
+	rects.append(Rect2(
+		x0, 0, xe - x0, font.get_height()
+	))
+	return xe
+
+
+func _draw_string(string:String, x:float, bold:=false) -> float:
+	draw_string(bold_font if bold else font, Vector2(x, font.get_ascent()), string, font_color)
+	return x + (bold_font if bold else font).get_string_size(string).x
+
+
+"""
+func _draw():
+	font = get_font("font", "WrittenStatement")
 	offset = get_constant("indentation", "WrittenProof")
 	font_color = get_color("font_color", "WrittenStatement")
 	
@@ -57,6 +200,7 @@ func _draw():
 	
 	draw_string(font, Vector2(offset, font.get_ascent()), expr_item.to_string(), font_color)
 	set_custom_minimum_size(Vector2(offset, 0) + font.get_string_size(expr_item.to_string()))
+"""
 
 
 func get_drag_data(position): # -> UniversalLocator
