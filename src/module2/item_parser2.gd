@@ -6,7 +6,8 @@ var keywords = [
 	"forall", "exists", "fun", "if", "then",
 	"_import_", "_define_", "_assume_", "_show_", 
 	"_forall_", "_exists_", "_fun_", "_if_", "_then_",
-	".", ",", ":", "(", ")", "->", "_->_", "="
+	".", ",", ":", "(", ")", "->", "_->_", "=", "as",
+	"and", "or"
 ]
 
 var tokens : Array
@@ -60,7 +61,7 @@ func eat_toplevel():
 			return bindings_parse
 		if i == len(tokens):
 			return {error=false, type="define", items=[name_item]}
-		if tokens[i].contents == "=":
+		if tokens[i].contents == "as":
 			i += 1
 			var new_proof_box = ProofBox.new(bindings_parse.types, proof_box)
 			var expr_parse := eat_expr(new_proof_box)
@@ -233,8 +234,42 @@ func eat_expr(proof_box:ProofBox) -> Dictionary:
 				if tag_parse.error:
 					return tag_parse
 				return {error=false, expr_item=ExprItemTagHelper.tag_to_statement(tag_parse.tag, stuff_parse.expr_item)}
+			if tokens[i].contents == "and":
+				i += 1
+				var stuff_parse_2 := eat_stuff(proof_box)
+				if stuff_parse_2.error:
+					return stuff_parse_2
+				return {error=false, 
+					expr_item = ExprItem.new(
+						GlobalTypes.AND,
+						[stuff_parse.expr_item, stuff_parse_2.expr_item]
+					)
+				}
+			if tokens[i].contents == "or":
+				i += 1
+				var stuff_parse_2 := eat_stuff(proof_box)
+				if stuff_parse_2.error:
+					return stuff_parse_2
+				return {error=false, 
+					expr_item = ExprItem.new(
+						GlobalTypes.OR,
+						[stuff_parse.expr_item, stuff_parse_2.expr_item]
+					)
+				}
+			if tokens[i].contents == "=":
+				i += 1
+				var stuff_parse_2 := eat_stuff(proof_box)
+				if stuff_parse_2.error:
+					return stuff_parse_2
+				return {error=false, 
+					expr_item = ExprItem.new(
+						GlobalTypes.EQUALITY,
+						[stuff_parse.expr_item, stuff_parse_2.expr_item]
+					)
+				}
 			else:
 				return {error=false, expr_item=stuff_parse.expr_item}
+
 
 func eat_bindings(proof_box:ProofBox) -> Dictionary:
 	var types := []
