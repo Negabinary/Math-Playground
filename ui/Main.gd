@@ -22,7 +22,11 @@ func _new_file_button():
 
 func _load_file_button():
 	$Controls/FileDialog.mode = FileDialog.MODE_OPEN_FILE
-	$Controls/FileDialog.connect("file_selected", self,"_confirm_load_file")
+	if $Controls/FileDialog.is_connected("file_selected", self, "_confirm_save_file"):
+		$Controls/FileDialog.disconnect("file_selected", self, "_confirm_save_file")
+	if not $Controls/FileDialog.is_connected("file_selected", self, "_confirm_load_file"):
+		$Controls/FileDialog.connect("file_selected", self,"_confirm_load_file")
+	$Controls/FileDialog.invalidate()
 	$Controls/FileDialog.popup_centered()
 	
 
@@ -39,7 +43,11 @@ func _confirm_load_file(path:String):
 
 func _save_as_button():
 	$Controls/FileDialog.mode = FileDialog.MODE_SAVE_FILE
-	$Controls/FileDialog.connect("file_selected", self,"_confirm_save_file")
+	if $Controls/FileDialog.is_connected("file_selected", self, "_confirm_load_file"):
+		$Controls/FileDialog.disconnect("file_selected", self, "_confirm_load_file")
+	if not $Controls/FileDialog.is_connected("file_selected", self, "_confirm_save_file"):
+		$Controls/FileDialog.connect("file_selected", self,"_confirm_save_file")
+	$Controls/FileDialog.invalidate()
 	$Controls/FileDialog.popup_centered()
 
 
@@ -56,4 +64,5 @@ func _confirm_save_file(path:String):
 
 
 func _save_button():
+	print(JSON.print(ui_notebook.serialise()))
 	file.store_string(JSON.print(ui_notebook.serialise()))

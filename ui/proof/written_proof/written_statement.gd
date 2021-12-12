@@ -106,19 +106,19 @@ func _draw_locator(locator:Locator, x0:float) -> float:
 	elif locator.get_type() == GlobalTypes.LAMBDA and locator.get_child_count() == 2:
 		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
 			var x1 = _draw_string("(", x0)
-			var x2 = _draw_string("lambda ", x1, true)
+			var x2 = _draw_string("fun ", x1, true)
 			var x3 = _draw_locator(locator.get_child(0), x2)
 			var x4 = _draw_string(". ", x3)
 			var x5 = _draw_locator(locator.get_child(1), x4)
 			xe = _draw_string(")", x5)
 		else:
-			var x2 = _draw_string("lambda ", x0, true)
+			var x2 = _draw_string("fun ", x0, true)
 			var x3 = _draw_locator(locator.get_child(0), x2)
 			var x4 = _draw_string(". ", x3, true)
 			xe = _draw_locator(locator.get_child(1), x4)
 	elif locator.get_type() == GlobalTypes.LAMBDA and locator.get_child_count() > 2:
 		var x1 = _draw_string("(", x0)
-		var x2 = _draw_string("lambda ", x1, true)
+		var x2 = _draw_string("fun ", x1, true)
 		var x3 = _draw_locator(locator.get_child(0), x2)
 		var x4 = _draw_string(". ", x3)
 		var x5 = _draw_locator(locator.get_child(1), x4)

@@ -67,7 +67,6 @@ func eat_toplevel():
 			var expr_parse := eat_expr(new_proof_box)
 			if expr_parse.error:
 				return expr_parse
-			bindings_parse.types.invert()
 			var rhs : ExprItem = expr_parse.expr_item
 			var lhs : ExprItem = ExprItem.new(type)
 			for b_type in bindings_parse.types:
@@ -76,6 +75,7 @@ func eat_toplevel():
 				GlobalTypes.EQUALITY,
 				[lhs, rhs]
 			)
+			bindings_parse.types.invert()
 			for b_type in bindings_parse.types:
 				expr_item = ExprItem.new(
 					GlobalTypes.FORALL,

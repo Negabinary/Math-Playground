@@ -47,14 +47,13 @@ func serialise() -> Dictionary:
 	return dict
 
 
-func deserialise(json:Dictionary) -> void:
+func deserialise(json:Dictionary, context) -> void:
 	_ready()
 	ui_entry_box.text = json.string
 	if json.compiled:
 		ui_edit_area.hide()
 		ui_use_area.show()
 		ui_eval_button.hide()
-		var context := GlobalTypes.PROOF_BOX
 		for item in json.items:
 			var nc : Node
 			if item.kind == "definition":

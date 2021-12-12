@@ -177,14 +177,14 @@ func _to_string() -> String:
 		)
 	elif type == GlobalTypes.LAMBDA and children.size() == 2:
 		return (
-			"lambda " 
+			"fun " 
 			+ children[0].to_string() 
 			+ ". " 
 			+ children[1].to_string()
 		)
 	elif type == GlobalTypes.LAMBDA and children.size() > 2:
 		var children_string:String = (
-			"(lambda " 
+			"(fun " 
 			+ children[0].to_string() 
 			+ ". " 
 			+ children[1].to_string()

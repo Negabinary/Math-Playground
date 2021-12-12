@@ -4,6 +4,9 @@ var cache := {}
 var folder := "user://lib2/"
 var suffix := ".mml"
 
+func clear() -> void:
+	cache = {}
+
 func get_module(module_name:String) -> ProofBox:
 	if not (module_name in cache):
 		load_module(module_name)

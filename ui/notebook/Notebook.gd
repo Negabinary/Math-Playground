@@ -12,13 +12,14 @@ func _ready():
 
 func new_cell(json = null):
 	var node := cell.instance()
-	if json != null:
-		node.deserialise(json)
 	ui_cells.add_child(node)
+	_recompile_from(0,node.get_index()+1)
+	if json != null:
+		node.deserialise(json, node.top_proof_box)	
 	node.connect("request_delete", self, "delete_cell", [node])
 	node.connect("request_move_up", self, "move_cell_up", [node])
 	node.connect("request_move_down", self, "move_cell_down", [node])
-	_recompile_from(node.get_index())
+	_recompile_from(node.get_index()+1)
 
 func move_cell_up(cell:NotebookCell):
 	if cell.get_index() > 0:
@@ -35,8 +36,8 @@ func delete_cell(cell:NotebookCell):
 	ui_cells.remove_child(cell)
 	_recompile_from(idx)
 
-func _recompile_from(idx:int):
-	for i in range(idx, ui_cells.get_child_count()):
+func _recompile_from(idx:int, to=ui_cells.get_child_count()):
+	for i in range(idx, to):
 		if i == 0:
 			ui_cells.get_child(i).set_top_proof_box(GlobalTypes.PROOF_BOX)
 		else:
@@ -45,6 +46,7 @@ func _recompile_from(idx:int):
 			)
 
 func clear() -> void:
+	Module2Loader.clear()
 	for child in ui_cells.get_children():
 		ui_cells.remove_child(child)
 

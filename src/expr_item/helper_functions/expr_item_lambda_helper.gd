@@ -45,5 +45,7 @@ static func apply_lambda(location:Locator):
 	var variable_instances = Locator.new(body).find_all(variable)
 	for variable_instance in variable_instances:
 		body = body.replace_at(variable_instance.get_indeces(), value)
+	for child in children:
+		body = body.apply(child)
 	
 	return root.replace_at(location.get_indeces(), body)
