@@ -42,7 +42,9 @@ func eat_toplevel():
 		var name = eat_name()
 		if name.error:
 			return name
-		return {error=false, type="import", items=[ModuleItem2Import.new(proof_box, name.name)]}
+		var def_item := ModuleItem2Import.new(proof_box, name.name)
+		proof_box = def_item.get_next_proof_box()
+		return {error=false, type="import", items=[def_item]}
 	elif tokens[i].contents == "define":
 		i += 1
 		var name = eat_name()
@@ -306,6 +308,8 @@ func eat_stuff(proof_box:ProofBox) -> Dictionary:
 			if stuff_parse.error:
 				return stuff_parse
 			expr_items.append(stuff_parse.expr_item)
+			if i == len(tokens):
+				return err(tokens[i-1], "Expected close brackets")
 			while tokens[i].contents == ",":
 				i += 1
 				if first:
@@ -314,6 +318,8 @@ func eat_stuff(proof_box:ProofBox) -> Dictionary:
 				if stuff_parse2.error:
 					return stuff_parse2
 				expr_items.append(stuff_parse2.expr_item)
+				if i == len(tokens):
+					return err(tokens[i-1], "Expected close brackets")
 			if tokens[i].contents != ")":
 				return err(tokens[i], "Expected close brackets")
 			i += 1

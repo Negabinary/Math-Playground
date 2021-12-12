@@ -124,7 +124,7 @@ func get_assumptions() -> Array:
 func get_all_assumptions() -> Array:
 	var imported_assumptions := []
 	for import in imports:
-		imported_assumptions += import.get_all_definitions()
+		imported_assumptions += import.get_all_assumptions()
 	if parent == null or parent == GlobalTypes.PROOF_BOX:
 		return get_assumptions() + imported_assumptions
 	else:

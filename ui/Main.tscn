@@ -59,10 +59,10 @@ text = "Save"
 margin_right = 325.0
 margin_bottom = 132.0
 rect_min_size = Vector2( 400, 400 )
-access = 2
+access = 1
 filters = PoolStringArray( "*.mml" )
-current_dir = "/Users/Matt/OneDrive - University of Cambridge/Projects/Manipulator/Manipulator 5 (Godot)"
-current_path = "/Users/Matt/OneDrive - University of Cambridge/Projects/Manipulator/Manipulator 5 (Godot)/"
+current_dir = "user://lib2"
+current_path = "user://lib2/"
 
 [node name="Notebook" parent="." instance=ExtResource( 4 )]
 anchor_right = 0.0

@@ -339,6 +339,7 @@ run/main_scene="res://ui/Main.tscn"
 
 GlobalTypes="*res://src/expr_item/global_types.gd"
 TagShorthand="*res://src/expr_item/tag_shorthand.gd"
+Module2Loader="*res://src/module2/module_loader.gd"
 
 [debug]
 
