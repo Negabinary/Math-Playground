@@ -27,6 +27,10 @@ func get_module():
 	return outer_box.get_module()
 
 
+func get_expr_item() -> ExprItem:
+	return get_statement().as_expr_item()
+
+
 func get_statement() -> Statement:
 	return statement
 
@@ -45,6 +49,10 @@ func is_proven() -> bool:
 
 func get_justification() -> Justification:
 	return justification
+
+
+func serialise():
+	return "proofs not serialisable yet..."
 
 
 func is_tag():

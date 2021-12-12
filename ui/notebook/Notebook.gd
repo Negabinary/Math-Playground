@@ -1,4 +1,5 @@
 extends ColorRect
+class_name Notebook
 
 const cell = preload("res://ui/notebook/cell/Cell.tscn")
 
@@ -9,8 +10,10 @@ onready var ui_new_cell_button := $HSplitContainer/Container/ScrollContainer/Mar
 func _ready():
 	ui_new_cell_button.connect("pressed", self, "new_cell")
 
-func new_cell():
+func new_cell(json = null):
 	var node := cell.instance()
+	if json != null:
+		node.deserialise(json)
 	ui_cells.add_child(node)
 	node.connect("request_delete", self, "delete_cell", [node])
 	node.connect("request_move_up", self, "move_cell_up", [node])
@@ -40,3 +43,18 @@ func _recompile_from(idx:int):
 			ui_cells.get_child(i).set_top_proof_box(
 				ui_cells.get_child(i-1).get_bottom_proof_box()
 			)
+
+func clear() -> void:
+	for child in ui_cells.get_children():
+		ui_cells.remove_child(child)
+
+func deserialise(json:Dictionary) -> void:
+	clear()
+	for cell_obj in json.cells:
+		new_cell(cell_obj)
+
+func serialise() -> Dictionary:
+	var cell_obj := []
+	for cell in ui_cells.get_children():
+		cell_obj.append(cell.serialise())
+	return {cells=cell_obj}

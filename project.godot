@@ -179,6 +179,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/modus_ponens_justification.gd"
 }, {
+"base": "ColorRect",
+"class": "Notebook",
+"language": "GDScript",
+"path": "res://ui/notebook/Notebook.gd"
+}, {
 "base": "PanelContainer",
 "class": "NotebookCell",
 "language": "GDScript",
@@ -304,6 +309,7 @@ _global_script_class_icons={
 "ModuleLoader": "",
 "ModuleSerializer": "",
 "ModusPonensJustification": "",
+"Notebook": "",
 "NotebookCell": "",
 "PageContainer": "",
 "Parser2": "",

@@ -35,6 +35,42 @@ func _ready():
 	ui_delete_button.connect("pressed", self, "_on_request_delete_button")
 
 
+func serialise() -> Dictionary:
+	var dict = {
+		string = ui_entry_box.text,
+		compiled = ui_use_area.visible,
+	}
+	if ui_use_area.visible:
+		dict["items"] = []
+		for child in ui_use_area.get_children():
+			dict["items"].append(child.serialise())
+	return dict
+
+
+func deserialise(json:Dictionary) -> void:
+	_ready()
+	ui_entry_box.text = json.string
+	if json.compiled:
+		ui_edit_area.hide()
+		ui_use_area.show()
+		ui_eval_button.hide()
+		var context := GlobalTypes.PROOF_BOX
+		for item in json.items:
+			var nc : Node
+			if item.kind == "definition":
+				nc = scene_cell_definition.instance()
+			elif item.kind == "assumption":
+				nc = scene_cell_assumption.instance()
+			elif item.kind == "theorem":
+				nc = scene_cell_show.instance()
+			elif item.kind == "import":
+				nc = scene_cell_import.instance()
+			ui_use_area.add_child(nc)
+			nc.deserialise(item, context)
+			context = nc.item.get_next_proof_box()
+		ui_edit_button.show()
+
+
 func set_top_proof_box(tpb:ProofBox) -> void:
 	self.top_proof_box = tpb
 	self.bottom_proof_box = tpb

@@ -12,3 +12,6 @@ func _init(context:ProofBox, statement:ExprItem):
 
 func get_assumption() -> ExprItem:
 	return assumption
+
+func serialise():
+	return {kind="assumption", expr=assumption.serialize()}

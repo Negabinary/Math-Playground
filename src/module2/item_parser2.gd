@@ -42,7 +42,7 @@ func eat_toplevel():
 		var name = eat_name()
 		if name.error:
 			return name
-		return {error=false, type="import", name=name["name"]}
+		return {error=false, type="import", items=[ModuleItem2Import.new(proof_box, name.name)]}
 	elif tokens[i].contents == "define":
 		i += 1
 		var name = eat_name()

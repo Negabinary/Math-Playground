@@ -11,3 +11,6 @@ func _init(context:ProofBox, definition:ExprItemType):
 
 func get_definition() -> ExprItemType:
 	return definition
+
+func serialise():
+	return {kind="definition", type=definition.to_string()}

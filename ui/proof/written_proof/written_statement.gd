@@ -184,25 +184,6 @@ func _draw_string(string:String, x:float, bold:=false) -> float:
 	return x + (bold_font if bold else font).get_string_size(string).x
 
 
-"""
-func _draw():
-	font = get_font("font", "WrittenStatement")
-	offset = get_constant("indentation", "WrittenProof")
-	font_color = get_color("font_color", "WrittenStatement")
-	
-	string = ""
-	locators = Locator.new(expr_item).get_postorder_locator_list()
-	rects = expr_item.get_postorder_rect_list(font, offset)
-	
-	if is_selected:
-		var rect = rects[selection]
-		draw_style_box(get_stylebox("highlighted", "WrittenStatement"), rect)
-	
-	draw_string(font, Vector2(offset, font.get_ascent()), expr_item.to_string(), font_color)
-	set_custom_minimum_size(Vector2(offset, 0) + font.get_string_size(expr_item.to_string()))
-"""
-
-
 func get_drag_data(position): # -> UniversalLocator
 	if is_selected:
 		var locator : Locator = locators[selection]

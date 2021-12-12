@@ -155,13 +155,80 @@ func _to_string() -> String:
 	if children.size() == 0:
 		return type.to_string()
 	elif type == GlobalTypes.IMPLIES and children.size() == 2:
-		var children_string = ""
-		if children[0].get_type() == GlobalTypes.IMPLIES:
+		return (
+			"if " 
+			+ children[0].to_string() 
+			+ " then " 
+			+ children[1].to_string()
+		)
+	elif type == GlobalTypes.FORALL and children.size() == 2:
+		return (
+			"forall " 
+			+ children[0].to_string() 
+			+ ". " 
+			+ children[1].to_string()
+		)
+	elif type == GlobalTypes.EXISTS and children.size() == 2:
+		return (
+			"exists " 
+			+ children[0].to_string() 
+			+ ". " 
+			+ children[1].to_string()
+		)
+	elif type == GlobalTypes.LAMBDA and children.size() == 2:
+		return (
+			"lambda " 
+			+ children[0].to_string() 
+			+ ". " 
+			+ children[1].to_string()
+		)
+	elif type == GlobalTypes.LAMBDA and children.size() > 2:
+		var children_string:String = (
+			"(lambda " 
+			+ children[0].to_string() 
+			+ ". " 
+			+ children[1].to_string()
+			+ ")("
+		)
+		for i in range(2, children.size() - 1):
+			children_string += children[i].to_string() + ", "
+		children_string += children[-1].to_string() + ")"
+		return children_string
+	elif type == GlobalTypes.AND and children.size() == 2:
+		var children_string := ""
+		if children[0].get_type() in [GlobalTypes.AND, GlobalTypes.OR]:
 			children_string += "(" + children[0].to_string() + ")"
 		else:
 			children_string += children[0].to_string()
-		children_string += " => "
-		children_string += children[1].to_string()
+		children_string += " and "
+		if children[1].get_type() in [GlobalTypes.AND, GlobalTypes.OR]:
+			children_string += "(" + children[1].to_string() + ")"
+		else:
+			children_string += children[1].to_string()
+		return children_string
+	elif type == GlobalTypes.OR and children.size() == 2:
+		var children_string := ""
+		if children[0].get_type() in [GlobalTypes.OR]:
+			children_string += "(" + children[0].to_string() + ")"
+		else:
+			children_string += children[0].to_string()
+		children_string += " or "
+		if children[1].get_type() in [GlobalTypes.OR]:
+			children_string += "(" + children[1].to_string() + ")"
+		else:
+			children_string += children[1].to_string()
+		return children_string
+	elif type == GlobalTypes.EQUALITY and children.size() == 2:
+		var children_string := ""
+		if children[0].get_type() in [GlobalTypes.OR, GlobalTypes.AND, GlobalTypes.EQUALITY]:
+			children_string += "(" + children[0].to_string() + ")"
+		else:
+			children_string += children[0].to_string()
+		children_string += " = "
+		if children[1].get_type() in [GlobalTypes.OR, GlobalTypes.AND, GlobalTypes.EQUALITY]:
+			children_string += "(" + children[1].to_string() + ")"
+		else:
+			children_string += children[1].to_string()
 		return children_string
 	else:
 		var children_string = ""
@@ -173,38 +240,6 @@ func _to_string() -> String:
 			+ children_string.left(children_string.length() - 2)
 			+ ")"
 		) #+ str(get_all_types().keys())
-
-
-func get_postorder_rect_list(font:Font, offset, list:=[], string:=[""]):
-	var start = font.get_string_size(string[0]).x
-	
-	if children.size() == 0:
-		string[0] += type.to_string()
-	elif type == GlobalTypes.IMPLIES:
-		if children[0].get_type() == GlobalTypes.IMPLIES:
-			string[0] += "("
-			children[0].get_postorder_rect_list(font, offset, list, string)
-			string[0] += ")"
-		else:
-			children[0].get_postorder_rect_list(font, offset, list, string)
-		string[0] += " => "
-		children[1].get_postorder_rect_list(font, offset, list, string)
-	else:
-		string[0] += type.to_string()
-		string[0] += "("
-		for child in children:
-			child.get_postorder_rect_list(font, offset, list, string)
-			string[0] += ", "
-		string[0] = string[0].left(string[0].length() - 2)
-		string[0] += ")"
-	
-	list.append(Rect2(
-		offset+start, 0,
-		font.get_string_size(string[0]).x - start,
-		font.get_string_size(string[0]).y
-	))
-	
-	return list
 
 
 func get_all_types() -> Dictionary:
