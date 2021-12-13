@@ -135,7 +135,7 @@ func get_starred_assumptions() -> Array:
 	var result := []
 	if parent != null and parent != GlobalTypes.PROOF_BOX:
 		result = parent.get_starred_assumptions()
-	var all_assumptions = get_all_assumptions()
+	var all_assumptions = get_assumptions()
 	all_assumptions.invert()
 	for assumption in all_assumptions:
 		if stars.has(assumption.get_statement().as_expr_item()):
