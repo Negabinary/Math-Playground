@@ -10,7 +10,7 @@ func serialise():
 	return item.serialise()
 
 func deserialise(item, proof_box):
-	self.item = ModuleItem2Import.new(
+	initialise(ModuleItem2Import.new(
 		proof_box,
 		item.module
-	)
+	))

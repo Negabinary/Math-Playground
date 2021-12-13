@@ -56,6 +56,7 @@ func deserialise(json:Dictionary, context) -> void:
 		ui_eval_button.hide()
 		for item in json.items:
 			var nc : Node
+			print(item)
 			if item.kind == "definition":
 				nc = scene_cell_definition.instance()
 			elif item.kind == "assumption":
@@ -67,6 +68,7 @@ func deserialise(json:Dictionary, context) -> void:
 			ui_use_area.add_child(nc)
 			nc.deserialise(item, context)
 			context = nc.item.get_next_proof_box()
+		bottom_proof_box = context
 		ui_edit_button.show()
 
 

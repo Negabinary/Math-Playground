@@ -11,8 +11,8 @@ func serialise():
 	return item.serialise()
 
 func deserialise(item, proof_box):
-	self.item = ModuleItem2Theorem.new(
+	initialise(ModuleItem2Theorem.new(
 		proof_box, 
 		ExprItemBuilder.from_string(item.expr, proof_box),
 		item.proof
-	)
+	))

@@ -11,7 +11,7 @@ func serialise():
 	return item.serialise()
 
 func deserialise(item, proof_box):
-	self.item = ModuleItem2Definition.new(
+	initialise(ModuleItem2Definition.new(
 		proof_box, 
 		ExprItemType.new(item.type)
-	)
+	))

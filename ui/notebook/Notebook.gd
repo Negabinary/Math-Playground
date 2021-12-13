@@ -10,16 +10,16 @@ onready var ui_new_cell_button := $HSplitContainer/Container/ScrollContainer/Mar
 func _ready():
 	ui_new_cell_button.connect("pressed", self, "new_cell")
 
-func new_cell(json = null):
+func new_cell(json = null, proof_box = null):
 	var node := cell.instance()
 	ui_cells.add_child(node)
-	_recompile_from(0,node.get_index()+1)
 	if json != null:
-		node.deserialise(json, node.top_proof_box)	
+		node.deserialise(json, proof_box)	
 	node.connect("request_delete", self, "delete_cell", [node])
 	node.connect("request_move_up", self, "move_cell_up", [node])
 	node.connect("request_move_down", self, "move_cell_down", [node])
-	_recompile_from(node.get_index()+1)
+	if json == null:
+		_recompile_from(node.get_index())
 
 func move_cell_up(cell:NotebookCell):
 	if cell.get_index() > 0:
@@ -38,12 +38,13 @@ func delete_cell(cell:NotebookCell):
 
 func _recompile_from(idx:int, to=ui_cells.get_child_count()):
 	for i in range(idx, to):
-		if i == 0:
-			ui_cells.get_child(i).set_top_proof_box(GlobalTypes.PROOF_BOX)
-		else:
-			ui_cells.get_child(i).set_top_proof_box(
-				ui_cells.get_child(i-1).get_bottom_proof_box()
-			)
+		ui_cells.get_child(i).set_top_proof_box(_get_proof_box_before(i))
+
+func _get_proof_box_before(idx:int):
+	if idx == 0:
+		return GlobalTypes.PROOF_BOX
+	else:
+		return ui_cells.get_child(idx-1).get_bottom_proof_box()
 
 func clear() -> void:
 	Module2Loader.clear()
@@ -52,8 +53,8 @@ func clear() -> void:
 
 func deserialise(json:Dictionary) -> void:
 	clear()
-	for cell_obj in json.cells:
-		new_cell(cell_obj)
+	for i in len(json.cells):
+		new_cell(json.cells[i], _get_proof_box_before(i))
 
 func serialise() -> Dictionary:
 	var cell_obj := []

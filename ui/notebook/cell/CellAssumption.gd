@@ -10,7 +10,7 @@ func serialise():
 	return item.serialise()
 
 func deserialise(item, proof_box):
-	self.item = ModuleItem2Assumption.new(
+	initialise(ModuleItem2Assumption.new(
 		proof_box, 
 		ExprItemBuilder.from_string(item.expr, proof_box)
-	)
+	))
