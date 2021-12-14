@@ -159,7 +159,7 @@ func justify_with_modus_ponens(implication:ProofStep) -> void:
 			if implication.get_statement().get_conditions().size() == 0:
 				justify_with_specialisation(implication, matching)
 			else:
-				var refined_ei = implication.get_statement().deep_replace_types(matching).as_expr_item()
+				var refined_ei = implication.get_expr_item().deep_replace_types(matching)
 				var j = ModusPonensJustification.new(get_proof_box(), refined_ei)
 				j.get_implication_proof_step().justify_with_specialisation(implication, matching)
 				justify(j)
@@ -187,7 +187,7 @@ func justify_with_equality(implication:ProofStep, replace_idx:int, with_idx:int,
 		var is_superset = replace_impl.get_expr_item().is_superset(replace_ps.get_expr_item(), matching)
 		assert(is_superset)
 		
-		var specified_statement = implication.get_statement().deep_replace_types(matching)
+		var specified_statement = Statement.new(implication.get_expr_item().deep_replace_types(matching))
 		var justification = EqualityJustification.new(
 			outer_box, replace_ps,
 			specified_statement.get_conclusion().get_child(with_idx).get_expr_item(),

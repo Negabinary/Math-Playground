@@ -17,9 +17,47 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+[node name="Proof" type="PanelContainer" parent="."]
 margin_right = 755.0
-margin_bottom = 19.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 0, 100 )
+custom_styles/panel = ExtResource( 5 )
+
+[node name="WrittenProof" type="VBoxContainer" parent="Proof"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 745.0
+margin_bottom = 90.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ModuleInformation" type="Label" parent="Proof/WrittenProof"]
+visible = false
+margin_top = 577.0
+margin_right = 632.0
+margin_bottom = 600.0
+custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
+custom_fonts/font = ExtResource( 2 )
+text = "MODULE INFORMATION"
+
+[node name="Justification" type="MarginContainer" parent="Proof/WrittenProof"]
+margin_top = 80.0
+margin_right = 735.0
+margin_bottom = 80.0
+custom_constants/margin_right = 0
+custom_constants/margin_top = 0
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+margin_top = 110.0
+margin_right = 755.0
+margin_bottom = 129.0
 custom_constants/separation = 20
 
 [node name="Button" type="Button" parent="HBoxContainer3"]
@@ -46,41 +84,3 @@ rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 1 )
 text = "0"
-
-[node name="Proof" type="PanelContainer" parent="."]
-margin_top = 29.0
-margin_right = 755.0
-margin_bottom = 129.0
-rect_min_size = Vector2( 0, 100 )
-custom_styles/panel = ExtResource( 5 )
-
-[node name="WrittenProof" type="VBoxContainer" parent="Proof"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 745.0
-margin_bottom = 90.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 2
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ModuleInformation" type="Label" parent="Proof/WrittenProof"]
-visible = false
-margin_top = 577.0
-margin_right = 632.0
-margin_bottom = 600.0
-custom_fonts/font = ExtResource( 2 )
-custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
-text = "MODULE INFORMATION"
-
-[node name="Justification" type="MarginContainer" parent="Proof/WrittenProof"]
-margin_top = 80.0
-margin_right = 735.0
-margin_bottom = 80.0
-custom_constants/margin_right = 0
-custom_constants/margin_top = 0
-custom_constants/margin_left = 0
-custom_constants/margin_bottom = 0

@@ -3,8 +3,9 @@ class_name Statement
 
 
 var root : ExprItem
-var conditions : Array # <UniversalLocator>
+var conditions : Array # <Locator>
 var definitions : Array # <ExprItemType>
+var conclusions : Array # <Locator>
 var conclusion : Locator
 
 
@@ -12,6 +13,7 @@ func _init(new_root:ExprItem):
 	root = new_root
 	definitions = []
 	conditions = []
+	conclusions = []
 	var locator := Locator.new(root)
 	while (
 			locator.get_type() == GlobalTypes.FORALL 
@@ -20,31 +22,24 @@ func _init(new_root:ExprItem):
 			definitions.append(locator.get_child(0).get_type())
 			locator = locator.get_child(1)
 		while locator.get_type() == GlobalTypes.IMPLIES and locator.get_child_count() == 2:
-			conditions.append(locator.get_child(0))
+			var condition_locators := [locator.get_child(0)]
+			while len(condition_locators) != 0:
+				var cl:Locator = condition_locators.pop_front()
+				if cl.get_type() == GlobalTypes.AND:
+					condition_locators.push_front(cl.get_child(1))
+					condition_locators.push_front(cl.get_child(0)) 
+				else:
+					conditions.append(cl)
 			locator = locator.get_child(1)
+	var queue := [locator]
+	while len(queue) != 0:
+		var cl:Locator = queue.pop_front()
+		if cl.get_type() == GlobalTypes.AND:
+			queue.push_front(cl.get_child(1))
+			queue.push_front(cl.get_child(0))
+		else:
+			conclusions.append(cl)
 	conclusion = locator
-
-
-func deep_replace_types(replacements:Dictionary, additional_definitions:=[]) -> Statement: # <ExprItemType, ExprItem>; <ExprItemType>
-	var new_definitions := definitions.duplicate()
-	for sub_def in replacements:
-		new_definitions.erase(sub_def)
-	for add_def in additional_definitions:
-		new_definitions.append(add_def)
-	
-	var new_conditions := [] # <ExprItem>
-	for condition in conditions:
-		new_conditions.append(condition.get_expr_item().deep_replace_types(replacements))
-	
-	var new_conclusion := conclusion.get_expr_item().deep_replace_types(replacements)
-	
-	var new_expr_item := new_conclusion
-	for new_condition in new_conditions:
-		new_expr_item = ExprItem.new(GlobalTypes.IMPLIES, [new_condition, new_expr_item])
-	for new_definition in new_definitions:
-		new_expr_item = ExprItem.new(GlobalTypes.FORALL, [ExprItem.new(new_definition), new_expr_item])
-	
-	return get_script().new(new_expr_item)
 
 
 func construct_without(keep_definition_ids:Array, keep_condition_ids:Array) -> ExprItem:

@@ -14,9 +14,9 @@ func _verify_expr_item(expr_item:ExprItem) -> bool:
 	return true
 	print("===")
 	print(expr_item)
-	print(Statement.new(general).deep_replace_types(matching).as_expr_item())
+	print(general.deep_replace_types(matching))
 	print("===")
-	return expr_item.compare(Statement.new(general).deep_replace_types(matching).as_expr_item())
+	return expr_item.compare(general.deep_replace_types(matching))
 
 
 func get_generalized():

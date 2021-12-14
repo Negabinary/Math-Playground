@@ -54,7 +54,7 @@ func update_context(proof_step:ProofStep, locator:Locator):
 
 
 func _on_expr_item_dropped_on_definition(definition:ExprItemType, locator:UniversalLocator):
-	var refined_ps := ProofStep.new(assumption.get_statement().deep_replace_types({definition:locator.get_expr_item()}).as_expr_item())
+	var refined_ps := ProofStep.new(assumption.get_expr_item().deep_replace_types({definition:locator.get_expr_item()}))
 	refined_ps.justify_with_specialisation(assumption, {definition:locator.get_expr_item()})
 	emit_signal("proof_step_created", refined_ps)
 

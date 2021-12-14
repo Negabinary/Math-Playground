@@ -63,7 +63,7 @@ func _on_assumption_conclusion_used(assumption:ProofStep, _index):
 		for definition in assumption.get_statement().get_definitions():
 			matching[definition] = "*"
 		if assumption.get_statement().get_conclusion().get_expr_item().is_superset(locator.get_expr_item(), matching):
-			var refined_ps = ProofStep.new(assumption.get_statement().deep_replace_types(matching).as_expr_item())
+			var refined_ps = ProofStep.new(assumption.get_expr_item().deep_replace_types(matching))
 			refined_ps.justify_with_specialisation(assumption, matching)
 			proof_step.justify_with_modus_ponens(refined_ps)
 		else:
