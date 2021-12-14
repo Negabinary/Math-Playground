@@ -135,13 +135,14 @@ func get_starred_assumptions() -> Array:
 	var result := []
 	if parent != null and parent != GlobalTypes.PROOF_BOX:
 		result = parent.get_starred_assumptions()
+	for import in imports:
+		result += import.get_starred_assumptions()
 	var all_assumptions = get_assumptions()
 	all_assumptions.invert()
 	for assumption in all_assumptions:
-		if stars.has(assumption.get_statement().as_expr_item()):
-			result.push_front(PROOF_STEP.new(
-				assumption.get_statement().as_expr_item(), self, AssumptionJustification.new(self)
-			))
+		result.push_front(PROOF_STEP.new(
+			assumption.get_statement().as_expr_item(), self, AssumptionJustification.new(self)
+		))
 	all_assumptions.invert()
 	return result
 
