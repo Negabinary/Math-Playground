@@ -44,10 +44,10 @@ func get_argument_values() -> Array:
 
 func _on_replace_changed():
 	if !ui_replace.has_holes():
-		argument_locations = [locator.find_all(ui_replace.get_expr_item())]
+		argument_locations = [Locator.new(locator.get_expr_item()).find_all(ui_replace.get_expr_item())]
 		argument_values = [ui_replace.get_expr_item()]
 		var ei := ExprItemLambdaHelper.create_lambda(
-			locator, argument_locations, argument_types, argument_values
+			locator.get_expr_item(), argument_locations, argument_types, argument_values
 		)
 		ui_preview.set_expr_item(ei)
 	emit_signal("update")

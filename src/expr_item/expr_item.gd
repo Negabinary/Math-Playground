@@ -29,7 +29,7 @@ func deep_replace_types(types:Dictionary) -> ExprItem: #<ExprItemType, ExprItem>
 			new_children = types[type].get_children() + new_children
 	return get_script().new(new_type, new_children)
 
-
+#NOTE: THIS FUNCTION DESTROYS THE INDECES SO MAKE A COPY
 func replace_at(indeces:Array, with:ExprItem) -> ExprItem:
 	if indeces == []:
 		return with

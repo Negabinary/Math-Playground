@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/assumption_justification.gd"
 }, {
+"base": "EqualityJustification",
+"class": "EliminatedLambdaJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/eliminated_lambda_justification.gd"
+}, {
 "base": "Justification",
 "class": "EqualityJustification",
 "language": "GDScript",
@@ -78,6 +83,11 @@ _global_script_classes=[ {
 "class": "IntroducedDoubleNegativeJustification",
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/introduce_double_negative_justification.gd"
+}, {
+"base": "EqualityJustification",
+"class": "IntroducedLambdaJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/introduced_lambda_justification.gd"
 }, {
 "base": "Node",
 "class": "ItemParser2",
@@ -236,6 +246,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AssumptionJustification": "",
+"EliminatedLambdaJustification": "",
 "EqualityJustification": "",
 "ExprItem": "",
 "ExprItemBuilder": "",
@@ -249,6 +260,7 @@ _global_script_class_icons={
 "ImplicationJustification": "",
 "InstantiateJustification": "",
 "IntroducedDoubleNegativeJustification": "",
+"IntroducedLambdaJustification": "",
 "ItemParser2": "",
 "Justification": "",
 "JustificationBuilder": "",
