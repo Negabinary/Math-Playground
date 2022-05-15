@@ -41,11 +41,6 @@ static func _generate_expr_item(intermediate:IntermediateExprItem, proof_box:Pro
 					new_chidlren.append(_generate_expr_item(child, inner_proof_box))
 				else:
 					new_chidlren.append(_generate_expr_item(child, proof_box))
-			ExprItemType.BINDER.TAGGED_BINDER:
-				if intermediate.children.find(child) in [0,2]:
-					new_chidlren.append(_generate_expr_item(child, inner_proof_box))
-				else:
-					new_chidlren.append(_generate_expr_item(child, proof_box))
 	return ExprItem.new(type, new_chidlren)
 
 static func deep_generate_types(intermediate:IntermediateExprItem, new_types=[]) -> Array:

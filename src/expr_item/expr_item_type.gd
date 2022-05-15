@@ -7,7 +7,7 @@ signal deleted
 
 
 var identifier : String
-enum BINDER {NOT_BINDER, BINDER, TAGGED_BINDER}
+enum BINDER {NOT_BINDER, BINDER}
 var binder : int = BINDER.NOT_BINDER
 
 var fm_expected_args := 1
@@ -29,7 +29,6 @@ func rename(new_name:String):
 
 func get_identifier():
 	return identifier
-
 
 func _to_string():
 	return identifier # + str(n)

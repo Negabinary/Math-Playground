@@ -106,14 +106,6 @@ func _init(root, expr_item:ExprItem = null,
 			append_child(expr_item.get_child(1), new_proof_box)
 			for i in range(2, expr_item.get_child_count()):
 				append_child(expr_item.get_child(i), proof_box)
-		elif type.get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER:
-			append_child(expr_item.get_child(0), proof_box, true)
-			append_child(expr_item.get_child(1), proof_box, false)
-			var bound_type = expr_item.get_child(0).get_type()
-			var new_proof_box = ProofBox.new([bound_type], proof_box)
-			append_child(expr_item.get_child(2), new_proof_box)
-			for i in range(3, expr_item.get_child_count()):
-				append_child(expr_item.get_child(i), proof_box)
 		else:
 			for child in expr_item.get_children():
 				append_child(child, proof_box)
@@ -168,15 +160,6 @@ func delete_child(child:ExprItemEditHelper):
 			_delete_child(child)
 			_delete_child(get_expr_child(0))
 			_enter_edit_mode(type.get_identifier(), true)
-	if (get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER and get_child_index(child) < 3):
-		if get_child_index(child) == 0:
-			_enter_edit_mode(type.get_identifier(), true)
-		else:
-			_delete_child(get_expr_child(2))
-			_delete_child(get_expr_child(1))
-			_delete_child(get_expr_child(0))
-			_enter_edit_mode(type.get_identifier(), true)
-		
 	else:
 		_left_from_above(child, false)
 		_delete_child(child)
@@ -270,11 +253,6 @@ func set_proof_box(proof_box:ProofBox) -> void:
 		var bound_type = get_child(0).get_type()
 		var new_proof_box = ProofBox.new([bound_type], proof_box)
 		get_child(1).set_proof_box(new_proof_box)
-	elif get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER:
-		var bound_type = get_child(0).get_type()
-		var new_proof_box = ProofBox.new([bound_type], proof_box)
-		get_child(1).set_proof_box(proof_box)
-		get_child(2).set_proof_box(new_proof_box)
 
 
 func set_type(new_type:ExprItemType) -> void:

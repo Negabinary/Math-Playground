@@ -98,19 +98,6 @@ func compare(other:ExprItem, conversion:={}) -> bool:
 			if !children[child_id].compare(other.children[child_id], conversion):
 				return false
 		return true
-	elif type.get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER:
-		var from_type:ExprItemType = children[0].get_type()
-		var to_type:ExprItemType = other.children[0].get_type()
-		var new_conversion = conversion.duplicate()
-		new_conversion[from_type] = to_type
-		if !children[1].compare(other.children[1], conversion):
-			return false
-		if !children[2].compare(other.children[2], new_conversion):
-			return false
-		for child_id in range(3,children.size()):
-			if !children[child_id].compare(other.children[child_id], conversion):
-				return false
-		return true
 	else:
 		for child_id in children.size():
 			if !children[child_id].compare(other.children[child_id], conversion):
@@ -130,9 +117,6 @@ func is_superset(other:ExprItem, matching:={}, conversion:={}) -> bool:
 				if !children[child_id].is_superset(other.children[child_id], matching, conversion):
 					return false
 			return true
-		elif type.get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER:
-			assert(false) # TAGGED BINDERS NOT IMPLEMENTED
-			return false
 		else:
 			for i in get_child_count():
 				if not get_child(i).is_superset(other.get_child(i), matching):
@@ -155,14 +139,6 @@ func is_superset(other:ExprItem, matching:={}, conversion:={}) -> bool:
 				return false
 	else:
 		return false
-
-
-func serialize() -> String:
-	var string = ""
-	string += type.to_string()
-	for child in children:
-		string += "(" + child.serialize() + ")"
-	return string
 
 
 func _to_string() -> String:
