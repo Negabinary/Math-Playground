@@ -117,13 +117,27 @@ func compare(other:ExprItem, conversion:={}) -> bool:
 				return false
 		return true
 
-
-func is_superset(other:ExprItem, matching:={}) -> bool:
+# TODO: Check Semantics of this - could be wrong
+func is_superset(other:ExprItem, matching:={}, conversion:={}) -> bool:
 	if type == other.type and get_child_count() == other.get_child_count():
-		for i in get_child_count():
-			if not get_child(i).is_superset(other.get_child(i), matching):
+		if type.get_binder_type() == ExprItemType.BINDER.BINDER:
+			var from_type:ExprItemType = children[0].get_type()
+			var to_type:ExprItemType = other.children[0].get_type()
+			var new_conversion = conversion.duplicate()
+			if !children[1].is_superset(other.children[1], matching, new_conversion):
 				return false
-		return true
+			for child_id in range(2,children.size()):
+				if !children[child_id].is_superset(other.children[child_id], matching, conversion):
+					return false
+			return true
+		elif type.get_binder_type() == ExprItemType.BINDER.TAGGED_BINDER:
+			assert(false) # TAGGED BINDERS NOT IMPLEMENTED
+			return false
+		else:
+			for i in get_child_count():
+				if not get_child(i).is_superset(other.get_child(i), matching):
+					return false
+			return true
 	elif matching.has(type):
 		if get_child_count() > other.get_child_count():
 			return false
