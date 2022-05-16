@@ -116,10 +116,6 @@ func justify_with_vacuous() -> void:
 	justify(VacuousJustification.new(outer_box, get_statement().get_conditions()[0].get_expr_item()))
 
 
-func justify_with_contrapositive() -> void:
-	justify(ContrapositiveJustification.new(self))
-
-
 func justify_with_witness(witness:ExprItem) -> void:
 	justify(WitnessJustification.new(
 		outer_box,
@@ -255,27 +251,3 @@ func attempt_auto_tag_proof() -> void:
 		if proof_box.is_tag(statement.as_expr_item().abandon_lowest(1)):
 			if proof_box.find_tag(statement.as_expr_item().get_child(statement.as_expr_item().get_child_count()-1), statement.as_expr_item()) != null:
 				justify_with_assumption(proof_box)
-
-
-class ContrapositiveJustification extends Justification:
-	
-	func _init(context:ProofStep):
-		var expr_item := context.get_statement().as_expr_item()
-		var lhs := expr_item.get_child(0)
-		var rhs := expr_item.get_child(1)
-		if lhs.get_type() == GlobalTypes.NOT:
-			lhs = lhs.get_child(0)
-		else:
-			lhs = ExprItem.new(GlobalTypes.NOT, [lhs])
-		if rhs.get_type() == GlobalTypes.NOT:
-			rhs = rhs.get_child(0)
-		else:
-			rhs = ExprItem.new(GlobalTypes.NOT, [rhs])
-		expr_item = ExprItem.new(GlobalTypes.IMPLIES, [rhs, lhs])
-		requirements = [
-			context.get_script().new(
-				expr_item,
-				context.get_proof_box(),
-				MissingJustification.new()
-			)
-		]
