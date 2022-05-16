@@ -63,11 +63,5 @@ func _ready():
 	_add_tag(OR, ExprItem.new(TagShorthand.F_DEF, [prop,proptoprop,ExprItem.new(OR)]))
 
 func _add_tag(type, expr) -> void:
-	pass
-	# TODO: REPLACE
-#	PROOF_BOX.add_tag(
-#		ProofStep.new(
-#			expr,
-#			PROOF_BOX
-#		)
-#	)
+	var ei = ExprItemTagHelper.tag_to_statement(expr, ExprItem.new(type))
+	PROOF_BOX.add_justification(ei, AssumptionJustification.new(PROOF_BOX))

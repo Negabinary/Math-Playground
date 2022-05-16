@@ -15,14 +15,21 @@ var expr_items := {} # <[unique]String, ExprItem>
 var PROOF_STEP = load("res://src/proof_step/proof_step.gd")
 
 
-#TODO: find instances and change
-func _init(parent:ProofBox, definitions:=[], imports := {}, justifications := {}): #<ExprItemType,String>
+#TODO: find instances and change AND change add_assumptions underneath
+#TODO: we'll have to check the assumptions match up at some point...
+func _init(parent:ProofBox, definitions:=[], assumptions := [], imports := {}): #<ExprItemType,String>
 	self.parent = parent
 	for definition in definitions:
 		self.definitions[definition.to_string()] = definition
 		definition.connect("renamed", self, "_update_definition_name", [definition, definition.to_string()])
 	self.imports = imports
-	self.justifications = justifications
+	self.justifications = {}
+	for assumption in assumptions:
+		add_justification(assumption, AssumptionJustification.new(self))
+
+
+func get_parent() -> ProofBox:
+	return parent
 
 
 # IMPORTS =================================================
@@ -82,23 +89,11 @@ func add_justification(expr_item:ExprItem, justification):
 	expr_items[uname] = expr_item
 
 
-func add_assumption(assumption) -> void: # assumption:ProofStep
-	var ei:ExprItem = assumption.get_statement().as_expr_item()
-	assumption_statements.append(ei)
-
-func add_assumption_statement(assumption) -> void:
-	assumption_statements.append(assumption)
-
-
-func get_assumptions() -> Array:
+func get_assumptions() -> Array: #<ExprItem>
 	var result := []
-	
-	for statement in assumption_statements:
-		result.append(
-			PROOF_STEP.new(
-				statement, self, AssumptionJustification.new(self)
-			)
-		)
+	for ustring in justifications:
+		if justifications[ustring] is AssumptionJustification:
+			result.append(expr_items[ustring])
 	return result
 
 
@@ -112,44 +107,5 @@ func get_all_assumptions() -> Array:
 		return get_assumptions() + parent.get_assumptions() + imported_assumptions
 
 
-func get_starred_assumptions() -> Array:
-	var result := []
-	if parent != null and parent != GlobalTypes.PROOF_BOX:
-		result = parent.get_starred_assumptions()
-	for import in imports:
-		result += import.get_starred_assumptions()
-	var all_assumptions = get_assumptions()
-	all_assumptions.invert()
-	for assumption in all_assumptions:
-		result.push_front(PROOF_STEP.new(
-			assumption.get_statement().as_expr_item(), self, AssumptionJustification.new(self)
-		))
-	all_assumptions.invert()
-	return result
-
-
-func check_assumption(proof_step):
-	if _any_assumption_matches(proof_step):
-		return true
-	for import in imports:
-		if import.check_assumption(proof_step):
-			return true
-	if parent != null:
-		return parent.check_assumption(proof_step)
-	else:
-		return false
-
-
-func _any_assumption_matches(proof_step):
-	for assumption in assumption_statements:
-		if assumption.compare(proof_step.get_statement().as_expr_item()):
-			return true
-	return false
-
-
-func get_parent() -> ProofBox:
-	return parent
-	
-
-# SERIALIZING ============================================
-
+func get_justification_for(expr_item:ExprItem):
+	return justifications.get(expr_item.get_unique_name())

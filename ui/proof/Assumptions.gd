@@ -38,7 +38,7 @@ func _clear_assumptions():
 
 func _update_assumptions() -> void:
 	_clear_assumptions()
-	for assumption in proof_step.get_proof_box().get_starred_assumptions():
+	for assumption in proof_step.get_proof_box().get_all_assumptions():
 		save_assumption(assumption)
 
 

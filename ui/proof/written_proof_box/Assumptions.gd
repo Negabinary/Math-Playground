@@ -14,5 +14,5 @@ func display_assumptions(proof_step:ProofStep):
 	for assumption in assumptions:
 		var new_label = WrittenJustification.new()
 		new_label.disabled = true
-		new_label.set_text("ASSUME " + assumption.get_statement().to_string())
+		new_label.set_text("ASSUME " + assumption.to_string())
 		add_child(new_label)
