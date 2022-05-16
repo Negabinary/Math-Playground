@@ -6,7 +6,7 @@ var ui_justification_label
 var ui_requirements
 
 
-func initialise(proof_step:ProofStep, selection_handler:SelectionHandler, active_dependency_id:=-1):
+func initialise(goal:ExprItem, proof_box:ProofBox, selection_handler:SelectionHandler, active_dependency_id:=-1):
 	.initialise(proof_step, selection_handler, active_dependency_id)
 	
 	$MarginContainer/Options/VBoxContainer/HBoxContainer/UnproveButton.connect("pressed", self, "_on_unprove")

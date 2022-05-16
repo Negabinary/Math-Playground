@@ -1,33 +1,48 @@
 class_name Justification
 
+signal proven
+signal unproven
 
-signal justified
 
-
-var requirements := [] #<ProofStep>     ProofStep also stores the box?
+var requirements := [] #<Requirement>
 var PROOF_STEP = load("res://src/proof_step/proof_step.gd")
+var is_proven : bool
 
-enum OPTION_TYPES {
-	BOOLEAN,
-	NAME,
-	MATH
-}
-
-
-func _init():
+func _init(reqs:Array):
 	for requirement in requirements:
-		requirement.connect("justified", self, "_on_justified")
+		requirement.connect("proven", self, "_on_req_changed")
+		requirement.connect("unproven", self, "_on_req_changed")
 
 
-func _on_justified():
-	emit_signal("justified")
+# CORRECTNESS ============================================
 
 
-func is_proven() -> bool:
-	return true
+# TODO: Prevent Cycles
+func _on_req_changed():
+	var prev_proven := is_proven
+	is_proven = true
+	for requirement in requirements:
+		if not requirement.is_proven():
+			is_proven = false
+	if is_proven and not prev_proven:
+		emit_signal("proven")
+	elif not is_proven and prev_proven:
+		emit_signal("unproven")
 
 
-func get_requirements() -> Array: #<ProofStep>
+func can_prove(expr_item:ExprItem) -> bool:
+	return is_proven and _verify_expr_item(expr_item)
+	
+
+func _verify_expr_item(expr_item:ExprItem) -> bool:
+	#VIRTUAL
+	return false
+
+
+# OLD =====================================================
+
+
+func get_requirements() -> Array: #<Requirement>
 	return requirements
 
 
@@ -39,8 +54,7 @@ func _verify(proof_step) -> bool:
 	return _verify_expr_item(proof_step.get_statement().as_expr_item())
 
 
-func _verify_expr_item(expr_item:ExprItem) -> bool:
-	return is_proven()
+
 
 
 func _verify_requirements() -> bool:
@@ -48,6 +62,16 @@ func _verify_requirements() -> bool:
 		if !requirement.is_proven():
 			return false
 	return true
+
+
+# OPTIONS ===============================================
+
+
+enum OPTION_TYPES {
+	BOOLEAN,
+	NAME,
+	MATH
+}
 
 
 func get_options() -> Array:

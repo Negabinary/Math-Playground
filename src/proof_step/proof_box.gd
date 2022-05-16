@@ -17,7 +17,7 @@ var PROOF_STEP = load("res://src/proof_step/proof_step.gd")
 
 #TODO: find instances and change AND change add_assumptions underneath
 #TODO: we'll have to check the assumptions match up at some point...
-func _init(parent:ProofBox, definitions:=[], assumptions := [], imports := {}): #<ExprItemType,String>
+func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<ExprItemType,String>
 	self.parent = parent
 	for definition in definitions:
 		self.definitions[definition.to_string()] = definition
@@ -83,10 +83,18 @@ func parse(string:String) -> ExprItemType:
 # JUSTIFICATION ===========================================
 
 
+signal justified # (uname)
+signal proven # (uname)
+signal unproven # (uname)
+
+
 func add_justification(expr_item:ExprItem, justification):
 	var uname = expr_item.get_unique_name()
 	justifications[uname] = justification
 	expr_items[uname] = expr_item
+	justification.connect("proven", self, "_on_justification_proven")
+	justification.connect("unproven", self, "_on_justification_unproven")
+	emit_signal("ei_justified", uname)
 
 
 func get_assumptions() -> Array: #<ExprItem>
@@ -101,11 +109,36 @@ func get_all_assumptions() -> Array:
 	var imported_assumptions := []
 	for import in imports:
 		imported_assumptions += import.get_all_assumptions()
-	if parent == null or parent == GlobalTypes.PROOF_BOX:
+	if parent == null:
 		return get_assumptions() + imported_assumptions
 	else:
 		return get_assumptions() + parent.get_assumptions() + imported_assumptions
 
 
-func get_justification_for(expr_item:ExprItem):
-	return justifications.get(expr_item.get_unique_name())
+# TODO: Check circular
+func is_proven(expr_item:ExprItem):
+	var justification = _get_justification_for(expr_item.get_unique_name())
+	if justification == null:
+		return false
+	else:
+		return justification.can_prove(expr_item)
+
+
+func _get_justification_for(expr_item_uid:String):
+	var justification = justifications.get(expr_item_uid)
+	if justification != null:
+		return justification
+	for import in imports:
+		justification = import._get_justification_for(expr_item_uid)
+		if justification != null:
+			return justification
+	if parent != null:
+		return parent._get_justification_for(expr_item_uid)
+	return null
+
+
+func _on_justification_proven(uname:String):
+	emit_signal("proven", uname)
+
+func _on_justification_unproven(uname:String):
+	emit_signal("unproven", uname)

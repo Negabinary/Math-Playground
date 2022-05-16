@@ -222,7 +222,7 @@ func justify_with_destroy_lambda(location:Locator):
 
 
 
-func get_requirements() -> Array:
+func get_requirements() -> Array: #<Requirement>
 	return justification.get_requirements()
 
 
