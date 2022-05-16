@@ -35,8 +35,8 @@ func get_existential_requirement():
 
 
 func _verify(proof_step):
-	return (not (proof_step.get_proof_box().is_defined(old_type))) \
-	and (not (proof_step.get_proof_box().is_defined(new_type))) \
+	return (not (old_type in proof_step.get_proof_box().get_all_definitions())) \
+	and (not (new_type in proof_step.get_proof_box().get_all_definitions())) \
 	and ._verify(proof_step)
 
 

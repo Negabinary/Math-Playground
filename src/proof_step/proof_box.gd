@@ -1,93 +1,112 @@
 extends Object
 class_name ProofBox
 
-# TODO: NEW MEMBERS:
+"""
+ProofBox
+
+There are multiple layers and types of ProofBox:
+
+Layers n+1 ~ n+m : Locator
+
+Layers 3 ~ n : Justification
+
+Layer 2 : Module
+
+Layer 1 : Requirements
+
+Layer 0 : Global
+"""
+
+#signal definition_added
+#signal definition_deleted
+#signal assumption_added
+#signal assumption_deleted
+
 
 var parent : ProofBox
+var name : String
 
-var imports := {} # <ProofBox>
-var definitions := {}  # <String, ExprItemType>
-var justifications := {} # <[unique]String, Justification>
-var expr_items := {} # <[unique]String, ExprItem>
-
-# TODO: OLD MEMBERS:
+var definitions := []  # Array<ExprItemType>
+var assumption_statements : Array
+var imports := []
+const stars := {}
+var parse_dict : Dictionary # <String, ExprItemType>
+var tags : Dictionary
+var tagging_proof_steps : Dictionary #<ExprItemTagHelper,ProofStep>
+var level : int
+var module
 
 var PROOF_STEP = load("res://src/proof_step/proof_step.gd")
 
 
-#TODO: find instances and change
-func _init(parent:ProofBox, definitions:=[], imports := {}, justifications := {}): #<ExprItemType,String>
+func _init(definitions:Array, parent:ProofBox, module = null, name = "", assumption_statements := [], imports := []): #<ExprItemType,String>
 	self.parent = parent
-	for definition in definitions:
-		self.definitions[definition.to_string()] = definition
-		definition.connect("renamed", self, "_update_definition_name", [definition, definition.to_string()])
+	self.name = name
 	self.imports = imports
-	self.justifications = justifications
-
-
-# IMPORTS =================================================
-
-
-# returns null if name cannot be found
-func find_import(import_name):
-	var result = imports.get(import_name)
-	if result:
-		return result
+	if parent == null:
+		level = 0
 	else:
-		return get_parent().find_import(import_name)
+		level = parent.get_level() + 1
+	self.definitions = definitions
+	self.assumption_statements = assumption_statements
+	self.module = module
+	update_parse_dict()
+	for definition in definitions:
+		definition.connect("renamed", self, "update_parse_dict")
 
 
-# DEFINITIONS =============================================
-
-
-func get_definitions() -> Array:
-	return definitions.values()
-
-
-func _update_definition_name(definition:ExprItemType, old_name:String):
-	definitions.erase(old_name)
-	definition.disconnect("renamed", self, "_update_definition_name")
-	definition.connect("renamed", self, "_update_definition_name", [definition, definition.to_string()])
-	definitions[definition.to_string()] = definition
-
-
-func is_defined(type:ExprItemType):
-	if type in get_definitions():
-		return true
-	for import in imports:
-		if import.is_defined(type):
-			return true
-	return parent.is_defined(type)
-
-
-func parse(string:String) -> ExprItemType:
-	if string in definitions:
-		return definitions[string]
-	for import in imports:
-		var p = import.parse(string)
-		if p != null:
-			return p
-	if parent != null:
-		return parent.parse(string)
+func get_module():
+	if module != null:
+		return module
+	elif parent != null:
+		return parent.get_module()
 	else:
 		return null
 
 
-# JUSTIFICATION ===========================================
+func add_definition(definition:ExprItemType) -> void:
+	definitions.append(definition)
+	definition.connect("renamed", self, "update_parse_dict")
+	update_parse_dict()
 
 
-func add_justification(expr_item:ExprItem, justification):
-	var uname = expr_item.get_unique_name()
-	justifications[uname] = justification
-	expr_items[uname] = expr_item
+func remove_definition(definition:ExprItemType) -> void:
+	definition.disconnect("renamed", self, "update_parse_dict")
+	definitions.erase(definition)
 
 
-func add_assumption(assumption) -> void: # assumption:ProofStep
+func get_definitions() -> Array:
+	return definitions
+
+
+func get_all_definitions() -> Array:
+	var imported_definitions := []
+	for import in imports:
+		imported_definitions += import.get_all_definitions()
+	if parent == null or parent == GlobalTypes.PROOF_BOX:
+		return get_definitions() + imported_definitions
+	else:
+		return get_definitions() + parent.get_definitions() + imported_definitions
+
+
+func add_assumption(assumption, star=true) -> void: # assumption:ProofStep
 	var ei:ExprItem = assumption.get_statement().as_expr_item()
 	assumption_statements.append(ei)
+	#TODO: tagging
+	if star:
+		stars[ei] = self
 
-func add_assumption_statement(assumption) -> void:
+
+func add_assumption_statement(assumption, star=true) -> void:
 	assumption_statements.append(assumption)
+	#TODO: tagging
+	if star:
+		stars[assumption] = self
+
+
+func remove_assumption(assumption) -> void: # assumption:ProofStep
+	assumption_statements.erase(assumption.get_statement().as_expr_item())
+	stars.erase(assumption.get_statement().as_expr_item())
 
 
 func get_assumptions() -> Array:
@@ -128,6 +147,69 @@ func get_starred_assumptions() -> Array:
 	return result
 
 
+func update_parse_dict():
+	for definition in definitions:
+		parse_dict[definition.get_identifier()] = definition
+
+
+func parse(string:String) -> ExprItemType:
+	if string in parse_dict:
+		return parse_dict[string]
+	for import in imports:
+		var p = import.parse(string)
+		if p != null:
+			return p
+	if parent != null:
+		return parent.parse(string)
+	else:
+		return null
+
+
+func get_full_parse_dict() -> Dictionary:
+	var fpd = parent.get_full_parse_dict().duplicate()
+	for import in imports:
+		var ifpd = import.get_full_parse_dict()
+		for k in ifpd:
+			fpd[k] = ifpd[k]
+	for string in parse_dict:
+		fpd[string] = parse_dict[string]
+	return fpd
+
+
+func get_all_types() -> Array:
+	return get_all_definitions()
+
+
+func add_tag(tagging) -> void: # tagging:ProofStep
+	var tag_helper := ExprItemTagHelper.new(tagging.get_statement().as_expr_item())
+	var type := tag_helper.get_tagged_type()
+	if tags.has(type):
+		tags[type] += [tag_helper]
+	else:
+		tags[type] = [tag_helper]
+	tagging_proof_steps[tag_helper] = tagging
+#	assert (find_tag(ExprItem.new(type), tagging.get_statement().as_expr_item()) != null)
+
+
+func find_tag(expr:ExprItem, tagging_check:ExprItem): # -> ProofStep
+	if tags.has(expr.get_type()):
+		for type_taging in tags[expr.get_type()]:
+			if expr.get_child_count() == 0:
+				return tagging_proof_steps[type_taging]
+			else:
+				if type_taging.get_return_tag(expr.get_child_count()-1).get_expr_item().compare(tagging_check.abandon_lowest(1)):
+					#return tagging_proof_steps[type_taging]
+					#assert(false)
+					pass
+	for import in imports:
+		if import.find_tag(expr, tagging_check) != null:
+			return import.find_tag(expr, tagging_check)
+	if parent != null:
+		return parent.find_tag(expr, tagging_check)
+	else:
+		return null
+
+
 func check_assumption(proof_step):
 	if _any_assumption_matches(proof_step):
 		return true
@@ -147,9 +229,13 @@ func _any_assumption_matches(proof_step):
 	return false
 
 
+func is_tag(expr:ExprItem):
+	return find_tag(expr, ExprItem.new(GlobalTypes.TAG,[expr]))
+
+
 func get_parent() -> ProofBox:
 	return parent
-	
 
-# SERIALIZING ============================================
 
+func get_level() -> int:
+	return level

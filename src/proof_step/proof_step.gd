@@ -14,10 +14,17 @@ func _init(new_expr_item:ExprItem, proof_box=null, new_justification:Justificati
 	statement = Statement.new(new_expr_item)
 	outer_box = proof_box
 	justify(new_justification)
+	
+#	if justification is MissingJustification:
+#		attempt_auto_tag_proof()
 
 
 func get_proof_box(): #-> ProofBox:
 	return outer_box
+
+
+func get_module():
+	return outer_box.get_module()
 
 
 func get_expr_item() -> ExprItem:
@@ -240,6 +247,14 @@ func get_justification_text():
 
 func clear_justification():
 	justify(MissingJustification.new())
+
+
+func attempt_auto_tag_proof() -> void:
+	if statement.as_expr_item().get_child_count() > 0:
+		var proof_box = get_proof_box()
+		if proof_box.is_tag(statement.as_expr_item().abandon_lowest(1)):
+			if proof_box.find_tag(statement.as_expr_item().get_child(statement.as_expr_item().get_child_count()-1), statement.as_expr_item()) != null:
+				justify_with_assumption(proof_box)
 
 
 class ContrapositiveJustification extends Justification:

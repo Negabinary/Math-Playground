@@ -12,7 +12,44 @@ func _init(new_type:ExprItemType, new_children:=[]):
 	if GlobalTypes:
 		string = to_string()
 
-# GETTERS ========================================
+
+func deep_replace_types(types:Dictionary) -> ExprItem: #<ExprItemType, ExprItem>
+	var new_children = []
+	for child in children:
+		new_children.append(child.deep_replace_types(types))
+	var new_type = type
+	if type in types:
+		if types[type] is ExprItemType:
+			assert(false)
+			return get_script().new(types[type])
+		elif types[type] is String:
+			return get_script().new(new_type, new_children)
+		else:
+			new_type = types[type].get_type()
+			new_children = types[type].get_children() + new_children
+	return get_script().new(new_type, new_children)
+
+#NOTE: THIS FUNCTION DESTROYS THE INDECES SO MAKE A COPY
+func replace_at(indeces:Array, with:ExprItem) -> ExprItem:
+	if indeces == []:
+		return with
+	else:
+		var new_children = []
+		var j = indeces.pop_front()
+		for i in get_child_count():
+			if i == j:
+				new_children.append(get_child(i).replace_at(indeces, with))
+			else:
+				new_children.append(get_child(i))
+		return get_script().new(type, new_children)
+
+
+func negate() -> ExprItem:
+	if get_type() == GlobalTypes.NOT:
+		return get_child(0)
+	else:
+		return get_script().new(GlobalTypes.NOT, [self])
+
 
 func get_type() -> ExprItemType:
 	return type
@@ -30,17 +67,20 @@ func get_children() -> Array:
 	return children.duplicate()
 
 
-func get_all_types() -> Dictionary:
-	if all_types == null:
-		all_types = {type:1}
-		for child in children:
-			var child_types:Dictionary = child.get_all_types()
-			for k in child_types:
-				all_types[k] = all_types.get(k, 0) + child_types[k]
-	return all_types
+func apply(x:ExprItem):
+	return get_script().new(
+		get_type(),
+		get_children() + [x]
+	)
 
 
-# CHECKS =========================================
+func abandon_lowest(count:int) -> ExprItem:
+	assert (count <= children.size())
+	var new_children = []
+	for i in children.size() - count:
+		new_children.append(children[i])
+	return get_script().new(type, new_children)
+
 
 func compare(other:ExprItem, conversion:={}) -> bool:
 	if type != other.type:
@@ -99,84 +139,6 @@ func is_superset(other:ExprItem, matching:={}, conversion:={}) -> bool:
 				return false
 	else:
 		return false
-
-
-# OPERATIONS =====================================
-
-func deep_replace_types(types:Dictionary) -> ExprItem: #<ExprItemType, ExprItem>
-	var new_children = []
-	for child in children:
-		new_children.append(child.deep_replace_types(types))
-	var new_type = type
-	if type in types:
-		if types[type] is ExprItemType:
-			assert(false)
-			return get_script().new(types[type])
-		elif types[type] is String:
-			return get_script().new(new_type, new_children)
-		else:
-			new_type = types[type].get_type()
-			new_children = types[type].get_children() + new_children
-	return get_script().new(new_type, new_children)
-
-#NOTE: THIS FUNCTION DESTROYS THE INDECES SO MAKE A COPY
-func replace_at(indeces:Array, with:ExprItem) -> ExprItem:
-	if indeces == []:
-		return with
-	else:
-		var new_children = []
-		var j = indeces.pop_front()
-		for i in get_child_count():
-			if i == j:
-				new_children.append(get_child(i).replace_at(indeces, with))
-			else:
-				new_children.append(get_child(i))
-		return get_script().new(type, new_children)
-
-
-func negate() -> ExprItem:
-	if get_type() == GlobalTypes.NOT:
-		return get_child(0)
-	else:
-		return get_script().new(GlobalTypes.NOT, [self])
-
-
-func apply(x:ExprItem):
-	return get_script().new(
-		get_type(),
-		get_children() + [x]
-	)
-
-
-func abandon_lowest(count:int) -> ExprItem:
-	assert (count <= children.size())
-	var new_children = []
-	for i in children.size() - count:
-		new_children.append(children[i])
-	return get_script().new(type, new_children)
-
-
-# SERIALIZATION =====================================
-
-
-func get_unique_name(indeces=[]) -> String:
-	var string = ""
-	string += str(type.get_uid())
-	if type.is_binder():
-		indeces.push_front(children[0].get_type())
-	for child in children:
-		string += "(" + child.get_unique_name() + ")"
-	if type.is_binder():
-		indeces.pop_front(children[0].get_type())
-	return string
-
-
-func serialize() -> String:
-	var string = ""
-	string += type.to_string()
-	for child in children:
-		string += "(" + child.serialize() + ")"
-	return string
 
 
 func _to_string() -> String:
@@ -268,3 +230,13 @@ func _to_string() -> String:
 			+ children_string.left(children_string.length() - 2)
 			+ ")"
 		) #+ str(get_all_types().keys())
+
+
+func get_all_types() -> Dictionary:
+	if all_types == null:
+		all_types = {type:1}
+		for child in children:
+			var child_types:Dictionary = child.get_all_types()
+			for k in child_types:
+				all_types[k] = all_types.get(k, 0) + child_types[k]
+	return all_types

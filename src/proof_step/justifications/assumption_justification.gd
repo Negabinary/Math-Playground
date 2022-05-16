@@ -14,4 +14,12 @@ func _verify(proof_step):
 
 
 func get_justification_text() -> String:
-	return "ASSUMED"
+	match proof_box.get_level():
+		0:
+			return "ALWAYS ASSUMED"
+		1:
+			return "ASSUMED IN MODULE"
+		2:
+			return "ASSUMED IN MODULE"
+		_:
+			return "ASSUMED"
