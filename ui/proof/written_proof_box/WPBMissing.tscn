@@ -58,49 +58,49 @@ __meta__ = {
 }
 
 [node name="Ideas" type="MarginContainer" parent="."]
-margin_right = 259.0
-margin_bottom = 319.0
+margin_right = 246.0
+margin_bottom = 290.0
 size_flags_horizontal = 0
 custom_constants/margin_left = 30
 
 [node name="PanelContainer" type="PanelContainer" parent="Ideas"]
 margin_left = 30.0
-margin_right = 259.0
-margin_bottom = 319.0
+margin_right = 246.0
+margin_bottom = 290.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Ideas/PanelContainer"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 225.0
-margin_bottom = 315.0
+margin_right = 212.0
+margin_bottom = 286.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="Ideas/PanelContainer/VBoxContainer"]
-margin_right = 221.0
+margin_right = 208.0
 margin_bottom = 23.0
-custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 0.72549, 0, 1 )
+custom_fonts/font = ExtResource( 2 )
 text = "JUSTIFICATION MISSING"
 
 [node name="Label2" type="Label" parent="Ideas/PanelContainer/VBoxContainer"]
 margin_top = 27.0
-margin_right = 221.0
+margin_right = 208.0
 margin_bottom = 50.0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "Some ideas:"
 
 [node name="ImplicationButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
 margin_top = 54.0
-margin_right = 221.0
+margin_right = 208.0
 margin_bottom = 79.0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "A => B : Assume A then prove B"
 flat = true
 align = 0
@@ -110,13 +110,13 @@ __meta__ = {
 
 [node name="VacuousButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
 margin_top = 83.0
-margin_right = 221.0
+margin_right = 208.0
 margin_bottom = 108.0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "A => B : Show that A can't happen"
 flat = true
 align = 0
@@ -124,31 +124,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ContrapositiveButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
-margin_top = 112.0
-margin_right = 221.0
-margin_bottom = 137.0
-custom_fonts/font = ExtResource( 1 )
-custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
-custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
-text = "¬B => ¬A : Prove the contrapositive"
-flat = true
-align = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="ReflexivityButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
-margin_top = 141.0
-margin_right = 221.0
-margin_bottom = 166.0
-custom_fonts/font = ExtResource( 1 )
+margin_top = 112.0
+margin_right = 208.0
+margin_bottom = 137.0
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "A = A : Prove using reflexivity"
 flat = true
 align = 0
@@ -157,14 +141,14 @@ __meta__ = {
 }
 
 [node name="MatchingButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
-margin_top = 170.0
-margin_right = 221.0
-margin_bottom = 195.0
-custom_fonts/font = ExtResource( 1 )
+margin_top = 141.0
+margin_right = 208.0
+margin_bottom = 166.0
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "F(A) = F(B) : Match Arguments"
 flat = true
 align = 0
@@ -173,14 +157,14 @@ __meta__ = {
 }
 
 [node name="DestroyLambdaButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
-margin_top = 199.0
-margin_right = 221.0
-margin_bottom = 224.0
-custom_fonts/font = ExtResource( 1 )
+margin_top = 170.0
+margin_right = 208.0
+margin_bottom = 195.0
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "Destroy Lambda"
 flat = true
 align = 0
@@ -189,14 +173,14 @@ __meta__ = {
 }
 
 [node name="DoubleNegativeButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
-margin_top = 228.0
-margin_right = 221.0
-margin_bottom = 253.0
-custom_fonts/font = ExtResource( 1 )
+margin_top = 199.0
+margin_right = 208.0
+margin_bottom = 224.0
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "¬¬A => A : Double Negative"
 flat = true
 align = 0
@@ -205,14 +189,14 @@ __meta__ = {
 }
 
 [node name="WitnessButton" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
-margin_top = 257.0
-margin_right = 221.0
-margin_bottom = 282.0
-custom_fonts/font = ExtResource( 1 )
+margin_top = 228.0
+margin_right = 208.0
+margin_bottom = 253.0
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "Witness"
 flat = true
 align = 0
@@ -255,11 +239,11 @@ visible = false
 margin_top = 256.0
 margin_right = 191.0
 margin_bottom = 285.0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "@A x. B : Custom Forall"
 flat = true
 align = 0
@@ -294,11 +278,11 @@ visible = false
 margin_top = 256.0
 margin_right = 191.0
 margin_bottom = 285.0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "x, x => A : Custom Intermediate"
 flat = true
 align = 0
@@ -342,11 +326,11 @@ visible = false
 margin_top = 256.0
 margin_right = 191.0
 margin_bottom = 285.0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color_disabled = Color( 0.631373, 0.631373, 0.631373, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
 custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
 text = "Create lambda"
 flat = true
 align = 0
@@ -369,25 +353,23 @@ __meta__ = {
 margin_bottom = -35.0
 
 [node name="Custom" type="Button" parent="Ideas/PanelContainer/VBoxContainer"]
-margin_top = 286.0
-margin_right = 221.0
-margin_bottom = 311.0
+margin_top = 257.0
+margin_right = 208.0
+margin_bottom = 282.0
 focus_mode = 0
-custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
 custom_colors/font_color_hover = Color( 0.67, 0.67, 0.67, 1 )
 custom_colors/font_color_pressed = Color( 0.39, 0.39, 0.39, 1 )
+custom_fonts/font = ExtResource( 1 )
 enabled_focus_mode = 0
 text = "More"
 flat = true
 align = 0
 
 [node name="Statement" type="Control" parent="."]
-margin_top = 323.0
+margin_top = 294.0
 margin_right = 1024.0
-margin_bottom = 323.0
+margin_bottom = 294.0
 script = ExtResource( 5 )
-[connection signal="expr_item_changed" from="Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog/CenterContainer/ExprItemEdit" to="Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog" method="_on_ExprItemEdit_expr_item_changed"]
-[connection signal="expr_item_changed" from="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog/CenterContainer/ExprItemEdit" to="Ideas/PanelContainer/VBoxContainer/CustomImplicationButton/NewImplicationDialog" method="_on_ExprItemEdit_expr_item_changed"]
-[connection signal="update" from="Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog/CreateLambda" to="Ideas/PanelContainer/VBoxContainer/CreateLamdaButton/WindowDialog" method="_on_CreateLambda_update"]
+
 [connection signal="pressed" from="Ideas/PanelContainer/VBoxContainer/Custom" to="." method="_on_Custom_pressed"]
