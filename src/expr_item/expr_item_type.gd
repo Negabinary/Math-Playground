@@ -13,12 +13,28 @@ var binder : int = BINDER.NOT_BINDER
 var fm_expected_args := 1
 var fm_strings := []
 var two_line := false
+var uid:int
+const _singleton := {counter = 0}
 #var n := int(rand_range(0,99))
+
+
+static func _get_id() -> int:
+	_singleton.counter = _singleton.counter + 1
+	return _singleton.counter
 
 
 func _init(ident:String, _type_info:=""):
 	identifier = ident
 	fm_strings = [identifier]
+	uid = _get_id()
+
+
+func get_uid() -> int:
+	return uid
+
+
+func is_binder() -> bool:
+	return binder == BINDER.BINDER
 
 
 func rename(new_name:String):
