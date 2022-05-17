@@ -10,13 +10,10 @@ var definitions := {}  # <String, ExprItemType>
 var justifications := {} # <[unique]String, Justification>
 var expr_items := {} # <[unique]String, ExprItem>
 
-# TODO: OLD MEMBERS:
 
-var PROOF_STEP = load("res://src/proof_step/proof_step.gd")
-
-
-#TODO: find instances and change AND change add_assumptions underneath
-#TODO: we'll have to check the assumptions match up at some point...
+# TODO: find instances and change
+# TODO: change add_assumptions underneath
+# TODO: we'll have to check the assumptions match up at some point...
 func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<ExprItemType,String>
 	self.parent = parent
 	for definition in definitions:
@@ -84,16 +81,12 @@ func parse(string:String) -> ExprItemType:
 
 
 signal justified # (uname)
-signal proven # (uname)
-signal unproven # (uname)
 
 
-func add_justification(expr_item:ExprItem, justification):
+func add_justification(expr_item:ExprItem, justification:Justification):
 	var uname = expr_item.get_unique_name()
 	justifications[uname] = justification
 	expr_items[uname] = expr_item
-	justification.connect("proven", self, "_on_justification_proven")
-	justification.connect("unproven", self, "_on_justification_unproven")
 	emit_signal("ei_justified", uname)
 
 
@@ -115,15 +108,6 @@ func get_all_assumptions() -> Array:
 		return get_assumptions() + parent.get_assumptions() + imported_assumptions
 
 
-# TODO: Check circular
-func is_proven(expr_item:ExprItem):
-	var justification = get_justification_for(expr_item)
-	if justification == null:
-		return false
-	else:
-		return justification.can_prove(expr_item)
-
-
 func get_justification_for(expr_item:ExprItem):
 	var justification = justifications.get(expr_item.get_unique_name())
 	if justification != null:
@@ -142,10 +126,3 @@ func _get_parent_justification(expr_item:ExprItem):
 	if parent != null:
 		return parent.get_justification_for(expr_item)
 	return null
-
-
-func _on_justification_proven(uname:String):
-	emit_signal("proven", uname)
-
-func _on_justification_unproven(uname:String):
-	emit_signal("unproven", uname)
