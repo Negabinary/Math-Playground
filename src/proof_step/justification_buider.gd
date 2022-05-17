@@ -2,16 +2,27 @@ extends Node
 class_name JustificationBuilder
 
 
-static func conditional_instantiation_justify(justified:ProofStep, cond_exist:ProofStep):
-	assert (cond_exist.get_statement().get_definitions().size() == 0)
-	assert (cond_exist.get_conclusion().get_expr_item().get_type() == GlobalTypes.EXISTS)
+# TODO: Make this work when there are definitoins.
+static func conditional_instantiation_justify(justified:Requirement, conditional_existential:ExprItem):
+	var cond_exist_statement := Statement.new(conditional_existential)
 	
-	var uncond_exist : ProofStep
-	if cond_exist.get_statement().get_conditions().size() == 0:
-		uncond_exist = cond_exist
+	assert (cond_exist_statement.get_definitions().size() == 0)
+	assert (cond_exist_statement.get_conclusion().get_expr_item().get_type() == GlobalTypes.EXISTS)
+	
+	var unconditional_existential : ExprItem
+	if cond_exist_statement.get_conditions().size() == 0:
+		unconditional_existential  = conditional_existential
+	else:
+		unconditional_existential = cond_exist_statement.get_conclusion().get_expr_item()
+		justified.get_proof_box().add_justification(unconditional_existential, !~TODO)
+	
+	
+	var uncond_exist : Statement
+	if cond_exist_statement.get_conditions().size() == 0:
+		uncond_exist = cond_exist_statement
 	else:
 		uncond_exist = ProofStep.new(
-			cond_exist.get_statement().get_conclusion().get_expr_item(),
+			cond_exist_statement.get_conclusion().get_expr_item(),
 			justified.get_proof_box(),
 			MissingJustification.new()
 		)

@@ -1,26 +1,19 @@
 extends ModuleItem2
 class_name ModuleItem2Theorem
 
-var context : ProofBox
-var ps : ProofStep
+var requirement : Requirement
 
 func _init(context:ProofBox, statement:ExprItem, proof=null):
-	self.context = context
-	self.ps = ProofStep.new(statement, context)
-	proof_box = ProofBox.new(
-		[], context, null, ""
+	requirement = Requirement.new(context, statement)
+	self.proof_box =  ProofBox.new(
+		context, [], [statement]
 	)
-	proof_box.add_assumption_statement(statement)
-
-func get_current_proof_box() -> ProofBox:
-	return context
 
 func serialise():
 	return {
-		kind="theorem", 
-		expr=ps.get_expr_item().serialize(), 
-		proof=ps.serialise()
+		kind="theorem",
+		requirement=requirement.serialize()
 	}
 
-func get_ps():
-	return ps
+func get_requirement() -> Requirement:
+	return requirement

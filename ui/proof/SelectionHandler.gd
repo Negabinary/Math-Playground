@@ -12,8 +12,8 @@ func take_selection(wpb:WPBParent):
 func get_locator() -> Locator:
 	return self.wpb.get_selected_locator()
 
-func get_proof_step() -> ProofStep:
-	return self.wpb.get_proof_step()
+func get_selected_goal() -> Requirement:
+	return self.wpb.get_requirement()
 
 func get_wpb() -> WPBParent:
 	return wpb

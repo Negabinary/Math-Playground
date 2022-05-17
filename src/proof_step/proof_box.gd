@@ -25,7 +25,7 @@ func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<Ex
 	self.imports = imports
 	self.justifications = {}
 	for assumption in assumptions:
-		add_justification(assumption, AssumptionJustification.new(self))
+		add_justification(assumption, AssumptionJustification.new())
 
 
 func get_parent() -> ProofBox:
@@ -117,23 +117,30 @@ func get_all_assumptions() -> Array:
 
 # TODO: Check circular
 func is_proven(expr_item:ExprItem):
-	var justification = _get_justification_for(expr_item.get_unique_name())
+	var justification = get_justification_for(expr_item)
 	if justification == null:
 		return false
 	else:
 		return justification.can_prove(expr_item)
 
 
-func _get_justification_for(expr_item_uid:String):
-	var justification = justifications.get(expr_item_uid)
+func get_justification_for(expr_item:ExprItem):
+	var justification = justifications.get(expr_item.get_unique_name())
 	if justification != null:
 		return justification
+	var parent_justification = _get_parent_justification(expr_item)
+	if parent_justification != null:
+		if parent_justification.can_prove(expr_item):
+			return parent_justification
+	return null
+
+func _get_parent_justification(expr_item:ExprItem):
 	for import in imports:
-		justification = import._get_justification_for(expr_item_uid)
+		var justification = import.get_justification_for(expr_item)
 		if justification != null:
 			return justification
 	if parent != null:
-		return parent._get_justification_for(expr_item_uid)
+		return parent.get_justification_for(expr_item)
 	return null
 
 

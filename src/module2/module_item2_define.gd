@@ -5,7 +5,8 @@ var definition : ExprItemType
 
 func _init(context:ProofBox, definition:ExprItemType):
 	proof_box = ProofBox.new(
-		[definition], context
+		context,
+		[definition]
 	)
 	self.definition = definition
 

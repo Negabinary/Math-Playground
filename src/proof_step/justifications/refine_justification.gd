@@ -4,13 +4,14 @@ class_name RefineJustification
 var general : ExprItem
 var matching : Dictionary
 
-func _init(context:ProofBox, general:ExprItem, matching:Dictionary):
+func _init(context:ProofBox, general:ExprItem, matching:Dictionary).(
+		[Requirement.new(context, general)]
+	):
 	self.general = general
 	self.matching = matching
-	requirements = [PROOF_STEP.new(general, context)]
 
 
-func _verify_expr_item(expr_item:ExprItem) -> bool:
+func can_justify(expr_item:ExprItem) -> bool:
 	return true
 	print("===")
 	print(expr_item)

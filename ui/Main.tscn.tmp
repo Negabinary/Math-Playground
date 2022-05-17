@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ui/theme/main_theme.theme" type="Theme" id=1]
+[ext_resource path="res://ui/Main.gd" type="Script" id=2]
+[ext_resource path="res://ui/notebook/Notebook.tscn" type="PackedScene" id=4]
+
+[node name="ColorRect" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_constants/separation = 0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Controls" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 0, 24 )
+color = Color( 0.815686, 0.815686, 0.815686, 1 )
+
+[node name="FileControls" type="HBoxContainer" parent="Controls"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = 2.0
+margin_right = -2.0
+margin_bottom = -2.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="New" type="Button" parent="Controls/FileControls"]
+margin_right = 41.0
+margin_bottom = 20.0
+text = "New"
+
+[node name="Load" type="Button" parent="Controls/FileControls"]
+margin_left = 45.0
+margin_right = 92.0
+margin_bottom = 20.0
+text = "Open"
+
+[node name="Save" type="Button" parent="Controls/FileControls"]
+margin_left = 96.0
+margin_right = 177.0
+margin_bottom = 20.0
+text = "Save As ..."
+
+[node name="Save2" type="Button" parent="Controls/FileControls"]
+visible = false
+margin_left = 181.0
+margin_right = 225.0
+margin_bottom = 20.0
+text = "Save"
+
+[node name="FileDialog" type="FileDialog" parent="Controls"]
+margin_right = 325.0
+margin_bottom = 132.0
+rect_min_size = Vector2( 400, 400 )
+access = 1
+filters = PoolStringArray( "*.mml" )
+current_dir = "user://lib2"
+current_path = "user://lib2/"
+
+[node name="Notebook" parent="." instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 24.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 3

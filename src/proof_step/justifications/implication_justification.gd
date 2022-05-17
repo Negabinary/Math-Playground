@@ -10,45 +10,42 @@ var keep_definition_ids : Array
 var s : Script
 
 
-func _init(context:ProofBox, statement:Statement, keep_condition_ids:=[], keep_definition_ids:=[]):
+func _init(context:ProofBox, expr_item:ExprItem, keep_condition_ids:=[], keep_definition_ids:=[]).(
+		_calculate_requirements(context, expr_item, keep_condition_ids, keep_definition_ids)
+	):
 	self.context = context
-	self.statement = statement
+	self.statement = Statement.new(expr_item)
 	self.keep_condition_ids = keep_condition_ids
 	self.keep_definition_ids = keep_definition_ids
-	_calculate_requirements()
 
-
-func _calculate_requirements():
+static func _calculate_requirements(context:ProofBox, expr_item:ExprItem, keep_condition_ids:=[], keep_definition_ids:=[]):
+	var statement := Statement.new(expr_item)
 	var box_definitions := []
 	var statement_definitions = statement.get_definitions()
 	for i in statement_definitions.size():
 		if not (i in keep_definition_ids):
 			box_definitions.append(statement_definitions[i])
 	
-	var proof_box = ProofBox.new(box_definitions, context)
-	
+	var box_assumptions := []
 	var statement_conditions = statement.get_conditions()
 	for i in statement_conditions.size():
 		if not (i in keep_condition_ids):
-			proof_box.add_assumption(
-				PROOF_STEP.new(
-					statement_conditions[i].get_expr_item(),
-					context,
-					AssumptionJustification.new(proof_box)
-				)
-			)
+			box_assumptions.append(statement_conditions[i].get_expr_item())
+	
+	
+	var proof_box = ProofBox.new(context, box_definitions)
 	
 	var conclusion := statement.construct_without(keep_definition_ids, keep_condition_ids)
 	
-	requirements = [
-		PROOF_STEP.new(
-			conclusion,
-			proof_box
+	return [
+		Requirement.new(
+			proof_box,
+			conclusion
 		)
 	]
 
 
-func _verify_expr_item(expr_item:ExprItem):
+func can_justify(expr_item:ExprItem):
 	var has_undeclared_variables := false
 	var all_variables := statement.get_definitions()
 	var keep_variables := []
@@ -101,7 +98,7 @@ func set_option(option_idx:int, value) -> void:
 		else:
 			if not value:
 				keep_condition_ids.append(option_idx)
-	_calculate_requirements()
+	replace_requirements(_calculate_requirements(context, statement.as_expr_item(), keep_condition_ids, keep_definition_ids))
 	emit_signal("justified")
 
 

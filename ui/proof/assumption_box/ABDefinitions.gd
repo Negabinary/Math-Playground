@@ -33,7 +33,7 @@ func _ons_item_activated(index):
 
 
 func _on_ExprItem_confirmed():
-	var context:ProofBox = selection_handler.get_proof_step().get_proof_box()
+	var context:ProofBox = selection_handler.get_selected_goal().get_proof_box()
 	var expr_item = ExprItemBuilder.from_string($EnterExprItem/VBoxContainer/LineEdit.text,context)
 	var refined_ps := ProofStep.new(assumption.get_expr_item().deep_replace_types({last_definition:expr_item}), context)
 	refined_ps.justify_with_specialisation(assumption, {last_definition:expr_item})

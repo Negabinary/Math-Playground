@@ -14,7 +14,25 @@ func _init(reqs:Array):
 		requirement.connect("unproven", self, "_on_req_changed")
 
 
-# CORRECTNESS ============================================
+# GETTERS =================================================
+
+func get_requirements() -> Array: #<Requirement>
+	return requirements
+
+
+# SETTERS =================================================
+
+func replace_requirements(new_reqs) -> void: #<Requirement>
+	for requirement in requirements:
+		requirement.disconnect("proven", self, "_on_req_changed")
+		requirement.disconnect("unproven", self, "_on_req_changed")
+	requirements = new_reqs
+	for requirement in requirements:
+		requirement.connect("proven", self, "_on_req_changed")
+		requirement.connect("unproven", self, "_on_req_changed")
+
+
+# CORRECTNESS =============================================
 
 
 # TODO: Prevent Cycles
@@ -31,27 +49,16 @@ func _on_req_changed():
 
 
 func can_prove(expr_item:ExprItem) -> bool:
-	return is_proven and _verify_expr_item(expr_item)
-	
+	# VIRTUAL DEFAULT
+	return is_proven and can_justify(expr_item)
 
-func _verify_expr_item(expr_item:ExprItem) -> bool:
-	#VIRTUAL
+
+func can_justify(expr_item:ExprItem) -> bool:
+	#VIRTUAL DEFAULT
 	return false
 
 
 # OLD =====================================================
-
-
-func get_requirements() -> Array: #<Requirement>
-	return requirements
-
-
-func verify(proof_step) -> bool:
-	return _verify(proof_step) && _verify_requirements()
-
-
-func _verify(proof_step) -> bool:
-	return _verify_expr_item(proof_step.get_statement().as_expr_item())
 
 
 

@@ -1,10 +1,7 @@
 extends VBoxContainer
 class_name WPBParent
 
-var proof_step : ProofStep
-var active_dependency_id : int
-var active_dependency : ProofStep
-
+var requirement : Requirement
 var ui_statement : WrittenStatement
 
 var selection_handler
@@ -13,9 +10,9 @@ func _find_ui_elements() -> void:
 	ui_statement = $Statement
 
 
-func initialise(proof_step:ProofStep, selection_handler, active_dependency_id:=-1):
+func initialise(requirement:Requirement, selection_handler):
 	_find_ui_elements()
-	self.proof_step = proof_step
+	self.requirement = requirement
 	self.selection_handler = selection_handler
 	selection_handler.connect("locator_changed", self, "_on_locator_changed")
 	ui_statement.connect("selection_changed", self, "_on_selection_changed")
@@ -56,7 +53,7 @@ func _conditions_met():
 
 
 func _update_statement():
-	ui_statement.set_expr_item(proof_step.get_statement().as_expr_item())
+	ui_statement.set_expr_item(requirement.get_goal())
 
 
 func _draw():

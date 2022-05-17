@@ -19,8 +19,8 @@ func _ready():
 	$Ideas/PanelContainer/VBoxContainer/WitnessButton/WitnessDialog.connect("confirmed", self, "_on_witness_confirm")
 
 
-func initialise(proof_step:ProofStep, selection_handler:SelectionHandler, active_dependency_id:=-1):
-	.initialise(proof_step, selection_handler, active_dependency_id)
+func initialise(requirement:Requirement, selection_handler:SelectionHandler):
+	.initialise(requirement, active_dependency_id)
 	ui_statement.select_whole()
 	selection_handler.take_selection(self)
 	_update_justification_box()
@@ -54,7 +54,7 @@ func _update_justification_box():
 	ui_witness_button.visible = false
 	
 	
-	var parent_type:ExprItemType = proof_step.get_statement().as_expr_item().get_type()
+	var parent_type:ExprItemType = requirement.get_goal().get_type()
 	
 	$Ideas/PanelContainer/VBoxContainer/Label2.visible = false
 	
@@ -67,13 +67,13 @@ func _update_justification_box():
 		ui_implication_button.visible = false
 		ui_vacuous_button.visible = false
 		
-		if proof_step.get_statement().as_expr_item().get_child(0).compare(proof_step.get_statement().as_expr_item().get_child(1)):
+		if requirement.get_goal().get_child(0).compare(requirement.get_goal().get_child(1)):
 			$Ideas/PanelContainer/VBoxContainer/Label2.visible = true
 			ui_reflexive_button.visible = true
 			ui_reflexive_button.connect("pressed", self, "_reflexive_button")
 		
-		if proof_step.get_statement().as_expr_item().get_child(0).get_type() == proof_step.get_statement().as_expr_item().get_child(1).get_type() and \
-				proof_step.get_statement().as_expr_item().get_child(0).get_child_count() == proof_step.get_statement().as_expr_item().get_child(1).get_child_count():
+		if requirement.get_goal().get_child(0).get_type() == requirement.get_goal().get_child(1).get_type() and \
+				requirement.get_goal().get_child(0).get_child_count() == requirement.get_goal().get_child(1).get_child_count():
 			$Ideas/PanelContainer/VBoxContainer/Label2.visible = true
 			ui_matching_button.visible = true
 			ui_matching_button.connect("pressed", self, "_matching_button")
@@ -123,7 +123,7 @@ func _create_lambda_button():
 	if selection_handler.get_proof_step() == proof_step:
 		locator = selection_handler.get_locator()
 	else:
-		locator = Locator.new(proof_step.get_statement().as_expr_item())
+		locator = Locator.new(requirement.get_goal())
 	ui_create_lambda_button.get_node("WindowDialog").pop_up(proof_step, locator)
 
 

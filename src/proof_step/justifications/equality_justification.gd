@@ -8,12 +8,7 @@ var conditions : Array #<ExprItem>
 var forwards : bool
 
 
-func _init(context:ProofBox, replace:Locator, with:ExprItem, conditions:=[], forwards:=true): #<ExprItem>
-	self.replace = replace
-	self.with = with
-	self.conditions = conditions
-	self.forwards = forwards
-	
+static func _get_requirements(context:ProofBox, replace:Locator, with:ExprItem, conditions:=[], forwards:=true):
 	var equality_expr_item : ExprItem
 	if forwards:
 		equality_expr_item = ExprItem.new(GlobalTypes.EQUALITY, [replace.get_expr_item(), with])
@@ -22,19 +17,28 @@ func _init(context:ProofBox, replace:Locator, with:ExprItem, conditions:=[], for
 	for i in conditions.size():
 		var condition : ExprItem = conditions[-i-1]
 		equality_expr_item = ExprItem.new(GlobalTypes.IMPLIES, [condition, equality_expr_item])
-	
-	requirements = [PROOF_STEP.new(equality_expr_item, context)]
+	var reqs := [Requirement.new(context, equality_expr_item)]
 	for condition in conditions:
-		requirements.append(PROOF_STEP.new(condition, context))
+		reqs.append(Requirement.new(context, condition))
 	var with_replacement := replace.get_root().replace_at(replace.get_indeces(), with)
-	requirements.append(PROOF_STEP.new(with_replacement, context))
+	reqs.append(Requirement.new(context, with_replacement))
+	return reqs
 
 
-func _verify_expr_item(expr_item:ExprItem) -> bool:
+func _init(context:ProofBox, replace:Locator, with:ExprItem, conditions:=[], forwards:=true).(
+		_get_requirements(context, replace, with, conditions, forwards)
+	): #<ExprItem>
+	self.replace = replace
+	self.with = with
+	self.conditions = conditions
+	self.forwards = forwards
+
+
+func can_justify(expr_item:ExprItem) -> bool:
 	return expr_item.compare(replace.get_root())
 
 
-func get_equality_proof_step():
+func get_equality_requirement():
 	return requirements[0]
 
 

@@ -48,6 +48,6 @@ func clear_highlighting():
 
 func _on_item_activated(_index):
 	if assumption.get_statement().get_conclusion().get_expr_item().get_type() == GlobalTypes.EXISTS and assumption.get_statement().get_definitions().size() == 0:
-		JustificationBuilder.conditional_instantiation_justify(selection_handler.get_proof_step(), assumption)
+		JustificationBuilder.conditional_instantiation_justify(selection_handler.get_selected_goal(), assumption)
 	else:
 		selection_handler.get_proof_step().justify_with_modus_ponens(assumption)

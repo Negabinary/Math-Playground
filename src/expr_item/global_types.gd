@@ -64,4 +64,4 @@ func _ready():
 
 func _add_tag(type, expr) -> void:
 	var ei = ExprItemTagHelper.tag_to_statement(expr, ExprItem.new(type))
-	PROOF_BOX.add_justification(ei, AssumptionJustification.new(PROOF_BOX))
+	PROOF_BOX.add_justification(ei, AssumptionJustification.new())

@@ -5,17 +5,23 @@ class_name ModusPonensJustification
 var implication : Statement
 
 
-func _init(context:ProofBox, implication:ExprItem):
-	self.implication = Statement.new(implication)
-	requirements = [PROOF_STEP.new(implication, context)]
-	for condition in self.implication.get_conditions():
-		requirements.append(PROOF_STEP.new(
-			condition.get_expr_item(),
-			context
+static func _get_reqs(context:ProofBox, implication:ExprItem):
+	var reqs := [Requirement.new(context, implication)]
+	for condition in Statement.new(implication).get_conditions():
+		reqs.append(Requirement.new(
+			context,
+			condition.get_expr_item()
 		))
+	return reqs
 
 
-func _verify_expr_item(expr_item:ExprItem) -> bool:
+func _init(context:ProofBox, implication:ExprItem).(
+		_get_reqs(context, implication)
+	):
+	self.implication = Statement.new(implication)
+
+
+func can_justify(expr_item:ExprItem) -> bool:
 	return implication.get_conclusion().get_expr_item().compare(expr_item) \
 	and implication.get_definitions() == []
 

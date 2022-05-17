@@ -86,15 +86,15 @@ func justify_with_missing() -> void:
 
 
 func justify_with_assumption(proof_box:=outer_box) -> void:
-	justify(AssumptionJustification.new(proof_box))
+	justify(AssumptionJustification.new())
 
 
 func justify_with_module_assumption(math_module) -> void:
-	justify(AssumptionJustification.new(math_module.get_proof_box()))
+	justify(AssumptionJustification.new())
 
 
 func justify_with_implication() -> void:
-	justify(ImplicationJustification.new(outer_box, get_statement()))
+	justify(ImplicationJustification.new(outer_box, get_statement().as_expr_item()))
 
 
 func justify_with_reflexivity() -> void:

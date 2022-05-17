@@ -1,11 +1,14 @@
 extends Justification
 class_name MissingJustification 
 
-func _init():
+func _init().([]):
 	requirements = []
 
-func _verify(_proof_step) -> bool:
+func can_prove(x) -> bool:
 	return false
+
+func can_justify(x) -> bool:
+	return true
 
 func get_justification_text():
 	return "MISSING JUSTIFICATION"

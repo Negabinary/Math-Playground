@@ -162,12 +162,14 @@ func abandon_lowest(count:int) -> ExprItem:
 func get_unique_name(indeces=[]) -> String:
 	var string = ""
 	string += str(type.get_uid())
+	if type in indeces:
+		return "#" + str(indeces.find(type))
 	if type.is_binder():
 		indeces.push_front(children[0].get_type())
 	for child in children:
 		string += "(" + child.get_unique_name() + ")"
 	if type.is_binder():
-		indeces.pop_front(children[0].get_type())
+		indeces.push_front(children[0].get_type())
 	return string
 
 

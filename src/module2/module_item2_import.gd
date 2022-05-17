@@ -7,9 +7,8 @@ var name : String
 func _init(context:ProofBox, name:String):
 	var from = Module2Loader.get_module(name)
 	proof_box = ProofBox.new(
-		[], context, null, "", [], [from]
+		context, [], [], {name:from}
 	)
-	# TODO : LOAD MODULES
 	self.name = name
 
 func get_import_name() -> String:

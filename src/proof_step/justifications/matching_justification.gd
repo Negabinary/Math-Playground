@@ -5,23 +5,30 @@ var lhs : ExprItem
 var rhs : ExprItem
 
 
-func _init(context:ProofBox, lhs:ExprItem, rhs:ExprItem):
-	requirements = []
-	self.lhs = lhs
-	self.rhs = rhs
+static func _get_requirements(context:ProofBox, lhs:ExprItem, rhs:ExprItem):
+	var r := []
 	for i in lhs.get_child_count():
-		requirements.append(
-			PROOF_STEP.new(
+		r.append(
+			Requirement.new(
+				context,
 				ExprItem.new(GlobalTypes.EQUALITY,[
 					lhs.get_child(i),
 					rhs.get_child(i)
-				]),
-				context
+				])
 			)
 		)
+	return r
 
 
-func _verify_expr_item(expr_item:ExprItem):
+func _init(context:ProofBox, lhs:ExprItem, rhs:ExprItem).(
+		_get_requirements(context, lhs, rhs)
+	):
+	self.lhs = lhs
+	self.rhs = rhs
+	
+
+
+func can_justify(expr_item:ExprItem):
 	return ExprItem.new(GlobalTypes.EQUALITY,[lhs, rhs]).compare(expr_item)
 
 

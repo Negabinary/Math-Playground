@@ -30,7 +30,7 @@ static func _generate_expr_item(intermediate:IntermediateExprItem, proof_box:Pro
 	var type:ExprItemType = proof_box.parse(intermediate.token)
 	var inner_proof_box
 	if type.get_binder_type() != ExprItemType.BINDER.NOT_BINDER:
-		inner_proof_box = ProofBox.new(deep_generate_types(intermediate.children[0]), proof_box)
+		inner_proof_box = ProofBox.new(proof_box, deep_generate_types(intermediate.children[0]))
 	var new_chidlren := []
 	for child in intermediate.children:
 		match type.get_binder_type():

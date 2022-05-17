@@ -7,19 +7,20 @@ var statement : ExprItem
 var witness : ExprItem
 
 
-func _init(context:ProofBox, bound:ExprItemType, statement:ExprItem, witness:ExprItem):
+func _init(context:ProofBox, bound:ExprItemType, statement:ExprItem, witness:ExprItem).(
+		[
+			Requirement.new(
+				context,
+				statement.deep_replace_types({bound:witness})
+			)
+		]
+	):
 	self.bound = bound
 	self.statement = statement
 	self.witness = witness
-	requirements = [
-		PROOF_STEP.new(
-			statement.deep_replace_types({bound:witness}),
-			context
-		)
-	]
 
 
-func _verify_expr_item(expr_item:ExprItem) -> bool:
+func can_justify(expr_item:ExprItem) -> bool:
 	return expr_item.compare(
 		ExprItem.new(GlobalTypes.EXISTS,[ExprItem.new(bound), statement])
 	)

@@ -13,6 +13,6 @@ func _init():
 
 func make_proof_box(proof_box:ProofBox) -> ProofBox:
 	return ProofBox.new(
-		[F_DEF, T_GEN],
-		proof_box
+		proof_box,
+		[F_DEF, T_GEN]
 	)

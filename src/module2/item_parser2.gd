@@ -63,7 +63,7 @@ func eat_toplevel():
 			return {error=false, type="define", items=[name_item]}
 		if tokens[i].contents == "as":
 			i += 1
-			var new_proof_box = ProofBox.new(bindings_parse.types, proof_box)
+			var new_proof_box = ProofBox.new(proof_box, bindings_parse.types)
 			var expr_parse := eat_expr(new_proof_box)
 			if expr_parse.error:
 				return expr_parse
@@ -142,7 +142,7 @@ func eat_expr(proof_box:ProofBox) -> Dictionary:
 			if tokens[i].contents != ".":
 				return err(tokens[i-1], "Expected . after: ")
 			i += 1
-			var new_proof_box = ProofBox.new(bindings_parse.types, proof_box)
+			var new_proof_box = ProofBox.new(proof_box, bindings_parse.types)
 			var content_parse = eat_expr(new_proof_box)
 			if content_parse["error"]:
 				return content_parse
@@ -167,7 +167,7 @@ func eat_expr(proof_box:ProofBox) -> Dictionary:
 				return bindings_parse
 			if tokens[i].contents != ".":
 				return err(tokens[i-1], "Expected . after: ")
-			var new_proof_box = ProofBox.new(bindings_parse.types, proof_box)
+			var new_proof_box = ProofBox.new(proof_box, bindings_parse.types)
 			i += 1
 			var content_parse = eat_expr(new_proof_box)
 			if content_parse["error"]:
@@ -194,7 +194,7 @@ func eat_expr(proof_box:ProofBox) -> Dictionary:
 			if tokens[i].contents != ".":
 				return err(tokens[i-1], "Expected . after: ")
 			i += 1
-			var new_proof_box = ProofBox.new(bindings_parse.types, proof_box)
+			var new_proof_box = ProofBox.new(proof_box, bindings_parse.types)
 			var content_parse = eat_expr(new_proof_box)
 			if content_parse["error"]:
 				return content_parse
@@ -301,7 +301,7 @@ func eat_tag(proof_box:ProofBox) -> Dictionary:
 		var bindings_parse := eat_bindings(proof_box)
 		if bindings_parse["error"]:
 			return bindings_parse
-		var new_proof_box = ProofBox.new(bindings_parse.types, proof_box)
+		var new_proof_box = ProofBox.new(proof_box, bindings_parse.types)
 		var content_parse = eat_tag(new_proof_box)
 		if content_parse["error"]:
 			return content_parse
