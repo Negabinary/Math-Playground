@@ -6,7 +6,7 @@ class_name ProofBox
 var parent : ProofBox
 
 var imports := {} # <ProofBox>
-var definitions := {}  # <String, ExprItemType>
+var parse_box : ParseBox
 var justifications := {} # <[unique]String, Justification>
 var expr_items := {} # <[unique]String, ExprItem>
 
@@ -16,17 +16,22 @@ var expr_items := {} # <[unique]String, ExprItem>
 # TODO: we'll have to check the assumptions match up at some point...
 func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<ExprItemType,String>
 	self.parent = parent
-	for definition in definitions:
-		self.definitions[definition.to_string()] = definition
-		definition.connect("renamed", self, "_update_definition_name", [definition, definition.to_string()])
+	var parse_imports = {}
+	for k in imports:
+		parse_imports[k] = imports[k].get_parse_box()
+	self.parse_box = ParseBox.new(parent.get_parse_box(), definitions, parse_imports)
 	self.imports = imports
 	self.justifications = {}
 	for assumption in assumptions:
-		add_justification(assumption, AssumptionJustification.new())
+		add_justification(assumption, load("res://src/proof_step/justifications/assumption_justification.gd").new())
 
 
 func get_parent() -> ProofBox:
 	return parent
+
+
+func get_parse_box() -> ParseBox:
+	return parse_box
 
 
 # IMPORTS =================================================
@@ -45,40 +50,22 @@ func find_import(import_name):
 
 
 func get_definitions() -> Array:
-	return definitions.values()
+	return parse_box.get_definitions()
 
 
-func _update_definition_name(definition:ExprItemType, old_name:String):
-	definitions.erase(old_name)
-	definition.disconnect("renamed", self, "_update_definition_name")
-	definition.connect("renamed", self, "_update_definition_name", [definition, definition.to_string()])
-	definitions[definition.to_string()] = definition
+func _update_definition_name(definition:ExprItemType, old_name:String) -> void:
+	parse_box._update_definition_name(definition, old_name)
 
 
-func is_defined(type:ExprItemType):
-	if type in get_definitions():
-		return true
-	for import in imports:
-		if import.is_defined(type):
-			return true
-	return parent.is_defined(type)
+func is_defined(type:ExprItemType) -> bool:
+	return parse_box.is_defined(type)
 
 
 func parse(string:String) -> ExprItemType:
-	if string in definitions:
-		return definitions[string]
-	for import in imports:
-		var p = import.parse(string)
-		if p != null:
-			return p
-	if parent != null:
-		return parent.parse(string)
-	else:
-		return null
+	return parse_box.parse(string)
 
 
 # JUSTIFICATION ===========================================
-
 
 signal justified # (uname)
 
