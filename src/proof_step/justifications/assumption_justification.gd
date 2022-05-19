@@ -2,7 +2,7 @@ extends Justification
 class_name AssumptionJustification
 
 
-func _init().([]):
+func _init().():
 	pass
 
 

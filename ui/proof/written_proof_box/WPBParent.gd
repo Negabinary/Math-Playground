@@ -1,6 +1,7 @@
 extends VBoxContainer
 class_name WPBParent
 
+var inner_proof_box : ProofBox
 var requirement : Requirement
 var ui_statement : WrittenStatement
 
@@ -10,8 +11,9 @@ func _find_ui_elements() -> void:
 	ui_statement = $Statement
 
 
-func initialise(requirement:Requirement, selection_handler):
+func initialise(context:ProofBox, requirement:Requirement, selection_handler):
 	_find_ui_elements()
+	self.inner_proof_box = ProofBox.new(context, requirement.get_definitions(), requirement.get_assumptions())
 	self.requirement = requirement
 	self.selection_handler = selection_handler
 	selection_handler.connect("locator_changed", self, "_on_locator_changed")
@@ -23,10 +25,6 @@ func get_selected_locator() -> Locator:
 	return ui_statement.get_locator()
 
 
-func get_proof_step() -> ProofStep:
-	return proof_step
-
-
 func _on_locator_changed(x):
 	if selection_handler.get_wpb() != self:
 		ui_statement.deselect()
@@ -34,11 +32,6 @@ func _on_locator_changed(x):
 
 func _on_selection_changed(x):
 	selection_handler.take_selection(self)
-
-
-func _on_selected_proof_step_changed(new_proof_step):
-	if new_proof_step != proof_step:
-		ui_statement.deselect()
 	
 
 

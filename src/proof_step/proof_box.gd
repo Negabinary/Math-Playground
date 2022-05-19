@@ -83,7 +83,7 @@ func parse(string:String) -> ExprItemType:
 signal justified # (uname)
 
 
-func add_justification(expr_item:ExprItem, justification:Justification):
+func add_justification(expr_item:ExprItem, justification):
 	var uname = expr_item.get_unique_name()
 	justifications[uname] = justification
 	expr_items[uname] = expr_item
@@ -108,6 +108,16 @@ func get_all_assumptions() -> Array:
 		return get_assumptions() + parent.get_assumptions() + imported_assumptions
 
 
+var MJ := load("res://src/proof_step/justifications/missing_justification.gd")
+
+func get_justification_or_missing(expr_item:ExprItem):
+	var j = get_justification_for(expr_item)
+	if j:
+		return j
+	else:
+		return MJ.new()
+
+
 func get_justification_for(expr_item:ExprItem):
 	var justification = justifications.get(expr_item.get_unique_name())
 	if justification != null:
@@ -117,6 +127,7 @@ func get_justification_for(expr_item:ExprItem):
 		if parent_justification.can_prove(expr_item):
 			return parent_justification
 	return null
+
 
 func _get_parent_justification(expr_item:ExprItem):
 	for import in imports:

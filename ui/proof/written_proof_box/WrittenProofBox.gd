@@ -45,11 +45,6 @@ func _update_active_dependency(new_active_dependency_id):
 	
 	_update_justification_box()
 
-
-func _on_selected_proof_step_changed(new_proof_step):
-	._on_selected_proof_step_changed(new_proof_step)
-	_update_justification_label()
-
 func _update_justification_label():
 	ui_justification_label.disabled = proof_step.get_requirements().size() == 0
 	var icon = "" if _conditions_met() else "!"

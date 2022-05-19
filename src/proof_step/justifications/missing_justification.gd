@@ -1,9 +1,6 @@
 extends Justification
 class_name MissingJustification 
 
-func _init().([]):
-	requirements = []
-
 func can_prove(x) -> bool:
 	return false
 
