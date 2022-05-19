@@ -79,13 +79,17 @@ func _to_string():
 
 
 func find_all(find:ExprItem) -> Array: #<Locator>
-	if expr_item.compare(find):
-		return [self]
-	else:
-		var result = []
-		for i in get_child_count():
-			result += get_child(i).find_all(find)
-		return result
+	if get_type() == find.get_type():
+		if get_child_count() >= find.get_child_count():
+			if abandon_lowest(get_child_count() - find.get_child_count()).get_expr_item().compare(find):
+				var occ := [abandon_lowest(get_child_count() - find.get_child_count())]
+				for c in range(find.get_child_count(), get_child_count()):
+					occ += get_child(c).find_all(find)
+				return occ
+	var result = []
+	for i in get_child_count():
+		result += get_child(i).find_all(find)
+	return result
 
 
 func get_postorder_locator_list(list=[]):
