@@ -19,11 +19,11 @@ func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<Ex
 	var parse_imports = {}
 	for k in imports:
 		parse_imports[k] = imports[k].get_parse_box()
-	self.parse_box = ParseBox.new(parent.get_parse_box(), definitions, parse_imports)
+	self.parse_box = ParseBox.new(parent.get_parse_box() if parent else null, definitions, parse_imports)
 	self.imports = imports
 	self.justifications = {}
 	for assumption in assumptions:
-		add_justification(assumption, load("res://src/proof_step/justifications/assumption_justification.gd").new())
+		add_justification(assumption, AssumptionJustification.new())
 
 
 func get_parent() -> ProofBox:

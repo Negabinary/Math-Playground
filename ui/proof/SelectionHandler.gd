@@ -3,9 +3,9 @@ class_name SelectionHandler
 
 signal locator_changed
 
-var wpb : WPBParent
+var wpb
 
-func take_selection(wpb:WPBParent):
+func take_selection(wpb):
 	self.wpb = wpb
 	emit_signal("locator_changed", get_locator())
 
@@ -15,5 +15,5 @@ func get_locator() -> Locator:
 func get_selected_goal() -> Requirement:
 	return self.wpb.get_requirement()
 
-func get_wpb() -> WPBParent:
+func get_wpb():
 	return wpb

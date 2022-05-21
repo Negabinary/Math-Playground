@@ -32,10 +32,19 @@ static func create_lambda(function_body:ExprItem, argument_locations:Array, argu
 	
 	return applied_function
 
+
 static func create_lambda_at(location:Locator, argument_locations:Array, argument_types:Array, argument_values:Array) -> ExprItem:
 	var body = location.get_expr_item()
 	var new_body = create_lambda(body, argument_locations, argument_types, argument_values)
 	return location.get_root().replace_at(location.get_indeces(), new_body)
+
+
+static func can_apply_lambda(expr_item:ExprItem):
+	if expr_item.get_type() != GlobalTypes.LAMBDA:
+		return false
+	if expr_item.get_child_count() < 3:
+		return false
+
 
 static func apply_lambda(lambda:ExprItem):
 	var children := lambda.get_children()
@@ -49,6 +58,7 @@ static func apply_lambda(lambda:ExprItem):
 	for child in children:
 		body = body.apply(child)
 	return body
+
 
 static func apply_lambda_at(location:Locator):
 	var root := location.get_root()

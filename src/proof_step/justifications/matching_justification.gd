@@ -1,35 +1,40 @@
 extends Justification
 class_name MatchingJustification
 
-var lhs : ExprItem
-var rhs : ExprItem
+# TODO: Multiple matchings?
 
 
-static func _get_requirements(context:ProofBox, lhs:ExprItem, rhs:ExprItem):
-	var r := []
-	for i in lhs.get_child_count():
-		r.append(
-			Requirement.new(
-				context,
-				ExprItem.new(GlobalTypes.EQUALITY,[
-					lhs.get_child(i),
-					rhs.get_child(i)
-				])
+func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+	if expr_item != GlobalTypes.EQUALITY or expr_item.get_child_count() != 2:
+		return null
+	var lhs := expr_item.get_child(0)
+	var rhs := expr_item.get_child(1)
+	if lhs.get_child_count() == 0 or rhs.get_child_count() == 0:
+		return null
+	return [
+		Requirement.new(
+			ExprItem.new(
+				GlobalTypes.EQUALITY,
+				[lhs.get_child(lhs.get_child_count()-1), rhs.get_child(rhs.get_child_count()-1)]
+			)
+		),
+		Requirement.new(
+			ExprItem.new(
+				GlobalTypes.EQUALITY,
+				[lhs.abandon_lowest(1), rhs.abandon_lowest(1)]
 			)
 		)
-	return r
+	]
 
 
-func _init(context:ProofBox, lhs:ExprItem, rhs:ExprItem).(
-		_get_requirements(context, lhs, rhs)
-	):
-	self.lhs = lhs
-	self.rhs = rhs
-	
-
-
-func can_justify(expr_item:ExprItem):
-	return ExprItem.new(GlobalTypes.EQUALITY,[lhs, rhs]).compare(expr_item)
+func get_options_for(expr_item:ExprItem, context:ParseBox):
+	if expr_item != GlobalTypes.EQUALITY or expr_item.get_child_count() != 2:
+		return [Justification.LabelOption.new("cannot match an expression that is not an equality", true)]
+	var lhs := expr_item.get_child(0)
+	var rhs := expr_item.get_child(1)
+	if lhs.get_child_count() == 0 or rhs.get_child_count() == 0:
+		return [Justification.LabelOption.new("cannot match something that is not a function", true)]
+	return []
 
 
 func get_justification_text():

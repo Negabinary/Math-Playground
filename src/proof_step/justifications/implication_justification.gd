@@ -1,124 +1,85 @@
 extends Justification
 class_name ImplicationJustification 
 
-var context : ProofBox
-var statement : Statement
+
 var keep_condition_ids : Array
 var keep_definition_ids : Array
 
 
-var s : Script
-
-
-func _init(context:ProofBox, expr_item:ExprItem, keep_condition_ids:=[], keep_definition_ids:=[]).(
-		_calculate_requirements(context, expr_item, keep_condition_ids, keep_definition_ids)
-	):
-	self.context = context
-	self.statement = Statement.new(expr_item)
+func _init(keep_definition_ids=[], keep_condition_ids=[]):
 	self.keep_condition_ids = keep_condition_ids
 	self.keep_definition_ids = keep_definition_ids
 
-static func _calculate_requirements(context:ProofBox, expr_item:ExprItem, keep_condition_ids:=[], keep_definition_ids:=[]):
+
+func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	var statement := Statement.new(expr_item)
 	var box_definitions := []
 	var statement_definitions = statement.get_definitions()
 	for i in statement_definitions.size():
 		if not (i in keep_definition_ids):
 			box_definitions.append(statement_definitions[i])
-	
 	var box_assumptions := []
 	var statement_conditions = statement.get_conditions()
 	for i in statement_conditions.size():
 		if not (i in keep_condition_ids):
 			box_assumptions.append(statement_conditions[i].get_expr_item())
-	
-	
-	var proof_box = ProofBox.new(context, box_definitions)
-	
 	var conclusion := statement.construct_without(keep_definition_ids, keep_condition_ids)
-	
 	return [
 		Requirement.new(
-			proof_box,
-			conclusion
+			conclusion,
+			box_definitions,
+			box_assumptions
 		)
 	]
+	
+	return null
+
+func set_keep_condition(value:bool, idx:int):
+	if value and not (idx in keep_condition_ids):
+		keep_condition_ids.append(idx)
+	elif (not value) and (idx in keep_condition_ids):
+		keep_condition_ids.erase(idx)
 
 
-func can_justify(expr_item:ExprItem):
-	var has_undeclared_variables := false
-	var all_variables := statement.get_definitions()
-	var keep_variables := []
-	for i in all_variables.size():
-		if i in keep_definition_ids:
-			keep_variables.append(all_variables[i])
-	var all_conditions := statement.get_conditions()
-	for i in all_conditions.size():
-		if not (i in keep_condition_ids):
-			for keep_variable in keep_variables:
-				if keep_variable in all_conditions[i].get_expr_item().get_all_types():
-					has_undeclared_variables = true
-	return statement.compare_expr_item(expr_item) and not has_undeclared_variables
+func set_keep_definition(value:bool, idx:int, reliant_conditions:Array):
+	if value and not (idx in keep_definition_ids):
+		keep_definition_ids.append(idx)
+		for r in reliant_conditions:
+			if not (r in keep_condition_ids):
+				keep_condition_ids.append(r)
+	elif (not value) and (idx in keep_definition_ids):
+		keep_definition_ids.erase(idx)
+
+
+func get_options_for(expr_item:ExprItem, context:ParseBox):
+	var options := []
+	var statement := Statement.new(expr_item)
+	for i in statement.get_definitions().size():
+		var bo := Justification.BooleanOption.new(
+			"DEFINE " + statement.get_definitions()[i].to_string(), 
+			i in keep_definition_ids
+		)
+		var rc := []
+		for j in statement.get_conditions().size():
+			if statement.get_definitions()[i] in statement.get_conditions()[j].get_all_types():
+				rc.append(j)
+		bo.connect("value_changed", self, "set_keep_definition", [i, rc])
+		options.append(bo)
+	for i in statement.get_conditions().size():
+		var disabled := false
+		for j in statement.get_definitions().size():
+			if j in keep_definition_ids:
+				if statement.get_definitions()[j] in statement.get_conditions()[i].get_all_types():
+					disabled = true
+		var co := Justification.BooleanOption.new(
+			"ASSUME " + statement.get_conditions()[i].to_string(), 
+			i in keep_condition_ids,
+			disabled
+		)
+		co.connect("value_changed", self, "set_keep_condition", [i])
+		options.append(co)
+	return options
 
 
 func get_justification_text():
-	return "THUS"
-
-
-func get_options() -> Array:
-	var strings := []
-	for definition in statement.get_definitions():
-		strings.append("DEFINE " + definition.to_string())
-	for condition in statement.get_conditions():
-		strings.append("ASSUME " + condition.to_string())
-	return strings
-
-
-func get_option_type(option_idx:int) -> int:
-	return OPTION_TYPES.BOOLEAN
-
-
-func set_option(option_idx:int, value) -> void:
-	if option_idx < statement.get_definitions().size():
-		if option_idx in keep_definition_ids:
-			if value:
-				keep_definition_ids.remove(option_idx)
-		else:
-			if not value:
-				keep_definition_ids.append(option_idx)
-		var definition = statement.get_definitions()[option_idx]
-		for i in statement.get_conditions().size():
-			if (not (i in keep_condition_ids)) and definition in statement.get_conditions()[i].get_expr_item().get_all_types():
-				keep_condition_ids.append(i)
-	else:
-		option_idx -= statement.get_definitions().size()
-		if option_idx in keep_condition_ids:
-			if value:
-				keep_condition_ids.remove(option_idx)
-		else:
-			if not value:
-				keep_condition_ids.append(option_idx)
-	replace_requirements(_calculate_requirements(context, statement.as_expr_item(), keep_condition_ids, keep_definition_ids))
-	emit_signal("justified")
-
-
-func get_option(option_idx:int):
-	if option_idx < statement.get_definitions().size():
-		return not option_idx in keep_definition_ids
-	else:
-		option_idx -= statement.get_definitions().size()
-		return not option_idx in keep_condition_ids
-
-
-func get_option_disabled(option_idx:int) -> bool:
-	if option_idx >= statement.get_definitions().size():
-		option_idx -= statement.get_definitions().size()
-		var condition = statement.get_conditions()[option_idx].get_expr_item()
-		var all_types = condition.get_all_types()
-		var return_value := false
-		for i in keep_definition_ids:
-			if statement.get_definitions()[i] in all_types:
-				return_value = true
-		return return_value
-	else:
-		return false
+	return "USING SOMETHING OR OTHER"

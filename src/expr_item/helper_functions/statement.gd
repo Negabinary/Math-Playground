@@ -83,6 +83,18 @@ func get_conclusion() -> Locator:
 	return conclusion
 
 
+func get_conclusion_with_conditions() -> ExprItem:
+	var rv := conclusion.get_expr_item()
+	conditions.invert()
+	for condition in conditions:
+		rv = ExprItem.new(
+			GlobalTypes.IMPLIES,
+			[condition.get_expr_item(), rv]
+		)
+	conditions.invert()
+	return rv
+
+
 func _to_string() -> String:
 	return root.to_string()
 

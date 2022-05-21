@@ -1,34 +1,45 @@
 extends Justification
 class_name ModusPonensJustification
 
+# TODO: Partial Modus Ponenses
+var implication : ExprItem
 
-var implication : Statement
+
+func _init(implication:ExprItem):
+	self.implication = implication
 
 
-static func _get_reqs(context:ProofBox, implication:ExprItem):
-	var reqs := [Requirement.new(context, implication)]
-	for condition in Statement.new(implication).get_conditions():
-		reqs.append(Requirement.new(
-			context,
-			condition.get_expr_item()
+func set_implication(implication:ExprItem):
+	self.implication = implication
+
+
+func get_requirements_for(expr_item:ExprItem, parse_box:ParseBox):
+	var statement = Statement.new(implication)
+	if not expr_item.compare(statement.get_conclusion().get_expr_item()):
+		return null
+	if statement.get_definitions().size() != 0:
+		return null
+	var reqs := []
+	for assumption in statement.get_conditions():
+		reqs.append(Statement.new(
+			assumption.get_expr_item()
 		))
 	return reqs
 
 
-func _init(context:ProofBox, implication:ExprItem).(
-		_get_reqs(context, implication)
-	):
-	self.implication = Statement.new(implication)
-
-
-func can_justify(expr_item:ExprItem) -> bool:
-	return implication.get_conclusion().get_expr_item().compare(expr_item) \
-	and implication.get_definitions() == []
-
-
-func get_implication_proof_step():
-	return requirements[0]
+func get_options_for(expr_item:ExprItem, context:ParseBox):
+	var statement = Statement.new(implication)
+	var options = []
+	options.append(Justification.LabelOption.new("Implication:"))
+	var eio := Justification.ExprItemOption.new(implication, context)
+	eio.connect("expr_item_changed", self, "set_implication")
+	options.append(eio)
+	if not expr_item.compare(statement.get_conclusion().get_expr_item()):
+		options.append(Justification.LabelOption.new("Implication conclusion does not match goal.", true))
+	if statement.get_definitions().size() != 0:
+		options.append(Justification.LabelOption.new("Implication must not have quantifiers.", true))
+	return options
 
 
 func get_justification_text():
-	return "USING " + get_implication_proof_step().get_statement().to_string()
+	return "USING " + implication.to_string()

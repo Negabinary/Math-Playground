@@ -2,54 +2,49 @@ extends Justification
 class_name InstantiateJustification
 
 
-var new_type : ExprItemType # Store : Name
-var old_type : ExprItemType
+var new_type : ExprItemType
 var existential : ExprItem
-var goal : ExprItem
 
 
-func _get_reqs(context:ProofBox, new_type_name:String, old_type:ExprItemType, existential:ExprItem, goal:ExprItem) -> Array:
-	var reqs := []
-	reqs.append(Requirement.new(
-		context,
-		ExprItem.new(GlobalTypes.EXISTS, [ExprItem.new(old_type), existential])
-	))
-	
+func _init(new_type_name:String, existential_fact:ExprItem):
 	self.new_type = ExprItemType.new(new_type_name)
-	
-	var new_proof_box = ProofBox.new(context, [new_type])
-	var assumption = PROOF_STEP.new(existential.deep_replace_types({old_type:ExprItem.new(new_type)}), new_proof_box)
-	assumption.justify(AssumptionJustification.new())
-	new_proof_box.add_assumption(assumption)
-	
+	self.existential = existential_fact
+
+
+func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+	if existential == null:
+		return null
+	if existential.get_type() != GlobalTypes.EXISTS:
+		return null
+	var reqs = [Requirement.new(existential)]
+	var old_type := existential.get_child(0).get_type()
+	var new_assumption = existential.get_child(1).deep_replace_types({old_type:ExprItem.new(new_type)})
 	reqs.append(Requirement.new(
-		new_proof_box,
-		goal
+		expr_item,
+		[new_type],
+		[new_assumption]
 	))
-	return reqs
 
 
-func _init(context:ProofBox, new_type_name:String, old_type:ExprItemType, existential:ExprItem, goal:ExprItem).(
-		_get_reqs(context, new_type_name, old_type, existential, goal)
-	):
-	self.old_type = old_type
-	self.existential = existential
-	self.goal = goal
-
-
-func get_existential_requirement():
-	return requirements[0]
-
-
-func _verify(proof_step):
-	return (not (proof_step.get_proof_box().is_defined(old_type))) \
-	and (not (proof_step.get_proof_box().is_defined(new_type))) \
-	and ._verify(proof_step)
-
-
-func _verify_expr_item(expr_item:ExprItem):
-	return goal.compare(expr_item)
+func get_options_for(expr_item:ExprItem, context:ParseBox):
+	var options = []
+	options.append(Justification.LabelOption.new("Existential: "))
+	var eio := Justification.ExprItemOption.new(existential, context)
+	eio.connect("expr_item_changed", self, "set_existential_fact")
+	options.append(eio)
+	if existential == null:
+		options.append(Justification.LabelOption.new("expression missing", true))
+	if existential.get_type() != GlobalTypes.EXISTS:
+		options.append(Justification.LabelOption.new("expression must be an existential", true))
+	options.append(Justification.LabelOption.new("Name for new instance: "))
+	options.append(Justification.ExprItemTypeNameOption.new(new_type))
+	return []
 
 
 func get_justification_text():
-	return "USING THIS EXISTENTIAL"
+	return "HAVING USED THAT EXISTENTIAL"
+
+
+func set_existential_fact(existential_fact:ExprItem):
+	self.existential = existential_fact
+	emit_signal("updated")

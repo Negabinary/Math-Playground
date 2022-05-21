@@ -1,46 +1,41 @@
-extends Justification
+extends AbstractEqualityJustification
 class_name EqualityJustification
 
-
-var replace : Locator
-var with : ExprItem
-var conditions : Array #<ExprItem>
+var replace_with : ExprItem
 var forwards : bool
 
 
-static func _get_requirements(context:ProofBox, replace:Locator, with:ExprItem, conditions:=[], forwards:=true):
-	var equality_expr_item : ExprItem
-	if forwards:
-		equality_expr_item = ExprItem.new(GlobalTypes.EQUALITY, [replace.get_expr_item(), with])
-	else:
-		equality_expr_item = ExprItem.new(GlobalTypes.EQUALITY, [with, replace.get_expr_item()])
-	for i in conditions.size():
-		var condition : ExprItem = conditions[-i-1]
-		equality_expr_item = ExprItem.new(GlobalTypes.IMPLIES, [condition, equality_expr_item])
-	var reqs := [Requirement.new(context, equality_expr_item)]
-	for condition in conditions:
-		reqs.append(Requirement.new(context, condition))
-	var with_replacement := replace.get_root().replace_at(replace.get_indeces(), with)
-	reqs.append(Requirement.new(context, with_replacement))
-	return reqs
-
-
-func _init(context:ProofBox, replace:Locator, with:ExprItem, conditions:=[], forwards:=true).(
-		_get_requirements(context, replace, with, conditions, forwards)
-	): #<ExprItem>
-	self.replace = replace
-	self.with = with
-	self.conditions = conditions
+func _init(location:Locator, replace_with:=null, forwards:=true).(location):
+	self.replace_with = replace_with
 	self.forwards = forwards
 
 
-func can_justify(expr_item:ExprItem) -> bool:
-	return expr_item.compare(replace.get_root())
+func _get_equality_replace_with(what:ExprItem, context:ParseBox):
+	return replace_with
 
 
-func get_equality_requirement():
-	return requirements[0]
+func _get_equality_requirements(what:ExprItem, context:ParseBox):
+	if forwards:
+		return [Requirement.new(ExprItem.new(
+			GlobalTypes.EQUALITY,
+			[replace_with, what]
+		))]
+	else:
+		return [Requirement.new(ExprItem.new(
+			GlobalTypes.EQUALITY,
+			[what, replace_with]
+		))]
 
 
-func get_justification_text():
-	return "USING " + requirements[0].get_statement().to_string()	
+func set_replace_with(rw:ExprItem):
+	self.replace_with = rw
+	emit_signal("updated")
+
+
+func _get_equality_options(what:ExprItem, context:ParseBox):
+	var options = []
+	options.append(Justification.LabelOption.new("Replace with:"))
+	var rw_option := Justification.ExprItemOption.new(replace_with, context)
+	rw_option.connect("expr_item_changed", self, "set_replace_with")
+	options.append(rw_option)
+	return rw_option

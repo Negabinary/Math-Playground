@@ -2,13 +2,11 @@ extends Justification
 class_name AssumptionJustification
 
 
-func _init().():
-	pass
+func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+	return []
 
+func get_options_for(expr_item:ExprItem, context:ParseBox):
+	return []
 
-func can_justify(expr_item:ExprItem):
-	return true
-
-
-func get_justification_text() -> String:
+func get_justification_text():
 	return "ASSUMED"
