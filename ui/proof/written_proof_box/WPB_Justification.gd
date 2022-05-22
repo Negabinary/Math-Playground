@@ -36,7 +36,7 @@ func init(expr_item:ExprItem, context:ProofBox, selection_handler:SelectionHandl
 func set_justification(justification:Justification): #<Requirement>
 	_ready()
 	if self.justification:
-		self.justification.disconnect("justification_changed", self, "_on_justification_updated")
+		self.justification.disconnect("updated", self, "_on_justification_updated")
 	self.justification = justification
 	ui_justification_name.text = justification.get_justification_text()
 	ui_unprove_button.visible = not (justification is MissingJustification)
@@ -58,9 +58,9 @@ func set_justification(justification:Justification): #<Requirement>
 	ui_options.connect("request_change_justification", self, "set_justification")
 	selection_handler.connect("locator_changed", self, "_on_justification_updated")
 	ui_panel.visible = requirements == null
-	justification.connect("justification_changed", self, "_on_justification_updated")
+	justification.connect("updated", self, "_on_justification_updated")
 	justification.connect("request_replace", self, "set_justification")
-	emit_signal("justification_changed") 
+	emit_signal("updated") 
 
 func _on_justification_updated():
 	set_justification(justification)

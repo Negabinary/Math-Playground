@@ -23,7 +23,6 @@ func _clear():
 
 
 func _display_proof_step():
+	# todo: check if proven
 	var j_box = WrittenProofBoxBuilder.build(proof_context, requirement, selection_handler)
-	if not requirement.is_connected("justified", self, "_update"):
-		requirement.connect("justified", self, "_update")
 	$Justification.add_child(j_box)

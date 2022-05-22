@@ -74,7 +74,7 @@ func add_justification(expr_item:ExprItem, justification):
 	var uname = expr_item.get_unique_name()
 	justifications[uname] = justification
 	expr_items[uname] = expr_item
-	emit_signal("ei_justified", uname)
+	emit_signal("justified", uname)
 
 
 func get_assumptions() -> Array: #<ExprItem>

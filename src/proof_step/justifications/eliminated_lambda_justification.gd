@@ -63,7 +63,7 @@ func _get_equality_options(what:ExprItem, context:ParseBox):
 	options.append(Justification.LabelOption.new("Replace instances of:"))
 	options.append(Justification.ExprItemOption.new(replace_value, context))
 	if replace_value == null:
-		options.append(Justification.LabelOption("expression missing", true))
+		options.append(Justification.LabelOption.new("expression missing", true))
 	options.append(Justification.LabelOption.new("with a variable called:"))
 	options.append(Justification.ExprItemTypeNameOption.new(replace_with))
 	if replace_value != null:

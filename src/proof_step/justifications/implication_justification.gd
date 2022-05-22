@@ -31,8 +31,7 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 			box_assumptions
 		)
 	]
-	
-	return null
+
 
 func set_keep_condition(value:bool, idx:int):
 	if value and not (idx in keep_condition_ids):
