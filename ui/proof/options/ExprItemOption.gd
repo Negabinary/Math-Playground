@@ -2,14 +2,25 @@ extends HBoxContainer
 
 var option : Justification.ExprItemOption
 var context : ParseBox
+var parser : ExprItemParser2
 
 func init(option:Justification.ExprItemOption):
 	self.option = option
-	$Label.text = option.get_expr_item().to_string()
+	$Label.text = option.get_expr_item().to_string() if option.get_expr_item() else "<null>"
 	$Button.connect("pressed", $ConfirmationDialog, "popup_centered")
 	$ConfirmationDialog/VBoxContainer/TextEdit.connect("text_changed", self, "_validate")
 	_validate()
 
 
 func _validate():
-	var string_to_parse = Parser2.new()
+	var string_to_parse = $ConfirmationDialog/VBoxContainer/TextEdit.text
+	var parser = ExprItemParser2.new(string_to_parse, context)
+	if parser.error:
+		$ConfirmationDialog.get_ok().disabled = true
+		$ConfirmationDialog/VBoxContainer/Label.text = str(parser.error_dict)
+	else:
+		$ConfirmationDialog.get_ok().disabled = false
+		$ConfirmationDialog.get_ok().connect("pressed", self, "ok")
+
+func ok():
+	option.set_expr_item(parser.result)

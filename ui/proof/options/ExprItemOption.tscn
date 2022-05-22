@@ -13,18 +13,17 @@ __meta__ = {
 
 [node name="Button" type="Button" parent="."]
 margin_right = 39.0
-margin_bottom = 400.0
+margin_bottom = 40.0
 text = "edit"
 
 [node name="Label" type="Label" parent="."]
 margin_left = 43.0
-margin_top = 191.0
-margin_right = 420.0
-margin_bottom = 208.0
+margin_top = 11.0
+margin_right = 1024.0
+margin_bottom = 28.0
 size_flags_horizontal = 3
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
-visible = true
 margin_left = 424.0
 margin_right = 1024.0
 margin_bottom = 400.0

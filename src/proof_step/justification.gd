@@ -68,6 +68,10 @@ class ExprItemOption extends Option:
 	func get_expr_item() -> ExprItem:
 		return expr_item
 	
+	func set_expr_item(ei:ExprItem) -> void:
+		self.expr_item = ei
+		emit_signal("expr_item_changed")
+	
 	func get_context() -> ParseBox:
 		return context
 
@@ -112,6 +116,10 @@ class ButtonOption extends Option:
 	
 	func get_is_disabled():
 		return disabled
+	
+	func action():
+		emit_signal("pressed")
+		
 
 
 class LocatorOption:

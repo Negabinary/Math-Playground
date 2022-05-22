@@ -64,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/expr_item/helper_functions/expr_item_lambda_helper.gd"
 }, {
+"base": "Node",
+"class": "ExprItemParser2",
+"language": "GDScript",
+"path": "res://src/module2/expr_item_parser2.gd"
+}, {
 "base": "Reference",
 "class": "ExprItemTagHelper",
 "language": "GDScript",
@@ -194,11 +199,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/proof_box.gd"
 }, {
-"base": "Object",
-"class": "ProofStep",
-"language": "GDScript",
-"path": "res://src/proof_step/proof_step.gd"
-}, {
 "base": "Justification",
 "class": "RefineJustification",
 "language": "GDScript",
@@ -306,6 +306,7 @@ _global_script_class_icons={
 "ExprItemEditHelper": "",
 "ExprItemEditHelperEdit": "",
 "ExprItemLambdaHelper": "",
+"ExprItemParser2": "",
 "ExprItemTagHelper": "",
 "ExprItemType": "",
 "ExprItemUnrollHelper": "",
@@ -332,7 +333,6 @@ _global_script_class_icons={
 "ParseBox": "",
 "Parser2": "",
 "ProofBox": "",
-"ProofStep": "",
 "RefineJustification": "",
 "ReflexiveJustification": "",
 "Requirement": "",

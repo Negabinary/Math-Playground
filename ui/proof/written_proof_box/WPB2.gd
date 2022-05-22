@@ -64,3 +64,11 @@ func _change_dependencies(requirements:Array, dependency_id:=0):
 			new_ui_dependency.init(inner_proof_box, new_requirement, selection_handler)
 			ui_dependencies.add_child(new_ui_dependency)
 	_change_active_depenency(dependency_id)
+
+
+func get_goal() -> ExprItem:
+	return requirement.get_goal()
+
+
+func get_inner_proof_box() -> ProofBox:
+	return inner_proof_box

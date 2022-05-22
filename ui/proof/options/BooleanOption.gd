@@ -1,6 +1,6 @@
 extends Control
 
-var option = option
+var option:Justification.BooleanOption
 
 func init(option:Justification.BooleanOption):
 	self.option = option

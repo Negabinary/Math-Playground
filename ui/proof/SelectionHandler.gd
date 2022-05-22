@@ -12,8 +12,11 @@ func take_selection(wpb):
 func get_locator() -> Locator:
 	return self.wpb.get_selected_locator()
 
-func get_selected_goal() -> Requirement:
-	return self.wpb.get_requirement()
+func get_selected_goal() -> ExprItem:
+	return self.wpb.get_goal()
+
+func get_selected_proof_box() -> ExprItem:
+	return self.wpb.get_inner_proof_box()
 
 func get_wpb():
 	return wpb

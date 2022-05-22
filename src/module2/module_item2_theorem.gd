@@ -4,7 +4,7 @@ class_name ModuleItem2Theorem
 var requirement : Requirement
 
 func _init(context:ProofBox, statement:ExprItem, proof=null):
-	requirement = Requirement.new(context, statement)
+	requirement = Requirement.new(statement)
 	self.proof_box =  ProofBox.new(
 		context, [], [statement]
 	)
