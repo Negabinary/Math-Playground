@@ -110,6 +110,7 @@ func get_all_assumptions_in_context() -> Array:
 
 var MJ := load("res://src/proof_step/justifications/missing_justification.gd")
 
+
 func get_justification_or_missing_for(expr_item:ExprItem):
 	var j = get_justification_for(expr_item)
 	if j:
@@ -124,8 +125,7 @@ func get_justification_for(expr_item:ExprItem):
 		return justification
 	var parent_justification = _get_parent_justification(expr_item)
 	if parent_justification != null:
-		if parent_justification.can_prove(expr_item):
-			return parent_justification
+		return parent_justification
 	return null
 
 

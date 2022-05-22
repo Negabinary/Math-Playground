@@ -23,6 +23,10 @@ func get_justification_text():
 	return "USING SOMETHING OR OTHER"
 
 
+func get_justification_description():
+	return ""
+
+
 # OPTIONS ===============================================
 
 
@@ -119,7 +123,6 @@ class ButtonOption extends Option:
 	
 	func action():
 		emit_signal("pressed")
-		
 
 
 class LocatorOption:

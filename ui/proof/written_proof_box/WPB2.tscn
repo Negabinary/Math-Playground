@@ -108,4 +108,4 @@ margin_right = 1024.0
 margin_bottom = 16.0
 script = ExtResource( 5 )
 
-[connection signal="pressed" from="JustificationLabel" to="Justification/Options" method="_toggle_visibility"]
+[connection signal="pressed" from="JustificationLabel" to="Justification" method="_toggle_visibility"]

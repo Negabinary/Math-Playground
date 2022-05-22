@@ -30,10 +30,10 @@ func init(context:ProofBox, requirement:Requirement, selection_handler):
 		context, requirement.get_definitions(), requirement.get_assumptions()
 	)
 	ui_statement.set_expr_item(requirement.get_goal())
-	ui_justification_holder.init(requirement.get_goal(), inner_proof_box)
+	ui_justification_holder.init(requirement.get_goal(), inner_proof_box, selection_handler)
 	ui_justification_holder.connect("justification_changed", self, "_on_justification_changed")
 	_change_dependencies(ui_justification_holder.get_requirements())
-	ui_assumptions.show_assumptions(requirement)
+	ui_assumptions.display_assumptions(requirement)
 
 
 func _change_active_depenency(dependency_id:int):

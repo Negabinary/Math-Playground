@@ -4,8 +4,8 @@ class_name EliminatedLambdaJustification
 
 var replace_value : ExprItem
 var replace_with : ExprItemType
-var replace_locations : Array
-var replace_positions : Array
+var replace_locations #: Array
+var replace_positions #: Array
 
 
 func _init(location:Locator, replace_value = null, replace_with:ExprItemType = ExprItemType.new(""), replace_positions = null).(location):

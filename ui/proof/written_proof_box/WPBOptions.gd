@@ -12,14 +12,14 @@ const LOCATOR_OPTION = null # TODO
 
 func set_options(options:Array) -> void:
 	for child in get_children():
-		child.deregister()
+		#child.deregister()
 		remove_child(child)
 	for option in options:
 		var bo
 		if option is Justification.BooleanOption:
 			bo = BOOLEAN_OPTION.instance()
 		elif option is Justification.ButtonOption:
-			bo = BOOLEAN_OPTION.instance()
+			bo = BUTTON_OPTION.instance()
 		elif option is Justification.ExprItemOption:
 			bo = EXPR_ITEM_OPTION.instance()
 		elif option is Justification.ExprItemTypeNameOption:
