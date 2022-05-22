@@ -55,12 +55,13 @@ func set_justification(justification:Justification): #<Requirement>
 		valid = false
 	ui_requirements.show_requirements(requirements)
 	ui_options.set_options(justification.get_options_for_selection(expr_item, context.get_parse_box(), selection_handler.get_locator() if selection_handler.get_wpb() == get_parent() else null))
-	ui_options.connect("request_change_justification", self, "set_justification")
-	selection_handler.connect("locator_changed", self, "_on_justification_updated")
+	if not ui_options.is_connected("request_change_justification", self, "set_justification"):
+		ui_options.connect("request_change_justification", self, "set_justification")
+		selection_handler.connect("locator_changed", self, "_on_justification_updated")
 	ui_panel.visible = requirements == null
 	justification.connect("updated", self, "_on_justification_updated")
 	justification.connect("request_replace", self, "set_justification")
-	emit_signal("updated") 
+	emit_signal("justification_changed") 
 
 func _on_justification_updated():
 	set_justification(justification)

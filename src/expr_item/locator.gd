@@ -51,6 +51,10 @@ func get_type() -> ExprItemType:
 	return expr_item.get_type()
 
 
+func get_all_types() -> Dictionary:
+	return expr_item.get_all_types()
+
+
 func get_child(idx:int) -> Locator:
 	var new_indeces := indeces.duplicate()
 	new_indeces.push_back(idx)

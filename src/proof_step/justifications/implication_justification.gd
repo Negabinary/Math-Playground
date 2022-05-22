@@ -38,6 +38,7 @@ func set_keep_condition(value:bool, idx:int):
 		keep_condition_ids.append(idx)
 	elif (not value) and (idx in keep_condition_ids):
 		keep_condition_ids.erase(idx)
+	emit_signal("updated")
 
 
 func set_keep_definition(value:bool, idx:int, reliant_conditions:Array):
@@ -48,6 +49,7 @@ func set_keep_definition(value:bool, idx:int, reliant_conditions:Array):
 				keep_condition_ids.append(r)
 	elif (not value) and (idx in keep_definition_ids):
 		keep_definition_ids.erase(idx)
+	emit_signal("updated")
 
 
 func get_options_for(expr_item:ExprItem, context:ParseBox):
