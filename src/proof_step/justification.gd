@@ -39,11 +39,12 @@ class BooleanOption extends Option:
 	
 	var label:String
 	var value:bool
-	var disabled = false
+	var disabled := false
 	
 	func _init(label:String, initial_value:bool, disabled:=false):
 		self.label = label
 		self.value = initial_value
+		self.disabled = disabled
 	
 	func get_label() -> String:
 		return label

@@ -40,6 +40,7 @@ func set_justification(justification:Justification): #<Requirement>
 	self.justification = justification
 	ui_justification_name.text = justification.get_justification_text()
 	ui_unprove_button.visible = not (justification is MissingJustification)
+	ui_unprove_button.connect("pressed", self, "set_justification", [MissingJustification.new()])
 	var description = justification.get_justification_description()
 	if description:
 		ui_description.show()

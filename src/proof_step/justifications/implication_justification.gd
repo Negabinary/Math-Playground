@@ -33,21 +33,21 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	]
 
 
-func set_keep_condition(value:bool, idx:int):
-	if value and not (idx in keep_condition_ids):
+func set_keep_condition(not_value:bool, idx:int):
+	if (not not_value) and not (idx in keep_condition_ids):
 		keep_condition_ids.append(idx)
-	elif (not value) and (idx in keep_condition_ids):
+	elif (not_value) and (idx in keep_condition_ids):
 		keep_condition_ids.erase(idx)
 	emit_signal("updated")
 
 
-func set_keep_definition(value:bool, idx:int, reliant_conditions:Array):
-	if value and not (idx in keep_definition_ids):
+func set_keep_definition(not_value:bool, idx:int, reliant_conditions:Array):
+	if (not not_value) and not (idx in keep_definition_ids):
 		keep_definition_ids.append(idx)
 		for r in reliant_conditions:
 			if not (r in keep_condition_ids):
 				keep_condition_ids.append(r)
-	elif (not value) and (idx in keep_definition_ids):
+	elif (not_value) and (idx in keep_definition_ids):
 		keep_definition_ids.erase(idx)
 	emit_signal("updated")
 
@@ -58,7 +58,7 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 	for i in statement.get_definitions().size():
 		var bo := Justification.BooleanOption.new(
 			"DEFINE " + statement.get_definitions()[i].to_string(), 
-			i in keep_definition_ids
+			not i in keep_definition_ids
 		)
 		var rc := []
 		for j in statement.get_conditions().size():
@@ -70,11 +70,11 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 		var disabled := false
 		for j in statement.get_definitions().size():
 			if j in keep_definition_ids:
-				if statement.get_definitions()[j] in statement.get_conditions()[i].get_all_types():
+				if statement.get_definitions()[j] in statement.get_conditions()[i].get_all_types().keys():
 					disabled = true
 		var co := Justification.BooleanOption.new(
 			"ASSUME " + statement.get_conditions()[i].to_string(), 
-			i in keep_condition_ids,
+			not i in keep_condition_ids,
 			disabled
 		)
 		co.connect("value_changed", self, "set_keep_condition", [i])
