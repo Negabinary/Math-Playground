@@ -75,6 +75,9 @@ func _on_expr_item_justified(uid:String):
 func get_requirements():
 	return requirements
 
+func get_justification_label():
+	return justification.get_justification_text()
+
 func hide_panel():
 	ui_panel.hide()
 

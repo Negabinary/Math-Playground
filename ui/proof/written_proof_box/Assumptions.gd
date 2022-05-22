@@ -16,3 +16,6 @@ func display_assumptions(requirement:Requirement):
 		new_label.disabled = true
 		new_label.set_text("ASSUME " + assumption.to_string())
 		add_child(new_label)
+
+func has_assumptions():
+	return get_child_count() != 0

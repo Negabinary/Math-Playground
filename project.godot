@@ -259,7 +259,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/proof/written_proof/written_justification.gd"
 }, {
-"base": "VBoxContainer",
+"base": "MarginContainer",
 "class": "WrittenProofBox2",
 "language": "GDScript",
 "path": "res://ui/proof/written_proof_box/WPB2.gd"
