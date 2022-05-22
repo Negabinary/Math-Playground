@@ -34,6 +34,7 @@ func init(expr_item:ExprItem, context:ProofBox, selection_handler:SelectionHandl
 	context.connect("justified", self, "_on_expr_item_justified")
 
 func set_justification(justification:Justification): #<Requirement>
+	var kind_changed = (self.justification == null or justification.get_script() != self.justification.get_script())
 	_ready()
 	if self.justification:
 		self.justification.disconnect("updated", self, "_on_justification_updated")
@@ -59,7 +60,7 @@ func set_justification(justification:Justification): #<Requirement>
 	if not ui_options.is_connected("request_change_justification", self, "set_justification"):
 		ui_options.connect("request_change_justification", self, "set_justification")
 		selection_handler.connect("locator_changed", self, "_on_justification_updated")
-	ui_panel.visible = requirements == null
+	ui_panel.visible = not valid or (ui_panel.visible and not kind_changed)
 	justification.connect("updated", self, "_on_justification_updated")
 	justification.connect("request_replace", self, "set_justification")
 	emit_signal("justification_changed") 
