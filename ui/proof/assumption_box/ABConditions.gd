@@ -16,5 +16,5 @@ func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_han
 
 func _update_conditions(conditions:Array):
 	for i in conditions.size():
-		var condition : UniversalLocator = UniversalLocator.new(assumption.get_statement(), conditions[i])
+		var condition : UniversalLocator = UniversalLocator.new(Statement.new(assumption), conditions[i])
 		$Conditions.add_item(condition.to_string())

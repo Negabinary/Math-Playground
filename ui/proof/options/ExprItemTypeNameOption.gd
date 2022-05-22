@@ -8,7 +8,7 @@ func init(option:Justification.ExprItemTypeNameOption):
 	$LineEdit.connect("text_changed", self, "_text_changed")
 
 
-func _text_changed():
+func _text_changed(x):
 	if $LineEdit.text != "": # TODO : there should be more checks to see if a name is valid
 		type.rename($LineEdit.text)
 	else:

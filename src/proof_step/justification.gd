@@ -75,7 +75,7 @@ class ExprItemOption extends Option:
 	
 	func set_expr_item(ei:ExprItem) -> void:
 		self.expr_item = ei
-		emit_signal("expr_item_changed")
+		emit_signal("expr_item_changed", ei)
 	
 	func get_context() -> ParseBox:
 		return context

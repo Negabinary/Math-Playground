@@ -2,17 +2,14 @@
 
 [ext_resource path="res://ui/proof/options/LabelOption.gd" type="Script" id=1]
 
-[node name="Control" type="Control"]
+[node name="Control" type="Label"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -560.0
 rect_min_size = Vector2( 0, 35 )
 size_flags_horizontal = 3
+autowrap = true
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Label" type="Label" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0

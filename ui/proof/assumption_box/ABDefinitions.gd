@@ -10,7 +10,7 @@ func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_han
 	self.assumption = assumption
 	self.selection_handler = selection_handler
 	
-	definitions = assumption.get_statement().get_definitions()
+	definitions = Statement.new(assumption).get_definitions()
 	
 	if definitions.size() > 0:
 		show()

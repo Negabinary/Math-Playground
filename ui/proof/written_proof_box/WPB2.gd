@@ -43,6 +43,7 @@ func init(context:ProofBox, requirement:Requirement, selection_handler):
 	else:
 		ui_assumptions.hide()
 		add_constant_override("margin_left", 0)
+	ui_statement.connect("selection_changed", selection_handler, "locator_changed", [self])
 	update()
 
 
@@ -66,6 +67,10 @@ func get_goal() -> ExprItem:
 
 func get_inner_proof_box() -> ProofBox:
 	return inner_proof_box
+
+
+func get_selected_locator() -> Locator:
+	return ui_statement.get_locator()
 
 
 # UPDATES =================================================

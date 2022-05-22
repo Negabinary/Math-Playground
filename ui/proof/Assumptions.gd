@@ -13,13 +13,16 @@ func _ready():
 
 
 func _on_goal_item_selected(expr_locator:Locator):
-	set_proof_step(selection_handler.get_goal(), selection_handler.get_inner_proof_box(), expr_locator)
+	if selection_handler.get_wpb():
+		set_proof_step(selection_handler.get_selected_goal(), selection_handler.get_wpb().get_inner_proof_box(), expr_locator)
+	else:
+		_clear_assumptions()
 
 
 func set_proof_step(goal:ExprItem, proof_box:ProofBox, new_location:Locator=null) -> void:
 	if new_location == null:
 		new_location = Statement.new(goal).get_conclusion()
-	if not self.goal.compare(goal) or self.proof_box != proof_box:
+	if self.goal != goal and (self.goal == null or not self.goal.compare(goal)) or self.proof_box != proof_box:
 		self.goal = goal
 		self.proof_box = proof_box
 		_update_assumptions()
@@ -47,7 +50,7 @@ func _update_assumptions() -> void:
 func save_assumption(assumption:ExprItem, assumption_context:ProofBox):
 	var assumption_box = ASSUMPTION_BOX.instance()
 	$VBoxContainer.add_child(assumption_box)
-	assumption_box.display_assumption(assumption, assumption_context, selection_handler)
+	assumption_box.initialise(assumption, assumption_context, selection_handler)
 	assumption_box.connect("proof_step_created", self, "_on_proof_step_created")
 
 

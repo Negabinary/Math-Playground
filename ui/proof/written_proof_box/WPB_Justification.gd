@@ -36,12 +36,11 @@ func init(expr_item:ExprItem, context:ProofBox, selection_handler:SelectionHandl
 func set_justification(justification:Justification): #<Requirement>
 	var kind_changed = (self.justification == null or justification.get_script() != self.justification.get_script())
 	_ready()
-	if self.justification:
-		self.justification.disconnect("updated", self, "_on_justification_updated")
 	self.justification = justification
 	ui_justification_name.text = justification.get_justification_text()
 	ui_unprove_button.visible = not (justification is MissingJustification)
-	ui_unprove_button.connect("pressed", self, "set_justification", [MissingJustification.new()])
+	if not ui_unprove_button.is_connected("pressed", self, "set_justification"):
+		ui_unprove_button.connect("pressed", self, "set_justification", [MissingJustification.new()])
 	var description = justification.get_justification_description()
 	if description:
 		ui_description.show()
@@ -56,16 +55,16 @@ func set_justification(justification:Justification): #<Requirement>
 		requirements = []
 		valid = false
 	ui_requirements.show_requirements(requirements)
-	ui_options.set_options(justification.get_options_for_selection(expr_item, context.get_parse_box(), selection_handler.get_locator() if selection_handler.get_wpb() == get_parent() else null))
+	ui_options.set_options(justification.get_options_for_selection(expr_item, context.get_parse_box(), selection_handler.get_locator() if selection_handler.get_wpb() == get_parent().get_parent() else null))
 	if not ui_options.is_connected("request_change_justification", self, "set_justification"):
 		ui_options.connect("request_change_justification", self, "set_justification")
 		selection_handler.connect("locator_changed", self, "_on_justification_updated")
-	ui_panel.visible = not valid or (ui_panel.visible and not kind_changed)
 	justification.connect("updated", self, "_on_justification_updated")
 	justification.connect("request_replace", self, "set_justification")
+	ui_panel.visible = not valid or (ui_panel.visible and not kind_changed)
 	emit_signal("justification_changed") 
 
-func _on_justification_updated():
+func _on_justification_updated(x=null):
 	set_justification(justification)
 
 func _on_expr_item_justified(uid:String):

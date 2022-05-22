@@ -9,11 +9,21 @@ func take_selection(wpb):
 	self.wpb = wpb
 	emit_signal("locator_changed", get_locator())
 
+func locator_changed(x, wpb):
+	self.wpb = wpb
+	emit_signal("locator_changed", get_locator())
+
 func get_locator() -> Locator:
-	return self.wpb.get_selected_locator()
+	if self.wpb:
+		return self.wpb.get_selected_locator()
+	else:
+		return null
 
 func get_selected_goal() -> ExprItem:
-	return self.wpb.get_goal()
+	if self.wpb:
+		return self.wpb.get_goal()
+	else:
+		return null
 
 func get_selected_proof_box() -> ExprItem:
 	return self.wpb.get_inner_proof_box()

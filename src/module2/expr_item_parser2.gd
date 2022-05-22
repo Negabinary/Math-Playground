@@ -26,13 +26,17 @@ static func err(token, string):
 
 func _init(string:String, proof_box):
 	self.tokens = Parser2.lex(string)
+	if self.tokens.size() == 0:
+		error = true
+		error_dict = err(null, "Empty expression")
+		return
 	self.proof_box = proof_box
 	var result = eat_expr(proof_box)
 	if result.error:
 		error = true
 		error_dict = result
 	else:
-		result = result.expr_item
+		self.result = result.expr_item
 	
 
 func eat_name() -> Dictionary:
@@ -46,13 +50,15 @@ func eat_name() -> Dictionary:
 
 
 func eat_expr(proof_box:ParseBox) -> Dictionary:
+	if tokens.size() <= i:
+		return err(tokens[i-1], "Unexpected end of expression")
 	match tokens[i].contents:
 		"forall":
 			i += 1
 			var bindings_parse := eat_bindings(proof_box)
 			if bindings_parse["error"]:
 				return bindings_parse
-			if tokens[i].contents != ".":
+			if tokens.size() <= i or tokens[i].contents != ".":
 				return err(tokens[i-1], "Expected . after: ")
 			i += 1
 			var new_proof_box = ParseBox.new(proof_box, bindings_parse.types)
@@ -78,7 +84,7 @@ func eat_expr(proof_box:ParseBox) -> Dictionary:
 			var bindings_parse := eat_bindings(proof_box)
 			if bindings_parse["error"]:
 				return bindings_parse
-			if tokens[i].contents != ".":
+			if tokens.size() <= i or tokens[i].contents != ".":
 				return err(tokens[i-1], "Expected . after: ")
 			var new_proof_box = ParseBox.new(proof_box, bindings_parse.types)
 			i += 1
@@ -104,7 +110,7 @@ func eat_expr(proof_box:ParseBox) -> Dictionary:
 			var bindings_parse := eat_bindings(proof_box)
 			if bindings_parse["error"]:
 				return bindings_parse
-			if tokens[i].contents != ".":
+			if tokens.size() <= i or tokens[i].contents != ".":
 				return err(tokens[i-1], "Expected . after: ")
 			i += 1
 			var new_proof_box = ParseBox.new(proof_box, bindings_parse.types)
@@ -125,7 +131,7 @@ func eat_expr(proof_box:ParseBox) -> Dictionary:
 			var lhs_parse := eat_expr(proof_box)
 			if lhs_parse.error:
 				return lhs_parse
-			if tokens[i].contents != "then":
+			if tokens.size() <= i or tokens[i].contents != "then":
 				return err(tokens[i-1], "Expected 'then' after: ")
 			i += 1
 			var rhs_parse := eat_expr(proof_box)
@@ -141,13 +147,13 @@ func eat_expr(proof_box:ParseBox) -> Dictionary:
 				return stuff_parse
 			if len(tokens) == i:
 				return {error=false, expr_item=stuff_parse.expr_item}
-			if tokens[i].contents == ":":
+			if tokens.size() <= i or tokens[i].contents == ":":
 				i += 1
 				var tag_parse := eat_tag(proof_box)
 				if tag_parse.error:
 					return tag_parse
 				return {error=false, expr_item=ExprItemTagHelper.tag_to_statement(tag_parse.tag, stuff_parse.expr_item)}
-			if tokens[i].contents == "and":
+			if tokens.size() <= i or tokens[i].contents == "and":
 				i += 1
 				var stuff_parse_2 := eat_stuff(proof_box)
 				if stuff_parse_2.error:
@@ -158,7 +164,7 @@ func eat_expr(proof_box:ParseBox) -> Dictionary:
 						[stuff_parse.expr_item, stuff_parse_2.expr_item]
 					)
 				}
-			if tokens[i].contents == "or":
+			if tokens.size() <= i or tokens[i].contents == "or":
 				i += 1
 				var stuff_parse_2 := eat_stuff(proof_box)
 				if stuff_parse_2.error:
@@ -169,7 +175,7 @@ func eat_expr(proof_box:ParseBox) -> Dictionary:
 						[stuff_parse.expr_item, stuff_parse_2.expr_item]
 					)
 				}
-			if tokens[i].contents == "=":
+			if tokens.size() <= i or tokens[i].contents == "=":
 				i += 1
 				var stuff_parse_2 := eat_stuff(proof_box)
 				if stuff_parse_2.error:
@@ -188,6 +194,8 @@ func eat_bindings(proof_box:ParseBox) -> Dictionary:
 	var types := []
 	var tags := {}
 	while not i == len(tokens):
+		if tokens.size() <= i:
+			return err(tokens[i-1], "Expected name")
 		if tokens[i].contents in keywords:
 			break
 		var name := eat_name()
@@ -195,6 +203,8 @@ func eat_bindings(proof_box:ParseBox) -> Dictionary:
 			return name
 		var type := ExprItemType.new(name.name)
 		types.append(type)
+		if tokens.size() <= i:
+				return err(tokens[i-1], "Unexpected end of expression")
 		if tokens[i].contents == ":":
 			i += 1
 			var tag_parse := eat_tag(proof_box)
@@ -209,6 +219,8 @@ func eat_bindings(proof_box:ParseBox) -> Dictionary:
 
 
 func eat_tag(proof_box:ParseBox) -> Dictionary:
+	if tokens.size() <= i:
+			return err(tokens[i-1], "Expected tag")
 	if tokens[i].contents == "forall":
 		i += 1
 		var bindings_parse := eat_bindings(proof_box)

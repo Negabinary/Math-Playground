@@ -22,7 +22,7 @@ func set_location(location:Locator):
 func set_replace_value(new_replace_value:ExprItem):
 	self.replace_value = new_replace_value
 	if replace_value:
-		self.replace_locations = Locator.new(location.get_expr_item()).find(replace_value)
+		self.replace_locations = Locator.new(location.get_expr_item()).find_all(replace_value)
 		self.replace_positions = []
 		for i in replace_locations:
 			self.replace_positions.append(true)
@@ -43,7 +43,7 @@ func _get_equality_replace_with(what:ExprItem, context:ParseBox):
 	var new_expr_item = what
 	for i in replace_locations.size():
 		if replace_positions[i]:
-			new_expr_item.replace_at(replace_locations[i].get_indeces(), ExprItem.new(replace_with))
+			new_expr_item = new_expr_item.replace_at(replace_locations[i].get_indeces(), ExprItem.new(replace_with))
 	return ExprItem.new(
 		GlobalTypes.LAMBDA,
 		[
@@ -61,7 +61,9 @@ func _get_equality_requirements(what:ExprItem, context:ParseBox):
 func _get_equality_options(what:ExprItem, context:ParseBox):
 	var options = []
 	options.append(Justification.LabelOption.new("Replace instances of:"))
-	options.append(Justification.ExprItemOption.new(replace_value, context))
+	var eio := Justification.ExprItemOption.new(replace_value, location.get_proof_box(context))
+	eio.connect("expr_item_changed", self, "set_replace_value")
+	options.append(eio)
 	if replace_value == null:
 		options.append(Justification.LabelOption.new("expression missing", true))
 	options.append(Justification.LabelOption.new("with a variable called:"))

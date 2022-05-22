@@ -12,6 +12,8 @@ func _init(location:Locator):
 # INHERITED ===================================================================
 
 func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+	if location == null:
+		return null
 	if not expr_item.compare(location.get_root()):
 		return null
 	var replace_with = _get_equality_replace_with(location.get_expr_item(), context)
@@ -27,11 +29,15 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 
 func get_options_for(expr_item:ExprItem, context:ParseBox):
 	var locator_option := Justification.LocatorOption.new(expr_item, location)
-	locator_option.connect("location_updated", self, "set_location")
-	var options = _get_equality_options(location.get_expr_item(), context).duplicate()
-	options.push_front(locator_option)
+	var options := []
 	options.push_front(Justification.LabelOption.new("Location:"))
-	return []
+	options.push_front(locator_option)
+	locator_option.connect("location_updated", self, "set_location")
+	if location == null or (not expr_item.compare(location.get_root())):
+		options.append(Justification.LabelOption.new("Location not valid", true))
+	else:
+		options.append_array(_get_equality_options(location.get_expr_item(), context))
+	return options
 
 
 func get_justification_text():

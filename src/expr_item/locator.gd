@@ -71,8 +71,8 @@ func get_proof_box(root_proof_box):
 		return root_proof_box
 	elif parent.get_type().get_binder_type() == ExprItemType.BINDER.BINDER and get_indeces()[-1] == 1:
 		return root_proof_box.get_script().new(
-			[parent.get_child(0).get_type()],
-			parent.get_proof_box(root_proof_box)
+			parent.get_proof_box(root_proof_box),
+			[parent.get_child(0).get_type()]
 		)
 	else:
 		return parent.get_proof_box(root_proof_box)
