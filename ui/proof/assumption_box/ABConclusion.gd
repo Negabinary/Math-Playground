@@ -2,21 +2,23 @@ extends HBoxContainer
 
 
 var conditions : Array
-var assumption : ProofStep
+var assumption : ExprItem
+var assumption_context : ProofBox
 var definitions : Array
-var selection_handler : SelectionHandler
+var selected_locator : Locator
+var selected_context : ProofBox
 
-
-func initialise(assumption:ProofStep, selection_handler:SelectionHandler):
+func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_handler:SelectionHandler):
 	self.assumption = assumption
-	self.selection_handler = selection_handler
+	self.assumption_context = assumption_context
 	
 	$Conclusion.set_drag_forwarding(self)
 	
-	if assumption.get_statement().get_conditions().size() == 0:
+	var assumption_statement := Statement.new(assumption)
+	
+	if assumption_statement.get_conditions().size() == 0:
 		$Then.hide()
 	
-	var assumption_statement := assumption.get_statement()
 	var conclusion:Locator = assumption_statement.get_conclusion()
 	definitions = assumption_statement.get_definitions()
 	
@@ -29,15 +31,18 @@ func get_drag_data_fw(position, node):
 	return assumption.get_statement().get_conclusion()
 
 
-func update_context(proof_step:ProofStep, locator:Locator):
+func update_context(locator:Locator, context:ProofBox):
+	selected_locator = locator
+	selected_context = context
 	var matching := {}
-	for definition in assumption.get_statement().get_definitions():
+	var assumption_statement := Statement.new(assumption)
+	for definition in assumption_statement.get_definitions():
 		matching[definition] = "*"
-	if locator.get_expr_item().compare(assumption.get_statement().get_conclusion().get_expr_item()) and proof_step.needs_justification():
+	if locator.get_expr_item().compare(assumption_statement.get_conclusion().get_expr_item()):
 		$Conclusion.modulate = Color.green
-	elif assumption.get_statement().get_conclusion().get_expr_item().is_superset(locator.get_expr_item(), matching) and proof_step.needs_justification():
+	elif assumption_statement.get_conclusion().get_expr_item().is_superset(locator.get_expr_item(), matching):
 		$Conclusion.modulate = Color.yellow
-	elif assumption.get_statement().get_conclusion().get_expr_item().get_type() == GlobalTypes.EXISTS and assumption.get_statement().get_definitions().size() == 0:
+	elif assumption_statement.get_conclusion().get_expr_item().get_type() == GlobalTypes.EXISTS and assumption_statement.get_definitions().size() == 0:
 		$Conclusion.modulate = Color.cyan
 	else:
 		$Conclusion.modulate = Color.white
@@ -47,7 +52,20 @@ func clear_highlighting():
 	$Conclusion.modulate = Color.white
 
 func _on_item_activated(_index):
-	if assumption.get_statement().get_conclusion().get_expr_item().get_type() == GlobalTypes.EXISTS and assumption.get_statement().get_definitions().size() == 0:
-		JustificationBuilder.conditional_instantiation_justify(selection_handler.get_selected_goal(), assumption)
+	var assumption_statement := Statement.new(assumption)
+	if assumption_statement.get_conclusion().get_expr_item().get_type() == GlobalTypes.EXISTS and assumption_statement.get_definitions().size() == 0:
+		var existential = assumption_statement.get_conclusion().get_expr_item()
+		var existential_justification = InstantiateJustification.new(
+			existential.get_child(0).get_type().to_string(),
+			existential
+		)
+		var modus_ponens = ModusPonensJustification.new(
+			assumption
+		)
+		selected_context.add_justification(selected_locator.get_root(), existential_justification)
+		selected_context.add_justification(existential, modus_ponens)
 	else:
-		selection_handler.get_proof_step().justify_with_modus_ponens(assumption)
+		var modus_ponens = ModusPonensJustification.new(
+			assumption
+		)
+		selected_context.add_justification(selected_locator.get_root(), modus_ponens)

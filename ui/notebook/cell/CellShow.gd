@@ -4,8 +4,8 @@ var item
 
 func initialise(item:ModuleItem2Theorem):
 	self.item = item
-	$HBoxContainer3/Name.text = item.get_requirement().get_expr_item().to_string()
-	$Proof/WrittenProof.display_proof(item.get_requirement())
+	$HBoxContainer3/Name.text = item.get_requirement().get_goal().to_string()
+	$Proof/WrittenProof.display_proof(item.get_context(), item.get_requirement())
 
 func serialise():
 	return item.serialise()

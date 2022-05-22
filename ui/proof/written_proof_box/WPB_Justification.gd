@@ -40,9 +40,9 @@ func set_justification(justification:Justification): #<Requirement>
 		ui_description.text = justification.get_justification_description()
 	else:
 		ui_description.hide()
-	requirements = justification.get_requirements_for(expr_item, context)
+	requirements = justification.get_requirements_for(expr_item, context.get_parse_box())
 	ui_requirements.show_requirements(requirements)
-	ui_options.show_options(justification.get_options_for(expr_item, context))
+	ui_options.show_options(justification.get_options_for(expr_item, context.get_parse_box()))
 	ui_options.connect("request_change_justification", self, "set_justification")
 	ui_panel.visible = requirements == null
 	justification.connect("justification_changed", self, "_on_justification_updated")

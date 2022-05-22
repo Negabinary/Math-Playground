@@ -41,10 +41,10 @@ __meta__ = {
 [node name="Label" type="Label" parent="HSplitContainer/Context/VBoxContainer"]
 margin_right = 188.0
 margin_bottom = 50.0
-custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_constants/line_spacing = -11
 custom_constants/shadow_offset_y = 0
+custom_fonts/font = ExtResource( 4 )
 text = "CURRENT ASSUMPTIONS
 (Double click on Green)"
 autowrap = true
@@ -54,9 +54,9 @@ __meta__ = {
 
 [node name="TextEdit" type="TextEdit" parent="HSplitContainer/Context/VBoxContainer"]
 visible = false
-margin_top = 67.0
-margin_right = 152.0
-margin_bottom = 162.0
+margin_top = 54.0
+margin_right = 188.0
+margin_bottom = 231.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 readonly = true

@@ -45,7 +45,7 @@ func eat_name() -> Dictionary:
 		return {error=false, name=tokens[i-1].contents}
 
 
-func eat_expr(proof_box:ProofBox) -> Dictionary:
+func eat_expr(proof_box:ParseBox) -> Dictionary:
 	match tokens[i].contents:
 		"forall":
 			i += 1
@@ -184,7 +184,7 @@ func eat_expr(proof_box:ProofBox) -> Dictionary:
 				return {error=false, expr_item=stuff_parse.expr_item}
 
 
-func eat_bindings(proof_box:ProofBox) -> Dictionary:
+func eat_bindings(proof_box:ParseBox) -> Dictionary:
 	var types := []
 	var tags := {}
 	while not i == len(tokens):

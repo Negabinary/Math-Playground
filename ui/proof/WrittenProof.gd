@@ -1,12 +1,14 @@
 extends VBoxContainer
 
 var requirement : Requirement
+var proof_context : ProofBox
 onready var main = $"../../../.."
 onready var selection_handler = $"../../../../../../../../../../../../SelectionHandler"
 
 
-func display_proof(requirement:Requirement):
+func display_proof(context:ProofBox, requirement:Requirement):
 	self.requirement = requirement
+	self.proof_context = context
 	_update()
 
 
@@ -21,7 +23,7 @@ func _clear():
 
 
 func _display_proof_step():
-	var j_box = WrittenProofBoxBuilder.build(requirement, selection_handler)
+	var j_box = WrittenProofBoxBuilder.build(proof_context, requirement, selection_handler)
 	if not requirement.is_connected("justified", self, "_update"):
 		requirement.connect("justified", self, "_update")
 	$Justification.add_child(j_box)

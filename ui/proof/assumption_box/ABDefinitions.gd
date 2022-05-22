@@ -2,11 +2,11 @@ extends HBoxContainer
 
 
 var definitions : Array
-var assumption : ProofStep
+var assumption : ExprItem
 var selection_handler : SelectionHandler
 
 
-func initialise(assumption:ProofStep, selection_handler:SelectionHandler):
+func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_handler:SelectionHandler):
 	self.assumption = assumption
 	self.selection_handler = selection_handler
 	
@@ -35,6 +35,6 @@ func _ons_item_activated(index):
 func _on_ExprItem_confirmed():
 	var context:ProofBox = selection_handler.get_selected_goal().get_proof_box()
 	var expr_item = ExprItemBuilder.from_string($EnterExprItem/VBoxContainer/LineEdit.text,context)
-	var refined_ps := ProofStep.new(assumption.get_expr_item().deep_replace_types({last_definition:expr_item}), context)
-	refined_ps.justify_with_specialisation(assumption, {last_definition:expr_item})
-	get_parent().get_parent().emit_signal("proof_step_created", refined_ps)
+	var specialization = RefineJustification.new(assumption)
+	selection_handler.get_selected_proof_box().add_justification(expr_item, specialization)
+	get_parent().get_parent().emit_signal("proof_step_created", expr_item)

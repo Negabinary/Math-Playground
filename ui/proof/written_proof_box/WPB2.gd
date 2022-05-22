@@ -1,7 +1,7 @@
 extends VBoxContainer
 class_name WrittenProofBox2
 
-const WPB2:PackedScene = preload("res://ui/proof/written_proof_box/WPB2.tscn")
+onready var WPB2:PackedScene = load("res://ui/proof/written_proof_box/WPB2.tscn")
 
 var inner_proof_box : ProofBox # final
 var requirement : Requirement # final

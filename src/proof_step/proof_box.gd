@@ -95,9 +95,22 @@ func get_all_assumptions() -> Array:
 		return get_assumptions() + parent.get_assumptions() + imported_assumptions
 
 
+func get_all_assumptions_in_context() -> Array:
+	var imported_assumptions := []
+	for import in imports:
+		imported_assumptions += import.get_all_assumptions_in_context()
+	var return_value = []
+	for ass in get_assumptions():
+		return_value.append([ass,self])
+	if parent != null:
+		return_value.append_array(parent.get_all_assumptions_in_context())
+	return_value.append_array(imported_assumptions)
+	return return_value
+
+
 var MJ := load("res://src/proof_step/justifications/missing_justification.gd")
 
-func get_justification_or_missing(expr_item:ExprItem):
+func get_justification_or_missing_for(expr_item:ExprItem):
 	var j = get_justification_for(expr_item)
 	if j:
 		return j
@@ -124,3 +137,12 @@ func _get_parent_justification(expr_item:ExprItem):
 	if parent != null:
 		return parent.get_justification_for(expr_item)
 	return null
+
+
+func is_ancestor_of(other:ProofBox):
+	if self == other:
+		return true
+	elif other.parent == null:
+		return false
+	else:
+		return is_ancestor_of(other.parent)

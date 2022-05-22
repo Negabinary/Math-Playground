@@ -114,11 +114,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/justification.gd"
 }, {
-"base": "Node",
-"class": "JustificationBuilder",
-"language": "GDScript",
-"path": "res://src/proof_step/justification_buider.gd"
-}, {
 "base": "Object",
 "class": "Locator",
 "language": "GDScript",
@@ -214,11 +209,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/requirement.gd"
 }, {
-"base": "Reference",
-"class": "RequirementJustifier",
-"language": "GDScript",
-"path": "res://src/proof_step/requirement_justifier.gd"
-}, {
 "base": "Node",
 "class": "SelectionHandler",
 "language": "GDScript",
@@ -255,11 +245,6 @@ _global_script_classes=[ {
 "path": "res://ui/proof/written_proof_box/WPBOptions.gd"
 }, {
 "base": "VBoxContainer",
-"class": "WPBParent",
-"language": "GDScript",
-"path": "res://ui/proof/written_proof_box/WPBParent.gd"
-}, {
-"base": "VBoxContainer",
 "class": "WPBRequirements",
 "language": "GDScript",
 "path": "res://ui/proof/written_proof_box/WPBRequirements.gd"
@@ -273,11 +258,6 @@ _global_script_classes=[ {
 "class": "WrittenJustification",
 "language": "GDScript",
 "path": "res://ui/proof/written_proof/written_justification.gd"
-}, {
-"base": "WPBParent",
-"class": "WrittenProofBox",
-"language": "GDScript",
-"path": "res://ui/proof/written_proof_box/WrittenProofBox.gd"
 }, {
 "base": "VBoxContainer",
 "class": "WrittenProofBox2",
@@ -316,7 +296,6 @@ _global_script_class_icons={
 "IntroducedLambdaJustification": "",
 "ItemParser2": "",
 "Justification": "",
-"JustificationBuilder": "",
 "Locator": "",
 "MatchingJustification": "",
 "MiscUtil": "",
@@ -336,7 +315,6 @@ _global_script_class_icons={
 "RefineJustification": "",
 "ReflexiveJustification": "",
 "Requirement": "",
-"RequirementJustifier": "",
 "SelectionHandler": "",
 "Statement": "",
 "Token2": "",
@@ -344,11 +322,9 @@ _global_script_class_icons={
 "VacuousJustification": "",
 "WPBJustification": "",
 "WPBOptions": "",
-"WPBParent": "",
 "WPBRequirements": "",
 "WitnessJustification": "",
 "WrittenJustification": "",
-"WrittenProofBox": "",
 "WrittenProofBox2": "",
 "WrittenProofBoxBuilder": "",
 "WrittenStatement": ""
