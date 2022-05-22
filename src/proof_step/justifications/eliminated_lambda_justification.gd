@@ -72,7 +72,7 @@ func _get_equality_options(what:ExprItem, context:ParseBox):
 		if replace_locations.size() == 0:
 			options.append(Justification.LabelOption.new("(this will be a constant function, since the expression above does not appear in the goal)"))
 		else:
-			options.append(Justification.LabelOption.new("specifically these instances:", true))
+			options.append(Justification.LabelOption.new("specifically these instances:"))
 			for i in replace_locations.size():
 				var boolean_option = Justification.BooleanOption.new(MiscUtil.ordinal(i), replace_positions[i])
 				boolean_option.connect("value_changed", self, "set_replace_position", [i])
