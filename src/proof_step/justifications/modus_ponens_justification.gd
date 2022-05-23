@@ -7,10 +7,12 @@ var implication : ExprItem
 
 func _init(implication:ExprItem):
 	self.implication = implication
+	emit_signal("updated")
 
 
 func set_implication(implication:ExprItem):
 	self.implication = implication
+	emit_signal("updated")
 
 
 func get_requirements_for(expr_item:ExprItem, parse_box:ParseBox):
@@ -24,6 +26,7 @@ func get_requirements_for(expr_item:ExprItem, parse_box:ParseBox):
 		reqs.append(Requirement.new(
 			assumption.get_expr_item()
 		))
+	reqs.append(Requirement.new(implication))
 	return reqs
 
 

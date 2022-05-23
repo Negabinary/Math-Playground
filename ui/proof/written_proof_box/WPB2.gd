@@ -1,8 +1,6 @@
 extends MarginContainer
 class_name WrittenProofBox2
 
-onready var WPB2:PackedScene = load("res://ui/proof/written_proof_box/WPB2.tscn")
-
 var inner_proof_box : ProofBox # final
 var requirement : Requirement # final
 var selection_handler # final
@@ -90,7 +88,7 @@ func _change_dependencies(requirements:Array, dependency_id:=0):
 		if keepers.get(new_requirement):
 			ui_dependencies.add_child(keepers[new_requirement])
 		else:
-			var new_ui_dependency = WPB2.instance()
+			var new_ui_dependency = WPB_SCENE.instance()
 			new_ui_dependency.init(inner_proof_box, new_requirement, selection_handler)
 			ui_dependencies.add_child(new_ui_dependency)
 	_change_active_depenency(dependency_id)

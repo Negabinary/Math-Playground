@@ -22,6 +22,7 @@ func _validate():
 	else:
 		$ConfirmationDialog.get_ok().disabled = false
 		$ConfirmationDialog.get_ok().connect("pressed", self, "ok")
+		$ConfirmationDialog/VBoxContainer/Label.text = ""
 
 func ok():
 	option.set_expr_item(parser.result)
