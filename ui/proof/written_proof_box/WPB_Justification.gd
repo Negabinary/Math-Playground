@@ -58,9 +58,12 @@ func set_justification(justification:Justification): #<Requirement>
 	ui_options.set_options(justification.get_options_for_selection(expr_item, context.get_parse_box(), selection_handler.get_locator() if selection_handler.get_wpb() == get_parent().get_parent() else null))
 	if not ui_options.is_connected("request_change_justification", self, "set_justification"):
 		ui_options.connect("request_change_justification", self, "set_justification")
+	if not selection_handler.is_connected("locator_changed", self, "_on_justification_updated"):
 		selection_handler.connect("locator_changed", self, "_on_justification_updated")
-	justification.connect("updated", self, "_on_justification_updated")
-	justification.connect("request_replace", self, "set_justification")
+	if not justification.is_connected("updated", self, "_on_justification_updated"):
+		justification.connect("updated", self, "_on_justification_updated")
+	if not justification.is_connected("request_replace", self, "set_justification"):
+		justification.connect("request_replace", self, "set_justification")
 	ui_panel.visible = not valid or (ui_panel.visible and not kind_changed)
 	emit_signal("justification_changed") 
 

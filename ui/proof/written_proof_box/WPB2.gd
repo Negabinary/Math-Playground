@@ -84,7 +84,7 @@ func _change_dependencies(requirements:Array, dependency_id:=0):
 		for child in old_children:
 			if child.requirement.compare(new_requirement):
 				keepers[new_requirement] = child
-				ui_dependencies.remove_child(child)
+				old_children.erase(child)
 				break
 		if keepers.get(new_requirement):
 			ui_dependencies.add_child(keepers[new_requirement])

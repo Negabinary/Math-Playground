@@ -171,7 +171,8 @@ func _draw_locator(locator:Locator, x0:float) -> float:
 				if i < locator.get_child_count() - 1:
 					xe = _draw_string(", ", xe)
 			xe = _draw_string(")", xe)
-		locator.get_type().connect("renamed", self, "update")
+		if not locator.get_type().is_connected("renamed", self, "update"):
+			locator.get_type().connect("renamed", self, "update")
 	
 	locators.append(locator)
 	rects.append(Rect2(
