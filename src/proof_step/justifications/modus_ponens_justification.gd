@@ -21,7 +21,7 @@ func get_requirements_for(expr_item:ExprItem, parse_box:ParseBox):
 		return null
 	var reqs := []
 	for assumption in statement.get_conditions():
-		reqs.append(Statement.new(
+		reqs.append(Requirement.new(
 			assumption.get_expr_item()
 		))
 	return reqs
