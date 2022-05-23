@@ -7,35 +7,29 @@ var inner_proof_box : ProofBox # final
 var requirement : Requirement # final
 var selection_handler # final
 
-var ui_assumptions : Assumptions
-var ui_dependencies : MarginContainer
-var ui_justification_label : WrittenJustification
-var ui_justification_holder : WPBJustification
 var ui_statement : WrittenStatement
+var ui_justification_holder : WPBJustification
+var ui_justification_label : WrittenJustification
+var ui_dependencies : MarginContainer
+var ui_assumptions : Assumptions
+
 
 var WPB_SCENE = load("res://ui/proof/written_proof_box/WPB2.tscn")
 
 
 # INITIALISATION ==========================================
 
-func _find_ui_elements() -> void:
-	ui_assumptions = $WrittenProofBox/Assumptions
-	ui_dependencies = $WrittenProofBox/Dependencies
-	ui_justification_label = $WrittenProofBox/JustificationLabel
-	ui_justification_holder = $WrittenProofBox/Justification
-	ui_statement = $WrittenProofBox/Statement
-
-
 func init(context:ProofBox, requirement:Requirement, selection_handler):
-	_find_ui_elements()
 	self.requirement = requirement
 	self.selection_handler = selection_handler
 	self.inner_proof_box = ProofBox.new(
 		context, requirement.get_definitions(), requirement.get_assumptions()
 	)
+	_find_ui_elements()
 	ui_statement.set_expr_item(requirement.get_goal())
 	ui_justification_holder.init(requirement.get_goal(), inner_proof_box, selection_handler)
 	ui_justification_holder.connect("justification_changed", self, "_on_justification_changed")
+	ui_justification_holder.connect("change_active_dependency", self, "_change_active_depenency")
 	ui_justification_label.set_text(ui_justification_holder.get_justification_label())
 	_change_dependencies(ui_justification_holder.get_requirements())
 	if requirement.get_assumptions().size() > 0 or requirement.get_definitions().size() > 0:
@@ -46,6 +40,13 @@ func init(context:ProofBox, requirement:Requirement, selection_handler):
 	ui_statement.connect("selection_changed", selection_handler, "locator_changed", [self])
 	update()
 
+
+func _find_ui_elements() -> void:
+	ui_statement = $WrittenProofBox/Statement
+	ui_justification_holder = $WrittenProofBox/Justification
+	ui_justification_label = $WrittenProofBox/JustificationLabel
+	ui_dependencies = $WrittenProofBox/Dependencies
+	ui_assumptions = $WrittenProofBox/Assumptions
 
 # STATUS ==================================================
 

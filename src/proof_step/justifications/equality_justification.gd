@@ -35,7 +35,14 @@ func set_replace_with(rw:ExprItem):
 func _get_equality_options(what:ExprItem, context:ParseBox):
 	var options = []
 	options.append(Justification.LabelOption.new("Replace with:"))
-	var rw_option := Justification.ExprItemOption.new(replace_with, context)
+	var rw_option := Justification.ExprItemOption.new(replace_with, location.get_proof_box(context))
 	rw_option.connect("expr_item_changed", self, "set_replace_with")
 	options.append(rw_option)
-	return rw_option
+	return options
+
+
+func get_justification_text():
+	if location and replace_with:
+		return "USING " + location.get_expr_item().to_string() + " = " + replace_with.to_string()
+	else:
+		return "USING AN EQUALITY"
