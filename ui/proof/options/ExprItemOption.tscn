@@ -6,23 +6,28 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -560.0
-rect_min_size = Vector2( 0, 35 )
+rect_min_size = Vector2( 0, 20 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Button" type="Button" parent="."]
-margin_right = 39.0
+margin_right = 49.0
 margin_bottom = 40.0
-text = "edit"
+text = "(edit)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="."]
-margin_left = 43.0
-margin_top = 11.0
+margin_left = 53.0
+margin_top = 19.0
 margin_right = 1024.0
-margin_bottom = 28.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
+autowrap = true
+clip_text = true
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 margin_left = 424.0

@@ -5,8 +5,9 @@
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -1024.0
 margin_bottom = -560.0
-rect_min_size = Vector2( 0, 35 )
+rect_min_size = Vector2( 0, 40 )
 size_flags_horizontal = 3
 script = ExtResource( 1 )
 __meta__ = {

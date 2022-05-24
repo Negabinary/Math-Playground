@@ -6,7 +6,7 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -560.0
-rect_min_size = Vector2( 0, 35 )
+rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 script = ExtResource( 1 )
 __meta__ = {
@@ -14,5 +14,7 @@ __meta__ = {
 }
 
 [node name="LineEdit" type="LineEdit" parent="."]
-margin_right = 56.0
-margin_bottom = 25.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+expand_to_text_length = true
