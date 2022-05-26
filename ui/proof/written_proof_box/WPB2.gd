@@ -20,6 +20,7 @@ var WPB_SCENE = load("res://ui/proof/written_proof_box/WPB2.tscn")
 func init(context:ProofBox, requirement:Requirement, selection_handler):
 	self.requirement = requirement
 	self.selection_handler = selection_handler
+	selection_handler.connect("locator_changed", self, "_on_selected_locator_changed")
 	self.inner_proof_box = ProofBox.new(
 		context, requirement.get_definitions(), requirement.get_assumptions()
 	)
@@ -105,6 +106,11 @@ func _change_active_depenency(dependency_id:int):
 func _on_justification_changed():
 	_change_dependencies(ui_justification_holder.get_requirements())
 	ui_justification_label.set_text(ui_justification_holder.get_justification_label())
+
+
+func _on_selected_locator_changed(locator):
+	if selection_handler.get_wpb() != self:
+		ui_statement.deselect()
 
 
 # DRAWING =================================================

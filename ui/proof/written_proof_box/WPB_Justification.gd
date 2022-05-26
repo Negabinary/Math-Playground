@@ -75,7 +75,7 @@ func set_justification(justification:Justification): #<Requirement>
 	ui_panel.visible = not valid or (ui_panel.visible and not kind_changed)
 	emit_signal("justification_changed") 
 
-func _on_locator_changed():
+func _on_locator_changed(new_locator):
 	ui_options.set_options(justification.get_options_for_selection(expr_item, context.get_parse_box(), selection_handler.get_locator() if selection_handler.get_wpb() == get_parent().get_parent() else null))
 
 func _on_justification_updated(x=null):
