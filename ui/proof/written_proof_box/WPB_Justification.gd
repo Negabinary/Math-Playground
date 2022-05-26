@@ -39,7 +39,7 @@ func init(expr_item:ExprItem, context:ProofBox, selection_handler:SelectionHandl
 	self.context = context
 	context.connect("justified", self, "_on_expr_item_justified")
 	self.selection_handler = selection_handler
-	selection_handler.connect("locator_changed", self, "_on_justification_updated")
+	selection_handler.connect("locator_changed", self, "_on_locator_changed")
 	_find_ui_elements()
 	set_justification(context.get_justification_or_missing_for(expr_item))
 
@@ -75,10 +75,14 @@ func set_justification(justification:Justification): #<Requirement>
 	ui_panel.visible = not valid or (ui_panel.visible and not kind_changed)
 	emit_signal("justification_changed") 
 
+func _on_locator_changed():
+	ui_options.set_options(justification.get_options_for_selection(expr_item, context.get_parse_box(), selection_handler.get_locator() if selection_handler.get_wpb() == get_parent().get_parent() else null))
+
 func _on_justification_updated(x=null):
 	set_justification(justification)
 
 func _on_requirement_selected(id):
+	ui_requirements.show_requirements(requirements, id)
 	emit_signal("change_active_dependency", id)
 
 func _on_expr_item_justified(uid:String):

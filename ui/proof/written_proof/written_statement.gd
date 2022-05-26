@@ -196,19 +196,20 @@ func get_drag_data(position): # -> UniversalLocator
 
 func _input(event):
 	if event is InputEventMouseButton:
-		var position = event.position - get_global_rect().position
-		for i in rects.size():
-			if rects[i].has_point(position):
-				if Input.is_key_pressed(KEY_SHIFT):
-					var parent:Locator = locators[i].get_parent()
-					selection = i
-					is_selected = true
-					update()
-					emit_signal("selection_changed", locators[i])
-					break
-				else:
-					selection = i
-					is_selected = true
-					update()
-					emit_signal("selection_changed", locators[i])
-					break
+		if event.button_index == 1 and is_visible_in_tree():
+			var position = event.position - get_global_rect().position
+			for i in rects.size():
+				if rects[i].has_point(position):
+					if Input.is_key_pressed(KEY_SHIFT):
+						var parent:Locator = locators[i].get_parent()
+						selection = i
+						is_selected = true
+						update()
+						emit_signal("selection_changed", locators[i])
+						break
+					else:
+						selection = i
+						is_selected = true
+						update()
+						emit_signal("selection_changed", locators[i])
+						break
