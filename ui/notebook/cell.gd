@@ -28,11 +28,12 @@ var bottom_proof_box := top_proof_box
 
 
 func _ready():
-	ui_edit_button.connect("pressed", self, "edit")
-	ui_eval_button.connect("pressed", self, "eval")
-	ui_up_button.connect("pressed", self, "_on_request_move_up_button")
-	ui_down_button.connect("pressed", self, "_on_request_move_down_button")
-	ui_delete_button.connect("pressed", self, "_on_request_delete_button")
+	if not ui_edit_button.is_connected("pressed", self, "edit"):
+		ui_edit_button.connect("pressed", self, "edit")
+		ui_eval_button.connect("pressed", self, "eval")
+		ui_up_button.connect("pressed", self, "_on_request_move_up_button")
+		ui_down_button.connect("pressed", self, "_on_request_move_down_button")
+		ui_delete_button.connect("pressed", self, "_on_request_delete_button")
 
 
 func serialise() -> Dictionary:
