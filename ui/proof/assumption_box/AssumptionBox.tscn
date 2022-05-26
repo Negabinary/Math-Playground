@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ui/proof/assumption_box/AssumptionBox.gd" type="Script" id=1]
-[ext_resource path="res://ui/proof/popups/EnterExprItem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/proof/assumption_box/ABDefinitions.gd" type="Script" id=3]
 [ext_resource path="res://ui/proof/assumption_box/ABConclusion.gd" type="Script" id=4]
 [ext_resource path="res://ui/proof/assumption_box/Equalities.gd" type="Script" id=5]
@@ -50,9 +49,32 @@ size_flags_horizontal = 3
 auto_height = true
 max_columns = 100
 
-[node name="EnterExprItem" parent="VBoxContainer/Definitions" instance=ExtResource( 2 )]
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="VBoxContainer/Definitions"]
+margin_left = 424.0
+margin_right = 1024.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 600, 400 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Definitions/ConfirmationDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
 margin_top = 8.0
-margin_bottom = 78.0
+margin_right = -8.0
+margin_bottom = -35.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/Definitions/ConfirmationDialog/VBoxContainer"]
+margin_right = 584.0
+margin_bottom = 336.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/Definitions/ConfirmationDialog/VBoxContainer"]
+margin_top = 340.0
+margin_right = 584.0
+margin_bottom = 357.0
 
 [node name="Conditions" type="HBoxContainer" parent="VBoxContainer"]
 visible = false
@@ -125,6 +147,5 @@ auto_height = true
 script = ExtResource( 5 )
 
 [connection signal="item_activated" from="VBoxContainer/Definitions/Definitions" to="VBoxContainer/Definitions" method="_ons_item_activated"]
-[connection signal="confirmed" from="VBoxContainer/Definitions/EnterExprItem" to="VBoxContainer/Definitions" method="_on_ExprItem_confirmed"]
 [connection signal="item_activated" from="VBoxContainer/Conclusion/Conclusion" to="VBoxContainer/Conclusion" method="_on_item_activated"]
 [connection signal="item_activated" from="VBoxContainer/Equality/Equalities" to="VBoxContainer/Equality/Equalities" method="_on_item_activated"]

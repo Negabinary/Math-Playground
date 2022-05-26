@@ -5,7 +5,7 @@ var general : ExprItem
 
 
 func _init(general_form:ExprItem=null):
-	self.general_form = general_form
+	self.general = general_form
 
 
 func get_requirements_for(expr_item:ExprItem, context:ParseBox):

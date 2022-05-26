@@ -42,7 +42,7 @@ func clear_highlighting():
 
 func _on_item_activated(index):
 	var justification = EqualityJustification.new(
-		selected_locator, locator.get_expr_item().get_child(index), index == 1
+		selected_locator, locator.get_expr_item().get_child(index), index != 1
 	)
 	selected_context.add_justification(selected_locator.get_root(), justification)
 

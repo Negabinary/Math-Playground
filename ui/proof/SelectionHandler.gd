@@ -25,7 +25,7 @@ func get_selected_goal() -> ExprItem:
 	else:
 		return null
 
-func get_selected_proof_box() -> ExprItem:
+func get_selected_proof_box() -> ProofBox:
 	return self.wpb.get_inner_proof_box()
 
 func get_wpb():

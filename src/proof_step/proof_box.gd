@@ -80,8 +80,8 @@ func add_justification(expr_item:ExprItem, justification):
 func get_assumptions() -> Array: #<ExprItem>
 	var result := []
 	for ustring in justifications:
-		if justifications[ustring] is AssumptionJustification:
-			result.append(expr_items[ustring])
+		#if justifications[ustring] is AssumptionJustification:
+		result.append(expr_items[ustring])
 	return result
 
 
