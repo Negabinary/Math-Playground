@@ -24,6 +24,51 @@ func get_options_for_selection(expr_item:ExprItem, context:ParseBox, selection:L
 		ImplicationJustification.new()
 	])
 	options.append(prove_implication_button)
+	var instantiation_button = Justification.ButtonOption.new("instantiate an existential")
+	instantiation_button.connect("pressed", self, "_request_replace",[
+		InstantiateJustification.new()
+	])
+	options.append(instantiation_button)
+	var reduce_lambda_button = Justification.ButtonOption.new("reduce lambda")
+	reduce_lambda_button.connect("pressed", self, "_request_replace",[
+		IntroducedLambdaJustification.new(locator)
+	])
+	options.append(reduce_lambda_button)
+	var reduce_double_negative_button = Justification.ButtonOption.new("reduce double negative")
+	reduce_double_negative_button.connect("pressed", self, "_request_replace",[
+		IntroducedDoubleNegativeJustification.new(locator)
+	])
+	options.append(reduce_double_negative_button)
+	var matching_button = Justification.ButtonOption.new("match arguments")
+	matching_button.connect("pressed", self, "_request_replace",[
+		MatchingJustification.new()
+	])
+	options.append(matching_button)
+	var modus_ponens_button = Justification.ButtonOption.new("use an implication")
+	matching_button.connect("pressed", self, "_request_replace", [
+		ModusPonensJustification.new()
+	])
+	options.append(modus_ponens_button)
+	var refine_button = Justification.ButtonOption.new("prove a forall")
+	refine_button.connect("pressed", self, "_request_replace", [
+		RefineJustification.new()
+	])
+	options.append(refine_button)
+	var reflexive_button = Justification.ButtonOption.new("prove a reflexive equality")
+	reflexive_button.connect("pressed", self, "_request_replace", [
+		ReflexiveJustification.new()
+	])
+	options.append(reflexive_button)
+	var vacuous_justification = Justification.ButtonOption.new("prove this implication vacuous")
+	vacuous_justification.connect("pressed", self, "_request_replace", [
+		VacuousJustification.new()
+	])
+	options.append(vacuous_justification)
+	var witness_justification = Justification.ButtonOption.new("prove an existential")
+	witness_justification.connect("pressed", self, "_request_replace", [
+		WitnessJustification.new()
+	])
+	options.append(witness_justification)
 	# TODO: Add the rest!
 	return options
 

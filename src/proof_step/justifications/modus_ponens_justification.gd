@@ -5,7 +5,7 @@ class_name ModusPonensJustification
 var implication : ExprItem
 
 
-func _init(implication:ExprItem):
+func _init(implication=null):
 	self.implication = implication
 	emit_signal("updated")
 
@@ -17,6 +17,8 @@ func set_implication(implication:ExprItem):
 
 func get_requirements_for(expr_item:ExprItem, parse_box:ParseBox):
 	var statement = Statement.new(implication)
+	if implication == null:
+		return null
 	if not expr_item.compare(statement.get_conclusion().get_expr_item()):
 		return null
 	if statement.get_definitions().size() != 0:
@@ -31,12 +33,15 @@ func get_requirements_for(expr_item:ExprItem, parse_box:ParseBox):
 
 
 func get_options_for(expr_item:ExprItem, context:ParseBox):
-	var statement = Statement.new(implication)
 	var options = []
 	options.append(Justification.LabelOption.new("Implication:"))
 	var eio := Justification.ExprItemOption.new(implication, context)
 	eio.connect("expr_item_changed", self, "set_implication")
 	options.append(eio)
+	if implication == null:
+		options.append(Justification.LabelOption.new("Implication missing!", true))
+		return options
+	var statement = Statement.new(implication)
 	if not expr_item.compare(statement.get_conclusion().get_expr_item()):
 		options.append(Justification.LabelOption.new("Implication conclusion does not match goal.", true))
 	if statement.get_definitions().size() != 0:

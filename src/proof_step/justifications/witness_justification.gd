@@ -5,7 +5,7 @@ class_name WitnessJustification
 var witness : ExprItem
 
 
-func _init(witness:ExprItem):
+func _init(witness:=null):
 	self.witness = witness
 
 

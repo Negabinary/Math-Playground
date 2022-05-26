@@ -6,7 +6,7 @@ var new_type : ExprItemType
 var existential : ExprItem
 
 
-func _init(new_type_name:String, existential_fact:ExprItem):
+func _init(new_type_name:="x", existential_fact=null):
 	self.new_type = ExprItemType.new(new_type_name)
 	self.existential = existential_fact
 
@@ -24,6 +24,7 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 		[new_type],
 		[new_assumption]
 	))
+	return reqs
 
 
 func get_options_for(expr_item:ExprItem, context:ParseBox):
@@ -33,12 +34,15 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 	eio.connect("expr_item_changed", self, "set_existential_fact")
 	options.append(eio)
 	if existential == null:
+		options.append(Justification.LabelOption.new("Existential missing!", true))
+		return options
+	if existential == null:
 		options.append(Justification.LabelOption.new("expression missing", true))
 	if existential.get_type() != GlobalTypes.EXISTS:
 		options.append(Justification.LabelOption.new("expression must be an existential", true))
 	options.append(Justification.LabelOption.new("Name for new instance: "))
 	options.append(Justification.ExprItemTypeNameOption.new(new_type))
-	return []
+	return options
 
 
 func get_justification_text():

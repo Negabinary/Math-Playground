@@ -2,6 +2,10 @@ extends AbstractEqualityJustification
 class_name IntroducedLambdaJustification
 
 
+func _init(x).(x):
+	pass
+
+
 func _get_equality_replace_with(what:ExprItem, context:ParseBox):
 	if what.get_type() != GlobalTypes.LAMBDA:
 		return null

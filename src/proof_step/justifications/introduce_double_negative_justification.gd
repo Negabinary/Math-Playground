@@ -2,6 +2,10 @@ extends AbstractEqualityJustification
 class_name IntroducedDoubleNegativeJustification
 
 
+func _init(x).(x):
+	pass
+
+
 func _get_equality_replace_with(expr_item:ExprItem, context:ParseBox):
 	if expr_item.type != GlobalTypes.NOT or expr_item.get_child_count() != 1:
 		return null
