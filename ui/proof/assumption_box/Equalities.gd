@@ -2,9 +2,9 @@ extends ItemList
 
 var definitions := []
 var equalities := []
-var context : ProofBox
 var locator : Locator
 var selected_locator : Locator
+var selected_context : ProofBox
 
 func add_equalities(locator:Locator):
 	self.locator = locator
@@ -15,7 +15,7 @@ func add_equalities(locator:Locator):
 
 func update_context(locator:Locator, context:ProofBox):
 	selected_locator = locator
-	self.context = context
+	self.selected_context = context
 	var valid = false
 	var valid_with_sub = false
 	for i in equalities.size():
@@ -41,9 +41,8 @@ func clear_highlighting():
 
 
 func _on_item_activated(index):
-	var modus_ponens = ModusPonensJustification.new(
-		locator.get_root()
-	)
 	var justification = EqualityJustification.new(
-		selected_locator, locator.get_expr_item(), index == 1
+		selected_locator, locator.get_expr_item().get_child(index), index == 1
 	)
+	selected_context.add_justification(selected_locator.get_root(), justification)
+

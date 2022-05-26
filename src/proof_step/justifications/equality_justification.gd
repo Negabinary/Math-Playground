@@ -5,7 +5,7 @@ var replace_with : ExprItem
 var forwards : bool
 
 
-func _init(location:Locator, replace_with:=null, forwards:=true).(location):
+func _init(location:Locator, replace_with=null, forwards:=true).(location):
 	self.replace_with = replace_with
 	self.forwards = forwards
 

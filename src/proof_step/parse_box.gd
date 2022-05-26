@@ -50,7 +50,7 @@ func is_defined(type:ExprItemType):
 	if type in get_definitions():
 		return true
 	for import in imports:
-		if import.is_defined(type):
+		if imports[import].is_defined(type):
 			return true
 	return parent.is_defined(type)
 
@@ -59,7 +59,7 @@ func parse(string:String) -> ExprItemType:
 	if string in definitions:
 		return definitions[string]
 	for import in imports:
-		var p = import.parse(string)
+		var p = imports[import].parse(string)
 		if p != null:
 			return p
 	if parent != null:
