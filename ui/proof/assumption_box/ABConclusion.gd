@@ -65,7 +65,19 @@ func _on_item_activated(_index):
 		selected_context.add_justification(selected_locator.get_root(), existential_justification)
 		selected_context.add_justification(existential, modus_ponens)
 	else:
-		var modus_ponens = ModusPonensJustification.new(
-			assumption
-		)
-		selected_context.add_justification(selected_locator.get_root(), modus_ponens)
+		if assumption_statement.get_definitions().size() == 0:
+			var modus_ponens = ModusPonensJustification.new(
+				assumption
+			)
+			selected_context.add_justification(selected_locator.get_root(), modus_ponens)
+		else:
+			var matching = {} 
+			var matches := assumption_statement.does_conclusion_match(selected_locator.get_root(), matching)
+			assert(matches)
+			assert(not ("*" in matching.values()))
+			var refined = assumption_statement.construct_without(
+				[], 
+				range(assumption_statement.get_conditions().size())
+			).deep_replace_types(matching)
+			selected_context.add_justification(refined, RefineJustification.new(assumption))
+			selected_context.add_justification(selected_locator.get_root(), ModusPonensJustification.new(refined))

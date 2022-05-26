@@ -131,7 +131,7 @@ func get_justification_for(expr_item:ExprItem):
 
 func _get_parent_justification(expr_item:ExprItem):
 	for import in imports:
-		var justification = import.get_justification_for(expr_item)
+		var justification = imports[import].get_justification_for(expr_item)
 		if justification != null:
 			return justification
 	if parent != null:

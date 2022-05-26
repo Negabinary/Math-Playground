@@ -101,3 +101,9 @@ func _to_string() -> String:
 
 func get_child(idx:int) -> Statement:
 	return get_script().new(as_expr_item().get_child(idx))
+
+
+func does_conclusion_match(expr_item:ExprItem, matching:={}) -> bool:
+	for definition in get_definitions():
+		matching[definition] = "*"
+	return get_conclusion().get_expr_item().is_superset(expr_item, matching)

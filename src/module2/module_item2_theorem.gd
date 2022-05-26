@@ -14,7 +14,7 @@ func _init(context:ProofBox, statement:ExprItem, proof=null):
 func serialise():
 	return {
 		kind="theorem",
-		expr=goal.serialise(),
+		expr=goal.serialize(),
 		proof="proofs not serialisable yet..."
 	}
 
