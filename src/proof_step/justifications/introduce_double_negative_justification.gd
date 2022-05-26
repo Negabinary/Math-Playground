@@ -14,7 +14,6 @@ func _get_equality_replace_with(expr_item:ExprItem, context:ParseBox):
 		return null
 	expr_item = expr_item.get_child(0)
 	return expr_item
-	return null
 
 
 func _get_equality_requirements(what:ExprItem, context:ParseBox):
