@@ -45,7 +45,7 @@ func get_options_for_selection(expr_item:ExprItem, context:ParseBox, selection:L
 	])
 	options.append(matching_button)
 	var modus_ponens_button = Justification.ButtonOption.new("use an implication")
-	matching_button.connect("pressed", self, "_request_replace", [
+	modus_ponens_button.connect("pressed", self, "_request_replace", [
 		ModusPonensJustification.new()
 	])
 	options.append(modus_ponens_button)

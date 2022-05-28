@@ -86,7 +86,7 @@ func _on_justification_updated(x=null):
 func _on_requirement_selected(id):
 	active_dependency = id
 	ui_requirements.show_requirements(requirements, id)
-	emit_signal("change_active_dependency", id)
+	emit_signal("change_active_dependency")
 
 func _on_expr_item_justified(uid:String):
 	if uid == expr_item.get_unique_name():

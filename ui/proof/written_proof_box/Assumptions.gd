@@ -1,7 +1,15 @@
 extends VBoxContainer
 class_name Assumptions
 
+var requirement:Requirement
+
 func display_assumptions(requirement:Requirement):
+	self.requirement = requirement
+	for definition in requirement.get_definitions():
+		definition.connect("renamed", self, "_update_assumptions")
+	_update_assumptions()
+
+func _update_assumptions():
 	for child in get_children():
 		remove_child(child)
 	var definitions:Array = requirement.get_definitions()
