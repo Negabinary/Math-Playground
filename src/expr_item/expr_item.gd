@@ -167,9 +167,9 @@ func get_unique_name(indeces=[]) -> String:
 	if type.is_binder():
 		indeces.push_front(children[0].get_type())
 	for child in children:
-		string += "(" + child.get_unique_name() + ")"
+		string += "(" + child.get_unique_name(indeces) + ")"
 	if type.is_binder():
-		indeces.push_front(children[0].get_type())
+		indeces.pop_front()
 	return string
 
 
