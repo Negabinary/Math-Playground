@@ -1,7 +1,7 @@
 extends MarginContainer
 class_name WPBJustification
 
-signal justification_changed
+signal justification_changed # -
 signal change_active_dependency # int
 
 var justification : Justification
@@ -18,6 +18,8 @@ var ui_panel : PanelContainer
 var expr_item : ExprItem # final
 var context : ProofBox # final
 var selection_handler : SelectionHandler # final
+
+var active_dependency := 0
 
 
 # INITIALISATION ==========================================
@@ -64,7 +66,7 @@ func set_justification(justification:Justification): #<Requirement>
 	else:
 		ui_description.hide()
 	var jreq = justification.get_requirements_for(expr_item, context.get_parse_box())
-	if jreq:
+	if jreq != null:
 		requirements = jreq
 		valid = true
 	else:
@@ -82,6 +84,7 @@ func _on_justification_updated(x=null):
 	set_justification(justification)
 
 func _on_requirement_selected(id):
+	active_dependency = id
 	ui_requirements.show_requirements(requirements, id)
 	emit_signal("change_active_dependency", id)
 
@@ -92,8 +95,14 @@ func _on_expr_item_justified(uid:String):
 func get_requirements():
 	return requirements
 
+func get_is_valid():
+	return valid
+
 func get_justification_label():
 	return justification.get_justification_text()
+
+func get_active_dependency():
+	return active_dependency
 
 # UI ======================================================
 
