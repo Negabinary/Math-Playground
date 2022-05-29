@@ -9,6 +9,9 @@ func _init(general_form:ExprItem=null):
 
 
 func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+	if general == null:
+		return null
+	
 	var general_statement := Statement.new(general)
 	var specific_statement := Statement.new(expr_item)
 	
@@ -31,6 +34,7 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 
 func set_general(ei:ExprItem):
 	general = ei
+	emit_signal("updated")
 
 
 func get_options_for(expr_item:ExprItem, context:ParseBox):
@@ -39,6 +43,10 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 	var eio := Justification.ExprItemOption.new(general, context)
 	eio.connect("expr_item_changed", self, "set_general")
 	options.append(eio)
+	
+	if general == null:
+		options.append(Justification.LabelOption.new("Expression missing!", true))
+		return options
 	
 	var general_statement := Statement.new(general)
 	var specific_statement := Statement.new(expr_item)

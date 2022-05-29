@@ -9,7 +9,7 @@ func _init(x).(x):
 func _get_equality_replace_with(what:ExprItem, context:ParseBox):
 	if what.get_type() != GlobalTypes.LAMBDA:
 		return null
-	if what.get_type().get_child_count < 3:
+	if what.get_child_count() < 3:
 		return null
 	var x := what.get_child(1).deep_replace_types({
 		what.get_child(0).get_type() : what.get_child(2)
@@ -26,7 +26,7 @@ func _get_equality_replace_with(what:ExprItem, context:ParseBox):
 func _get_equality_requirements(what:ExprItem, context:ParseBox):
 	if what.get_type() != GlobalTypes.LAMBDA:
 		return [Justification.LabelOption.new("That location is not a lambda expression!", true)]
-	if what.get_type().get_child_count < 3:
+	if what.get_child_count() < 3:
 		return [Justification.LabelOption.new("That lambda is not applied to anything!", true)]
 	return []
 

@@ -11,6 +11,7 @@ func _init(witness:=null):
 
 func set_witness(w:ExprItem):
 	witness = w
+	emit_signal("updated")
 
 
 func get_requirements_for(expr_item:ExprItem, context:ParseBox):
@@ -21,7 +22,7 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	var type = expr_item.get_child(0).get_type()
 	var matching = {type:witness}
 	return [
-		Statement.new(
+		Requirement.new(
 			expr_item.get_child(1).deep_replace_types(matching)
 		)
 	]
@@ -37,8 +38,11 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 	options.append(eio)
 	if witness == null:
 		options.append(Justification.LabelOption.new("Witness Missing", true))
-	return []
+	return options
 
 
 func get_justification_text():
-	return "WHERE " + witness.to_string() + " IS A WITNESS FOR" 
+	if witness:
+		return "WHERE " + witness.to_string() + " IS A WITNESS FOR" 
+	else:
+		return "USING A WITNESS"

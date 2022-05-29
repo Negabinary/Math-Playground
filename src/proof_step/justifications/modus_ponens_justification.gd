@@ -16,9 +16,9 @@ func set_implication(implication:ExprItem):
 
 
 func get_requirements_for(expr_item:ExprItem, parse_box:ParseBox):
-	var statement = Statement.new(implication)
 	if implication == null:
 		return null
+	var statement = Statement.new(implication)
 	if not expr_item.compare(statement.get_conclusion().get_expr_item()):
 		return null
 	if statement.get_definitions().size() != 0:
@@ -50,4 +50,7 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 
 
 func get_justification_text():
-	return "USING " + implication.to_string()
+	if implication:
+		return "USING " + implication.to_string()
+	else:
+		return "USING AN IMPLICATION"

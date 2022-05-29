@@ -28,11 +28,8 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 
 
 func get_options_for(expr_item:ExprItem, context:ParseBox):
-	var locator_option := Justification.LocatorOption.new(expr_item, location)
 	var options := []
-	options.push_front(Justification.LabelOption.new("Location:"))
-	options.push_front(locator_option)
-	locator_option.connect("location_updated", self, "set_location")
+	options.append(Justification.LabelOption.new("Location: " + location.get_expr_item().to_string()))
 	if location == null or (not expr_item.compare(location.get_root())):
 		options.append(Justification.LabelOption.new("Location not valid", true))
 	else:

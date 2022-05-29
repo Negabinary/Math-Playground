@@ -8,7 +8,6 @@ const BUTTON_OPTION = preload("res://ui/proof/options/ButtonOption.tscn")
 const EXPR_ITEM_OPTION = preload("res://ui/proof/options/ExprItemOption.tscn")
 const EXPR_ITEM_TYPE_NAME_OPTION = preload("res://ui/proof/options/ExprItemTypeNameOption.tscn")
 const LABEL_OPTION = preload("res://ui/proof/options/LabelOption.tscn")
-const LOCATOR_OPTION = null # TODO
 
 func set_options(options:Array) -> void:
 	for child in get_children():
@@ -26,8 +25,5 @@ func set_options(options:Array) -> void:
 			bo = EXPR_ITEM_TYPE_NAME_OPTION.instance()
 		elif option is Justification.LabelOption:
 			bo = LABEL_OPTION.instance()
-		elif option is Justification.LocatorOption:
-			bo = LABEL_OPTION.instance()
-			option = Justification.LabelOption.new("TODO")
 		bo.init(option)
 		add_child(bo)
