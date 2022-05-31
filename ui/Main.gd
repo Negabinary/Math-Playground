@@ -59,7 +59,7 @@ func _confirm_save_file(path:String):
 	file.open(path, File.WRITE_READ)
 	print(JSON.print(ui_notebook.serialise()))
 	file.store_string(JSON.print(ui_notebook.serialise()))
-	file.close()
+	file.flush()
 	OS.set_window_title(path + " - DiscMath Playground")
 	ui_save_button.show()
 
@@ -67,3 +67,4 @@ func _confirm_save_file(path:String):
 func _save_button():
 	print(JSON.print(ui_notebook.serialise()))
 	file.store_string(JSON.print(ui_notebook.serialise()))
+	file.flush()
