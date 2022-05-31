@@ -3,7 +3,7 @@ class_name ExprItemBuilder
 
 static func from_string(string:String, proof_box:ProofBox) -> ExprItem:
 	var intermediate := _generate_intermediate(string)
-	return _generate_expr_item(intermediate, proof_box)
+	return _generate_expr_item(intermediate, proof_box.get_parse_box())
 	
 
 static func _generate_intermediate(string:String) -> IntermediateExprItem:
@@ -25,12 +25,12 @@ static func _generate_intermediate(string:String) -> IntermediateExprItem:
 	return IntermediateExprItem.new(current_string, current_children)
 
 
-static func _generate_expr_item(intermediate:IntermediateExprItem, proof_box:ProofBox) -> ExprItem:
+static func _generate_expr_item(intermediate:IntermediateExprItem, proof_box:ParseBox) -> ExprItem:
 	assert(proof_box.parse(intermediate.token) != null)
 	var type:ExprItemType = proof_box.parse(intermediate.token)
 	var inner_proof_box
 	if type.get_binder_type() != ExprItemType.BINDER.NOT_BINDER:
-		inner_proof_box = ProofBox.new(proof_box, deep_generate_types(intermediate.children[0]))
+		inner_proof_box = ParseBox.new(proof_box, deep_generate_types(intermediate.children[0]))
 	var new_chidlren := []
 	for child in intermediate.children:
 		match type.get_binder_type():

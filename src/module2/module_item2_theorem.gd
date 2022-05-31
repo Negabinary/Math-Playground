@@ -7,7 +7,7 @@ var context : ProofBox
 func _init(context:ProofBox, statement:ExprItem, proof=null):
 	goal = statement
 	self.context = context
-	self.proof_box =  ProofBox.new(
+	self.proof_box = ProofBox.new(
 		context, [], [statement]
 	)
 

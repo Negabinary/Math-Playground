@@ -25,8 +25,8 @@ func init(context:ProofBox, requirement:Requirement, selection_handler):
 	self.requirement = requirement
 	self.selection_handler = selection_handler
 	selection_handler.connect("locator_changed", self, "_on_selected_locator_changed")
-	self.inner_proof_box = ProofBox.new(
-		context, requirement.get_definitions(), requirement.get_assumptions()
+	self.inner_proof_box = context.get_child_extended_with(
+		requirement.get_definitions(), requirement.get_assumptions()
 	)
 	_find_ui_elements()
 	ui_justification_holder.init(requirement.get_goal(), inner_proof_box, selection_handler)

@@ -9,6 +9,7 @@ var imports := {} # <ProofBox>
 var parse_box : ParseBox
 var justifications := {} # <[unique]String, Justification>
 var expr_items := {} # <[unique]String, ExprItem>
+var children := {} # <String [requirement label], ExprItem>
 
 
 # TODO: find instances and change
@@ -28,6 +29,22 @@ func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<Ex
 
 func get_parent() -> ProofBox:
 	return parent
+
+
+static func _get_unique_label(definitions:Array, assumptions:Array) -> String:
+	var label = str(definitions.size()) + ";"
+	for assumption in assumptions:
+		label += assumption.get_unique_name(definitions) + ";"
+	return label
+
+
+func get_child_extended_with(definitions:=[], assumptions:=[]) -> ProofBox:
+	if definitions.size() == 0 and assumptions.size() == 0:
+		return self
+	var label := _get_unique_label(definitions, assumptions)
+	if not (label in children):
+		children[label] = get_script().new(self, definitions, assumptions)
+	return children[label]
 
 
 func get_parse_box() -> ParseBox:
@@ -71,7 +88,7 @@ signal justified # (uname)
 
 
 func add_justification(expr_item:ExprItem, justification):
-	var uname = expr_item.get_unique_name()
+	var uname = expr_item.get_unique_name(get_definitions())
 	justifications[uname] = justification
 	expr_items[uname] = expr_item
 	emit_signal("justified", uname)
@@ -120,7 +137,7 @@ func get_justification_or_missing_for(expr_item:ExprItem):
 
 
 func get_justification_for(expr_item:ExprItem):
-	var justification = justifications.get(expr_item.get_unique_name())
+	var justification = justifications.get(expr_item.get_unique_name(get_definitions()))
 	if justification != null:
 		return justification
 	var parent_justification = _get_parent_justification(expr_item)

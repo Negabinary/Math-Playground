@@ -78,14 +78,13 @@ margin_bottom = 357.0
 
 [node name="Conditions" type="HBoxContainer" parent="VBoxContainer"]
 visible = false
-margin_top = 18.0
 margin_right = 41.0
-margin_bottom = 32.0
+margin_bottom = 17.0
 script = ExtResource( 7 )
 
 [node name="If" type="Label" parent="VBoxContainer/Conditions"]
 margin_right = 32.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 rect_min_size = Vector2( 32, 0 )
 size_flags_vertical = 1
 custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
@@ -95,20 +94,19 @@ align = 2
 [node name="Conditions" type="ItemList" parent="VBoxContainer/Conditions"]
 margin_left = 36.0
 margin_right = 41.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 auto_height = true
 
 [node name="Conclusion" type="HBoxContainer" parent="VBoxContainer"]
 visible = false
-margin_top = 18.0
 margin_right = 41.0
-margin_bottom = 32.0
+margin_bottom = 17.0
 script = ExtResource( 4 )
 
 [node name="Then" type="Label" parent="VBoxContainer/Conclusion"]
 margin_right = 32.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 rect_min_size = Vector2( 32, 0 )
 size_flags_vertical = 1
 custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
@@ -118,19 +116,19 @@ align = 2
 [node name="Conclusion" type="ItemList" parent="VBoxContainer/Conclusion"]
 margin_left = 36.0
 margin_right = 41.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 auto_height = true
 
 [node name="Equality" type="HBoxContainer" parent="VBoxContainer"]
 visible = false
 margin_right = 41.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 script = ExtResource( 8 )
 
 [node name="Equals" type="Label" parent="VBoxContainer/Equality"]
 margin_right = 32.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 rect_min_size = Vector2( 32, 0 )
 size_flags_vertical = 5
 custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
@@ -141,7 +139,7 @@ valign = 2
 [node name="Equalities" type="ItemList" parent="VBoxContainer/Equality"]
 margin_left = 36.0
 margin_right = 41.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 auto_height = true
 script = ExtResource( 5 )

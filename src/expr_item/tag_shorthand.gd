@@ -9,10 +9,3 @@ func _init():
 	
 	F_DEF.fm_strings = ["(",") -> ", ""]
 	T_GEN.fm_strings = ["<",">",""]
-
-
-func make_proof_box(proof_box:ProofBox) -> ProofBox:
-	return ProofBox.new(
-		proof_box,
-		[F_DEF, T_GEN]
-	)
