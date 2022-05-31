@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/proof/written_proof_box/Assumptions.gd"
 }, {
+"base": "Reference",
+"class": "Eaters",
+"language": "GDScript",
+"path": "res://src/module2/parser/eaters.gd"
+}, {
 "base": "AbstractEqualityJustification",
 "class": "EliminatedLambdaJustification",
 "language": "GDScript",
@@ -169,6 +174,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/module2/parser2.gd"
 }, {
+"base": "Reference",
+"class": "ParserInputTape",
+"language": "GDScript",
+"path": "res://src/module2/parser/input_tape.gd"
+}, {
 "base": "Object",
 "class": "ProofBox",
 "language": "GDScript",
@@ -258,6 +268,7 @@ _global_script_class_icons={
 "AbstractEqualityJustification": "",
 "AssumptionJustification": "",
 "Assumptions": "",
+"Eaters": "",
 "EliminatedLambdaJustification": "",
 "EqualityJustification": "",
 "ExprItem": "",
@@ -287,6 +298,7 @@ _global_script_class_icons={
 "PageContainer": "",
 "ParseBox": "",
 "Parser2": "",
+"ParserInputTape": "",
 "ProofBox": "",
 "RefineJustification": "",
 "ReflexiveJustification": "",

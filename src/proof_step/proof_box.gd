@@ -88,7 +88,7 @@ func get_assumptions() -> Array: #<ExprItem>
 func get_all_assumptions() -> Array:
 	var imported_assumptions := []
 	for import in imports:
-		imported_assumptions += import.get_all_assumptions()
+		imported_assumptions += imports[import].get_all_assumptions()
 	if parent == null:
 		return get_assumptions() + imported_assumptions
 	else:
@@ -98,7 +98,7 @@ func get_all_assumptions() -> Array:
 func get_all_assumptions_in_context() -> Array:
 	var imported_assumptions := []
 	for import in imports:
-		imported_assumptions += import.get_all_assumptions_in_context()
+		imported_assumptions += imports[import].get_all_assumptions_in_context()
 	var return_value = []
 	for ass in get_assumptions():
 		return_value.append([ass,self])
