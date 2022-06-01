@@ -50,11 +50,6 @@ _global_script_classes=[ {
 "path": "res://src/expr_item/expr_item_builder.gd"
 }, {
 "base": "Node",
-"class": "ExprItemLambdaHelper",
-"language": "GDScript",
-"path": "res://src/expr_item/helper_functions/expr_item_lambda_helper.gd"
-}, {
-"base": "Node",
 "class": "ExprItemParser2",
 "language": "GDScript",
 "path": "res://src/module2/expr_item_parser2.gd"
@@ -273,7 +268,6 @@ _global_script_class_icons={
 "EqualityJustification": "",
 "ExprItem": "",
 "ExprItemBuilder": "",
-"ExprItemLambdaHelper": "",
 "ExprItemParser2": "",
 "ExprItemTagHelper": "",
 "ExprItemType": "",

@@ -119,16 +119,19 @@ func deep_replace_types(types:Dictionary) -> ExprItem: #<ExprItemType, ExprItem>
 			new_children = types[type].get_children() + new_children
 	return get_script().new(new_type, new_children)
 
-func replace_at(indeces:Array, with:ExprItem) -> ExprItem:
+func replace_at(indeces:Array, drop:int, with:ExprItem) -> ExprItem:
 	indeces = indeces.duplicate()
 	if indeces == []:
-		return with
+		var new_expr_item := with
+		for i in range(get_child_count() - drop, get_child_count()):
+			new_expr_item = new_expr_item.apply(get_child(i))
+		return new_expr_item
 	else:
 		var new_children = []
 		var j = indeces.pop_front()
 		for i in get_child_count():
 			if i == j:
-				new_children.append(get_child(i).replace_at(indeces, with))
+				new_children.append(get_child(i).replace_at(indeces, drop, with))
 			else:
 				new_children.append(get_child(i))
 		return get_script().new(type, new_children)

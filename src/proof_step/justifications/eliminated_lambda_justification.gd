@@ -43,7 +43,7 @@ func _get_equality_replace_with(what:ExprItem, context:ParseBox):
 	var new_expr_item = what
 	for i in replace_locations.size():
 		if replace_positions[i]:
-			new_expr_item = new_expr_item.replace_at(replace_locations[i].get_indeces(), ExprItem.new(replace_with))
+			new_expr_item = new_expr_item.replace_at(replace_locations[i].get_indeces(), replace_locations[i].get_abandon(), ExprItem.new(replace_with))
 	return ExprItem.new(
 		GlobalTypes.LAMBDA,
 		[
