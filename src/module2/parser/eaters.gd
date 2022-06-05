@@ -199,7 +199,7 @@ static func eat_builtinfix(input_tape:ParserInputTape, proof_box:ParseBox) -> Di
 			":":
 				if not infix_stack.empty() and infix_stack.back().contents == ":":
 					return err(input_tape.previous(), "Cannot tag a tagging. (Too many ':'s.)")
-				var tstuff := eat_tstuff(input_tape, proof_box)
+				var tstuff := eat_tag(input_tape, proof_box)
 				if tstuff.error:
 					return tstuff
 				ei_stack.push_back(tstuff)
