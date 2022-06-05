@@ -186,14 +186,6 @@ func _draw_string(string:String, x:float, bold:=false) -> float:
 	return x + (bold_font if bold else font).get_string_size(string).x
 
 
-func get_drag_data(position): # -> UniversalLocator
-	if is_selected:
-		var locator : Locator = locators[selection]
-		return UniversalLocator.new(Statement.new(locator.get_root()), locator)
-	else:
-		return null
-
-
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == 1 and is_visible_in_tree():

@@ -209,11 +209,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/module2/token2.gd"
 }, {
-"base": "Object",
-"class": "UniversalLocator",
-"language": "GDScript",
-"path": "res://src/expr_item/universal_locator.gd"
-}, {
 "base": "Justification",
 "class": "VacuousJustification",
 "language": "GDScript",
@@ -300,7 +295,6 @@ _global_script_class_icons={
 "SelectionHandler": "",
 "Statement": "",
 "Token2": "",
-"UniversalLocator": "",
 "VacuousJustification": "",
 "WPBJustification": "",
 "WPBOptions": "",

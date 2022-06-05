@@ -41,8 +41,12 @@ func clear_highlighting():
 
 
 func _on_item_activated(index):
-	var justification = EqualityJustification.new(
-		selected_locator, locator.get_expr_item().get_child(index), index != 1
-	)
-	selected_context.add_justification(selected_locator.get_root(), justification)
+	var matching := {}
+	for definition in definitions:
+		matching[definition] = "*"
+	if equality[index].get_expr_item().is_superset(locator.get_expr_item(), matching):
+		var justification = EqualityJustification.new(
+			selected_locator, locator.get_expr_item().get_child(index), index != 1
+		)
+		selected_context.add_justification(selected_locator.get_root(), justification)
 

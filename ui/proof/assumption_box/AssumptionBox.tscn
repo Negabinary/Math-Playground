@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ui/proof/assumption_box/AssumptionBox.gd" type="Script" id=1]
 [ext_resource path="res://ui/proof/assumption_box/ABDefinitions.gd" type="Script" id=3]
 [ext_resource path="res://ui/proof/assumption_box/ABConclusion.gd" type="Script" id=4]
-[ext_resource path="res://ui/proof/assumption_box/Equalities.gd" type="Script" id=5]
 [ext_resource path="res://ui/proof/assumption_box/ABConditions.gd" type="Script" id=7]
 [ext_resource path="res://ui/proof/assumption_box/ABEquality.gd" type="Script" id=8]
 
@@ -142,8 +141,7 @@ margin_right = 41.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 auto_height = true
-script = ExtResource( 5 )
 
 [connection signal="item_activated" from="VBoxContainer/Definitions/Definitions" to="VBoxContainer/Definitions" method="_ons_item_activated"]
 [connection signal="item_activated" from="VBoxContainer/Conclusion/Conclusion" to="VBoxContainer/Conclusion" method="_on_item_activated"]
-[connection signal="item_activated" from="VBoxContainer/Equality/Equalities" to="VBoxContainer/Equality/Equalities" method="_on_item_activated"]
+[connection signal="item_activated" from="VBoxContainer/Equality/Equalities" to="VBoxContainer/Equality" method="_on_item_activated"]

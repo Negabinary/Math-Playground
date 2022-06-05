@@ -91,7 +91,7 @@ func _on_requirement_selected(id):
 	emit_signal("change_active_dependency")
 
 func _on_expr_item_justified(uid:String):
-	if uid == expr_item.get_unique_name():
+	if uid == context.get_uid(expr_item):
 		set_justification(context.get_justification_for(expr_item))
 
 func get_requirements():

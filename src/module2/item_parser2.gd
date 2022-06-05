@@ -57,7 +57,7 @@ func eat_toplevel(input_tape:ParserInputTape):
 				if bindings_parse.error:
 					return bindings_parse
 				if not input_tape.try_eat("as"):
-					return Eaters.err(input_tape.pop(), "Expected token at end of definition:")
+					return Eaters.err(input_tape.previous(), "Expected token at end of definition:")
 				var new_proof_box = ProofBox.new(proof_box, bindings_parse.types)
 				var expr_parse := Eaters.eat_expr(input_tape, new_proof_box.get_parse_box())
 				if expr_parse.error:

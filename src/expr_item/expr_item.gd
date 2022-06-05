@@ -66,11 +66,12 @@ func compare(other:ExprItem, conversion:={}) -> bool:
 
 # TODO: Check Semantics of this - could be wrong
 func is_superset(other:ExprItem, matching:={}, conversion:={}) -> bool:
-	if type == other.type and get_child_count() == other.get_child_count():
+	if conversion.get(type,type) == other.type and get_child_count() == other.get_child_count():
 		if type.get_binder_type() == ExprItemType.BINDER.BINDER:
 			var from_type:ExprItemType = children[0].get_type()
 			var to_type:ExprItemType = other.children[0].get_type()
 			var new_conversion = conversion.duplicate()
+			new_conversion[from_type] = to_type
 			if !children[1].is_superset(other.children[1], matching, new_conversion):
 				return false
 			for child_id in range(2,children.size()):
@@ -79,7 +80,7 @@ func is_superset(other:ExprItem, matching:={}, conversion:={}) -> bool:
 			return true
 		else:
 			for i in get_child_count():
-				if not get_child(i).is_superset(other.get_child(i), matching):
+				if not get_child(i).is_superset(other.get_child(i), matching, conversion):
 					return false
 			return true
 	elif matching.has(type):
@@ -88,7 +89,7 @@ func is_superset(other:ExprItem, matching:={}, conversion:={}) -> bool:
 		elif matching[type] is String:
 			matching[type] = other.abandon_lowest(get_child_count())
 			for i in get_child_count():
-				if not get_child(i).is_superset(other.get_child(other.get_child_count() - get_child_count() + i), matching):
+				if not get_child(i).is_superset(other.get_child(other.get_child_count() - get_child_count() + i), matching, conversion):
 					return false
 			return true
 		else:

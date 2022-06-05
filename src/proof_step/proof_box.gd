@@ -163,3 +163,7 @@ func is_ancestor_of(other:ProofBox):
 		return false
 	else:
 		return is_ancestor_of(other.parent)
+
+
+func get_uid(expr_item:ExprItem):
+	return expr_item.get_unique_name(get_definitions())

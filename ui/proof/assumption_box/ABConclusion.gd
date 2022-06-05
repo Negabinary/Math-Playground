@@ -12,8 +12,6 @@ func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_han
 	self.assumption = assumption
 	self.assumption_context = assumption_context
 	
-	$Conclusion.set_drag_forwarding(self)
-	
 	var assumption_statement := Statement.new(assumption)
 	
 	if assumption_statement.get_conditions().size() == 0:
@@ -27,21 +25,17 @@ func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_han
 		$Conclusion.add_item(conclusion.to_string())
 
 
-func get_drag_data_fw(position, node):
-	return assumption.get_statement().get_conclusion()
-
-
-func update_context(locator:Locator, context:ProofBox):
-	selected_locator = locator
-	selected_context = context
+func update_context(selected_locator:Locator, selected_context:ProofBox):
+	self.selected_locator = selected_locator
+	self.selected_context = selected_context
 	var matching := {}
 	var assumption_statement := Statement.new(assumption)
 	for definition in assumption_statement.get_definitions():
 		matching[definition] = "*"
-	if locator.get_expr_item().compare(assumption_statement.get_conclusion().get_expr_item()):
+	if selected_locator.get_expr_item().compare(assumption_statement.get_conclusion().get_expr_item()):
 		$Conclusion.modulate = Color.green
-	elif assumption_statement.get_conclusion().get_expr_item().is_superset(locator.get_expr_item(), matching):
-		$Conclusion.modulate = Color.yellow
+	elif assumption_statement.get_conclusion().get_expr_item().is_superset(selected_locator.get_expr_item(), matching) and not "*" in matching.values():
+		$Conclusion.modulate = Color.greenyellow
 	elif assumption_statement.get_conclusion().get_expr_item().get_type() == GlobalTypes.EXISTS and assumption_statement.get_definitions().size() == 0:
 		$Conclusion.modulate = Color.cyan
 	else:
@@ -50,6 +44,7 @@ func update_context(locator:Locator, context:ProofBox):
 
 func clear_highlighting():
 	$Conclusion.modulate = Color.white
+
 
 func _on_item_activated(_index):
 	var assumption_statement := Statement.new(assumption)
@@ -72,6 +67,8 @@ func _on_item_activated(_index):
 			selected_context.add_justification(selected_locator.get_root(), modus_ponens)
 		else:
 			var matching = {} 
+			for definition in assumption_statement.get_definitions():
+				matching[definition] = "*"
 			var matches := assumption_statement.does_conclusion_match(selected_locator.get_root(), matching)
 			assert(matches)
 			assert(not ("*" in matching.values()))

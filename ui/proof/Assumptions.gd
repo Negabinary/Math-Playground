@@ -27,12 +27,6 @@ func set_proof_step(goal:ExprItem, proof_box:ProofBox, new_location:Locator=null
 		self.proof_box = proof_box
 		_update_assumptions()
 	locator = new_location
-	_mark_assumptions()
-
-
-func _mark_assumptions():
-	for assumption_box in $VBoxContainer.get_children():
-		assumption_box.update_context(locator, proof_box)
 
 
 func _clear_assumptions():

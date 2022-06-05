@@ -28,14 +28,18 @@ func initialise(assumption:ExprItem, assumption_context:ProofBox, selection_hand
 	self.selection_handler = selection_handler
 	self.assumption = assumption
 	self.assumption_context = assumption_context
+	
+	selection_handler.connect("locator_changed", self, "_update_context")
 
 
-func update_context(locator:Locator, context:ProofBox):
+func _update_context(x):
+	var locator = selection_handler.get_locator()
+	var context = selection_handler.get_selected_proof_box()
 	if assumption_context.is_ancestor_of(context):
 		$VBoxContainer/Conclusion.update_context(locator, context)
-		$VBoxContainer/Equality/Equalities.update_context(locator, context)
+		$VBoxContainer/Equality.update_context(locator, context)
 	else:
 		$VBoxContainer/Conclusion.clear_highlighting()
-		$VBoxContainer/Equality/Equalities.clear_highlighting()
+		$VBoxContainer/Equality.clear_highlighting()
 
 

@@ -17,7 +17,7 @@ func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_han
 	if definitions.size() > 0:
 		show()
 		_update_definitions(definitions)
-		$Definitions.set_drag_forwarding(self)
+
 
 	$ConfirmationDialog/VBoxContainer/TextEdit.connect("text_changed", self, "_validate")
 	_validate()
@@ -52,6 +52,9 @@ func ok():
 	var expr_item = parser.result
 	var specialization = RefineJustification.new(assumption)
 	var statement = Statement.new(assumption)
-	var specialized = statement.construct_without([],[statement.get_definitions().find(last_definition)]).deep_replace_types({last_definition:expr_item})
+	var remaining_definitions = range(len(statement.get_definitions()))
+	remaining_definitions.erase(statement.get_definitions().find(last_definition))
+	var remaining_conditions = range(len(statement.get_conditions()))
+	var specialized = statement.construct_without(remaining_definitions, remaining_conditions).deep_replace_types({last_definition:expr_item})
 	selection_handler.get_selected_proof_box().add_justification(specialized, specialization)
-	get_parent().get_parent().emit_signal("proof_step_created", expr_item)
+	get_parent().get_parent().emit_signal("proof_step_created", 0)
