@@ -60,4 +60,4 @@ func serialise() -> Dictionary:
 	var cell_obj := []
 	for cell in ui_cells.get_children():
 		cell_obj.append(cell.serialise())
-	return {cells=cell_obj}
+	return {cells=cell_obj, version=30}
