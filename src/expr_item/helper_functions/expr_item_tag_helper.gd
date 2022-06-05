@@ -66,13 +66,7 @@ static func tag_to_statement(tag:ExprItem, tagged:ExprItem) -> ExprItem:
 			GlobalTypes.FORALL,
 			[
 				tag.get_child(0),
-				ExprItem.new(
-					GlobalTypes.IMPLIES,
-					[
-						ExprItem.new(GlobalTypes.TAG, [tag.get_child(0)]),
-						tag_to_statement(tag.get_child(1), tagged)
-					]
-				)
+				tag_to_statement(tag.get_child(1), tagged)
 			])
 	elif tag.get_type() == TagShorthand.F_DEF:
 		var new_type := ExprItem.new(ExprItemType.new(gen_name()))

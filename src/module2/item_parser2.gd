@@ -53,37 +53,45 @@ func eat_toplevel(input_tape:ParserInputTape):
 				proof_box = def_item.get_next_proof_box()
 				return {error=false, type="define", items=[name_item, def_item]}
 			else:
-				var bindings_parse := Eaters.eat_bindings(input_tape, proof_box.get_parse_box())
-				if bindings_parse.error:
-					return bindings_parse
+				var bindings_tags
+				var bindings_types
 				if not input_tape.try_eat("as"):
-					return Eaters.err(input_tape.previous(), "Expected token at end of definition:")
-				var new_proof_box = ProofBox.new(proof_box, bindings_parse.types)
+					var bindings_parse := Eaters.eat_bindings(input_tape, proof_box.get_parse_box())
+					if bindings_parse.error:
+						return bindings_parse
+					if not input_tape.try_eat("as"):
+						return Eaters.err(input_tape.previous(), "Expected token at end of definition:")
+					bindings_tags = bindings_parse.tags
+					bindings_types = bindings_parse.types
+				else:
+					bindings_tags = {}
+					bindings_types = []
+				var new_proof_box = ProofBox.new(proof_box, bindings_types)
 				var expr_parse := Eaters.eat_expr(input_tape, new_proof_box.get_parse_box())
 				if expr_parse.error:
 					return expr_parse
 				var rhs : ExprItem = expr_parse.expr_item
 				var lhs : ExprItem = ExprItem.new(type)
-				for b_type in bindings_parse.types:
+				for b_type in bindings_types:
 					lhs = lhs.apply(ExprItem.new(b_type))
 				var expr_item = ExprItem.new(
 					GlobalTypes.EQUALITY,
 					[lhs, rhs]
 				)
-				bindings_parse.types.invert()
-				for b_type in bindings_parse.types:
-					if b_type in bindings_parse.tags:
+				bindings_types.invert()
+				for b_type in bindings_types:
+					if b_type in bindings_tags:
 						expr_item = ExprItem.new(
 							GlobalTypes.IMPLIES,
 							[
 								ExprItemTagHelper.tag_to_statement(
-									bindings_parse.tags[b_type],
+									bindings_tags[b_type],
 									ExprItem.new(b_type)
 								),
 								expr_item
 							]
 						)
-				for b_type in bindings_parse.types:
+				for b_type in bindings_types:
 					expr_item = ExprItem.new(
 						GlobalTypes.FORALL,
 						[ExprItem.new(b_type), expr_item]

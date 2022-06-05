@@ -242,6 +242,8 @@ static func eat_tag(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictionar
 		var bindings_parse := eat_bindings(input_tape, proof_box)
 		if bindings_parse["error"]:
 			return bindings_parse
+		if not input_tape.try_eat("."):
+			return err(input_tape.previous(), "Expected . after: ")
 		var new_proof_box := ParseBox.new(proof_box, bindings_parse.types)
 		var content_parse := eat_tag(input_tape, new_proof_box)
 		if content_parse["error"]:
@@ -320,6 +322,8 @@ static func eat_tstuff(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictio
 			if tstuff_parse.error:
 				return tstuff_parse
 			expr_items.append(tstuff_parse.tag)
+			if input_tape.done():
+				return err(input_tape.previous(), "Expected close brackets")
 			while input_tape.try_eat(","):
 				if first:
 					return err(input_tape.previous(), "Unexpected comma")
@@ -327,10 +331,10 @@ static func eat_tstuff(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictio
 				if tstuff_parse2.error:
 					return tstuff_parse2
 				expr_items.append(tstuff_parse2.tag)
+				if input_tape.done():
+					return err(input_tape.previous(), "Expected close brackets")
 			if not input_tape.try_eat(")"):
 				return err(input_tape.pop(), "Expected close brackets")
-		elif input_tape.try_eat(")"):
-			return err(input_tape.previous(), "Unexpected close brackets")
 		elif input_tape.peek() in keywords:
 			break
 		else:
@@ -343,5 +347,5 @@ static func eat_tstuff(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictio
 		return err(input_tape.previous(), "Expected tag after")
 	var result:ExprItem = expr_items.pop_front()
 	for x in expr_items:
-		result.apply(x)
+		result = result.apply(x)
 	return {error=false, tag=result}
