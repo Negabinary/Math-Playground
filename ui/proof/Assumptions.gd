@@ -38,7 +38,8 @@ func _clear_assumptions():
 func _update_assumptions() -> void:
 	_clear_assumptions()
 	for assumption in proof_box.get_all_assumptions_in_context():
-		save_assumption(assumption[0], assumption[1])
+		if ProofStep.new(Requirement.new(assumption[0]), assumption[1]).is_proven():
+			save_assumption(assumption[0], assumption[1])
 
 
 func save_assumption(assumption:ExprItem, assumption_context:ProofBox):
