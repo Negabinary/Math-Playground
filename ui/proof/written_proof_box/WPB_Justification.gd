@@ -21,22 +21,21 @@ var active_dependency := 0
 func _find_ui_elements() -> void:
 	ui_justification_name = $Options/VBoxContainer/HBoxContainer/JustificationName
 	ui_unprove_button = $Options/VBoxContainer/HBoxContainer/UnproveButton
-	ui_unprove_button.connect("pressed", self, "set_justification", [MissingJustification.new()])
 	ui_description = $Options/VBoxContainer/JustificationDescription
 	ui_requirements = $Options/VBoxContainer/VBoxContainer/Requirements
 	self.ui_requirements.connect("requirement_selected", self, "_on_requirement_selected")
 	ui_options = $Options/VBoxContainer/VBoxContainer/Options
-	ui_options.connect("request_change_justification", self, "set_justification")
 	ui_panel = $Options
 
 
 func init(proof_step:ProofStep, selection_handler:SelectionHandler):
+	_find_ui_elements()
 	self.proof_step = proof_step
+	ui_unprove_button.connect("pressed", proof_step, "justify", [MissingJustification.new()])
 	proof_step.connect("justification_type_changed", self, "_on_justification_changed")
 	proof_step.connect("justification_properties_changed", self, "_on_justification_updated")
 	self.selection_handler = selection_handler
 	selection_handler.connect("locator_changed", self, "_on_locator_changed")
-	_find_ui_elements()
 	_on_justification_changed()
 
 
