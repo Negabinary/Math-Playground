@@ -133,7 +133,9 @@ func get_justification_or_missing_for(expr_item:ExprItem):
 	if j:
 		return j
 	else:
-		return MJ.new()
+		j = MJ.new()
+		add_justification(expr_item, j)
+		return j
 
 
 func get_justification_for(expr_item:ExprItem):

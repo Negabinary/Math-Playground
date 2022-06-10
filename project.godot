@@ -179,6 +179,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/proof_box.gd"
 }, {
+"base": "Reference",
+"class": "ProofStep",
+"language": "GDScript",
+"path": "res://src/proof_step/proof_step.gd"
+}, {
 "base": "Justification",
 "class": "RefineJustification",
 "language": "GDScript",
@@ -244,11 +249,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/proof/written_proof_box/WPB2.gd"
 }, {
-"base": "Reference",
-"class": "WrittenProofBoxBuilder",
-"language": "GDScript",
-"path": "res://ui/proof/written_proof_box/wp_box_builder.gd"
-}, {
 "base": "Control",
 "class": "WrittenStatement",
 "language": "GDScript",
@@ -289,6 +289,7 @@ _global_script_class_icons={
 "Parser2": "",
 "ParserInputTape": "",
 "ProofBox": "",
+"ProofStep": "",
 "RefineJustification": "",
 "ReflexiveJustification": "",
 "Requirement": "",
@@ -302,7 +303,6 @@ _global_script_class_icons={
 "WitnessJustification": "",
 "WrittenJustification": "",
 "WrittenProofBox2": "",
-"WrittenProofBoxBuilder": "",
 "WrittenStatement": ""
 }
 

@@ -1,12 +1,7 @@
 extends MarginContainer
 class_name WPBJustification
 
-signal justification_changed # -
 signal change_active_dependency # int
-
-var justification : Justification
-var requirements : Array
-var valid : bool
 
 var ui_justification_name : Label
 var ui_unprove_button : Button
@@ -15,8 +10,7 @@ var ui_requirements : WPBRequirements
 var ui_options : WPBOptions
 var ui_panel : PanelContainer
 
-var expr_item : ExprItem # final
-var context : ProofBox # final
+var proof_step : ProofStep
 var selection_handler : SelectionHandler # final
 
 var active_dependency := 0
@@ -36,28 +30,25 @@ func _find_ui_elements() -> void:
 	ui_panel = $Options
 
 
-func init(expr_item:ExprItem, context:ProofBox, selection_handler:SelectionHandler):
-	self.expr_item = expr_item
-	self.context = context
-	context.connect("justified", self, "_on_expr_item_justified")
+func init(proof_step:ProofStep, selection_handler:SelectionHandler):
+	self.proof_step = proof_step
+	proof_step.connect("justification_type_changed", self, "_on_justification_changed")
+	proof_step.connect("justification_properties_changed", self, "_on_justification_updated")
 	self.selection_handler = selection_handler
 	selection_handler.connect("locator_changed", self, "_on_locator_changed")
 	_find_ui_elements()
-	set_justification(context.get_justification_or_missing_for(expr_item))
+	_on_justification_changed()
 
 
 # CHANGING JUSTIFIACTION ==================================
 
-func set_justification(justification:Justification): #<Requirement>
-	var kind_changed = (
-		self.justification == null 
-		or justification.get_script() != self.justification.get_script()
-	)
-	self.justification = justification
-	if not justification.is_connected("updated", self, "_on_justification_updated"):
-		justification.connect("updated", self, "_on_justification_updated")
-	if not justification.is_connected("request_replace", self, "set_justification"):
-		justification.connect("request_replace", self, "set_justification")
+func _on_justification_changed():
+	_on_justification_updated()
+	ui_panel.visible = not proof_step.is_justification_valid()
+
+
+func _on_justification_updated():
+	var justification = proof_step.get_justification()
 	ui_justification_name.text = justification.get_justification_text()
 	ui_unprove_button.visible = not (justification is MissingJustification)
 	if justification.get_justification_description():
@@ -65,46 +56,45 @@ func set_justification(justification:Justification): #<Requirement>
 		ui_description.text = justification.get_justification_description()
 	else:
 		ui_description.hide()
-	var jreq = justification.get_requirements_for(expr_item, context.get_parse_box())
-	if jreq != null:
-		requirements = jreq
-		valid = true
-	else:
-		requirements = []
-		valid = false
-	ui_requirements.show_requirements(requirements)
-	ui_options.set_options(justification.get_options_for_selection(expr_item, context.get_parse_box(), selection_handler.get_locator() if selection_handler.get_wpb() == get_parent().get_parent() else null))
-	ui_panel.visible = not valid or (ui_panel.visible and not kind_changed)
-	if requirements.size() > 0:
+	var reqs := proof_step.get_dependencies()
+	ui_requirements.show_requirements(reqs)
+	if reqs.size() > 0:
 		_on_requirement_selected(0)
-	emit_signal("justification_changed") 
+	var selection = null
+	if selection_handler.get_wpb() == get_parent().get_parent():
+		selection = selection_handler.get_locator()
+	# todo: move this code into MissingJustification
+	ui_options.set_options(
+		justification.get_options_for_selection(
+			proof_step.get_goal(), 
+			proof_step.get_inner_proof_box().get_parse_box(), 
+			selection
+		)
+	)
+
 
 func _on_locator_changed(new_locator):
-	ui_options.set_options(justification.get_options_for_selection(expr_item, context.get_parse_box(), selection_handler.get_locator() if selection_handler.get_wpb() == get_parent().get_parent() else null))
+	# todo: move this code into MissingJustification
+	ui_options.set_options(
+		proof_step.get_justification().get_options_for_selection(
+			proof_step.get_goal(), 
+			proof_step.get_inner_proof_box().get_parse_box(), 
+			selection_handler.get_locator() 
+			if selection_handler.get_wpb() == get_parent().get_parent() 
+			else null
+		)
+	)
 
-func _on_justification_updated(x=null):
-	set_justification(justification)
 
 func _on_requirement_selected(id):
 	active_dependency = id
-	ui_requirements.show_requirements(requirements, id)
+	ui_requirements.select_requirement(id)
 	emit_signal("change_active_dependency")
 
-func _on_expr_item_justified(uid:String):
-	if uid == context.get_uid(expr_item):
-		set_justification(context.get_justification_for(expr_item))
-
-func get_requirements():
-	return requirements
-
-func get_is_valid():
-	return valid
-
-func get_justification_label():
-	return justification.get_justification_text()
 
 func get_active_dependency():
 	return active_dependency
+
 
 # UI ======================================================
 

@@ -123,6 +123,7 @@ class ButtonOption extends Option:
 		return disabled
 	
 	func action():
+		print(get_signal_connection_list("pressed"))
 		emit_signal("pressed")
 
 

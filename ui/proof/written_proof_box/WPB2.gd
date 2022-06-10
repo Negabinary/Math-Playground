@@ -1,10 +1,7 @@
 extends MarginContainer
 class_name WrittenProofBox2
 
-signal validity_changed
-
-var inner_proof_box : ProofBox # final
-var requirement : Requirement # final
+var proof_step : ProofStep
 var selection_handler # final
 
 var ui_statement : WrittenStatement
@@ -13,29 +10,24 @@ var ui_justification_label : WrittenJustification
 var ui_dependencies : MarginContainer
 var ui_assumptions : Assumptions
 
-var valid := false
-
 
 var WPB_SCENE = load("res://ui/proof/written_proof_box/WPB2.tscn")
 
 
 # INITIALISATION ==========================================
 
-func init(context:ProofBox, requirement:Requirement, selection_handler):
-	self.requirement = requirement
+func init(proof_step:ProofStep, selection_handler):
+	self.proof_step = proof_step
 	self.selection_handler = selection_handler
 	selection_handler.connect("locator_changed", self, "_on_selected_locator_changed")
-	self.inner_proof_box = context.get_child_extended_with(
-		requirement.get_definitions(), requirement.get_assumptions()
-	)
 	_find_ui_elements()
-	ui_justification_holder.init(requirement.get_goal(), inner_proof_box, selection_handler)
+	ui_justification_holder.init(proof_step, selection_handler)
 	_connect_dependencies()
 	_connect_active_dependency()
 	_connect_justification_label()
-	ui_statement.set_expr_item(requirement.get_goal())
-	if requirement.get_assumptions().size() > 0 or requirement.get_definitions().size() > 0:
-		ui_assumptions.display_assumptions(requirement)
+	ui_statement.set_expr_item(proof_step.get_goal())
+	if proof_step.get_requirement().get_assumptions().size() > 0 or proof_step.get_requirement().get_definitions().size() > 0:
+		ui_assumptions.display_assumptions(proof_step.get_requirement())
 	else:
 		ui_assumptions.hide()
 		add_constant_override("margin_left", 0)
@@ -55,11 +47,11 @@ func _find_ui_elements() -> void:
 
 
 func get_goal() -> ExprItem:
-	return requirement.get_goal()
+	return proof_step.get_goal()
 
 
 func get_inner_proof_box() -> ProofBox:
-	return inner_proof_box
+	return proof_step.get_inner_proof_box()
 
 
 func get_selected_locator() -> Locator:
@@ -69,31 +61,20 @@ func get_selected_locator() -> Locator:
 # DEPENDENCIES =================================================
 
 func _connect_dependencies():
-	ui_justification_holder.connect("justification_changed", self, "_change_dependencies")
+	proof_step.connect("dependencies_changed", self, "_change_dependencies")
 	_change_dependencies()
 
 
 func _change_dependencies():
 	var keepers := {}
-	var requirements = ui_justification_holder.get_requirements()
+	var dependencies := proof_step.get_dependencies()
 	var old_children = ui_dependencies.get_children()
 	for child in ui_dependencies.get_children():
-		child.disconnect("validity_changed", self, "_update_justification_label")
 		ui_dependencies.remove_child(child)
-	for new_requirement in requirements:
-		for child in old_children:
-			if child.requirement.compare(new_requirement):
-				keepers[new_requirement] = child
-				old_children.erase(child)
-				break
-		if keepers.get(new_requirement):
-			keepers[new_requirement].connect("validity_changed", self, "_update_justification_label")
-			ui_dependencies.add_child(keepers[new_requirement])
-		else:
-			var new_ui_dependency = WPB_SCENE.instance()
-			new_ui_dependency.connect("validity_changed", self, "_update_justification_label")
-			new_ui_dependency.init(inner_proof_box, new_requirement, selection_handler)
-			ui_dependencies.add_child(new_ui_dependency)
+	for new_dependency in dependencies:
+		var new_ui_dependency = WPB_SCENE.instance()
+		new_ui_dependency.init(new_dependency, selection_handler)
+		ui_dependencies.add_child(new_ui_dependency)
 	_change_active_depenency()
 
 
@@ -109,46 +90,32 @@ func _change_active_depenency():
 			child.show()
 		else:
 			child.hide()
+	_update_justification_label()
 
 
 enum ProofStatus {PROVEN, JUSTIFIED, UNPROVEN}
 
 
 func _connect_justification_label():
-	ui_justification_holder.connect("justification_changed", self, "_update_justification_label")
+	proof_step.connect("justification_type_changed", self, "_update_justification_label")
+	proof_step.connect("justification_properties_changed", self, "_update_justification_label")
+	proof_step.connect("child_proven", self, "_update_justification_label")
 	_update_justification_label()
 
 
 func _update_justification_label():
 	var icon : String
-	var proven := is_proven()
-	match proven:
-		ProofStatus.PROVEN:
-			icon = ""
-			if not valid:
-				valid = true
-			emit_signal("validity_changed")
-		ProofStatus.JUSTIFIED:
-			icon = "!"
-			if valid:
-				valid = false
-			emit_signal("validity_changed")
-		ProofStatus.UNPROVEN:
-			icon = "x"
-			if valid:
-				valid = false
-			emit_signal("validity_changed")
-	ui_justification_label.set_text(ui_justification_holder.get_justification_label(), icon)
+	if not proof_step.is_justification_valid():
+		icon = "x"
+	elif proof_step.is_proven_except(ui_justification_holder.get_active_dependency()):
+		icon = ""
+	else:
+		icon = "!"
+	ui_justification_label.set_text(proof_step.get_justification().get_justification_text(), icon)
 
 
-func is_proven() -> int:
-	if not ui_justification_holder.get_is_valid():
-		return ProofStatus.UNPROVEN
-	for child in ui_dependencies.get_children():
-		if not (child.is_proven() == ProofStatus.PROVEN):
-			return ProofStatus.JUSTIFIED
-	return ProofStatus.PROVEN
-	
+func is_proven() -> bool:
+	return proof_step.is_proven()
 
 
 func _on_selected_locator_changed(locator):
@@ -160,7 +127,7 @@ func _on_selected_locator_changed(locator):
 
 func _draw():
 	var ui_assumptions := $WrittenProofBox/Assumptions
-	if requirement.get_assumptions().size() > 0 or requirement.get_definitions().size() > 0:
+	if proof_step.get_requirement().get_assumptions().size() > 0 or proof_step.get_requirement().get_definitions().size() > 0:
 		var font := get_font("font", "WrittenJustification")
 		var half_font_height := font.get_height() / 2
 		var color := get_color("font_color", "WrittenJustification")

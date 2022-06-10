@@ -1,14 +1,12 @@
 extends VBoxContainer
 
-var requirement : Requirement
-var proof_context : ProofBox
+var proof_step : ProofStep
 onready var main = $"../../../.."
 onready var selection_handler = $"../../../../../../../../../../../../SelectionHandler"
 
 
-func display_proof(context:ProofBox, requirement:Requirement):
-	self.requirement = requirement
-	self.proof_context = context
+func display_proof(proof_step:ProofStep):
+	self.proof_step = proof_step
 	_update()
 
 
@@ -23,6 +21,12 @@ func _clear():
 
 
 func _display_proof_step():
-	# todo: check if proven
-	var j_box = WrittenProofBoxBuilder.build(proof_context, requirement, selection_handler)
+	var j_box = build(proof_step, selection_handler)
 	$Justification.add_child(j_box)
+
+const WP_BOX = preload("res://ui/proof/written_proof_box/WPB2.tscn")
+
+static func build(proof_step:ProofStep, selection_handler:SelectionHandler) -> Node:
+	var node : Node = WP_BOX.instance()
+	node.init(proof_step, selection_handler)
+	return node
