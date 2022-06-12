@@ -7,8 +7,8 @@ var context : ProofBox
 func _init(context:ProofBox, statement:ExprItem, proof=null, version=0):
 	goal = statement
 	self.context = context
-	self.proof_box = ProofBox.new(
-		context, [], [statement]
+	self.proof_box = context.get_child_extended_with(
+		[], [statement]
 	)
 	if proof is Dictionary:
 		ProofStep.deserialize_proof(ProofStep, proof, context, version)

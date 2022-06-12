@@ -20,7 +20,6 @@ static func deserialize(j:Dictionary, parse_box:ParseBox, version) -> Justificat
 				ExprItemBuilder.deserialize(j.location_expr_item, parse_box),
 				j.location_indeces
 			)
-			print(locator)
 			return EqualityJustification.new(
 				locator,
 				ExprItemBuilder.deserialize(j.replace_with, locator.get_proof_box(parse_box)),

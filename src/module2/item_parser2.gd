@@ -66,8 +66,8 @@ func eat_toplevel(input_tape:ParserInputTape):
 				else:
 					bindings_tags = {}
 					bindings_types = []
-				var new_proof_box = ProofBox.new(proof_box, bindings_types)
-				var expr_parse := Eaters.eat_expr(input_tape, new_proof_box.get_parse_box())
+				var new_proof_box = ParseBox.new(proof_box.get_parse_box(), bindings_types)
+				var expr_parse := Eaters.eat_expr(input_tape, new_proof_box)
 				if expr_parse.error:
 					return expr_parse
 				var rhs : ExprItem = expr_parse.expr_item

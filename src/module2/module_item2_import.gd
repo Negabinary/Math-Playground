@@ -6,6 +6,7 @@ var name : String
 
 func _init(context:ProofBox, name:String):
 	var from = Module2Loader.get_module(name)
+	# Todo: switch this to .get_child_extended_with()
 	proof_box = ProofBox.new(
 		context, [], [], {name:from}
 	)

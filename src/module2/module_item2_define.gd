@@ -4,8 +4,7 @@ class_name ModuleItem2Definition
 var definition : ExprItemType
 
 func _init(context:ProofBox, definition:ExprItemType):
-	proof_box = ProofBox.new(
-		context,
+	proof_box = context.get_child_extended_with(
 		[definition]
 	)
 	self.definition = definition
