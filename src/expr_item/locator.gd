@@ -3,32 +3,31 @@ class_name Locator
 
 
 var root_expr_item : ExprItem
-var expr_item : ExprItem
 var indeces : Array
-var parent : Locator
 var abandon := 0
 
 
-func _init(new_root_expr_item, new_indeces:=[], new_expr_item:ExprItem=null, parent=null, abandon=0):
+func _init(new_root_expr_item, new_indeces:=[], abandon=0):
 	self.root_expr_item = new_root_expr_item
 	self.indeces = new_indeces
-	self.parent = parent
-	if self.parent == null and new_indeces.size() > 1:
-		self.parent = get_script().new(new_root_expr_item, new_indeces.slice(0, new_indeces.size()-2))
-	elif self.parent == null and new_indeces.size() == 1:
-		self.parent = get_script().new(new_root_expr_item, [])
 	self.abandon = abandon
-	if new_expr_item == null:
-		expr_item = new_root_expr_item
-	else:
-		expr_item = new_expr_item
 
-func get_parent()->Locator:
-	return parent
+
+func _get_indeces_tail():
+	var x = indeces.duplicate()
+	x.pop_back()
+	return x
+
+
+func get_parent() -> Locator:
+	if indeces.size() > 0:
+		return get_script().new(root_expr_item, _get_indeces_tail())
+	else:
+		return null
 
 
 func get_parent_type() -> ExprItemType:
-	return null if parent == null else parent.get_type()
+	return null if indeces.size() == 0 else get_parent().get_type()
 
 
 func get_indeces() -> Array: #<Int>
@@ -48,57 +47,52 @@ func get_root() -> ExprItem:
 
 
 func get_expr_item() -> ExprItem:
-	return expr_item
+	var result := root_expr_item
+	for index in indeces:
+		result = result.get_child(index)
+	return result
 
 
 func get_child_count() -> int:
-	return expr_item.get_child_count()
+	return get_expr_item().get_child_count()
 
 
 func get_type() -> ExprItemType:
-	return expr_item.get_type()
+	return get_expr_item().get_type()
 
 
 func get_all_types() -> Dictionary:
-	return expr_item.get_all_types()
+	return get_expr_item().get_all_types()
 
 
 func get_child(idx:int) -> Locator:
 	var new_indeces := indeces.duplicate()
 	new_indeces.push_back(idx)
-	return get_script().new(root_expr_item, new_indeces, expr_item.get_child(idx), self)
+	return get_script().new(root_expr_item, new_indeces)
 
 
 func abandon_lowest(n:int) -> Locator:
-	return get_script().new(root_expr_item, indeces, expr_item.abandon_lowest(n), self, abandon + n)
+	return get_script().new(root_expr_item, indeces, abandon + n)
+
+
+func get_outside_definitions() -> Array: #<ExprItemType>
+	var current_ei := root_expr_item
+	var cuml_definitions := []
+	for index in indeces:
+		if index == 1 and current_ei.get_type().is_binder():
+			cuml_definitions.append(current_ei.get_child(0).get_type())
+		current_ei = current_ei.get_child(index)
+	return cuml_definitions
 
 
 # Should work for both proof boxes and parse boxes
 func get_proof_box(root_proof_box):
-	if parent == null:
-		return root_proof_box
-	elif parent.get_type().get_binder_type() == ExprItemType.BINDER.BINDER and get_indeces()[-1] == 1:
-		return root_proof_box.get_script().new(
-			parent.get_proof_box(root_proof_box),
-			[parent.get_child(0).get_type()]
-		)
-	else:
-		return parent.get_proof_box(root_proof_box)
-
-
-func get_outside_definitions() -> Array: #<ExprItemType>
-	if parent == null:
-		return []
-	elif parent.get_type().get_binder_type() == ExprItemType.BINDER.BINDER and get_indeces()[-1] == 1:
-		var outside_parent := parent.get_outside_definitions()
-		outside_parent.append(parent.get_child(0).get_type())
-		return outside_parent
-	else:
-		return parent.get_outside_definitions()
+	var definitions = get_outside_definitions()
+	return root_proof_box.get_child_extended_with(definitions)
 
 
 func _to_string():
-	return expr_item.to_string()
+	return get_expr_item().to_string()
 
 
 func find_all(find:ExprItem) -> Array: #<Locator>

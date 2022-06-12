@@ -20,6 +20,13 @@ func get_parent() -> ParseBox:
 	return parent
 
 
+func get_child_extended_with(definitions:Array) -> ParseBox:
+	if definitions.size() > 0:
+		return get_script().new(self, definitions)
+	else:
+		return self
+
+
 # IMPORTS =================================================
 
 
