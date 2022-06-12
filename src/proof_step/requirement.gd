@@ -27,28 +27,30 @@ func get_assumptions() -> Array:
 	return assumptions
 
 
-func compare(other:Requirement):
-	if not goal.compare(other.goal):
-		return false
-	var d1_copy := definitions.duplicate()
-	var d2_copy := other.definitions.duplicate()
-	for x in d1_copy:
-		if not x in d2_copy:
-			return false
-		d2_copy.erase(x)
-	if d2_copy.size() > 0:
-		return false
-	var a1_copy := assumptions.duplicate()
-	var a2_copy := other.assumptions.duplicate()
-	for x in a1_copy:
-		var found := false
-		for y in a2_copy:
-			if x.compare(y):
-				a2_copy.erase(y)
-				found = true
-				break
-		if not found:
-			return false
-	if a2_copy.size() > 0:
-		return false
-	return true
+func serialize() -> Dictionary:
+	var serial_definitions := []
+	for definition in definitions:
+		serial_definitions.append(definition.get_identifier())
+	var serial_assumptions := []
+	for assumption in assumptions:
+		serial_definitions.append(assumption.serialize())
+	return {
+		goal=goal.serialize(),
+		definitions=serial_definitions,
+		assumptions=serial_assumptions
+	}
+
+
+static func deserialize(script, dict:Dictionary, parse_box:ParseBox) -> Requirement:
+	var definitions := []
+	for definition in dict.definitions:
+		definitions.append(ExprItemType.new(definition))
+	var new_parse_box := ParseBox.new(parse_box, definitions)
+	var assumptions := []
+	for assumption in dict.assumptions:
+		assumptions.append(ExprItemBuilder.deserialize(assumption, new_parse_box))
+	return script.new(
+		ExprItemBuilder.deserialize(dict.goal, new_parse_box),
+		definitions,
+		assumptions
+	)

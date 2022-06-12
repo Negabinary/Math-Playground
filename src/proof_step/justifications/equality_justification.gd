@@ -10,6 +10,17 @@ func _init(location:Locator, replace_with=null, forwards:=true).(location):
 	self.forwards = forwards
 
 
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="EqualityJustification",
+		location_expr_item=location.get_root().serialize(),
+		location_indeces=location.get_indeces(),
+		replace_with=replace_with.serialize(),
+		forwards=forwards
+	}
+
+
 func _get_equality_replace_with(what:ExprItem, context:ParseBox):
 	return replace_with
 
@@ -19,12 +30,12 @@ func _get_equality_requirements(what:ExprItem, context:ParseBox):
 		return [Requirement.new(ExprItem.new(
 			GlobalTypes.EQUALITY,
 			[replace_with, what]
-		))]
+		), location.get_outside_definitions())]
 	else:
 		return [Requirement.new(ExprItem.new(
 			GlobalTypes.EQUALITY,
 			[what, replace_with]
-		))]
+		), location.get_outside_definitions())]
 
 
 func set_replace_with(rw:ExprItem):

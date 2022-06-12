@@ -2,6 +2,13 @@ extends Justification
 class_name MissingJustification 
 
 
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="MissingJustification"
+	}
+
+
 func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	return null
 

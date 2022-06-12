@@ -98,3 +98,31 @@ func is_proven_except(idx:int):
 		return true
 	else:
 		return false
+
+
+func serialize_proof() -> Dictionary:
+	var dependencies := []
+	for dep in get_dependencies():
+		dependencies.append(dep.serialize_proof())
+	return {
+		requirement=requirement.serialize(),
+		justification=get_justification().serialize(),
+		dependencies=dependencies
+	}
+
+static func deserialize_proof(script:Script, dictionary, context:ProofBox, version) -> ProofStep:
+	var n:ProofStep = script.new(
+		Requirement.deserialize(Requirement, dictionary.requirement, context.get_parse_box()),
+		context
+	)
+	if not n.is_proven():
+		var j := JustificationBuilder.deserialize(
+			dictionary.justification, 
+			n.get_inner_proof_box().get_parse_box(),
+			version
+		)
+		if j:
+			n.justify(j)
+	for dependency in dictionary.dependencies:
+		deserialize_proof(script, dependency, n.get_inner_proof_box(), version)
+	return n

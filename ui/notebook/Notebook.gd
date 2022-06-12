@@ -10,11 +10,11 @@ onready var ui_new_cell_button := $HSplitContainer/Container/ScrollContainer/Mar
 func _ready():
 	ui_new_cell_button.connect("pressed", self, "new_cell")
 
-func new_cell(json = null, proof_box = null):
+func new_cell(json = null, proof_box = null, version = 0):
 	var node := cell.instance()
 	ui_cells.add_child(node)
 	if json != null:
-		node.deserialise(json, proof_box)	
+		node.deserialise(json, proof_box, version)	
 	node.connect("request_delete", self, "delete_cell", [node])
 	node.connect("request_move_up", self, "move_cell_up", [node])
 	node.connect("request_move_down", self, "move_cell_down", [node])
@@ -54,7 +54,7 @@ func clear() -> void:
 func deserialise(json:Dictionary) -> void:
 	clear()
 	for i in len(json.cells):
-		new_cell(json.cells[i], _get_proof_box_before(i))
+		new_cell(json.cells[i], _get_proof_box_before(i), json.version)
 
 func serialise() -> Dictionary:
 	var cell_obj := []

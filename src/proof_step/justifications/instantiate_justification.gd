@@ -11,6 +11,15 @@ func _init(new_type_name:="x", existential_fact=null):
 	self.existential = existential_fact
 
 
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="InstantiateJustification",
+		new_type=new_type.serialize(),
+		existential=existential.serialize()
+	}
+
+
 func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	if existential == null:
 		return null

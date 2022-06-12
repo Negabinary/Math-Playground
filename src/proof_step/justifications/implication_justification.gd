@@ -11,6 +11,15 @@ func _init(keep_definition_ids=[], keep_condition_ids=[]):
 	self.keep_definition_ids = keep_definition_ids
 
 
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="ImplicationJustification",
+		keep_condition_ids=keep_condition_ids,
+		keep_definition_ids=keep_definition_ids
+	}
+
+
 func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	var statement := Statement.new(expr_item)
 	var box_definitions := []

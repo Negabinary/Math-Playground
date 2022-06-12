@@ -1,8 +1,15 @@
 extends Justification
 class_name WitnessJustification 
 
-
 var witness : ExprItem
+
+
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="WitnessJustification",
+		witness=witness
+	}
 
 
 func _init(witness:=null):

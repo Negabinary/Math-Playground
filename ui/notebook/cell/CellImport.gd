@@ -9,7 +9,7 @@ func initialise(item:ModuleItem2Import):
 func serialise():
 	return item.serialise()
 
-func deserialise(item, proof_box):
+func deserialise(item, proof_box, version):
 	initialise(ModuleItem2Import.new(
 		proof_box,
 		item.module

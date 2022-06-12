@@ -1,9 +1,14 @@
 extends Node
 class_name ExprItemBuilder
 
-static func from_string(string:String, proof_box:ProofBox) -> ExprItem:
+
+static func deserialize(string:String, parse_box:ParseBox) -> ExprItem:
 	var intermediate := _generate_intermediate(string)
-	return _generate_expr_item(intermediate, proof_box.get_parse_box())
+	return _generate_expr_item(intermediate, parse_box)
+
+
+static func from_string(string:String, proof_box:ProofBox) -> ExprItem:
+	return deserialize(string, proof_box.get_parse_box())
 	
 
 static func _generate_intermediate(string:String) -> IntermediateExprItem:

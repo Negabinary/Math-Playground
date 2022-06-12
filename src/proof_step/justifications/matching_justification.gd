@@ -3,6 +3,12 @@ class_name MatchingJustification
 
 # TODO: Multiple matchings?
 
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="MatchingJustification"
+	}
+
 
 func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	if expr_item.get_type() != GlobalTypes.EQUALITY or expr_item.get_child_count() != 2:

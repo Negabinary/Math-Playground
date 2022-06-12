@@ -27,6 +27,10 @@ func get_justification_description():
 	return ""
 
 
+func serialize() -> Dictionary:
+	return {}
+
+
 # OPTIONS ===============================================
 
 

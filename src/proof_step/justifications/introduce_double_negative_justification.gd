@@ -6,6 +6,15 @@ func _init(x).(x):
 	pass
 
 
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="IntroducedDoubleNegativeJustification",
+		location_expr_item=location.get_root().serialize(),
+		location_indeces=location.get_indeces()
+	}
+
+
 func _get_equality_replace_with(expr_item:ExprItem, context:ParseBox):
 	if expr_item.type != GlobalTypes.NOT or expr_item.get_child_count() != 1:
 		return null

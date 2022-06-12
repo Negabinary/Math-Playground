@@ -4,13 +4,19 @@ class_name EliminatedLambdaJustification
 
 var replace_value : ExprItem
 var replace_with : ExprItemType
-var replace_locations #: Array
 var replace_positions #: Array
+
+var replace_locations #: Array
 
 
 func _init(location:Locator, replace_value = null, replace_with:ExprItemType = ExprItemType.new(""), replace_positions = null).(location):
-	self.replace_value = replace_value
 	self.replace_with = replace_with
+	self.replace_value = replace_value
+	if replace_value:
+		self.replace_locations = Locator.new(location.get_expr_item()).find_all(replace_value)
+		self.replace_positions = []
+		for i in replace_locations:
+			self.replace_positions.append(true)
 	self.replace_positions = replace_positions
 
 
@@ -32,6 +38,18 @@ func set_replace_value(new_replace_value:ExprItem):
 func set_replace_position(value:bool, index:int):
 	self.replace_positions[index] = value
 	emit_signal("updated")
+
+
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="EliminatedLambdaJustification",
+		location_expr_item=location.get_root().serialize(),
+		location_indeces=location.get_indeces(),
+		replace_value=replace_value.serialize(),
+		replace_with=replace_with.serialize(),
+		replace_positions=replace_positions
+	}
 
 
 # OVERRIDES ===================================================================

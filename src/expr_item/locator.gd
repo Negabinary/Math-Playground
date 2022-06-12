@@ -13,6 +13,10 @@ func _init(new_root_expr_item, new_indeces:=[], new_expr_item:ExprItem=null, par
 	self.root_expr_item = new_root_expr_item
 	self.indeces = new_indeces
 	self.parent = parent
+	if self.parent == null and new_indeces.size() > 1:
+		self.parent = get_script().new(new_root_expr_item, new_indeces.slice(0, new_indeces.size()-2))
+	elif self.parent == null and new_indeces.size() == 1:
+		self.parent = get_script().new(new_root_expr_item, [])
 	self.abandon = abandon
 	if new_expr_item == null:
 		expr_item = new_root_expr_item
@@ -69,7 +73,7 @@ func abandon_lowest(n:int) -> Locator:
 	return get_script().new(root_expr_item, indeces, expr_item.abandon_lowest(n), self, abandon + n)
 
 
-
+# Should work for both proof boxes and parse boxes
 func get_proof_box(root_proof_box):
 	if parent == null:
 		return root_proof_box
@@ -80,6 +84,17 @@ func get_proof_box(root_proof_box):
 		)
 	else:
 		return parent.get_proof_box(root_proof_box)
+
+
+func get_outside_definitions() -> Array: #<ExprItemType>
+	if parent == null:
+		return []
+	elif parent.get_type().get_binder_type() == ExprItemType.BINDER.BINDER and get_indeces()[-1] == 1:
+		var outside_parent := parent.get_outside_definitions()
+		outside_parent.append(parent.get_child(0).get_type())
+		return outside_parent
+	else:
+		return parent.get_outside_definitions()
 
 
 func _to_string():

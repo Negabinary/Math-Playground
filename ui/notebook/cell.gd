@@ -48,7 +48,7 @@ func serialise() -> Dictionary:
 	return dict
 
 
-func deserialise(json:Dictionary, context) -> void:
+func deserialise(json:Dictionary, context, version) -> void:
 	_ready()
 	ui_entry_box.text = json.string
 	if json.compiled:
@@ -67,7 +67,7 @@ func deserialise(json:Dictionary, context) -> void:
 			elif item.kind == "import":
 				nc = scene_cell_import.instance()
 			ui_use_area.add_child(nc)
-			nc.deserialise(item, context)
+			nc.deserialise(item, context, version)
 			context = nc.item.get_next_proof_box()
 		bottom_proof_box = context
 		ui_edit_button.show()

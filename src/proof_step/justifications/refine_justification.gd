@@ -8,6 +8,14 @@ func _init(general_form:ExprItem=null):
 	self.general = general_form
 
 
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="RefineJustification",
+		general=general.serialize()
+	}
+
+
 func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	if general == null:
 		return null

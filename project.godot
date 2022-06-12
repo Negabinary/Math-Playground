@@ -92,7 +92,12 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "Justification",
 "language": "GDScript",
-"path": "res://src/proof_step/justification.gd"
+"path": "res://src/proof_step/justifications/justification.gd"
+}, {
+"base": "Reference",
+"class": "JustificationBuilder",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/justification_builder.gd"
 }, {
 "base": "Object",
 "class": "Locator",
@@ -272,6 +277,7 @@ _global_script_class_icons={
 "IntroducedLambdaJustification": "",
 "ItemParser2": "",
 "Justification": "",
+"JustificationBuilder": "",
 "Locator": "",
 "MatchingJustification": "",
 "MiscUtil": "",

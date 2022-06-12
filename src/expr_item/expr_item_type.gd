@@ -64,3 +64,7 @@ func get_binder_type() -> int:
 
 func delete():
 	emit_signal("deleted")
+
+
+func serialize():
+	return get_identifier()

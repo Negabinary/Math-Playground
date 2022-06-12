@@ -9,7 +9,7 @@ func initialise(item:ModuleItem2Assumption):
 func serialise():
 	return item.serialise()
 
-func deserialise(item, proof_box):
+func deserialise(item, proof_box, version):
 	initialise(ModuleItem2Assumption.new(
 		proof_box, 
 		ExprItemBuilder.from_string(item.expr, proof_box)

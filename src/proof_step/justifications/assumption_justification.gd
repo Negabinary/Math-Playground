@@ -10,3 +10,9 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 
 func get_justification_text():
 	return "ASSUMED"
+
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="AssumptionJustification"
+	}

@@ -5,6 +5,14 @@ class_name ModusPonensJustification
 var implication : ExprItem
 
 
+func serialize() -> Dictionary:
+	return {
+		justification_version=1,
+		justification_type="MissingJustification",
+		implication=implication.serialize()
+	}
+
+
 func _init(implication=null):
 	self.implication = implication
 	emit_signal("updated")

@@ -60,3 +60,7 @@ func _get_equality_options(what:ExprItem, context:ParseBox):
 func set_location(location:Locator):
 	self.location = location
 	emit_signal("updated")
+
+
+func get_context_at_location(context):
+	return location.get_proof_box(context)
