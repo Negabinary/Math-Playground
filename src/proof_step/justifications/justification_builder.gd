@@ -61,10 +61,6 @@ static func deserialize(j:Dictionary, parse_box:ParseBox, version) -> Justificat
 			return RefineJustification.new(
 				ExprItemBuilder.deserialize(j.general, parse_box)
 			)
-		{"justification_type": "RefineJustification", ..}:
-			return RefineJustification.new(
-				ExprItemBuilder.deserialize(j.general, parse_box)
-			)
 		{"justification_type": "ReflexiveJustification", ..}:
 			return ReflexiveJustification.new()
 		{"justification_type": "VacuousJustification", ..}:

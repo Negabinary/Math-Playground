@@ -32,9 +32,11 @@ func get_parent() -> ProofBox:
 
 
 static func _get_unique_label(definitions:Array, assumptions:Array) -> String:
-	var label = str(definitions.size()) + ";"
+	var label := ""
+	for definition in definitions:
+		label += str(definition.get_uid()) + ":"
 	for assumption in assumptions:
-		label += assumption.get_unique_name(definitions) + ";"
+		label += assumption.get_unique_name() + ";"
 	return label
 
 
@@ -88,7 +90,7 @@ signal justified # (uname)
 
 
 func add_justification(expr_item:ExprItem, justification):
-	var uname = expr_item.get_unique_name(get_definitions())
+	var uname = expr_item.get_unique_name()
 	justifications[uname] = justification
 	expr_items[uname] = expr_item
 	emit_signal("justified", uname)
@@ -139,7 +141,7 @@ func get_justification_or_missing_for(expr_item:ExprItem):
 
 
 func get_justification_for(expr_item:ExprItem):
-	var justification = justifications.get(expr_item.get_unique_name(get_definitions()))
+	var justification = justifications.get(expr_item.get_unique_name())
 	if justification != null:
 		return justification
 	var parent_justification = _get_parent_justification(expr_item)
@@ -168,4 +170,4 @@ func is_ancestor_of(other:ProofBox):
 
 
 func get_uid(expr_item:ExprItem):
-	return expr_item.get_unique_name(get_definitions())
+	return expr_item.get_unique_name()
