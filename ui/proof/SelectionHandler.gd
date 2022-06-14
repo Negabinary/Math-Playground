@@ -6,11 +6,19 @@ signal locator_changed
 var wpb
 
 func take_selection(wpb):
+	if self.wpb != null and self.wpb != wpb:
+		self.wpb.deselect()
 	self.wpb = wpb
+	if wpb != null:
+		wpb.select()
 	emit_signal("locator_changed", get_locator())
 
 func locator_changed(x, wpb):
+	if self.wpb != null and self.wpb != wpb:
+		self.wpb.deselect()
 	self.wpb = wpb
+	if wpb != null:
+		wpb.select()
 	emit_signal("locator_changed", get_locator())
 
 func get_locator() -> Locator:

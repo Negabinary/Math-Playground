@@ -19,7 +19,6 @@ var WPB_SCENE = load("res://ui/proof/written_proof_box/WPB2.tscn")
 func init(proof_step:ProofStep, selection_handler):
 	self.proof_step = proof_step
 	self.selection_handler = selection_handler
-	selection_handler.connect("locator_changed", self, "_on_selected_locator_changed")
 	_find_ui_elements()
 	ui_justification_holder.init(proof_step, selection_handler)
 	_connect_dependencies()
@@ -31,7 +30,7 @@ func init(proof_step:ProofStep, selection_handler):
 	else:
 		ui_assumptions.hide()
 		add_constant_override("margin_left", 0)
-	ui_statement.connect("selection_changed", selection_handler, "locator_changed", [self])
+	ui_statement.connect("selection_changed", self, "_on_ui_statement_selected")
 	update()
 
 
@@ -118,9 +117,18 @@ func is_proven() -> bool:
 	return proof_step.is_proven()
 
 
-func _on_selected_locator_changed(locator):
-	if selection_handler.get_wpb() != self:
-		ui_statement.deselect()
+# SELECTION ===============================================
+
+
+func _on_ui_statement_selected(locator:Locator):
+	selection_handler.locator_changed(locator, self)
+	ui_justification_holder.locator_changed(locator)
+
+func select():
+	pass
+
+func deselect():
+	ui_statement.deselect()
 
 
 # DRAWING =================================================

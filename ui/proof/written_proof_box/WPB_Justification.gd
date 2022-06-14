@@ -35,7 +35,6 @@ func init(proof_step:ProofStep, selection_handler:SelectionHandler):
 	proof_step.connect("justification_type_changed", self, "_on_justification_changed")
 	proof_step.connect("justification_properties_changed", self, "_on_justification_updated")
 	self.selection_handler = selection_handler
-	selection_handler.connect("locator_changed", self, "_on_locator_changed")
 	_on_justification_changed()
 
 
@@ -72,7 +71,7 @@ func _on_justification_updated():
 	)
 
 
-func _on_locator_changed(new_locator):
+func locator_changed(new_locator):
 	# todo: move this code into MissingJustification
 	ui_options.set_options(
 		proof_step.get_justification().get_options_for_selection(
