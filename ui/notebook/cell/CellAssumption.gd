@@ -12,5 +12,5 @@ func serialise():
 func deserialise(item, proof_box, version):
 	initialise(ModuleItem2Assumption.new(
 		proof_box, 
-		ExprItemBuilder.from_string(item.expr, proof_box)
+		ExprItemBuilder.deserialize(item.expr, proof_box.get_parse_box())
 	))

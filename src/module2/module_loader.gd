@@ -40,12 +40,12 @@ static func deserialise_item(item, proof_box:ProofBox) -> ModuleItem2:
 		elif item.kind == "assumption":
 			return ModuleItem2Assumption.new(
 				proof_box, 
-				ExprItemBuilder.from_string(item.expr, proof_box)
+				ExprItemBuilder.deserialize(item.expr, proof_box.get_parse_box())
 			)
 		elif item.kind == "theorem":
 			return ModuleItem2Theorem.new(
 				proof_box, 
-				ExprItemBuilder.from_string(item.expr, proof_box),
+				ExprItemBuilder.deserialize(item.expr, proof_box.get_parse_box()),
 				item.proof
 			)
 		elif item.kind == "import":

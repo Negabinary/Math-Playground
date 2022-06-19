@@ -57,12 +57,14 @@ func get_requirement() -> Requirement:
 
 
 func get_dependencies() -> Array:
-	var reqs = get_justification().get_requirements_for(
+	var ureqs = get_justification().get_requirements_for(
 		requirement.get_goal(), 
 		context.get_parse_box()
 	)
-	if reqs == null:
-		reqs = []
+	var reqs = []
+	if ureqs != null:
+		for ureq in ureqs:
+			reqs.append(context.convert_requirement(ureq))
 	var proof_steps := []
 	for req in reqs:
 		proof_steps.append(get_script().new(req, context))
