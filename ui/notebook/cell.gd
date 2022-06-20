@@ -57,7 +57,6 @@ func deserialise(json:Dictionary, context, version) -> void:
 		ui_eval_button.hide()
 		for item in json.items:
 			var nc : Node
-			print(item)
 			if item.kind == "definition":
 				nc = scene_cell_definition.instance()
 			elif item.kind == "assumption":

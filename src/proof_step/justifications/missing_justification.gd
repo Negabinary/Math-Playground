@@ -30,7 +30,6 @@ func get_options_for_selection(expr_item:ExprItem, context:ParseBox, selection:L
 	prove_implication_button.connect("pressed", self, "_request_replace", [
 		ImplicationJustification.new()
 	])
-	print(prove_implication_button.get_signal_connection_list("pressed"))
 	options.append(prove_implication_button)
 	var instantiation_button = Justification.ButtonOption.new("instantiate an existential")
 	instantiation_button.connect("pressed", self, "_request_replace",[

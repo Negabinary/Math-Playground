@@ -17,7 +17,6 @@ func _name_to_path(module_name:String) -> String:
 
 func load_module(module_name:String) -> void:
 	var file = File.new()
-	print(_name_to_path(module_name))
 	file.open(_name_to_path(module_name),File.READ)
 	var contents = file.get_as_text()
 	file.close()

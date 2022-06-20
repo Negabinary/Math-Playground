@@ -35,7 +35,6 @@ func _confirm_load_file(path:String):
 	if file.is_open():
 		file.close()
 	file.open(path, File.READ_WRITE)
-	print(file.get_as_text())
 	var parse = JSON.parse(file.get_as_text()).result
 	ui_notebook.deserialise(parse)
 	OS.set_window_title(path + " - DiscMath Playground")
@@ -58,7 +57,6 @@ func _confirm_save_file(path:String):
 	if file.is_open():
 		file.close()
 	file.open(path, File.WRITE_READ)
-	print(JSON.print(ui_notebook.serialise()))
 	file.store_string(JSON.print(ui_notebook.serialise()))
 	file.flush()
 	OS.set_window_title(path + " - DiscMath Playground")
@@ -66,7 +64,6 @@ func _confirm_save_file(path:String):
 
 
 func _save_button():
-	print(JSON.print(ui_notebook.serialise()))
 	file.seek(0)
 	file.store_string(JSON.print(ui_notebook.serialise()))
 	file.flush()
