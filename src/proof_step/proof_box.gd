@@ -37,7 +37,7 @@ func get_parent() -> ProofBox:
 static func _get_unique_label(definitions:Array, assumptions:Array) -> String:
 	var label := str(definitions.size()) + ":"
 	for assumption in assumptions:
-		label += assumption.get_unique_name() + ";"
+		label += assumption.get_unique_name(definitions) + ";"
 	return label
 
 

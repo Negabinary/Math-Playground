@@ -28,7 +28,7 @@ func _display_requirements(req_id:int):
 	var ui_requirements := $VBoxContainer/VBoxContainer/Requirements
 	for child in ui_requirements.get_children():
 		ui_requirements.remove_child(child)
-	var requirements := justification.get_requirements()
+	var requirements = justification.get_requirements()
 	for requirement in requirements:
 		var new_label = WrittenJustification.new()
 		new_label.set_text(requirement.get_statement().to_string(), ">" if requirement == requirements[req_id] else ("" if requirement.is_proven() else "!"))
@@ -39,7 +39,7 @@ func _display_requirements(req_id:int):
 
 func _display_options():
 	var ui_options := $VBoxContainer/VBoxContainer/VBoxContainer/Options
-	var options := justification.get_options()
+	var options = justification.get_options()
 	for i in options.size():
 		var new_label = WrittenJustification.new()
 		new_label.disabled = justification.get_option_disabled(i)

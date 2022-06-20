@@ -113,8 +113,9 @@ func serialize_proof() -> Dictionary:
 	}
 
 static func deserialize_proof(script:Script, dictionary, context:ProofBox, version) -> ProofStep:
+	var r = Requirement.deserialize(Requirement, dictionary.requirement, context.get_parse_box())
 	var n:ProofStep = script.new(
-		Requirement.deserialize(Requirement, dictionary.requirement, context.get_parse_box()),
+		context.convert_requirement(r),
 		context
 	)
 	if not n.is_proven():
