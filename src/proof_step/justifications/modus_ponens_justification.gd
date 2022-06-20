@@ -8,7 +8,7 @@ var implication : ExprItem
 func serialize() -> Dictionary:
 	return {
 		justification_version=1,
-		justification_type="MissingJustification",
+		justification_type="ModusPonensJustification",
 		implication=implication.serialize()
 	}
 

@@ -33,7 +33,7 @@ func serialize() -> Dictionary:
 		serial_definitions.append(definition.get_identifier())
 	var serial_assumptions := []
 	for assumption in assumptions:
-		serial_definitions.append(assumption.serialize())
+		serial_assumptions.append(assumption.serialize())
 	return {
 		goal=goal.serialize(),
 		definitions=serial_definitions,
