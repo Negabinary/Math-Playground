@@ -94,7 +94,7 @@ func is_superset(other:ExprItem, matching:={}, conversion:={}) -> bool:
 			return true
 		else:
 			var expected_other:ExprItem = get_script().new(matching[type].get_type(), matching[type].get_children() + get_children())
-			if expected_other.is_superset(other, matching):
+			if expected_other.is_superset(other, matching, conversion):
 				return true
 			else:
 				return false
