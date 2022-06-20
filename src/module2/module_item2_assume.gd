@@ -4,8 +4,8 @@ class_name ModuleItem2Assumption
 var assumption : ExprItem
 
 func _init(context:ProofBox, statement:ExprItem):
-	proof_box = context.get_child_extended_with(
-		[], [statement]
+	proof_box = ProofBox.new(
+		context, [], [statement]
 	)
 	self.assumption = statement
 

@@ -14,9 +14,6 @@ var children := {} # <String [requirement label], ExprItem>
 var children_defs := {} # <String [requirement label], Array<ExprItemType>>
 
 
-# TODO: find instances and change
-# TODO: change add_assumptions underneath
-# TODO: we'll have to check the assumptions match up at some point...
 func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<ExprItemType,String>
 	self.parent = parent
 	var parse_imports = {}
