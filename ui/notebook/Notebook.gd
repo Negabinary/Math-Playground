@@ -54,7 +54,7 @@ func clear() -> void:
 func deserialise(json:Dictionary) -> void:
 	clear()
 	for i in len(json.cells):
-		new_cell(json.cells[i], _get_proof_box_before(i), json.version)
+		new_cell(json.cells[i], _get_proof_box_before(i), json.version if json.version else 0)
 
 func serialise() -> Dictionary:
 	var cell_obj := []
