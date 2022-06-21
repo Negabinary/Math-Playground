@@ -111,6 +111,8 @@ func is_justification_valid() -> bool:
 
 
 func is_proven():
+	if is_circular():
+		return false
 	if is_justification_valid():
 		for dependency in get_dependencies():
 			if not dependency.is_proven():
@@ -121,6 +123,8 @@ func is_proven():
 
 
 func is_proven_except(idx:int):
+	if is_circular():
+		return false
 	if is_justification_valid():
 		var deps := get_dependencies()
 		for dep in deps.size():

@@ -7,9 +7,13 @@ var parent : ProofBox
 
 var imports := {} # <ProofBox>
 var parse_box : ParseBox
+
 var assumptions := [] #<ExprItem>
-var justifications := {} # <[unique]String, Justification>
-var expr_items := {} # <[unique]String, ExprItem>
+var scratch_justifications := {} # <[unique]String, Justification>
+var scratch_expr_items := {} # <[unique]String, ExprItem>
+var done_justifications := {}
+var done_expr_items := {}
+
 var children := {} # <String [requirement label], ExprItem>
 var children_defs := {} # <String [requirement label], Array<ExprItemType>>
 
@@ -22,9 +26,6 @@ func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<Ex
 	self.parse_box = ParseBox.new(parent.get_parse_box() if parent else null, definitions, parse_imports)
 	self.assumptions = assumptions
 	self.imports = imports
-	self.justifications = {}
-	for assumption in assumptions:
-		add_justification(assumption, AssumptionJustification.new())
 
 
 func get_parent() -> ProofBox:
@@ -112,17 +113,20 @@ signal justified # (uname)
 
 func add_justification(expr_item:ExprItem, justification):
 	var uname = expr_item.get_unique_name()
-	justifications[uname] = justification
-	expr_items[uname] = expr_item
+	scratch_justifications[uname] = justification
+	scratch_expr_items[uname] = expr_item
+	emit_signal("justified", uname)
+
+
+func add_done_justification(expr_item:ExprItem, justification):
+	var uname = expr_item.get_unique_name()
+	done_justifications[uname] = justification
+	done_expr_items[uname] = expr_item
 	emit_signal("justified", uname)
 
 
 func get_assumptions() -> Array: #<ExprItem>
-	var result := []
-	for ustring in justifications:
-		#if justifications[ustring] is AssumptionJustification:
-		result.append(expr_items[ustring])
-	return result
+	return assumptions
 
 
 func get_all_assumptions() -> Array:
@@ -162,12 +166,37 @@ func get_justification_or_missing_for(expr_item:ExprItem):
 
 
 func get_justification_for(expr_item:ExprItem):
-	var justification = justifications.get(expr_item.get_unique_name())
+	if _is_assumed(expr_item):
+		return AssumptionJustification.new()
+	var justification = scratch_justifications.get(expr_item.get_unique_name())
 	if justification != null:
 		return justification
-	var parent_justification = _get_parent_justification(expr_item)
-	if parent_justification != null:
-		return parent_justification
+	return _get_done_justification(expr_item)
+
+
+func _is_assumed(expr_item:ExprItem):
+	for assumption in assumptions:
+		if expr_item.compare(assumption):
+			return true
+	for import in imports:
+		if import._is_assumed(expr_item):
+			return true
+	if parent != null:
+		return parent._is_assumed(expr_item)
+	else:
+		return false
+
+
+func _get_done_justification(expr_item:ExprItem):
+	var justification = done_justifications.get(expr_item.get_unique_name())
+	if justification != null:
+		return justification
+	for import in imports:
+		var ijustification = imports[import]._get_done_justification(expr_item)
+		if ijustification != null:
+			return ijustification
+	if parent != null:
+		return parent._get_done_justification(expr_item)
 	return null
 
 
