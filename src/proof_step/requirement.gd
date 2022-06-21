@@ -12,7 +12,17 @@ func _init(goal:ExprItem, definitions=[], assumptions=[]):
 	self.goal = goal
 	self.goal_uid = goal.get_unique_name()
 	self.definitions = definitions
-	self.assumptions = assumptions
+	self.assumptions = []
+	for ass in assumptions:
+		_add_de_anded_assumption(ass)
+
+
+func _add_de_anded_assumption(ass):
+	if ass.get_type() == GlobalTypes.AND and ass.get_child_count() == 2:
+		_add_de_anded_assumption(ass.get_child(0))
+		_add_de_anded_assumption(ass.get_child(1))
+	else:
+		assumptions.append(ass)
 
 
 func get_goal() -> ExprItem:

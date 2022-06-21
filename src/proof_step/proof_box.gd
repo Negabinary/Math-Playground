@@ -179,7 +179,7 @@ func _is_assumed(expr_item:ExprItem):
 		if expr_item.compare(assumption):
 			return true
 	for import in imports:
-		if import._is_assumed(expr_item):
+		if imports[import]._is_assumed(expr_item):
 			return true
 	if parent != null:
 		return parent._is_assumed(expr_item)
