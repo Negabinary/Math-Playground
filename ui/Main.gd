@@ -1,6 +1,6 @@
 extends VBoxContainer
 
-var file := File.new()
+var path : String = ""
 var folder_name = "user://"
 onready var ui_notebook : Notebook = $Notebook
 onready var ui_save_button : Button = $Controls/FileControls/Save2
@@ -16,7 +16,7 @@ func _ready():
 func _new_file_button():
 	ui_save_button.hide()
 	ui_notebook.clear()
-	file.close()
+	path = ""
 	OS.set_window_title("untitled - DiscMath Playground")
 	
 
@@ -32,10 +32,11 @@ func _load_file_button():
 
 func _confirm_load_file(path:String):
 	# TODO: CHECK FOR UNSAVED WORK
-	if file.is_open():
-		file.close()
-	file.open(path, File.READ_WRITE)
+	self.path = path
+	var file := File.new()
+	file.open(path, File.READ)
 	var parse = JSON.parse(file.get_as_text()).result
+	file.close()
 	ui_notebook.deserialise(parse)
 	OS.set_window_title(path + " - DiscMath Playground")
 	ui_save_button.show()
@@ -54,16 +55,17 @@ func _save_as_button():
 func _confirm_save_file(path:String):
 	# TODO: CHECK FOR UNSAVED WORK
 	# TODO: CHECK FOR OVERWRITE
-	if file.is_open():
-		file.close()
-	file.open(path, File.WRITE_READ)
+	self.path = path
+	var file := File.new()
+	file.open(path, File.WRITE)
 	file.store_string(JSON.print(ui_notebook.serialise()))
-	file.flush()
+	file.close()
 	OS.set_window_title(path + " - DiscMath Playground")
 	ui_save_button.show()
 
 
 func _save_button():
-	file.seek(0)
+	var file := File.new()
+	file.open(path, File.WRITE)
 	file.store_string(JSON.print(ui_notebook.serialise()))
-	file.flush()
+	file.close()

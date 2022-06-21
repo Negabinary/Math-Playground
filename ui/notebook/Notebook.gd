@@ -13,13 +13,12 @@ func _ready():
 func new_cell(json = null, proof_box = null, version = 0):
 	var node := cell.instance()
 	ui_cells.add_child(node)
+	_recompile_from(node.get_index())
 	if json != null:
 		node.deserialise(json, proof_box, version)	
 	node.connect("request_delete", self, "delete_cell", [node])
 	node.connect("request_move_up", self, "move_cell_up", [node])
 	node.connect("request_move_down", self, "move_cell_down", [node])
-	if json == null:
-		_recompile_from(node.get_index())
 
 func move_cell_up(cell:NotebookCell):
 	if cell.get_index() > 0:
