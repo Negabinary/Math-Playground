@@ -6,7 +6,7 @@ static func lex(string:String) -> Array:
 	var result := []
 	for i in len(string):
 		var c := string[i]
-		if c in [" ","\n","	"]:
+		if c in [" ","\n",""]:
 			if cuml_word != "":
 				result.append(Token2.new(start_word, i, cuml_word))
 				cuml_word = ""

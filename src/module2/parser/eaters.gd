@@ -67,7 +67,9 @@ static func eat_expr(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictiona
 			if content_parse["error"]:
 				return content_parse
 			var result:ExprItem = content_parse.expr_item
-			for type in bindings_parse["types"]:
+			var reversed_types_list:Array = bindings_parse["types"].duplicate()
+			reversed_types_list.invert()
+			for type in reversed_types_list:
 				if type in bindings_parse.tags:
 					result = ExprItem.new(GlobalTypes.IMPLIES,
 						[
@@ -91,7 +93,9 @@ static func eat_expr(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictiona
 			if content_parse["error"]:
 				return content_parse
 			var result:ExprItem = content_parse.expr_item
-			for type in bindings_parse["types"]:
+			var reversed_types_list:Array = bindings_parse["types"].duplicate()
+			reversed_types_list.invert()
+			for type in reversed_types_list:
 				if type in bindings_parse.tags:
 					result = ExprItem.new(GlobalTypes.AND,
 						[
@@ -115,7 +119,9 @@ static func eat_expr(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictiona
 			if content_parse["error"]:
 				return content_parse
 			var result:ExprItem = content_parse.expr_item
-			for type in bindings_parse["types"]:
+			var reversed_types_list:Array = bindings_parse["types"].duplicate()
+			reversed_types_list.invert()
+			for type in reversed_types_list:
 				if type in bindings_parse.tags:
 					return err(input_tape.previous(), "Cannot use a tag in a lambda.")
 				result = ExprItem.new(
