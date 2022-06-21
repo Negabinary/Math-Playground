@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/proof/written_proof_box/Assumptions.gd"
 }, {
+"base": "Justification",
+"class": "CircularJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/circular_justification.gd"
+}, {
 "base": "Reference",
 "class": "Eaters",
 "language": "GDScript",
@@ -263,6 +268,7 @@ _global_script_class_icons={
 "AbstractEqualityJustification": "",
 "AssumptionJustification": "",
 "Assumptions": "",
+"CircularJustification": "",
 "Eaters": "",
 "EliminatedLambdaJustification": "",
 "EqualityJustification": "",

@@ -7,9 +7,10 @@ signal child_proven
 
 var requirement : Requirement # final
 var context : ProofBox # final
+var parent : ProofStep
 
 
-func _init(requirement:Requirement, context:ProofBox):
+func _init(requirement:Requirement, context:ProofBox, parent:ProofStep=null):
 	self.requirement = requirement
 	self.context = context.get_child_extended_with(
 		requirement.get_definitions(),
@@ -18,30 +19,10 @@ func _init(requirement:Requirement, context:ProofBox):
 	self.context.connect("justified", self,"_on_justifified")
 	get_justification().connect("updated", self, "_on_justification_updated")
 	get_justification().connect("request_replace", self, "justify")
+	self.parent = parent
 
 
-func justify(new_justification:Justification) -> void:
-	context.add_justification(requirement.get_goal(), new_justification)
-
-
-func _on_justifified(uid):
-	if uid == context.get_uid(requirement.get_goal()):
-		emit_signal("justification_type_changed")
-		# I haven't disconnected the previous one - I don't think that will cause problems?
-		get_justification().connect("updated", self, "_on_justification_updated")
-		get_justification().connect("request_replace", self, "justify")
-		emit_signal("dependencies_changed")
-		emit_signal("child_proven")
-
-
-func _on_justification_updated():
-	emit_signal("justification_properties_changed")
-	emit_signal("dependencies_changed")
-	emit_signal("child_proven")
-
-
-func get_justification():
-	return context.get_justification_or_missing_for(requirement.get_goal())
+# GETTERS =================================================
 
 
 func get_inner_proof_box() -> ProofBox:
@@ -67,10 +48,59 @@ func get_dependencies() -> Array:
 			reqs.append(context.convert_requirement(ureq))
 	var proof_steps := []
 	for req in reqs:
-		proof_steps.append(get_script().new(req, context))
+		proof_steps.append(get_script().new(req, context, self))
 	for proof_step in proof_steps:
 		proof_step.connect("child_proven", self, "emit_signal", ["child_proven"])
 	return proof_steps
+
+
+# JUSTIFICATION ===========================================
+
+
+func justify(new_justification:Justification) -> void:
+	context.add_justification(requirement.get_goal(), new_justification)
+
+
+func _on_justifified(uid):
+	if uid == context.get_uid(requirement.get_goal()):
+		emit_signal("justification_type_changed")
+		# I haven't disconnected the previous one - I don't think that will cause problems?
+		get_justification().connect("updated", self, "_on_justification_updated")
+		get_justification().connect("request_replace", self, "justify")
+		emit_signal("dependencies_changed")
+		emit_signal("child_proven")
+
+
+func _on_justification_updated():
+	emit_signal("justification_properties_changed")
+	emit_signal("dependencies_changed")
+	emit_signal("child_proven")
+
+
+func get_justification():
+	if is_circular():
+		return CircularJustification.new()
+	else:
+		return context.get_justification_or_missing_for(requirement.get_goal())
+
+
+# PROOF STATUS ============================================
+
+
+func is_circular() -> bool:
+	if parent == null:
+		return false
+	else:
+		return parent._proves(requirement.get_goal(), get_inner_proof_box())
+
+
+func _proves(goal:ExprItem, ctx:ProofBox):
+	if ctx != get_inner_proof_box():
+		return false
+	elif goal.compare(requirement.get_goal()):
+		return true
+	else:
+		return false
 
 
 func is_justification_valid() -> bool:
