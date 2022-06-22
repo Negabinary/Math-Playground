@@ -74,6 +74,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/implication_justification.gd"
 }, {
+"base": "Button",
+"class": "InstantiateButton",
+"language": "GDScript",
+"path": "res://ui/proof/assumptions/buttons/InstantiateButton.gd"
+}, {
 "base": "Justification",
 "class": "InstantiateJustification",
 "language": "GDScript",
@@ -224,6 +229,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/module2/token2.gd"
 }, {
+"base": "Button",
+"class": "UseButton",
+"language": "GDScript",
+"path": "res://ui/proof/assumptions/buttons/UseButton.gd"
+}, {
 "base": "Justification",
 "class": "VacuousJustification",
 "language": "GDScript",
@@ -278,6 +288,7 @@ _global_script_class_icons={
 "ExprItemTagHelper": "",
 "ExprItemType": "",
 "ImplicationJustification": "",
+"InstantiateButton": "",
 "InstantiateJustification": "",
 "IntroducedDoubleNegativeJustification": "",
 "IntroducedLambdaJustification": "",
@@ -308,6 +319,7 @@ _global_script_class_icons={
 "SelectionHandler": "",
 "Statement": "",
 "Token2": "",
+"UseButton": "",
 "VacuousJustification": "",
 "WPBJustification": "",
 "WPBOptions": "",

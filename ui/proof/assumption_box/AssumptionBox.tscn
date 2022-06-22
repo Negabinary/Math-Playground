@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://ui/proof/assumption_box/AssumptionBox.gd" type="Script" id=1]
+[ext_resource path="res://ui/proof/assumptions/buttons/UseButton.gd" type="Script" id=2]
 [ext_resource path="res://ui/proof/assumption_box/ABDefinitions.gd" type="Script" id=3]
 [ext_resource path="res://ui/proof/assumption_box/ABConclusion.gd" type="Script" id=4]
+[ext_resource path="res://ui/proof/assumptions/buttons/InstantiateButton.gd" type="Script" id=5]
 [ext_resource path="res://ui/proof/assumption_box/ABConditions.gd" type="Script" id=7]
 [ext_resource path="res://ui/proof/assumption_box/ABEquality.gd" type="Script" id=8]
 
@@ -118,6 +120,24 @@ margin_right = 41.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 auto_height = true
+
+[node name="Use" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+margin_right = 41.0
+margin_bottom = 19.0
+alignment = 2
+
+[node name="InstantiateButton" type="Button" parent="VBoxContainer/Use"]
+margin_right = 12.0
+margin_bottom = 19.0
+text = "Instantiate"
+script = ExtResource( 5 )
+
+[node name="UseButton" type="Button" parent="VBoxContainer/Use"]
+margin_right = 37.0
+margin_bottom = 19.0
+text = "Use Rule"
+script = ExtResource( 2 )
 
 [node name="Equality" type="HBoxContainer" parent="VBoxContainer"]
 visible = false

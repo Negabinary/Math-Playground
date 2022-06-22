@@ -11,6 +11,7 @@ var selection_handler : SelectionHandler
 var ui_definitions : Node
 var ui_conditions : Node
 var ui_conclusion : Node
+var ui_actions : Node
 var ui_equality : Node
 
 
@@ -22,6 +23,11 @@ func initialise(assumption:ExprItem, assumption_context:ProofBox, selection_hand
 	ui_conditions.initialise(assumption, assumption_context,  selection_handler)
 	ui_conclusion = $VBoxContainer/Conclusion
 	ui_conclusion.initialise(assumption, assumption_context,  selection_handler)
+	ui_actions = $VBoxContainer/Use
+	if ui_conclusion.visible:
+		$VBoxContainer/Use/InstantiateButton.init(assumption, assumption_context, selection_handler)
+		$VBoxContainer/Use/UseButton.init(assumption, assumption_context, selection_handler)
+		ui_actions.show()
 	ui_equality = $VBoxContainer/Equality
 	ui_equality.initialise(assumption, assumption_context,  selection_handler)
 	
