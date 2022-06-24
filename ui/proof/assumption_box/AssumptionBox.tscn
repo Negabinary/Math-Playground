@@ -1,12 +1,15 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ui/proof/assumption_box/AssumptionBox.gd" type="Script" id=1]
 [ext_resource path="res://ui/proof/assumptions/buttons/UseButton.gd" type="Script" id=2]
 [ext_resource path="res://ui/proof/assumption_box/ABDefinitions.gd" type="Script" id=3]
 [ext_resource path="res://ui/proof/assumption_box/ABConclusion.gd" type="Script" id=4]
 [ext_resource path="res://ui/proof/assumptions/buttons/InstantiateButton.gd" type="Script" id=5]
+[ext_resource path="res://ui/proof/assumptions/buttons/EqualityButton.gd" type="Script" id=6]
 [ext_resource path="res://ui/proof/assumption_box/ABConditions.gd" type="Script" id=7]
 [ext_resource path="res://ui/proof/assumption_box/ABEquality.gd" type="Script" id=8]
+[ext_resource path="res://ui/theme/icons/eq_down.tres" type="Texture" id=9]
+[ext_resource path="res://ui/theme/icons/eq_up.tres" type="Texture" id=10]
 
 [node name="AssumptionBox" type="PanelContainer"]
 margin_right = 49.0
@@ -139,23 +142,49 @@ margin_bottom = 19.0
 text = "Use Rule"
 script = ExtResource( 2 )
 
-[node name="Equality" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Equality" type="VBoxContainer" parent="VBoxContainer"]
 visible = false
 margin_right = 41.0
 margin_bottom = 17.0
 script = ExtResource( 8 )
 
-[node name="Equals" type="Label" parent="VBoxContainer/Equality"]
-margin_right = 32.0
+[node name="LHS" type="ItemList" parent="VBoxContainer/Equality"]
+margin_left = 36.0
+margin_right = 41.0
 margin_bottom = 17.0
+size_flags_horizontal = 3
+auto_height = true
+
+[node name="UseEquality" type="HBoxContainer" parent="VBoxContainer/Equality"]
+margin_right = 144.0
+margin_bottom = 42.0
+alignment = 1
+
+[node name="Right" type="Button" parent="VBoxContainer/Equality/UseEquality"]
+margin_right = 52.0
+margin_bottom = 42.0
+icon = ExtResource( 9 )
+script = ExtResource( 6 )
+
+[node name="Equals" type="Label" parent="VBoxContainer/Equality/UseEquality"]
+margin_left = 56.0
+margin_right = 88.0
+margin_bottom = 42.0
 rect_min_size = Vector2( 32, 0 )
 size_flags_vertical = 5
 custom_colors/font_color = Color( 0.541176, 0.501961, 0.560784, 1 )
 text = "="
-align = 2
-valign = 2
+align = 1
+valign = 1
 
-[node name="Equalities" type="ItemList" parent="VBoxContainer/Equality"]
+[node name="Left" type="Button" parent="VBoxContainer/Equality/UseEquality"]
+margin_left = 92.0
+margin_right = 144.0
+margin_bottom = 42.0
+icon = ExtResource( 10 )
+script = ExtResource( 6 )
+
+[node name="RHS" type="ItemList" parent="VBoxContainer/Equality"]
 margin_left = 36.0
 margin_right = 41.0
 margin_bottom = 17.0
@@ -164,4 +193,3 @@ auto_height = true
 
 [connection signal="item_activated" from="VBoxContainer/Definitions/Definitions" to="VBoxContainer/Definitions" method="_ons_item_activated"]
 [connection signal="item_activated" from="VBoxContainer/Conclusion/Conclusion" to="VBoxContainer/Conclusion" method="_on_item_activated"]
-[connection signal="item_activated" from="VBoxContainer/Equality/Equalities" to="VBoxContainer/Equality" method="_on_item_activated"]

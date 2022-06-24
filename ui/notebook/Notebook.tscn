@@ -77,7 +77,7 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Context/VBoxContainer/Assumptions"]
 margin_right = 188.0
 size_flags_horizontal = 3
-custom_constants/separation = 3
+custom_constants/separation = 10
 
 [node name="Container" type="Container" parent="HSplitContainer"]
 margin_left = 210.0

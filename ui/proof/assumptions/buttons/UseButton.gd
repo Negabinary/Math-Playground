@@ -21,14 +21,14 @@ func init(assumption:ExprItem, assumption_context:ProofBox, selection_handler:Se
 
 
 func _update_context(x):
-	var locator = selection_handler.get_locator()
 	var context = selection_handler.get_selected_proof_box()
+	var expr_item = selection_handler.get_locator().get_root()
 	var matching := {}
 	for definition in assumption.get_definitions():
 		matching[definition] = "*"
-	if locator.get_expr_item().compare(assumption.get_conclusion().get_expr_item()):
+	if expr_item.compare(assumption.get_conclusion().get_expr_item()):
 		disabled = false
-	elif assumption.get_conclusion().get_expr_item().is_superset(locator.get_expr_item(), matching) and not "*" in matching.values():
+	elif assumption.get_conclusion().get_expr_item().is_superset(expr_item, matching) and not "*" in matching.values():
 		disabled = false
 	else:
 		disabled = true

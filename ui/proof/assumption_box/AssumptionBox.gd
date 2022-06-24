@@ -43,9 +43,7 @@ func _update_context(x):
 	var context = selection_handler.get_selected_proof_box()
 	if assumption_context.is_ancestor_of(context):
 		$VBoxContainer/Conclusion.update_context(locator, context)
-		$VBoxContainer/Equality.update_context(locator, context)
 	else:
 		$VBoxContainer/Conclusion.clear_highlighting()
-		$VBoxContainer/Equality.clear_highlighting()
 
 
