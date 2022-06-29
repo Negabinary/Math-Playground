@@ -10,7 +10,7 @@ func initialise(item:ModuleItem2Definition):
 func serialise():
 	return item.serialise()
 
-func deserialise(item, proof_box, version):
+func deserialise(item, proof_box, version, selection_handler:SelectionHandler):
 	initialise(ModuleItem2Definition.new(
 		proof_box, 
 		ExprItemType.new(item.type)

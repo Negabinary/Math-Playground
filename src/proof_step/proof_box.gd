@@ -71,8 +71,21 @@ func convert_requirement(r:Requirement) -> Requirement:
 		return r
 
 
+func get_uid(expr_item:ExprItem):
+	return expr_item.get_unique_name()
+
+
 func get_parse_box() -> ParseBox:
 	return parse_box
+
+
+func is_ancestor_of(other:ProofBox):
+	if self == other:
+		return true
+	elif other.parent == null:
+		return false
+	else:
+		return is_ancestor_of(other.parent)
 
 
 # IMPORTS =================================================
@@ -108,6 +121,9 @@ func parse(string:String) -> ExprItemType:
 
 # JUSTIFICATION ===========================================
 
+
+# edit ----------------------------------------------------
+
 signal justified # (uname)
 
 
@@ -125,35 +141,9 @@ func add_done_justification(expr_item:ExprItem, justification):
 	emit_signal("justified", uname)
 
 
-func get_assumptions() -> Array: #<ExprItem>
-	return assumptions
-
-
-func get_all_assumptions() -> Array:
-	var imported_assumptions := []
-	for import in imports:
-		imported_assumptions += imports[import].get_all_assumptions()
-	if parent == null:
-		return get_assumptions() + imported_assumptions
-	else:
-		return get_assumptions() + parent.get_assumptions() + imported_assumptions
-
-
-func get_all_assumptions_in_context() -> Array:
-	var imported_assumptions := []
-	for import in imports:
-		imported_assumptions += imports[import].get_all_assumptions_in_context()
-	var return_value = []
-	for ass in get_assumptions():
-		return_value.append([ass,self])
-	if parent != null:
-		return_value.append_array(parent.get_all_assumptions_in_context())
-	return_value.append_array(imported_assumptions)
-	return return_value
-
+# get -----------------------------------------------------
 
 var MJ := load("res://src/proof_step/justifications/missing_justification.gd")
-
 
 func get_justification_or_missing_for(expr_item:ExprItem):
 	var j = get_justification_for(expr_item)
@@ -210,14 +200,13 @@ func _get_parent_justification(expr_item:ExprItem):
 	return null
 
 
-func is_ancestor_of(other:ProofBox):
-	if self == other:
-		return true
-	elif other.parent == null:
-		return false
-	else:
-		return is_ancestor_of(other.parent)
+# list ----------------------------------------------------
 
 
-func get_uid(expr_item:ExprItem):
-	return expr_item.get_unique_name()
+func get_all_known_results() -> Array:
+	var akr := assumptions + done_expr_items.values()
+	for import in imports:
+		akr.append_array(imports[import].get_all_known_results())
+	if parent != null:
+		akr.append_array(parent.get_all_known_results())
+	return akr

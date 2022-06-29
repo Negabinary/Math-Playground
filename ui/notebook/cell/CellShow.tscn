@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ui/theme/fonts/ui_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://ui/theme/fonts/justification_font.tres" type="DynamicFont" id=2]
@@ -6,6 +6,10 @@
 [ext_resource path="res://ui/proof/WrittenProof.gd" type="Script" id=4]
 [ext_resource path="res://ui/theme/page.tres" type="StyleBox" id=5]
 [ext_resource path="res://ui/notebook/cell/CellShow.gd" type="Script" id=6]
+[ext_resource path="res://ui/proof/assumptions/buttons/InstantiateButton.gd" type="Script" id=7]
+[ext_resource path="res://ui/proof/assumptions/buttons/UseButton.gd" type="Script" id=8]
+[ext_resource path="res://ui/proof/assumptions/buttons/EqualityButton.gd" type="Script" id=9]
+[ext_resource path="res://ui/theme/icons/star.tres" type="Texture" id=10]
 
 [node name="CellShow" type="VBoxContainer"]
 margin_top = 46.0
@@ -17,17 +21,60 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Proof" type="PanelContainer" parent="."]
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+margin_right = 755.0
+margin_bottom = 17.0
+custom_constants/separation = 20
+
+[node name="Label" type="Label" parent="HBoxContainer3"]
+margin_right = 55.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 55, 0 )
+custom_fonts/font = ExtResource( 3 )
+text = "show"
+
+[node name="Name" type="Label" parent="HBoxContainer3"]
+margin_left = 75.0
+margin_right = 755.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+margin_top = 27.0
+margin_right = 755.0
+margin_bottom = 127.0
+custom_constants/separation = 20
+
+[node name="Label2" type="Label" parent="HBoxContainer2"]
+margin_right = 55.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 55, 0 )
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 3 )
+text = "proof:"
+
+[node name="Proof" type="PanelContainer" parent="HBoxContainer2"]
+margin_left = 75.0
 margin_right = 755.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 0, 100 )
+size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 5 )
 
-[node name="WrittenProof" type="VBoxContainer" parent="Proof"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer2/Proof"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 745.0
+margin_right = 670.0
 margin_bottom = 90.0
+scroll_vertical_enabled = false
+
+[node name="WrittenProof" type="VBoxContainer" parent="HBoxContainer2/Proof/ScrollContainer"]
+margin_right = 660.0
+margin_bottom = 80.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 2
@@ -36,7 +83,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ModuleInformation" type="Label" parent="Proof/WrittenProof"]
+[node name="ModuleInformation" type="Label" parent="HBoxContainer2/Proof/ScrollContainer/WrittenProof"]
 visible = false
 margin_top = 577.0
 margin_right = 632.0
@@ -45,42 +92,56 @@ custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
 custom_fonts/font = ExtResource( 2 )
 text = "MODULE INFORMATION"
 
-[node name="Justification" type="MarginContainer" parent="Proof/WrittenProof"]
+[node name="Justification" type="MarginContainer" parent="HBoxContainer2/Proof/ScrollContainer/WrittenProof"]
 margin_top = 80.0
-margin_right = 735.0
+margin_right = 660.0
 margin_bottom = 80.0
 custom_constants/margin_right = 0
 custom_constants/margin_top = 0
 custom_constants/margin_left = 0
 custom_constants/margin_bottom = 0
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="."]
-margin_top = 110.0
+[node name="HBoxContainer4" type="HBoxContainer" parent="."]
+margin_top = 137.0
 margin_right = 755.0
-margin_bottom = 129.0
-custom_constants/separation = 20
+margin_bottom = 159.0
 
-[node name="Button" type="Button" parent="HBoxContainer3"]
-margin_right = 20.0
+[node name="Label" type="Label" parent="HBoxContainer4"]
+margin_top = 2.0
+margin_right = 76.0
 margin_bottom = 19.0
-text = "S"
+rect_min_size = Vector2( 76, 0 )
 
-[node name="Label" type="Label" parent="HBoxContainer3"]
-margin_left = 40.0
-margin_top = 1.0
-margin_right = 100.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 60, 0 )
-custom_fonts/font = ExtResource( 3 )
-text = "show"
-align = 2
+[node name="Star" type="Button" parent="HBoxContainer4"]
+margin_left = 80.0
+margin_right = 112.0
+margin_bottom = 22.0
+icon = ExtResource( 10 )
 
-[node name="Name" type="Label" parent="HBoxContainer3"]
-margin_left = 120.0
-margin_top = 1.0
-margin_right = 755.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 100, 0 )
-size_flags_horizontal = 3
-custom_fonts/font = ExtResource( 1 )
-text = "0"
+[node name="Use" type="Button" parent="HBoxContainer4"]
+margin_left = 116.0
+margin_right = 153.0
+margin_bottom = 22.0
+text = "Use"
+script = ExtResource( 8 )
+
+[node name="Instantiate" type="Button" parent="HBoxContainer4"]
+margin_left = 157.0
+margin_right = 245.0
+margin_bottom = 22.0
+text = "Instantiate"
+script = ExtResource( 7 )
+
+[node name="EqLeft" type="Button" parent="HBoxContainer4"]
+margin_left = 249.0
+margin_right = 292.0
+margin_bottom = 22.0
+text = "<=="
+script = ExtResource( 9 )
+
+[node name="EqRight" type="Button" parent="HBoxContainer4"]
+margin_left = 296.0
+margin_right = 339.0
+margin_bottom = 22.0
+text = "==>"
+script = ExtResource( 9 )

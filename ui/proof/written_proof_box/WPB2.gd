@@ -26,7 +26,7 @@ func init(proof_step:ProofStep, selection_handler):
 	_connect_justification_label()
 	ui_statement.set_expr_item(proof_step.get_goal())
 	if proof_step.get_requirement().get_assumptions().size() > 0 or proof_step.get_requirement().get_definitions().size() > 0:
-		ui_assumptions.display_assumptions(proof_step.get_requirement())
+		ui_assumptions.display_assumptions(proof_step.get_requirement(), proof_step.get_inner_proof_box(), selection_handler)
 	else:
 		ui_assumptions.hide()
 		add_constant_override("margin_left", 0)
@@ -39,7 +39,7 @@ func _find_ui_elements() -> void:
 	ui_justification_holder = $WrittenProofBox/Justification
 	ui_justification_label = $WrittenProofBox/JustificationLabel
 	ui_dependencies = $WrittenProofBox/Dependencies
-	ui_assumptions = $WrittenProofBox/Assumptions
+	ui_assumptions = $WrittenProofBox/MarginContainer/Assumptions
 
 
 # GETTERS ==================================================
@@ -134,7 +134,7 @@ func deselect():
 # DRAWING =================================================
 
 func _draw():
-	var ui_assumptions := $WrittenProofBox/Assumptions
+	var ui_assumptions := $WrittenProofBox/MarginContainer/Assumptions
 	if proof_step.get_requirement().get_assumptions().size() > 0 or proof_step.get_requirement().get_definitions().size() > 0:
 		var font := get_font("font", "WrittenJustification")
 		var half_font_height := font.get_height() / 2
@@ -143,7 +143,7 @@ func _draw():
 		draw_line(Vector2(x, half_font_height), Vector2(x, rect_size.y), color)
 		for assumption in ui_assumptions.get_children():
 			var y = assumption.rect_position.y + half_font_height
-			draw_line(Vector2(x, y), Vector2(x + 10,y), color)
+			draw_line(Vector2(x, y), Vector2(x + 17,y), color)
 		draw_colored_polygon(PoolVector2Array([
 			Vector2(x, rect_size.y),
 			Vector2(x-4, rect_size.y-7),

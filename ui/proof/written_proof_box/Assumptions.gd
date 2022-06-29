@@ -1,10 +1,17 @@
 extends VBoxContainer
 class_name Assumptions
 
-var requirement:Requirement
+const scene_cell_definition := preload("res://ui/notebook/cell/CellDefinition.tscn")
+const scene_cell_assumption := preload("res://ui/notebook/cell/CellAssumption.tscn")
 
-func display_assumptions(requirement:Requirement):
+var requirement:Requirement
+var inner_proof_box:ProofBox
+var selection_handler:SelectionHandler
+
+func display_assumptions(requirement:Requirement, inner_proof_box:ProofBox, selection_handler:SelectionHandler):
 	self.requirement = requirement
+	self.inner_proof_box = inner_proof_box
+	self.selection_handler = selection_handler
 	for definition in requirement.get_definitions():
 		definition.connect("renamed", self, "_update_assumptions")
 	_update_assumptions()
@@ -14,16 +21,23 @@ func _update_assumptions():
 		remove_child(child)
 	var definitions:Array = requirement.get_definitions()
 	for definition in definitions:
-		var new_label = WrittenJustification.new()
-		new_label.disabled = true
-		new_label.set_text("THING " + definition.get_identifier())
-		add_child(new_label)
+		var nc = scene_cell_definition.instance()
+		nc.initialise(ModuleItem2Definition.new(
+			inner_proof_box, 
+			definition
+		))
+		add_child(nc)
 	var assumptions:Array = requirement.get_assumptions()
 	for assumption in assumptions:
-		var new_label = WrittenJustification.new()
-		new_label.disabled = true
-		new_label.set_text("ASSUME " + assumption.to_string())
-		add_child(new_label)
+		var nc  = scene_cell_assumption.instance()
+		nc.initialise(
+			ModuleItem2Assumption.new(
+				inner_proof_box,
+				assumption
+			),
+			selection_handler
+		)
+		add_child(nc)
 
 func has_assumptions():
 	return get_child_count() != 0

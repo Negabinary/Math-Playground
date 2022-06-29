@@ -38,20 +38,23 @@ func get_requirement() -> Requirement:
 
 
 func get_dependencies() -> Array:
-	var ureqs = get_justification().get_requirements_for(
-		requirement.get_goal(), 
-		context.get_parse_box()
-	)
-	var reqs = []
-	if ureqs != null:
-		for ureq in ureqs:
-			reqs.append(context.convert_requirement(ureq))
-	var proof_steps := []
-	for req in reqs:
-		proof_steps.append(get_script().new(req, context, self))
-	for proof_step in proof_steps:
-		proof_step.connect("child_proven", self, "emit_signal", ["child_proven"])
-	return proof_steps
+	if is_circular():
+		return []
+	else:
+		var ureqs = get_justification().get_requirements_for(
+			requirement.get_goal(), 
+			context.get_parse_box()
+		)
+		var reqs = []
+		if ureqs != null:
+			for ureq in ureqs:
+				reqs.append(context.convert_requirement(ureq))
+		var proof_steps := []
+		for req in reqs:
+			proof_steps.append(get_script().new(req, context, self))
+		for proof_step in proof_steps:
+			proof_step.connect("child_proven", self, "emit_signal", ["child_proven"])
+		return proof_steps
 
 
 # JUSTIFICATION ===========================================
@@ -100,7 +103,10 @@ func _proves(goal:ExprItem, ctx:ProofBox):
 	elif goal.compare(requirement.get_goal()):
 		return true
 	else:
-		return false
+		if parent == null:
+			return false
+		else:
+			return parent._proves(goal, ctx)
 
 
 func is_justification_valid() -> bool:

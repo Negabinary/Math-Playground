@@ -3,8 +3,9 @@ class_name Notebook
 
 const cell = preload("res://ui/notebook/cell/Cell.tscn")
 
-onready var ui_cells := $HSplitContainer/Container/ScrollContainer/MarginContainer/VBoxContainer/Cells
-onready var ui_new_cell_button := $HSplitContainer/Container/ScrollContainer/MarginContainer/VBoxContainer/NewCell
+onready var ui_cells := $HSplitContainer/ScrollContainer/Container/MarginContainer/VBoxContainer/Cells
+onready var ui_new_cell_button := $HSplitContainer/ScrollContainer/Container/MarginContainer/VBoxContainer/NewCell
+onready var selection_handler := $SelectionHandler
 
 
 func _ready():
@@ -12,6 +13,7 @@ func _ready():
 
 func new_cell(json = null, proof_box = null, version = 0):
 	var node := cell.instance()
+	node.selection_handler = selection_handler
 	ui_cells.add_child(node)
 	_recompile_from(node.get_index())
 	if json != null:

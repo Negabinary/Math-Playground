@@ -21,6 +21,9 @@ func serialise():
 		proof=proof_step.serialize_proof()
 	}
 
+func get_goal() -> ExprItem:
+	return goal
+
 func get_requirement() -> Requirement:
 	return Requirement.new(goal)
 

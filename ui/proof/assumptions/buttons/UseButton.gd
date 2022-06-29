@@ -1,40 +1,27 @@
-extends Button
+extends ActionButton
 class_name UseButton
 
-var assumption : Statement
-var assumption_context : ProofBox
-var selection_handler : SelectionHandler
 
-func _init():
-	add_stylebox_override("normal", get_stylebox("green", "Button"))
-	add_stylebox_override("pressed", get_stylebox("green_pressed", "Button"))
-	add_stylebox_override("hover", get_stylebox("green_hover", "Button"))
+func _should_display() -> bool:
+	return not (assumption.get_definitions().size() == 0 and assumption.get_conditions().size() == 0)
 
 
-func init(assumption:ExprItem, assumption_context:ProofBox, selection_handler:SelectionHandler):
-	self.assumption = Statement.new(assumption)
-	self.assumption_context = assumption_context
-	self.selection_handler = selection_handler
-	disabled = true
-	selection_handler.connect("locator_changed", self, "_update_context")
-	connect("pressed", self, "_on_pressed")
-
-
-func _update_context(x):
-	var context = selection_handler.get_selected_proof_box()
+func _can_use() -> bool:
 	var expr_item = selection_handler.get_locator().get_root()
+	if expr_item.compare(assumption.get_conclusion().get_expr_item()):
+		return true
+	
 	var matching := {}
 	for definition in assumption.get_definitions():
 		matching[definition] = "*"
-	if expr_item.compare(assumption.get_conclusion().get_expr_item()):
-		disabled = false
-	elif assumption.get_conclusion().get_expr_item().is_superset(expr_item, matching) and not "*" in matching.values():
-		disabled = false
+	
+	if assumption.get_conclusion().get_expr_item().is_superset(expr_item, matching) and not "*" in matching.values():
+		return true
 	else:
-		disabled = true
+		return false
 
 
-func _on_pressed():
+func _on_pressed() -> void:
 	if assumption.get_definitions().size() == 0:
 		var modus_ponens = ModusPonensJustification.new(
 			assumption

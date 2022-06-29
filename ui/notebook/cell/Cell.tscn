@@ -3,11 +3,11 @@
 [ext_resource path="res://ui/notebook/cell.gd" type="Script" id=1]
 
 [sub_resource type="StyleBoxFlat" id=1]
-content_margin_left = 10.0
-content_margin_right = 10.0
+content_margin_left = 15.0
+content_margin_right = 15.0
 content_margin_top = 10.0
-content_margin_bottom = 10.0
-bg_color = Color( 0.85098, 0.85098, 0.85098, 1 )
+content_margin_bottom = 15.0
+bg_color = Color( 1, 1, 1, 1 )
 shadow_size = 2
 
 [node name="Cell" type="PanelContainer"]
@@ -21,19 +21,19 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-margin_left = 10.0
+margin_left = 15.0
 margin_top = 10.0
-margin_right = 765.0
-margin_bottom = 372.0
+margin_right = 760.0
+margin_bottom = 367.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 755.0
+margin_right = 745.0
 margin_bottom = 19.0
 alignment = 2
 
 [node name="Name" type="Label" parent="VBoxContainer/HBoxContainer"]
 margin_top = 1.0
-margin_right = 592.0
+margin_right = 582.0
 margin_bottom = 18.0
 size_flags_horizontal = 3
 
@@ -45,38 +45,38 @@ margin_bottom = 19.0
 text = "Edit"
 
 [node name="ParseButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 596.0
-margin_right = 645.0
+margin_left = 586.0
+margin_right = 635.0
 margin_bottom = 19.0
 text = "Parse"
 
 [node name="UpButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 649.0
-margin_right = 670.0
+margin_left = 639.0
+margin_right = 660.0
 margin_bottom = 19.0
 text = "^"
 
 [node name="DownButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 674.0
-margin_right = 694.0
+margin_left = 664.0
+margin_right = 684.0
 margin_bottom = 19.0
 text = "v"
 
 [node name="DeleteButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-margin_left = 698.0
-margin_right = 755.0
+margin_left = 688.0
+margin_right = 745.0
 margin_bottom = 19.0
 text = "Delete"
 
 [node name="Edit" type="VBoxContainer" parent="VBoxContainer"]
 margin_top = 23.0
-margin_right = 755.0
-margin_bottom = 362.0
+margin_right = 745.0
+margin_bottom = 357.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Enter" type="TextEdit" parent="VBoxContainer/Edit"]
-margin_right = 755.0
+margin_right = 745.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 0, 250 )
 show_line_numbers = true
@@ -87,8 +87,8 @@ __meta__ = {
 
 [node name="Error" type="RichTextLabel" parent="VBoxContainer/Edit"]
 margin_top = 254.0
-margin_right = 755.0
-margin_bottom = 339.0
+margin_right = 745.0
+margin_bottom = 334.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_colors/default_color = Color( 0, 0, 0, 1 )

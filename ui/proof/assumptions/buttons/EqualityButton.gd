@@ -1,28 +1,19 @@
-extends Button
+extends ActionButton
 class_name EqualityButton
 
-var assumption : Statement
-var assumption_context : ProofBox
-var selection_handler : SelectionHandler
 var left := true
-
-func _init():
-	add_stylebox_override("normal", get_stylebox("green", "Button"))
-	add_stylebox_override("pressed", get_stylebox("green_pressed", "Button"))
-	add_stylebox_override("hover", get_stylebox("green_hover", "Button"))
 
 
 func init(assumption:ExprItem, assumption_context:ProofBox, selection_handler:SelectionHandler, left:=false):
-	self.assumption = Statement.new(assumption)
-	self.assumption_context = assumption_context
-	self.selection_handler = selection_handler
 	self.left = left
-	disabled = true
-	selection_handler.connect("locator_changed", self, "_update_context")
-	connect("pressed", self, "_on_pressed")
+	.init(assumption, assumption_context, selection_handler)
 
 
-func _update_context(x):
+func _should_display() -> bool:
+	return assumption.get_conclusion().get_type() == GlobalTypes.EQUALITY
+
+
+func _can_use() -> bool:
 	var conclusion:Locator = assumption.get_conclusion()
 	var definitions := assumption.get_definitions()
 	
@@ -33,14 +24,14 @@ func _update_context(x):
 	for definition in definitions:
 		matching[definition] = "*"
 	if equality.get_expr_item().compare(selection_handler.get_locator().get_expr_item()):
-		disabled = false
+		return true
 	elif equality.get_expr_item().is_superset(selection_handler.get_locator().get_expr_item(), matching):
-		disabled = false
+		return true
 	else:
-		disabled = true
+		return false
 
 
-func _on_pressed():
+func _on_pressed() -> void:
 	var selected_locator:Locator = selection_handler.get_locator()
 	var selected_context:ProofBox = selection_handler.get_selected_proof_box()
 	var index := 1 - int(left)

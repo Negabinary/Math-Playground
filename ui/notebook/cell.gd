@@ -25,6 +25,7 @@ onready var scene_cell_import := load("res://ui/notebook/cell/CellImport.tscn")
 
 var top_proof_box := GlobalTypes.PROOF_BOX
 var bottom_proof_box := top_proof_box
+var selection_handler : SelectionHandler
 
 
 func _ready():
@@ -66,7 +67,7 @@ func deserialise(json:Dictionary, context, version) -> void:
 			elif item.kind == "import":
 				nc = scene_cell_import.instance()
 			ui_use_area.add_child(nc)
-			nc.deserialise(item, context, version)
+			nc.deserialise(item, context, version, selection_handler)
 			context = nc.item.get_next_proof_box()
 		bottom_proof_box = context
 		ui_edit_button.show()
@@ -116,7 +117,7 @@ func eval(notify=true):
 			elif item is ModuleItem2Assumption:
 				nc = scene_cell_assumption.instance()
 				ui_use_area.add_child(nc)
-				nc.initialise(item)
+				nc.initialise(item, selection_handler)
 			elif item is ModuleItem2Theorem:
 				nc = scene_cell_show.instance()
 				ui_use_area.add_child(nc)

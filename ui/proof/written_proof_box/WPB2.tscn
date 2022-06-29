@@ -27,7 +27,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Assumptions" type="VBoxContainer" parent="WrittenProofBox"]
+[node name="MarginContainer" type="MarginContainer" parent="WrittenProofBox"]
+margin_right = 994.0
+custom_constants/margin_left = 30
+
+[node name="Assumptions" type="VBoxContainer" parent="WrittenProofBox/MarginContainer"]
+margin_left = 30.0
 margin_right = 994.0
 script = ExtResource( 1 )
 
