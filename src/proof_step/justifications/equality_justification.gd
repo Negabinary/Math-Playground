@@ -54,6 +54,6 @@ func _get_equality_options(what:ExprItem, context:ParseBox):
 
 func get_justification_text():
 	if location and replace_with:
-		return "USING " + location.get_expr_item().to_string() + " = " + replace_with.to_string()
+		return "using " + location.get_expr_item().to_string() + " = " + replace_with.to_string() + ", "
 	else:
-		return "USING AN EQUALITY"
+		return "using an equality,"

@@ -16,5 +16,6 @@ func _draw():
 	var icon_color:Color = font_color if not icon in ["!","x"] else get_color("warning_color", "WrittenJustification")
 	var icon_font:Font = get_font("warning_font", "WrittenJustification")
 	draw_string(icon_font, Vector2((offset-icon_font.get_string_size(icon).x)*2/3, icon_font.get_ascent()), icon, icon_color)
-	draw_string(font, Vector2(offset, font.get_ascent()), j_text, font_color)
-	set_custom_minimum_size(Vector2(offset, 0) + font.get_string_size(j_text))
+	var opener = "" #if toggle_mode == false else ("- " if pressed else "+ ")
+	draw_string(font, Vector2(offset, font.get_ascent()), opener + j_text, font_color)
+	set_custom_minimum_size(Vector2(offset, 0) + font.get_string_size(opener + j_text))

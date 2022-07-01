@@ -73,4 +73,4 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 
 
 func get_justification_text():
-	return "IS THE GENERAL CASE OF"
+	return "by taking a specific case,"

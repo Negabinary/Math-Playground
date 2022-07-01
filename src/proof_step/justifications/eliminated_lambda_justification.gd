@@ -99,4 +99,4 @@ func _get_equality_options(what:ExprItem, context:ParseBox):
 
 
 func get_justification_text():
-	return "APPLYING A FUNCTION"
+	return "by applying that function,"

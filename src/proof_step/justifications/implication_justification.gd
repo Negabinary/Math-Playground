@@ -92,4 +92,4 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 
 
 func get_justification_text():
-	return "WHICH GIVES US THE IMPLICATION"
+	return "thus,"

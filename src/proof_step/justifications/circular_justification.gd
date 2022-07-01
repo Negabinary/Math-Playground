@@ -22,4 +22,4 @@ func get_options_for_selection(expr_item:ExprItem, context:ParseBox, selection:L
 
 
 func get_justification_text():
-	return "CIRCULAR JUSTIFICATION"
+	return "justification is circular"

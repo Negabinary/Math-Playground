@@ -45,6 +45,7 @@ margin_bottom = 4.0
 margin_top = 8.0
 margin_right = 994.0
 margin_bottom = 8.0
+toggle_mode = true
 script = ExtResource( 4 )
 
 [node name="Justification" type="MarginContainer" parent="WrittenProofBox"]

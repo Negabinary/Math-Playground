@@ -85,4 +85,4 @@ func _request_replace(justification:Justification):
 
 
 func get_justification_text():
-	return "JUSTIFICATION MISSING"
+	return "missing justification"

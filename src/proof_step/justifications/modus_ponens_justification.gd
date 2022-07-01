@@ -59,6 +59,6 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 
 func get_justification_text():
 	if implication:
-		return "USING " + implication.to_string()
+		return "using " + implication.to_string() + ","
 	else:
-		return "USING AN IMPLICATION"
+		return "using an implication,"

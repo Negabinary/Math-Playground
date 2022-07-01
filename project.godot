@@ -229,6 +229,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/proof/SelectionHandler.gd"
 }, {
+"base": "Button",
+"class": "StarButton",
+"language": "GDScript",
+"path": "res://ui/proof/assumptions/buttons/StarButton.gd"
+}, {
 "base": "Object",
 "class": "Statement",
 "language": "GDScript",
@@ -329,6 +334,7 @@ _global_script_class_icons={
 "ReflexiveJustification": "",
 "Requirement": "",
 "SelectionHandler": "",
+"StarButton": "",
 "Statement": "",
 "Token2": "",
 "UseButton": "",

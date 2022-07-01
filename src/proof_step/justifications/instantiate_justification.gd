@@ -55,7 +55,10 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 
 
 func get_justification_text():
-	return "HAVING USED THAT EXISTENTIAL"
+	if existential:
+		return "using " + existential.to_string() + ","
+	else:
+		return "using an existential,"
 
 
 func set_existential_fact(existential_fact:ExprItem):

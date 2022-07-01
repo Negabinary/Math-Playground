@@ -39,4 +39,4 @@ func _get_equality_options(expr_item:ExprItem, context:ParseBox):
 
 
 func get_justification_text():
-	return "ADDING A DOUBLE NEGATIVE"
+	return "by adding a double negative,"

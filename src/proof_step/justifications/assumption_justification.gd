@@ -9,7 +9,7 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 	return []
 
 func get_justification_text():
-	return "ASSUMED"
+	return "by assumption,"
 
 func serialize() -> Dictionary:
 	return {

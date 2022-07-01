@@ -50,6 +50,6 @@ func get_options_for(expr_item:ExprItem, context:ParseBox):
 
 func get_justification_text():
 	if witness:
-		return "WHERE " + witness.to_string() + " IS A WITNESS FOR" 
+		return "using " + witness.to_string() + " as a witness," 
 	else:
-		return "USING A WITNESS"
+		return "using a witness,"
