@@ -22,7 +22,7 @@ func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<Ex
 	self.parent = parent
 	var parse_imports = {}
 	for k in imports:
-		parse_imports[k] = imports[k].get_parse_box()
+		parse_imports[k] = imports[k].get_final_proof_box().get_parse_box()
 	self.parse_box = ParseBox.new(parent.get_parse_box() if parent else null, definitions, parse_imports)
 	self.assumptions = assumptions
 	self.imports = imports
@@ -169,7 +169,7 @@ func _is_assumed(expr_item:ExprItem):
 		if expr_item.compare(assumption):
 			return true
 	for import in imports:
-		if imports[import]._is_assumed(expr_item):
+		if imports[import].get_final_proof_box()._is_assumed(expr_item):
 			return true
 	if parent != null:
 		return parent._is_assumed(expr_item)
@@ -182,7 +182,7 @@ func _get_done_justification(expr_item:ExprItem):
 	if justification != null:
 		return justification
 	for import in imports:
-		var ijustification = imports[import]._get_done_justification(expr_item)
+		var ijustification = imports[import].get_final_proof_box()._get_done_justification(expr_item)
 		if ijustification != null:
 			return ijustification
 	if parent != null:
@@ -192,7 +192,7 @@ func _get_done_justification(expr_item:ExprItem):
 
 func _get_parent_justification(expr_item:ExprItem):
 	for import in imports:
-		var justification = imports[import].get_justification_for(expr_item)
+		var justification = imports[import].get_final_proof_box().get_justification_for(expr_item)
 		if justification != null:
 			return justification
 	if parent != null:
@@ -206,7 +206,7 @@ func _get_parent_justification(expr_item:ExprItem):
 func get_all_known_results() -> Array:
 	var akr := assumptions + done_expr_items.values()
 	for import in imports:
-		akr.append_array(imports[import].get_all_known_results())
+		akr.append_array(imports[import].get_final_proof_box().get_all_known_results())
 	if parent != null:
 		akr.append_array(parent.get_all_known_results())
 	return akr

@@ -13,6 +13,9 @@ func _init(context:ProofBox, statement:ExprItem, proof=null, version=0):
 	if proof is Dictionary:
 		ProofStep.deserialize_proof(ProofStep, proof, context, version)
 
+func get_as_assumption():
+	return ModuleItem2Assumption.new(context, goal)
+
 func serialise():
 	var proof_step = ProofStep.new(Requirement.new(goal), context)
 	return {

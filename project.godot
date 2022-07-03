@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/proof/written_proof_box/Assumptions.gd"
 }, {
+"base": "WindowDialog",
+"class": "Book",
+"language": "GDScript",
+"path": "res://ui/notebook/cell/Book.gd"
+}, {
 "base": "Justification",
 "class": "CircularJustification",
 "language": "GDScript",
@@ -138,6 +143,11 @@ _global_script_classes=[ {
 "class": "MissingJustification",
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/missing_justification.gd"
+}, {
+"base": "Reference",
+"class": "Module",
+"language": "GDScript",
+"path": "res://src/module2/module.gd"
 }, {
 "base": "Reference",
 "class": "ModuleItem2",
@@ -294,6 +304,7 @@ _global_script_class_icons={
 "ActionButton": "",
 "AssumptionJustification": "",
 "Assumptions": "",
+"Book": "",
 "CircularJustification": "",
 "Eaters": "",
 "EliminatedLambdaJustification": "",
@@ -316,6 +327,7 @@ _global_script_class_icons={
 "MatchingJustification": "",
 "MiscUtil": "",
 "MissingJustification": "",
+"Module": "",
 "ModuleItem2": "",
 "ModuleItem2Assumption": "",
 "ModuleItem2Definition": "",

@@ -121,11 +121,11 @@ func eval(notify=true):
 			elif item is ModuleItem2Theorem:
 				nc = scene_cell_show.instance()
 				ui_use_area.add_child(nc)
-				nc.initialise(item)
+				nc.initialise(item, selection_handler)
 			elif item is ModuleItem2Import:
 				nc = scene_cell_import.instance()
 				ui_use_area.add_child(nc)
-				nc.initialise(item)
+				nc.initialise(item, selection_handler)
 		ui_use_area.show()
 		ui_edit_button.show()
 		bottom_proof_box = parse_result.proof_box
