@@ -20,10 +20,9 @@ var children_defs := {} # <String [requirement label], Array<ExprItemType>>
 
 func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<ExprItemType,String>
 	self.parent = parent
-	if imports.empty():
-		self.parse_box = ParseBox.new(parent.get_parse_box() if parent else null, definitions)
+	self.parse_box = ParseBox.new(parent.get_parse_box() if parent else null, definitions)
 	for k in imports:
-		var import_box:AbstractParseBox = imports[k].get_final_proof_box().get_parse_box()
+		var import_box : AbstractParseBox = imports[k].get_final_proof_box().get_parse_box()
 		self.parse_box = ImportParseBox.new(self.parse_box, k, import_box, false)
 	self.assumptions = assumptions
 	self.imports = imports

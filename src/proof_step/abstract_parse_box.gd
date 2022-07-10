@@ -34,14 +34,14 @@ static func _augment_map(map:Dictionary, key:String, value:ExprItemType):
 
 static func _get_module_and_overwrite(identifier:String) -> PoolStringArray:
 	var result := identifier.split(".")
-	result.remove(-1)
+	result.remove(result.size()-1)
 	return result
 
 
 static func _get_module_name(identifier:String) -> String:
 	var mod_and_over := _get_module_and_overwrite(identifier)
-	while mod_and_over[-1] == "":
-		mod_and_over.remove(-1)
+	while not mod_and_over.empty() and mod_and_over[-1] == "":
+		mod_and_over.remove(mod_and_over.size()-1)
 	return mod_and_over.join(".")
 
 

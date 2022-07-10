@@ -68,8 +68,14 @@ margin_right = 745.0
 margin_bottom = 19.0
 text = "Delete"
 
-[node name="Edit" type="VBoxContainer" parent="VBoxContainer"]
+[node name="Tree" type="RichTextLabel" parent="VBoxContainer"]
 margin_top = 23.0
+margin_right = 745.0
+margin_bottom = 63.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="Edit" type="VBoxContainer" parent="VBoxContainer"]
+margin_top = 67.0
 margin_right = 745.0
 margin_bottom = 357.0
 size_flags_horizontal = 3
@@ -88,7 +94,7 @@ __meta__ = {
 [node name="Error" type="RichTextLabel" parent="VBoxContainer/Edit"]
 margin_top = 254.0
 margin_right = 745.0
-margin_bottom = 334.0
+margin_bottom = 290.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_colors/default_color = Color( 0, 0, 0, 1 )

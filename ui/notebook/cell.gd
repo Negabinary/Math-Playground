@@ -81,6 +81,7 @@ func set_top_proof_box(tpb:ProofBox) -> void:
 		eval(false)
 	elif ui_error_box.visible:
 		eval(false)
+	$VBoxContainer/Tree.text = PoolStringArray(tpb.get_parse_box().get_all_types().keys()).join(";  ")
 
 
 func get_bottom_proof_box() -> ProofBox:

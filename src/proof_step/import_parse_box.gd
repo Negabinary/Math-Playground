@@ -19,6 +19,7 @@ func _init(parent:AbstractParseBox, import_name:String, import_box:AbstractParse
 	self.import_name = import_name
 	self.import_box = import_box
 	self.namespace = namespace
+	self.parent = parent
 	if parent:
 		parent.connect("removed", self, "_on_parent_removed")
 		parent.connect("renamed", self, "_on_parent_renamed")
@@ -73,4 +74,11 @@ func _on_parent_removed(type:ExprItemType, old_name:String):
 
 
 func get_all_types() -> Dictionary:
-	return imported_type_map.duplicate()
+	var result : Dictionary
+	if parent:
+		result = parent.get_all_types()
+	else:
+		result = {}
+	for r in imported_type_map:
+		_augment_map(result, r, imported_type_map[r])
+	return result

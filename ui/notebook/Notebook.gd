@@ -9,7 +9,7 @@ onready var selection_handler := $SelectionHandler
 
 
 func _ready():
-	ui_new_cell_button.connect("pressed", self, "new_cell")
+	ui_new_cell_button.connect("pressed", self, "new_cell", [null, GlobalTypes.PROOF_BOX])
 
 func new_cell(json = null, proof_box = null, version = 0):
 	var node := cell.instance()
