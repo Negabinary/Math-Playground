@@ -20,7 +20,7 @@ func serialize() -> Dictionary:
 	}
 
 
-func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	var statement := Statement.new(expr_item)
 	var box_definitions := []
 	var statement_definitions = statement.get_definitions()
@@ -61,7 +61,7 @@ func set_keep_definition(not_value:bool, idx:int, reliant_conditions:Array):
 	emit_signal("updated")
 
 
-func get_options_for(expr_item:ExprItem, context:ParseBox):
+func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options := []
 	var statement := Statement.new(expr_item)
 	for i in statement.get_definitions().size():

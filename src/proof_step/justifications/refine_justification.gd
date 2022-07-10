@@ -16,7 +16,7 @@ func serialize() -> Dictionary:
 	}
 
 
-func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	if general == null:
 		return null
 	
@@ -45,7 +45,7 @@ func set_general(ei:ExprItem):
 	emit_signal("updated")
 
 
-func get_options_for(expr_item:ExprItem, context:ParseBox):
+func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options = []
 	options.append(Justification.LabelOption.new("General form:"))
 	var eio := Justification.ExprItemOption.new(general, context)

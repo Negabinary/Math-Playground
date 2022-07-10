@@ -85,10 +85,14 @@ func get_outside_definitions() -> Array: #<ExprItemType>
 	return cuml_definitions
 
 
-# Should work for both proof boxes and parse boxes
 func get_proof_box(root_proof_box):
 	var definitions = get_outside_definitions()
 	return root_proof_box.get_child_extended_with(definitions)
+
+
+func get_parse_box(root_parse_box:AbstractParseBox) -> AbstractParseBox:
+	var definitions = get_outside_definitions()
+	return ParseBox.new(root_parse_box, definitions)
 
 
 func _to_string():

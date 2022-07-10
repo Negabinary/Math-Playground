@@ -1,7 +1,7 @@
 extends HBoxContainer
 
 var option : Justification.ExprItemOption
-var context : ParseBox
+var context : AbstractParseBox
 var parser : ExprItemParser2
 
 func init(option:Justification.ExprItemOption):

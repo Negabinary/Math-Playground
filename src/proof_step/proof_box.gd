@@ -6,7 +6,7 @@ class_name ProofBox
 var parent : ProofBox
 
 var imports := {} # <ProofBox>
-var parse_box : ParseBox
+var parse_box : AbstractParseBox
 
 var assumptions := [] #<ExprItem>
 var scratch_justifications := {} # <[unique]String, Justification>
@@ -20,10 +20,11 @@ var children_defs := {} # <String [requirement label], Array<ExprItemType>>
 
 func _init(parent:ProofBox, definitions:=[], assumptions:=[], imports:={}): #<ExprItemType,String>
 	self.parent = parent
-	var parse_imports = {}
+	if imports.empty():
+		self.parse_box = ParseBox.new(parent.get_parse_box() if parent else null, definitions)
 	for k in imports:
-		parse_imports[k] = imports[k].get_final_proof_box().get_parse_box()
-	self.parse_box = ParseBox.new(parent.get_parse_box() if parent else null, definitions, parse_imports)
+		var import_box:AbstractParseBox = imports[k].get_final_proof_box().get_parse_box()
+		self.parse_box = ImportParseBox.new(self.parse_box, k, import_box, false)
 	self.assumptions = assumptions
 	self.imports = imports
 
@@ -75,7 +76,7 @@ func get_uid(expr_item:ExprItem):
 	return expr_item.get_unique_name()
 
 
-func get_parse_box() -> ParseBox:
+func get_parse_box() -> AbstractParseBox:
 	return parse_box
 
 
@@ -109,10 +110,6 @@ func get_definitions() -> Array:
 
 func _update_definition_name(definition:ExprItemType, old_name:String) -> void:
 	parse_box._update_definition_name(definition, old_name)
-
-
-func is_defined(type:ExprItemType) -> bool:
-	return parse_box.is_defined(type)
 
 
 func parse(string:String) -> ExprItemType:

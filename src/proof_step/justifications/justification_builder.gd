@@ -1,6 +1,6 @@
 class_name JustificationBuilder
 
-static func deserialize(j:Dictionary, parse_box:ParseBox, version) -> Justification:
+static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Justification:
 	match j:
 		{"justification_type": "AssumptionJustification", ..}:
 			return null
@@ -11,7 +11,7 @@ static func deserialize(j:Dictionary, parse_box:ParseBox, version) -> Justificat
 			)
 			return EliminatedLambdaJustification.new(
 				locator,
-				ExprItemBuilder.deserialize(j.replace_value, locator.get_proof_box(parse_box)),
+				ExprItemBuilder.deserialize(j.replace_value, locator.get_parse_box(parse_box)),
 				ExprItemType.new(j.replace_with),
 				j.replace_positions
 			)
@@ -22,7 +22,7 @@ static func deserialize(j:Dictionary, parse_box:ParseBox, version) -> Justificat
 			)
 			return EqualityJustification.new(
 				locator,
-				ExprItemBuilder.deserialize(j.replace_with, locator.get_proof_box(parse_box)),
+				ExprItemBuilder.deserialize(j.replace_with, locator.get_parse_box(parse_box)),
 				j.forwards
 			)
 		{"justification_type": "ImplicationJustification", ..}:

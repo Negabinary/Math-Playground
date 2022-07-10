@@ -7,15 +7,15 @@ signal request_replace
 
 # GETTERS =================================================
 
-func get_options_for_selection(expr_item:ExprItem, context:ParseBox, selection:Locator):
+func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, selection:Locator):
 	return get_options_for(expr_item, context)
 
 
-func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	return null
 
 
-func get_options_for(expr_item:ExprItem, context:ParseBox):
+func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return []
 
 
@@ -68,9 +68,9 @@ class ExprItemOption extends Option:
 	signal expr_item_changed
 	
 	var expr_item : ExprItem
-	var context : ParseBox
+	var context : AbstractParseBox
 	
-	func _init(expr_item:ExprItem, context:ParseBox):
+	func _init(expr_item:ExprItem, context:AbstractParseBox):
 		self.expr_item = expr_item
 		self.context = context
 	
@@ -81,7 +81,7 @@ class ExprItemOption extends Option:
 		self.expr_item = ei
 		emit_signal("expr_item_changed", ei)
 	
-	func get_context() -> ParseBox:
+	func get_context() -> AbstractParseBox:
 		return context
 
 

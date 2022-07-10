@@ -21,7 +21,7 @@ func set_witness(w:ExprItem):
 	emit_signal("updated")
 
 
-func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	if witness == null:
 		return null
 	if expr_item.get_type() != GlobalTypes.EXISTS or expr_item.get_child_count() != 2:
@@ -35,7 +35,7 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	]
 
 
-func get_options_for(expr_item:ExprItem, context:ParseBox):
+func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	if expr_item.get_type() != GlobalTypes.EXISTS or expr_item.get_child_count() != 2:
 		return [Justification.LabelOption.new("Witness can only prove existentials!", true)]
 	var options = []

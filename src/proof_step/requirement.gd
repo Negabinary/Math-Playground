@@ -51,7 +51,7 @@ func serialize() -> Dictionary:
 	}
 
 
-static func deserialize(script, dict:Dictionary, parse_box:ParseBox) -> Requirement:
+static func deserialize(script, dict:Dictionary, parse_box:AbstractParseBox) -> Requirement:
 	var definitions := []
 	for definition in dict.definitions:
 		definitions.append(ExprItemType.new(definition))

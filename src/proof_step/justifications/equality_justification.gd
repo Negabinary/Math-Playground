@@ -21,11 +21,11 @@ func serialize() -> Dictionary:
 	}
 
 
-func _get_equality_replace_with(what:ExprItem, context:ParseBox):
+func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
 	return replace_with
 
 
-func _get_equality_requirements(what:ExprItem, context:ParseBox):
+func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
 	if forwards:
 		return [Requirement.new(ExprItem.new(
 			GlobalTypes.EQUALITY,
@@ -43,10 +43,10 @@ func set_replace_with(rw:ExprItem):
 	emit_signal("updated")
 
 
-func _get_equality_options(what:ExprItem, context:ParseBox):
+func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	var options = []
 	options.append(Justification.LabelOption.new("Replace with:"))
-	var rw_option := Justification.ExprItemOption.new(replace_with, location.get_proof_box(context))
+	var rw_option := Justification.ExprItemOption.new(replace_with, location.get_parse_box(context))
 	rw_option.connect("expr_item_changed", self, "set_replace_with")
 	options.append(rw_option)
 	return options

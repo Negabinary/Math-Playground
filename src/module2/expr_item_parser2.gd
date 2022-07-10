@@ -1,7 +1,7 @@
 extends Node
 class_name ExprItemParser2
 
-var proof_box : ParseBox
+var proof_box : AbstractParseBox
 
 var error := false
 var error_dict := {}

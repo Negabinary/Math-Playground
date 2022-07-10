@@ -23,7 +23,7 @@ func set_implication(implication:ExprItem):
 	emit_signal("updated")
 
 
-func get_requirements_for(expr_item:ExprItem, parse_box:ParseBox):
+func get_requirements_for(expr_item:ExprItem, parse_box:AbstractParseBox):
 	if implication == null:
 		return null
 	var statement = Statement.new(implication)
@@ -40,7 +40,7 @@ func get_requirements_for(expr_item:ExprItem, parse_box:ParseBox):
 	return reqs
 
 
-func get_options_for(expr_item:ExprItem, context:ParseBox):
+func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options = []
 	options.append(Justification.LabelOption.new("Implication:"))
 	var eio := Justification.ExprItemOption.new(implication, context)

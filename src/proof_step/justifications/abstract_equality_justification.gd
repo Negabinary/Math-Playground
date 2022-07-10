@@ -11,7 +11,7 @@ func _init(location:Locator):
 
 # INHERITED ===================================================================
 
-func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	if location == null:
 		return null
 	if not expr_item.compare(location.get_root()):
@@ -27,7 +27,7 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	return requirements
 
 
-func get_options_for(expr_item:ExprItem, context:ParseBox):
+func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options := []
 	options.append(Justification.LabelOption.new("Location: " + location.get_expr_item().to_string()))
 	if location == null or (not expr_item.compare(location.get_root())):
@@ -43,15 +43,15 @@ func get_justification_text():
 
 # VIRTUAL =====================================================================
 
-func _get_equality_replace_with(what:ExprItem, context:ParseBox):
+func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
 	return null
 
 
-func _get_equality_requirements(what:ExprItem, context:ParseBox):
+func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
 	return []
 
 
-func _get_equality_options(what:ExprItem, context:ParseBox):
+func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	return [Justification.LabelOption.new("Abstract justification used", true)]
 
 
@@ -60,7 +60,3 @@ func _get_equality_options(what:ExprItem, context:ParseBox):
 func set_location(location:Locator):
 	self.location = location
 	emit_signal("updated")
-
-
-func get_context_at_location(context):
-	return location.get_proof_box(context)

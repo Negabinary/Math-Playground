@@ -10,7 +10,7 @@ func serialize() -> Dictionary:
 	}
 
 
-func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	if expr_item.get_type() != GlobalTypes.EQUALITY or expr_item.get_child_count() != 2:
 		return null
 	var lhs := expr_item.get_child(0)
@@ -33,7 +33,7 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	]
 
 
-func get_options_for(expr_item:ExprItem, context:ParseBox):
+func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	if expr_item.get_type() != GlobalTypes.EQUALITY or expr_item.get_child_count() != 2:
 		return [Justification.LabelOption.new("cannot match an expression that is not an equality", true)]
 	var lhs := expr_item.get_child(0)

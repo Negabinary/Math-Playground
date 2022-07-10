@@ -2,7 +2,7 @@ extends Node
 class_name ExprItemBuilder
 
 
-static func deserialize(string:String, parse_box:ParseBox) -> ExprItem:
+static func deserialize(string:String, parse_box:AbstractParseBox) -> ExprItem:
 	var intermediate := _generate_intermediate(string)
 	return _generate_expr_item(intermediate, parse_box)
 	
@@ -26,7 +26,7 @@ static func _generate_intermediate(string:String) -> IntermediateExprItem:
 	return IntermediateExprItem.new(current_string, current_children)
 
 
-static func _generate_expr_item(intermediate:IntermediateExprItem, proof_box:ParseBox) -> ExprItem:
+static func _generate_expr_item(intermediate:IntermediateExprItem, proof_box:AbstractParseBox) -> ExprItem:
 	assert(proof_box.parse(intermediate.token) != null)
 	var type:ExprItemType = proof_box.parse(intermediate.token)
 	var inner_proof_box

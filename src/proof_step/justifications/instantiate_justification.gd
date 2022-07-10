@@ -20,7 +20,7 @@ func serialize() -> Dictionary:
 	}
 
 
-func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	if existential == null:
 		return null
 	if existential.get_type() != GlobalTypes.EXISTS:
@@ -36,7 +36,7 @@ func get_requirements_for(expr_item:ExprItem, context:ParseBox):
 	return reqs
 
 
-func get_options_for(expr_item:ExprItem, context:ParseBox):
+func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options = []
 	options.append(Justification.LabelOption.new("Existential: "))
 	var eio := Justification.ExprItemOption.new(existential, context)

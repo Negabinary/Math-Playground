@@ -15,7 +15,7 @@ func serialize() -> Dictionary:
 	}
 
 
-func _get_equality_replace_with(what:ExprItem, context:ParseBox):
+func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
 	if what.get_type() != GlobalTypes.LAMBDA:
 		return null
 	if what.get_child_count() < 3:
@@ -32,11 +32,11 @@ func _get_equality_replace_with(what:ExprItem, context:ParseBox):
 	return x
 
 
-func _get_equality_requirements(what:ExprItem, context:ParseBox):
+func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
 	return []
 
 
-func _get_equality_options(what:ExprItem, context:ParseBox):
+func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	if what.get_type() != GlobalTypes.LAMBDA:
 		return [Justification.LabelOption.new("That location is not a lambda expression!", true)]
 	if what.get_child_count() < 3:

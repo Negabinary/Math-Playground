@@ -9,11 +9,11 @@ func serialize() -> Dictionary:
 	}
 
 
-func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	return null
 
 
-func get_options_for_selection(expr_item:ExprItem, context:ParseBox, selection:Locator):
+func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, selection:Locator):
 	var options := []
 	var locator = (selection if selection.get_root().compare(expr_item) else null) if selection else null
 	var create_lambda_button = Justification.ButtonOption.new("create lambda")

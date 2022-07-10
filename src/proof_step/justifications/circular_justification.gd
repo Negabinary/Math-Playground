@@ -9,11 +9,11 @@ func serialize() -> Dictionary:
 	}
 
 
-func get_requirements_for(expr_item:ExprItem, context:ParseBox):
+func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	return null
 
 
-func get_options_for_selection(expr_item:ExprItem, context:ParseBox, selection:Locator):
+func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, selection:Locator):
 	return [
 		Justification.LabelOption.new(
 			"Proof is circlar. Delete the last step."

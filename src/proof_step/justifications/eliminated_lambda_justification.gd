@@ -54,7 +54,7 @@ func serialize() -> Dictionary:
 
 # OVERRIDES ===================================================================
 
-func _get_equality_replace_with(what:ExprItem, context:ParseBox):
+func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
 	if replace_value == null:
 		return null
 	# TODO: check locations have the right parent
@@ -72,14 +72,14 @@ func _get_equality_replace_with(what:ExprItem, context:ParseBox):
 	)
 
 
-func _get_equality_requirements(what:ExprItem, context:ParseBox):
+func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
 	return []
 
 
-func _get_equality_options(what:ExprItem, context:ParseBox):
+func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	var options = []
 	options.append(Justification.LabelOption.new("Replace instances of:"))
-	var eio := Justification.ExprItemOption.new(replace_value, location.get_proof_box(context))
+	var eio := Justification.ExprItemOption.new(replace_value, location.get_parse_box(context))
 	eio.connect("expr_item_changed", self, "set_replace_value")
 	options.append(eio)
 	if replace_value == null:

@@ -25,7 +25,7 @@ static func eat_name(input_tape:ParserInputTape) -> Dictionary:
 		return {error=false, name=token.contents}
 
 
-static func eat_bindings(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictionary:
+static func eat_bindings(input_tape:ParserInputTape, proof_box:AbstractParseBox) -> Dictionary:
 	var types := [] # <ExprItemType>
 	var tags := {} # <>
 	while not input_tape.done():
@@ -51,7 +51,7 @@ static func eat_bindings(input_tape:ParserInputTape, proof_box:ParseBox) -> Dict
 	return {error=false, types=types, tags=tags}
 
 
-static func eat_expr(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictionary:
+static func eat_expr(input_tape:ParserInputTape, proof_box:AbstractParseBox) -> Dictionary:
 	if input_tape.done():
 		return err(input_tape.previous(), "Unexpected end of expression")
 	var token := input_tape.pop()
@@ -193,7 +193,7 @@ static func reduce_builtinfix(ei_stack:Array, infix_stack:Array) -> void:
 			)
 
 
-static func eat_builtinfix(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictionary:
+static func eat_builtinfix(input_tape:ParserInputTape, proof_box:AbstractParseBox) -> Dictionary:
 	var initial_stuff := eat_stuff(input_tape, proof_box)
 	if initial_stuff.error:
 		return initial_stuff
@@ -241,7 +241,7 @@ static func eat_builtinfix(input_tape:ParserInputTape, proof_box:ParseBox) -> Di
 	return ei_stack[0]
 
 
-static func eat_tag(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictionary:
+static func eat_tag(input_tape:ParserInputTape, proof_box:AbstractParseBox) -> Dictionary:
 	if input_tape.done():
 		return err(input_tape.previous(), "Expected tag after:")
 	if input_tape.try_eat("forall"):
@@ -281,7 +281,7 @@ static func eat_tag(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictionar
 			return {error=false, tag=stuff_parse.tag}
 
 
-static func eat_stuff(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictionary:
+static func eat_stuff(input_tape:ParserInputTape, proof_box:AbstractParseBox) -> Dictionary:
 	var expr_items := []
 	var first := true
 	while not input_tape.done():
@@ -319,7 +319,7 @@ static func eat_stuff(input_tape:ParserInputTape, proof_box:ParseBox) -> Diction
 	return {error=false, expr_item=result}
 
 
-static func eat_tstuff(input_tape:ParserInputTape, proof_box:ParseBox) -> Dictionary:
+static func eat_tstuff(input_tape:ParserInputTape, proof_box:AbstractParseBox) -> Dictionary:
 	var expr_items := []
 	var first := true
 	while not input_tape.done():
