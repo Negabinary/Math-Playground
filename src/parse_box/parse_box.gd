@@ -8,9 +8,8 @@ var parent:AbstractParseBox
 
 func _init(parent:AbstractParseBox, definitions:=[]): #<ExprItemType, String>
 	self.parent = parent
-	if parent:
-		parent.connect("removed", self, "_on_parent_removed")
-		parent.connect("renamed", self, "_on_parent_renamed")
+	parent.connect("removed", self, "_on_parent_removed")
+	parent.connect("renamed", self, "_on_parent_renamed")
 	for definition in definitions:
 		self.definitions[definition.to_string()] = definition
 		definition.connect("renamed", self, "_update_definition_name", [definition, definition.to_string()])
@@ -23,20 +22,18 @@ func get_parent() -> AbstractParseBox:
 # OVERRIDES ===============================================
 
 
-func parse(string:String) -> ExprItemType:
+func parse(string:String, module:String) -> ExprItemType:
+	if string in definitions:
+		
+	
 	if string.count(".") == 0:
 		if string in definitions:
 			return definitions[string]
 	elif _get_module_name(string) == "":
 		if _get_definition_name(string) in definitions:
 			var new_string := string.substr(1)
-			if get_parent():
-				return get_parent().parse(new_string)
-			else:
-				return null
-	if get_parent():
-		return get_parent().parse(string)
-	return null
+			return get_parent().parse(new_string)
+	return get_parent().parse(string)
 
 
 func get_name_for(type:ExprItemType) -> String:
@@ -44,33 +41,24 @@ func get_name_for(type:ExprItemType) -> String:
 		for name in definitions:
 			if definitions[name] == type:
 				return name
-	if get_parent():
-		var name_from_parent := get_parent().get_name_for(type)
-		if name_from_parent in definitions:
-			return "." + name_from_parent
-		else:
-			return name_from_parent
+	var name_from_parent := get_parent().get_name_for(type)
+	if name_from_parent in definitions:
+		return "." + name_from_parent
 	else:
-		return ","
+		return name_from_parent
 
 
 func get_import_map() -> Dictionary:
-	if get_parent():
-		return get_parent().get_import_map()
-	else:
-		return {}
+	return get_parent().get_import_map()
 
 
-# RETURNED DICTIONARY WILL BE EDITED
-func get_all_types() -> Dictionary:
-	var result : Dictionary
-	if get_parent():
-		result = get_parent().get_all_types()
-	else:
-		result = {}
+func get_all_types() -> TwoWayParseMap:
+	var result := get_parent().get_all_types()
 	for definition in definitions:
-		_augment_map(result, definition, definitions[definition])
+		result.augment(definitions[definition], definition)
 	return result
+
+
 
 
 # DEFINITIONS =============================================

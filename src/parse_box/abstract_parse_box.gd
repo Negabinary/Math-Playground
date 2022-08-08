@@ -2,11 +2,12 @@ extends Object
 class_name AbstractParseBox
 
 
+signal added # (type:ExprItemType, new_name:String)
 signal renamed # (type:ExprItemType, old_name:String, new_name:String)
 signal removed # (type:ExprItemType, old_name:String)
 
 
-func parse(identifier:String) -> ExprItemType:
+func parse(identifier:String, module:String) -> ExprItemType:
 	assert(false) # abstract
 	return null
 
@@ -21,15 +22,9 @@ func get_import_map() -> Dictionary: # <String, AbstractParseBox>
 	return {}
 
 
-func get_all_types() -> Dictionary: # <String, ExprItem>
-	assert(false)
-	return {}
-
-
-static func _augment_map(map:Dictionary, key:String, value:ExprItemType):
-	if key in map and not (key.count(".") > 0 and key[0] != "."):
-		_augment_map(map, "." + key, map[key])
-	map[key] = value
+func get_all_types() -> TwoWayParseMap:
+	assert(false) # abstract
+	return TwoWayParseMap.new()
 
 
 static func _get_module_and_overwrite(identifier:String) -> PoolStringArray:
