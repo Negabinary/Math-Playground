@@ -10,9 +10,5 @@ func get_name_for(type:ExprItemType) -> String:
 	return ","
 
 
-func get_import_map() -> Dictionary: # <String, AbstractParseBox>
-	return {}
-
-
 func get_all_types() -> TwoWayParseMap:
 	return TwoWayParseMap.new()

@@ -306,7 +306,7 @@ static func eat_stuff(input_tape:ParserInputTape, proof_box:AbstractParseBox) ->
 		elif input_tape.peek() in keywords:
 			break
 		else:
-			var type := proof_box.parse(input_tape.pop().contents)
+			var type := proof_box.parse_full(input_tape.pop().contents)
 			if type == null:
 				return err(input_tape.previous(), "token not found in context")
 			expr_items.append(ExprItem.new(type))
@@ -344,7 +344,7 @@ static func eat_tstuff(input_tape:ParserInputTape, proof_box:AbstractParseBox) -
 		elif input_tape.peek() in keywords:
 			break
 		else:
-			var type = proof_box.parse(input_tape.pop().contents)
+			var type = proof_box.parse_full(input_tape.pop().contents)
 			if type == null:
 				return err(input_tape.previous(), "token not found in context")
 			expr_items.append(ExprItem.new(type))

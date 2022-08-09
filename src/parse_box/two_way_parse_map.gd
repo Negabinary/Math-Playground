@@ -48,6 +48,7 @@ func merge(other:TwoWayParseMap) -> void:
 				var previous_list = parsing_map[""].get(identifier, [])
 				parsing_map[""][identifier] = other.parsing_map[""][identifier]
 				parsing_map[""][identifier].append_array(previous_list)
+	
 
 
 # QUERYING ================================================
@@ -78,8 +79,37 @@ func get_full_name(value:ExprItemType) -> String:
 		return module + "." + get_identifier(value)
 
 
+func get_all_types() -> Array:
+	return naming_map.keys()
+
+
+func get_all_names() -> Array:
+	var result := []
+	for t in get_all_types():
+		result.append(get_full_name(t))
+	return result
+
+
 func count_same_name(identifier:String, module:String) -> int:
 	return parsing_map.get(module,{}).get(identifier,[]).size()
+
+
+func get_missing_from(other:TwoWayParseMap) -> Array:
+	var missing_types := naming_map.keys()
+	for t in other.naming_map.keys():
+		if t in missing_types:
+			missing_types.erase(t)
+	return missing_types
+
+
+func get_renames(other:TwoWayParseMap) -> Array:
+	var result := []
+	var all_types := naming_map.keys()
+	for t in other.naming_map.keys():
+		if t in all_types:
+			if get_full_name(t) != other.get_full_name(t):
+				result.append(t)
+	return result
 
 
 # HELPER ==================================================

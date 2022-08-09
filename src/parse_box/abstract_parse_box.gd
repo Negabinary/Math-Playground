@@ -7,6 +7,18 @@ signal renamed # (type:ExprItemType, old_name:String, new_name:String)
 signal removed # (type:ExprItemType, old_name:String)
 
 
+func parse_full(full_name:String) -> ExprItemType:
+	var split := full_name.split(".")
+	if split.size() == 1:
+		return parse(full_name, "")
+	else:
+		var module := split[0]
+		split.remove(0)
+		var ident = split.join(".")
+		return parse(ident, module)
+	
+
+
 func parse(identifier:String, module:String) -> ExprItemType:
 	assert(false) # abstract
 	return null
@@ -15,11 +27,6 @@ func parse(identifier:String, module:String) -> ExprItemType:
 func get_name_for(type:ExprItemType) -> String:
 	assert(false) # abstract
 	return ""
-
-
-func get_import_map() -> Dictionary: # <String, AbstractParseBox>
-	assert(false) # abstract
-	return {}
 
 
 func get_all_types() -> TwoWayParseMap:

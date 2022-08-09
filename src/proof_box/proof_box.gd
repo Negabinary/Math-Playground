@@ -112,7 +112,7 @@ func _update_definition_name(definition:ExprItemType, old_name:String) -> void:
 
 
 func parse(string:String) -> ExprItemType:
-	return parse_box.parse(string)
+	return parse_box.parse_full(string)
 
 
 # JUSTIFICATION ===========================================

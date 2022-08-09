@@ -23,7 +23,7 @@ onready var scene_cell_show := load("res://ui/notebook/cell/CellShow.tscn")
 onready var scene_cell_import := load("res://ui/notebook/cell/CellImport.tscn")
 
 
-var top_proof_box := GlobalTypes.PROOF_BOX
+var top_proof_box:ProofBox = GlobalTypes.PROOF_BOX
 var bottom_proof_box := top_proof_box
 var selection_handler : SelectionHandler
 
@@ -81,7 +81,7 @@ func set_top_proof_box(tpb:ProofBox) -> void:
 		eval(false)
 	elif ui_error_box.visible:
 		eval(false)
-	$VBoxContainer/Tree.text = PoolStringArray(tpb.get_parse_box().get_all_types().keys()).join(";  ")
+	$VBoxContainer/Tree.text = PoolStringArray(tpb.get_parse_box().get_all_types().get_all_names()).join(";  ")
 
 
 func get_bottom_proof_box() -> ProofBox:

@@ -27,8 +27,8 @@ static func _generate_intermediate(string:String) -> IntermediateExprItem:
 
 
 static func _generate_expr_item(intermediate:IntermediateExprItem, proof_box:AbstractParseBox) -> ExprItem:
-	assert(proof_box.parse(intermediate.token) != null)
-	var type:ExprItemType = proof_box.parse(intermediate.token)
+	assert(proof_box.parse_full(intermediate.token) != null)
+	var type:ExprItemType = proof_box.parse_full(intermediate.token)
 	var inner_proof_box
 	if type.get_binder_type() != ExprItemType.BINDER.NOT_BINDER:
 		inner_proof_box = ParseBox.new(proof_box, deep_generate_types(intermediate.children[0]))
