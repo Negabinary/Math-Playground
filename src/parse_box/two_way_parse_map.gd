@@ -13,8 +13,7 @@ func augment(value:ExprItemType, identifier:String) -> void:
 		parsing_map[""] = {}
 	if not identifier in parsing_map.get("",{}):
 		parsing_map[""][identifier] = []
-	else:
-		parsing_map[""][identifier].push_front(value)
+	parsing_map[""][identifier].push_front(value)
 	module_map[value] = ""
 	naming_map[value] = identifier
 
@@ -56,7 +55,7 @@ func merge(other:TwoWayParseMap) -> void:
 func parse(identifier:String, module:="") -> ExprItemType:
 	var count := _count_dots(identifier)
 	var without := _without_dots(identifier)
-	var array:Array = parsing_map.get(module, {}).get(without,null)
+	var array:Array = parsing_map.get(module, {}).get(without,[])
 	if count < array.size():
 		return array[count]
 	else:
