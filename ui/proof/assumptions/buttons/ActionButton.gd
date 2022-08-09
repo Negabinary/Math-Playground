@@ -38,8 +38,10 @@ func init(assumption:ExprItem, assumption_context:ProofBox, selection_handler:Se
 	self.selection_handler = selection_handler
 	if _should_display():
 		disabled = true
+		print(selection_handler)
 		selection_handler.connect("locator_changed", self, "_update_context")
 		connect("pressed", self, "_on_pressed")
+		_update_context("")
 	else:
 		hide()
 
@@ -50,7 +52,10 @@ func _is_in_context() -> bool:
 
 func _update_context(_x):
 	var context = selection_handler.get_selected_proof_box()
-	if _is_in_context():
-		disabled = not _can_use()
+	if context:
+		if _is_in_context():
+			disabled = not _can_use()
+		else:
+			disabled = true
 	else:
 		disabled = true

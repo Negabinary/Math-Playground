@@ -84,8 +84,13 @@ func is_ancestor_of(other:ProofBox):
 		return true
 	elif other.parent == null:
 		return false
+	elif is_ancestor_of(other.parent):
+		return true
 	else:
-		return is_ancestor_of(other.parent)
+		for import in other.imports:
+			if is_ancestor_of(other.imports[import].get_final_proof_box()):
+				return true
+		return false
 
 
 # IMPORTS =================================================
