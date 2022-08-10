@@ -294,7 +294,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/proof/written_proof_box/WPB_Justification.gd"
 }, {
-"base": "VBoxContainer",
+"base": "GridContainer",
 "class": "WPBOptions",
 "language": "GDScript",
 "path": "res://ui/proof/written_proof_box/WPBOptions.gd"

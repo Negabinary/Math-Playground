@@ -6,11 +6,11 @@ signal request_move_up # TODO
 signal request_move_down # TODO
 signal update
 
-onready var ui_edit_button := $VBoxContainer/HBoxContainer/EditButton
-onready var ui_eval_button := $VBoxContainer/HBoxContainer/ParseButton
-onready var ui_up_button = $VBoxContainer/HBoxContainer/UpButton
-onready var ui_down_button = $VBoxContainer/HBoxContainer/DownButton
-onready var ui_delete_button = $VBoxContainer/HBoxContainer/DeleteButton
+onready var ui_edit_button := $VBoxContainer/Panel/HBoxContainer/EditButton
+onready var ui_eval_button := $VBoxContainer/Panel/HBoxContainer/ParseButton
+onready var ui_up_button = $VBoxContainer/Panel/HBoxContainer/UpButton
+onready var ui_down_button = $VBoxContainer/Panel/HBoxContainer/DownButton
+onready var ui_delete_button = $VBoxContainer/Panel/HBoxContainer/DeleteButton
 
 onready var ui_entry_box:TextEdit = $VBoxContainer/Edit/Enter
 onready var ui_error_box:RichTextLabel = $VBoxContainer/Edit/Error

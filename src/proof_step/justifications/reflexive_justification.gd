@@ -9,12 +9,19 @@ func serialize() -> Dictionary:
 	}
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+static func _is_reflexive(expr_item:ExprItem):
 	if expr_item.get_type() != GlobalTypes.EQUALITY or expr_item.get_child_count() != 2:
-		return null
+		return false
 	if not expr_item.get_child(0).compare(expr_item.get_child(1)):
+		return false
+	return true
+
+
+func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+	if _is_reflexive(expr_item):
+		return []
+	else:
 		return null
-	return []
 
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):

@@ -13,70 +13,114 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	return null
 
 
+func _is_double_negative(locator:Locator):
+	if locator:
+		if locator.get_type() == GlobalTypes.NOT:
+			if locator.get_child_count() == 1:
+				if locator.get_child(0).get_type() == GlobalTypes.NOT:
+					if locator.get_child(0).get_child_count() == 1:
+						return true
+	return false
+
+
+func _is_matchable(locator:Locator):
+	if locator:
+		if locator.get_type() == GlobalTypes.EQUALITY:
+			if locator.get_child_count() == 2:
+				if locator.get_child(0).get_child_count() > 0:
+					if locator.get_child(1).get_child_count() > 0:
+						return true
+	return false
+
+
 func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, selection:Locator):
 	var options := []
 	var locator = (selection if selection.get_root().compare(expr_item) else null) if selection else null
-	var create_lambda_button = Justification.ButtonOption.new("create lambda")
-	create_lambda_button.connect("pressed", self, "_request_replace", [
-		EliminatedLambdaJustification.new(locator)
-	])
-	options.append(create_lambda_button)
-	var custom_equality_button = Justification.ButtonOption.new("use custom equality")
-	custom_equality_button.connect("pressed", self, "_request_replace", [
-		EqualityJustification.new(locator)
-	])
-	options.append(custom_equality_button)
-	var prove_implication_button = Justification.ButtonOption.new("prove implication")
-	prove_implication_button.connect("pressed", self, "_request_replace", [
-		ImplicationJustification.new()
-	])
-	options.append(prove_implication_button)
-	var instantiation_button = Justification.ButtonOption.new("instantiate an existential")
-	instantiation_button.connect("pressed", self, "_request_replace",[
-		InstantiateJustification.new()
-	])
-	options.append(instantiation_button)
-	var reduce_lambda_button = Justification.ButtonOption.new("reduce lambda")
-	reduce_lambda_button.connect("pressed", self, "_request_replace",[
-		IntroducedLambdaJustification.new(locator)
-	])
-	options.append(reduce_lambda_button)
-	var reduce_double_negative_button = Justification.ButtonOption.new("reduce double negative")
-	reduce_double_negative_button.connect("pressed", self, "_request_replace",[
-		IntroducedDoubleNegativeJustification.new(locator)
-	])
-	options.append(reduce_double_negative_button)
-	var matching_button = Justification.ButtonOption.new("match arguments")
-	matching_button.connect("pressed", self, "_request_replace",[
-		MatchingJustification.new()
-	])
-	options.append(matching_button)
-	var modus_ponens_button = Justification.ButtonOption.new("use an implication")
-	modus_ponens_button.connect("pressed", self, "_request_replace", [
-		ModusPonensJustification.new()
-	])
-	options.append(modus_ponens_button)
-	var refine_button = Justification.ButtonOption.new("prove a forall")
-	refine_button.connect("pressed", self, "_request_replace", [
-		RefineJustification.new()
-	])
-	options.append(refine_button)
-	var reflexive_button = Justification.ButtonOption.new("prove a reflexive equality")
-	reflexive_button.connect("pressed", self, "_request_replace", [
-		ReflexiveJustification.new()
-	])
-	options.append(reflexive_button)
-	var vacuous_justification = Justification.ButtonOption.new("prove this implication vacuous")
-	vacuous_justification.connect("pressed", self, "_request_replace", [
-		VacuousJustification.new()
-	])
-	options.append(vacuous_justification)
-	var witness_justification = Justification.ButtonOption.new("prove an existential")
-	witness_justification.connect("pressed", self, "_request_replace", [
-		WitnessJustification.new()
-	])
-	options.append(witness_justification)
-	# TODO: Add the rest!
+	
+	var option_datas = [
+		[
+			"prove implication", 
+			expr_item.get_type() == GlobalTypes.FORALL or expr_item.get_type() == GlobalTypes.IMPLIES,
+			load("res://ui/theme/descriptive_buttons/implication.tres"),
+			ImplicationJustification.new()
+		],
+		[
+			"prove this implication vacuous",
+			expr_item.get_type() == GlobalTypes.IMPLIES,
+			load("res://ui/theme/descriptive_buttons/vacuous.tres"),
+			VacuousJustification.new()
+		],
+		[
+			"use a custom implication",
+			true,
+			load("res://ui/theme/descriptive_buttons/modus_ponens.tres"),
+			ModusPonensJustification.new()
+		],
+		[
+			"prove a more general version",
+			true,
+			load("res://ui/theme/descriptive_buttons/refine.tres"),
+			RefineJustification.new()
+		],
+		[
+			"use an existential",
+			true,
+			load("res://ui/theme/descriptive_buttons/instantiate.tres"),
+			InstantiateJustification.new()
+		],
+		[
+			"use a witness",
+			expr_item.get_type() == GlobalTypes.EXISTS,
+			load("res://ui/theme/descriptive_buttons/witness.tres"),
+			WitnessJustification.new()
+		],
+		[
+			"use an equality",
+			locator != null,
+			load("res://ui/theme/descriptive_buttons/equality.tres"),
+			EqualityJustification.new(locator)
+		],
+		[
+			"eliminate a double negative",
+			_is_double_negative(locator),
+			load("res://ui/theme/descriptive_buttons/double_negative.tres"),
+			IntroducedDoubleNegativeJustification.new(locator)
+		],
+		[
+			"match function arguments",
+			_is_matchable(locator),
+			load("res://ui/theme/descriptive_buttons/matching.tres"),
+			IntroducedDoubleNegativeJustification.new(locator)
+		],
+		[
+			"equality is reflexive",
+			ReflexiveJustification._is_reflexive(expr_item),
+			load("res://ui/theme/descriptive_buttons/reflexive.tres"),
+			ReflexiveJustification.new()
+		],
+		[
+			"create lambda",
+			locator != null,
+			load("res://ui/theme/descriptive_buttons/eliminated_lambda.tres"),
+			EliminatedLambdaJustification.new(locator)
+		],
+		[
+			"apply lambda",
+			locator != null and locator.get_type() == GlobalTypes.LAMBDA and locator.get_child_count() > 2,
+			load("res://ui/theme/descriptive_buttons/introduced_lambda.tres"),
+			IntroducedLambdaJustification.new(locator)
+		]
+	]
+	
+	for option_data in option_datas:
+		var button = Justification.ButtonOption.new(
+			option_data[0], not option_data[1], option_data[2]
+		)
+		button.connect("pressed", self, "_request_replace", [
+			option_data[3]
+		])
+		options.append(button)
+	
 	return options
 
 

@@ -18,7 +18,7 @@ __meta__ = {
 margin_right = 1024.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 0, 24 )
-color = Color( 0.815686, 0.815686, 0.815686, 1 )
+color = Color( 0.760784, 0.760784, 0.760784, 1 )
 
 [node name="FileControls" type="HBoxContainer" parent="Controls"]
 anchor_right = 1.0
@@ -34,6 +34,7 @@ __meta__ = {
 [node name="New" type="Button" parent="Controls/FileControls"]
 margin_right = 41.0
 margin_bottom = 20.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "New"
 
 [node name="Load" type="Button" parent="Controls/FileControls"]
@@ -69,3 +70,4 @@ margin_top = 24.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_vertical = 3
+color = Color( 0.584314, 0.584314, 0.584314, 1 )

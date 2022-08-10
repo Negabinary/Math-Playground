@@ -7,6 +7,7 @@ var ui_justification_name : Label
 var ui_unprove_button : Button
 var ui_description : Label
 var ui_requirements : WPBRequirements
+var ui_req_separator : Control
 var ui_options : WPBOptions
 var ui_panel : PanelContainer
 
@@ -24,6 +25,7 @@ func _find_ui_elements() -> void:
 	ui_description = $Options/VBoxContainer/JustificationDescription
 	ui_requirements = $Options/VBoxContainer/VBoxContainer/Requirements
 	self.ui_requirements.connect("requirement_selected", self, "_on_requirement_selected")
+	ui_req_separator = $Options/VBoxContainer/VBoxContainer/HSeparator
 	ui_options = $Options/VBoxContainer/VBoxContainer/Options
 	ui_panel = $Options
 
@@ -49,6 +51,9 @@ func _on_justification_updated():
 	var justification = proof_step.get_justification()
 	ui_justification_name.text = justification.get_justification_text()
 	ui_unprove_button.visible = not (justification is MissingJustification)
+	ui_requirements.visible = not (justification is MissingJustification)
+	ui_requirements.visible = not (justification is MissingJustification)
+	ui_options.columns = 2 if justification is MissingJustification else 1
 	if justification.get_justification_description():
 		ui_description.show()
 		ui_description.text = justification.get_justification_description()

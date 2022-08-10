@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends GridContainer
 class_name WPBOptions
 
 const BOOLEAN_OPTION = preload("res://ui/proof/options/BooleanOption.tscn")
@@ -28,3 +28,4 @@ func set_options(options:Array) -> void:
 			bo = LABEL_OPTION.instance()
 		bo.init(option)
 		add_child(bo)
+	queue_sort()

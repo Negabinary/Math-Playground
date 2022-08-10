@@ -114,17 +114,22 @@ class LabelOption extends Option:
 class ButtonOption extends Option:
 	var text : String
 	var disabled : bool
+	var picture : Texture
 	signal pressed
 	
-	func _init(text, disabled:=false):
+	func _init(text, disabled:=false, picture:Texture=null):
 		self.text = text
 		self.disabled = disabled
+		self.picture = picture
 	
 	func get_text():
 		return text
 	
 	func get_is_disabled():
 		return disabled
+	
+	func get_image():
+		return picture
 	
 	func action():
 		emit_signal("pressed")
