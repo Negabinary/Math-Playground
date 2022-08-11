@@ -40,6 +40,27 @@ func has_justification_for_uid(uid:String):
 	return uid in justifications
 
 
+func get_assumptions_not_in(other:JustificationMap) -> Array: #<ExprItem>
+	var result = []
+	for uid in assumptions:
+		if not (uid in other.assumptions):
+			result.append(expr_items[uid])
+	return result
+
+
+func get_updated_uids(other:JustificationMap):
+	var updated_uids := []
+	for uid in justifications:
+		if justifications.get(uid) != other.justifications.get(uid):
+			if not uid in other.assumptions:
+				updated_uids.append(uid)
+	for uid in other.justifications:
+		if not uid in justifications:
+			if not uid in assumptions:
+				updated_uids.append(uid)
+	return updated_uids
+
+
 func is_assumed(expr_item:ExprItem):
 	return assumptions.get(expr_item.get_unique_name(), false)
 

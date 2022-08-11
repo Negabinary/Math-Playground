@@ -26,12 +26,15 @@ func _init(parent:AbstractJustificationBox, import_name:String, import_box:Abstr
 	parent.connect("updated", self, "_on_parent_updated")
 
 
+func _is_assumed(expr_item:ExprItem) -> bool:
+	return imported_map.is_assumed(expr_item) or parent._is_assumed(expr_item)
+
 
 func _missing_justification(expr_item:ExprItem) -> Justification:
 	if imported_map.has_justification_for(expr_item):
 		return imported_map.get_justification_for(expr_item)
 	else:
-		return parent.get_justification_or_missing(expr_item)
+		return parent._get_justification(expr_item)
 
 
 func get_parse_box() -> AbstractParseBox:

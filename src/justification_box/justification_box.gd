@@ -7,10 +7,13 @@ var parent : AbstractJustificationBox
 var parse_box : ParseBox
 
 func _init(parent:AbstractJustificationBox, definitions:Array, assumptions:Array):
-	parse_box = ParseBox.new(
-		parent.get_parse_box(),
-		definitions
-	)
+	if definitions.size() > 0:
+		parse_box = ParseBox.new(
+			parent.get_parse_box(),
+			definitions
+		)
+	else:
+		parse_box = parent.get_parse_box()
 	self.assumptions = assumptions
 	self.parent = parent
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
@@ -25,15 +28,15 @@ func set_justification(expr_item:ExprItem, justification) -> void:
 	.set_justification(expr_item, justification)
 
 
-func get_justification_or_missing(expr_item:ExprItem) -> Justification:
+func _is_assumed(expr_item:ExprItem) -> bool:
 	for assumption in assumptions:
 		if expr_item.compare(assumption):
-			return AssumptionJustification.new()
-	return .get_justification_or_missing(expr_item)
+			return true
+	return parent._is_assumed(expr_item)
 
 
 func _missing_justification(expr_item:ExprItem) -> Justification:
-	return parent.get_justification_or_missing(expr_item)
+	return parent._get_justification(expr_item)
 
 
 func get_justifications_snapshot() -> JustificationMap:
