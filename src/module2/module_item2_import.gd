@@ -7,7 +7,7 @@ var name : String
 func _init(context:ProofBox, name:String):
 	module = Module2Loader.get_module(name)
 	# Todo: switch this to .get_child_extended_with()
-	proof_box = ProofBox.new(
+	proof_box = OldProofBox.new(
 		context, [], [], {name:module}
 	)
 	self.name = name

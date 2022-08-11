@@ -15,7 +15,7 @@ var TAG := ExprItemType.new("TAG")
 var ANY := ExprItemType.new("ANY")
 var PROP := ExprItemType.new("PROP")
 
-var PROOF_BOX := ProofBox.new(null, [
+var PROOF_BOX := OldProofBox.new(null, [
 		IMPLIES, FORALL, EQUALITY, NOT, EXISTS, LAMBDA, AND, OR,
 		TAG, ANY, PROP
 	])

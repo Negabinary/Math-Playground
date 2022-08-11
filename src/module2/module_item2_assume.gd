@@ -4,7 +4,7 @@ class_name ModuleItem2Assumption
 var assumption : ExprItem
 
 func _init(context:ProofBox, statement:ExprItem):
-	proof_box = ProofBox.new(
+	proof_box = OldProofBox.new(
 		context, [], [statement]
 	)
 	self.assumption = statement
