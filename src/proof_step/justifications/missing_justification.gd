@@ -119,6 +119,7 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 		button.connect("pressed", self, "_request_replace", [
 			option_data[3]
 		])
+		print(button.get_signal_connection_list("pressed"))
 		options.append(button)
 	
 	return options

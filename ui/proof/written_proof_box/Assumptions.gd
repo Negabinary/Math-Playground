@@ -5,10 +5,10 @@ const scene_cell_definition := preload("res://ui/notebook/cell/CellDefinition.ts
 const scene_cell_assumption := preload("res://ui/notebook/cell/CellAssumption.tscn")
 
 var requirement:Requirement
-var inner_proof_box:ProofBox
+var inner_proof_box:SymmetryBox
 var selection_handler:SelectionHandler
 
-func display_assumptions(requirement:Requirement, inner_proof_box:ProofBox, selection_handler:SelectionHandler):
+func display_assumptions(requirement:Requirement, inner_proof_box:SymmetryBox, selection_handler:SelectionHandler):
 	self.requirement = requirement
 	self.inner_proof_box = inner_proof_box
 	self.selection_handler = selection_handler

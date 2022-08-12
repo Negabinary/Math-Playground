@@ -6,7 +6,7 @@ var parent : AbstractJustificationBox
 
 var parse_box : ParseBox
 
-func _init(parent:AbstractJustificationBox, definitions:Array, assumptions:Array):
+func _init(parent:AbstractJustificationBox, definitions:=[], assumptions:=[]):
 	if definitions.size() > 0:
 		parse_box = ParseBox.new(
 			parent.get_parse_box(),
@@ -22,10 +22,8 @@ func _init(parent:AbstractJustificationBox, definitions:Array, assumptions:Array
 
 
 func set_justification(expr_item:ExprItem, justification) -> void:
-	for assumption in assumptions:
-		if expr_item.compare(assumption):
-			return
-	.set_justification(expr_item, justification)
+	if not _is_assumed(expr_item):
+		.set_justification(expr_item, justification)
 
 
 func _is_assumed(expr_item:ExprItem) -> bool:
@@ -69,3 +67,10 @@ func _on_parent_updated(uid):
 	if justification_map.has_justification_for_uid(uid):
 		return
 	emit_signal("updated", uid)
+
+
+func is_child_of(other:AbstractJustificationBox) -> bool:
+	if self == other:
+		return true
+	else:
+		return parent.is_child_of(other)

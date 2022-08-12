@@ -3,7 +3,7 @@ extends ScrollContainer
 var ASSUMPTION_BOX := load("res://ui/proof/assumption_box/AssumptionBox.tscn")
 
 var goal : ExprItem
-var proof_box : ProofBox
+var proof_box : SymmetryBox
 var locator : Locator
 onready var selection_handler:SelectionHandler = $"../../../..//SelectionHandler"
 
@@ -19,7 +19,7 @@ func _on_goal_item_selected(expr_locator:Locator):
 		_clear_assumptions()
 
 
-func set_proof_step(goal:ExprItem, proof_box:ProofBox, new_location:Locator=null) -> void:
+func set_proof_step(goal:ExprItem, proof_box:SymmetryBox, new_location:Locator=null) -> void:
 	if new_location == null:
 		new_location = Statement.new(goal).get_conclusion()
 	if self.goal != goal and (self.goal == null or not self.goal.compare(goal)) or self.proof_box != proof_box:
@@ -42,7 +42,7 @@ func _update_assumptions() -> void:
 			save_assumption(assumption[0], assumption[1])
 
 
-func save_assumption(assumption:ExprItem, assumption_context:ProofBox):
+func save_assumption(assumption:ExprItem, assumption_context:SymmetryBox):
 	var assumption_box = ASSUMPTION_BOX.instance()
 	$VBoxContainer.add_child(assumption_box)
 	assumption_box.initialise(assumption, assumption_context, selection_handler)

@@ -3,7 +3,7 @@ class_name StarButton
 
 
 var assumption : Statement
-var assumption_context : ProofBox
+var assumption_context : SymmetryBox
 
 
 func _init():
@@ -13,7 +13,7 @@ func _init():
 	toggle_mode = true
 
 
-func init(assumption:ExprItem, assumption_context:ProofBox, selection_handler:SelectionHandler):
+func init(assumption:ExprItem, assumption_context:SymmetryBox, selection_handler:SelectionHandler):
 	self.assumption = Statement.new(assumption)
 	self.assumption_context = assumption_context
 	if _should_display():

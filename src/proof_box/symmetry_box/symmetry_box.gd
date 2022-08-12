@@ -1,9 +1,12 @@
-class_name ProofBox
+class_name SymmetryBox
 
 var children := {} # <String [requirement label], ExprItem>
 var children_defs := {} # <String [requirement label], Array<ExprItemType>>
+var justification_box : AbstractJustificationBox
 
-var NORMAL_PROOF_BOX = load("res://src/proof_box/old_proof_box.gd") # TODO
+
+func _init(justification_box:AbstractJustificationBox=RootJustificationBox.new()):
+	self.justification_box = justification_box
 
 
 # CHILDREN ================================================
@@ -15,12 +18,16 @@ static func _get_unique_label(definitions:Array, assumptions:Array) -> String:
 	return label
 
 
-func get_child_extended_with(definitions:=[], assumptions:=[]) -> ProofBox:
+func get_child_extended_with(definitions:=[], assumptions:=[]) -> SymmetryBox:
 	if definitions.size() == 0 and assumptions.size() == 0:
 		return self
 	var label := _get_unique_label(definitions, assumptions)
 	if not (label in children):
-		children[label] = NORMAL_PROOF_BOX.new(self, definitions, assumptions)
+		children[label] = get_script().new(
+			JustificationBox.new(
+				get_justification_box(), definitions, assumptions
+			)
+		)
 		children_defs[label] = definitions
 	return children[label]
 
@@ -47,5 +54,9 @@ func convert_requirement(r:Requirement) -> Requirement:
 		return r
 
 
-# ABSTRACT ====================================================
+func get_justification_box() -> AbstractJustificationBox:
+	return justification_box
 
+
+func get_parse_box() -> AbstractParseBox:
+	return justification_box.get_parse_box()

@@ -24,7 +24,6 @@ func load_module(module_name:String) -> void:
 	var contents = file.get_as_text()
 	file.close()
 	var json = JSON.parse(contents).result
-	var proof_box = GlobalTypes.PROOF_BOX
 	var module = Module.new(module_name)
 	for cell in json.cells:
 		module.deserialize_cell(cell)

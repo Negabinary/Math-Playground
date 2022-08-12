@@ -6,7 +6,7 @@ var assumption : ExprItem
 var selection_handler : SelectionHandler
 
 
-func initialise(assumption:ExprItem, assumption_context:ProofBox, selection_handler:SelectionHandler):
+func initialise(assumption:ExprItem, assumption_context:SymmetryBox, selection_handler:SelectionHandler):
 	self.assumption = assumption
 	self.selection_handler = selection_handler
 	

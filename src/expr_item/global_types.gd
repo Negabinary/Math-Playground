@@ -15,10 +15,15 @@ var TAG := ExprItemType.new("TAG")
 var ANY := ExprItemType.new("ANY")
 var PROP := ExprItemType.new("PROP")
 
-var PROOF_BOX := OldProofBox.new(null, [
+var JUSTIFICATION_BOX := JustificationBox.new(
+	RootJustificationBox.new(),
+	[
 		IMPLIES, FORALL, EQUALITY, NOT, EXISTS, LAMBDA, AND, OR,
 		TAG, ANY, PROP
-	])
+	]
+)
+
+var PARSE_BOX := JUSTIFICATION_BOX.get_parse_box()
 
 func _init():
 	FORALL.binder = ExprItemType.BINDER.BINDER
@@ -63,5 +68,4 @@ func _ready():
 	_add_tag(OR, ExprItem.new(TagShorthand.F_DEF, [prop,proptoprop,ExprItem.new(OR)]))
 
 func _add_tag(type, expr) -> void:
-	var ei = ExprItemTagHelper.tag_to_statement(expr, ExprItem.new(type))
-	PROOF_BOX.add_justification(ei, AssumptionJustification.new())
+	pass # TODO

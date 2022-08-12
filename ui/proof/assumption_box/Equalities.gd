@@ -4,7 +4,7 @@ var definitions := []
 var equalities := []
 var locator : Locator
 var selected_locator : Locator
-var selected_context : ProofBox
+var selected_context : SymmetryBox
 
 func add_equalities(locator:Locator):
 	self.locator = locator
@@ -13,7 +13,7 @@ func add_equalities(locator:Locator):
 		add_item(equality.to_string())
 
 
-func update_context(locator:Locator, context:ProofBox):
+func update_context(locator:Locator, context:SymmetryBox):
 	selected_locator = locator
 	self.selected_context = context
 	var valid = false
@@ -44,9 +44,11 @@ func _on_item_activated(index):
 	var matching := {}
 	for definition in definitions:
 		matching[definition] = "*"
-	if equality[index].get_expr_item().is_superset(locator.get_expr_item(), matching):
+	if equalities[index].get_expr_item().is_superset(locator.get_expr_item(), matching):
 		var justification = EqualityJustification.new(
 			selected_locator, locator.get_expr_item().get_child(index), index != 1
 		)
-		selected_context.add_justification(selected_locator.get_root(), justification)
+		selected_context.get_justification_box().set_justification(
+			selected_locator.get_root(), justification
+		)
 

@@ -8,8 +8,12 @@ func _init():
 	parse_box = RootParseBox.new()
 
 
+func _is_assumed(expr_item:ExprItem) -> bool:
+	return false
+
+
 func _missing_justification(expr_item:ExprItem) -> Justification:
-	return MissingJustification.new()
+	return null
 
 
 func get_justifications_snapshot() -> JustificationMap:
@@ -18,3 +22,10 @@ func get_justifications_snapshot() -> JustificationMap:
 
 func get_parse_box() -> AbstractParseBox:
 	return parse_box
+
+
+func is_child_of(other:AbstractJustificationBox) -> bool:
+	if self == other:
+		return true
+	else:
+		return false

@@ -7,12 +7,14 @@ modules that are currently being edited.
 
 var cells : Array # <Array<ModuleItem>>
 var name : String
-var bottom_proof_box : ProofBox
+var bottom_proof_box : SymmetryBox
 
 
 func _init(name:String):
 	self.name = name
-	bottom_proof_box = GlobalTypes.PROOF_BOX
+	bottom_proof_box = SymmetryBox.new(
+		GlobalTypes.JUSTIFICATION_BOX
+	)
 
 
 func get_name() -> String:
@@ -35,7 +37,7 @@ func deserialize_cell(cell_json:Dictionary) -> void:
 	cells.append(new_cell)
 
 
-static func deserialise_item(item, proof_box:ProofBox) -> ModuleItem2:
+static func deserialise_item(item, proof_box:SymmetryBox) -> ModuleItem2:
 		var module_item : ModuleItem2
 		if item.kind == "definition":
 			return ModuleItem2Definition.new(
@@ -63,5 +65,5 @@ static func deserialise_item(item, proof_box:ProofBox) -> ModuleItem2:
 			return null
 
 
-func get_final_proof_box() -> ProofBox:
+func get_final_proof_box() -> SymmetryBox:
 	return bottom_proof_box

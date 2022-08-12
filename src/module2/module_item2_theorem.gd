@@ -2,13 +2,13 @@ extends ModuleItem2
 class_name ModuleItem2Theorem
 
 var goal : ExprItem
-var context : ProofBox
+var context : SymmetryBox
 
-func _init(context:ProofBox, statement:ExprItem, proof=null, version=0):
+func _init(context:SymmetryBox, statement:ExprItem, proof=null, version=0):
 	goal = statement
 	self.context = context
-	self.proof_box = OldProofBox.new(
-		context, [], [statement]
+	self.proof_box = context.get_child_extended_with(
+		[], [statement]
 	)
 	if proof is Dictionary:
 		ProofStep.deserialize_proof(ProofStep, proof, context, version)
@@ -30,5 +30,5 @@ func get_goal() -> ExprItem:
 func get_requirement() -> Requirement:
 	return Requirement.new(goal)
 
-func get_context() -> ProofBox:
+func get_context() -> SymmetryBox:
 	return context

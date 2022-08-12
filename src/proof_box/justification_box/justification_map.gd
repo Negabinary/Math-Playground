@@ -25,19 +25,21 @@ func merge(other:JustificationMap) -> void:
 
 
 func get_justification_for(expr_item:ExprItem):
-	if assumptions.get(expr_item, false):
+	if assumptions.get(expr_item.get_unique_name(), false):
 		return AssumptionJustification.new()
 	return justifications.get(expr_item.get_unique_name())
 
 
-func has_justification_for(expr_item:ExprItem):
-	has_justification_for_uid(expr_item.get_unique_name())
+func has_justification_for(expr_item:ExprItem) -> bool:
+	return has_justification_for_uid(expr_item.get_unique_name())
 
 
-func has_justification_for_uid(uid:String):
+func has_justification_for_uid(uid:String) -> bool:
 	if assumptions.get(uid, false):
-		true
-	return uid in justifications
+		return true
+	if justifications.has(uid):
+		return true
+	return false
 
 
 func get_assumptions_not_in(other:JustificationMap) -> Array: #<ExprItem>

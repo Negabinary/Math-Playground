@@ -4,7 +4,7 @@ signal proof_step_created # (unit)
 signal request_to_prove # ()
 
 var assumption : ExprItem
-var assumption_context : ProofBox
+var assumption_context : SymmetryBox
 var definitions := []
 var selection_handler : SelectionHandler
 
@@ -16,7 +16,7 @@ var ui_equality : Node
 
 
 # Rename to 'initialise' soon.
-func initialise(assumption:ExprItem, assumption_context:ProofBox, selection_handler:SelectionHandler):	
+func initialise(assumption:ExprItem, assumption_context:SymmetryBox, selection_handler:SelectionHandler):	
 	ui_definitions = $VBoxContainer/Definitions
 	ui_definitions.initialise(assumption, assumption_context, selection_handler)
 	ui_conditions = $VBoxContainer/Conditions
@@ -41,7 +41,7 @@ func initialise(assumption:ExprItem, assumption_context:ProofBox, selection_hand
 func _update_context(x):
 	var locator = selection_handler.get_locator()
 	var context = selection_handler.get_selected_proof_box()
-	if assumption_context.is_ancestor_of(context):
+	if context.get_justification_box().is_child_of(assumption_context.get_justification_box()):
 		$VBoxContainer/Conclusion.update_context(locator, context)
 	else:
 		$VBoxContainer/Conclusion.clear_highlighting()

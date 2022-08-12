@@ -49,7 +49,7 @@ func get_goal() -> ExprItem:
 	return proof_step.get_goal()
 
 
-func get_inner_proof_box() -> ProofBox:
+func get_inner_proof_box() -> SymmetryBox:
 	return proof_step.get_inner_proof_box()
 
 

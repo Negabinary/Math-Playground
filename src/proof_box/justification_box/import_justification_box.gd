@@ -8,6 +8,7 @@ editor with multiple files open at once.
 """
 
 var parse_box : ImportParseBox
+var import_box : AbstractJustificationBox
 var imported_map : JustificationMap
 var parent : AbstractJustificationBox
 
@@ -20,6 +21,7 @@ func _init(parent:AbstractJustificationBox, import_name:String, import_box:Abstr
 		namespace
 	)
 	imported_map = import_box.get_justifications_snapshot()
+	self.import_box = import_box
 	self.parent = parent
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
 	parent.connect("assumption_removed", self, "_on_parent_ass_removed")
@@ -62,3 +64,10 @@ func _on_parent_updated(uid):
 	if not imported_map.has_justification_for_uid(uid):
 		if not justification_map.has_justification_for_uid(uid):
 			emit_signal("updated", uid)
+
+
+func is_child_of(other:AbstractJustificationBox) -> bool:
+	if self == other:
+		return true
+	else:
+		return parent.is_child_of(other) or import_box.is_child_of(other)

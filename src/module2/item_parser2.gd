@@ -1,7 +1,7 @@
 extends Node
 class_name ItemParser2
 
-var proof_box : ProofBox
+var proof_box : SymmetryBox
 
 var error := false
 var error_dict := {}

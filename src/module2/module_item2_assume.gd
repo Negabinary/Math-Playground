@@ -3,9 +3,9 @@ class_name ModuleItem2Assumption
 
 var assumption : ExprItem
 
-func _init(context:ProofBox, statement:ExprItem):
-	proof_box = OldProofBox.new(
-		context, [], [statement]
+func _init(context:SymmetryBox, statement:ExprItem):
+	proof_box = context.get_child_extended_with(
+		[], [statement]
 	)
 	self.assumption = statement
 

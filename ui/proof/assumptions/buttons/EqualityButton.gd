@@ -4,7 +4,7 @@ class_name EqualityButton
 var left := true
 
 
-func init(assumption:ExprItem, assumption_context:ProofBox, selection_handler:SelectionHandler, left:=false):
+func init(assumption:ExprItem, assumption_context:SymmetryBox, selection_handler:SelectionHandler, left:=false):
 	self.left = left
 	.init(assumption, assumption_context, selection_handler)
 
@@ -33,7 +33,8 @@ func _can_use() -> bool:
 
 func _on_pressed() -> void:
 	var selected_locator:Locator = selection_handler.get_locator()
-	var selected_context:ProofBox = selection_handler.get_selected_proof_box()
+	var selected_context:SymmetryBox = selection_handler.get_selected_proof_box()
+	var selected_jbox := selected_context.get_justification_box()
 	var index := 1 - int(left)
 	
 	var conclusion:Locator = assumption.get_conclusion()
@@ -44,7 +45,7 @@ func _on_pressed() -> void:
 			var justification = EqualityJustification.new(
 				selected_locator, conclusion.get_expr_item().get_child(index), index != 1
 			)
-			selected_context.add_justification(selected_locator.get_root(), justification)
+			selected_jbox.set_justification(selected_locator.get_root(), justification)
 		else:
 			var matching := {}
 			for definition in assumption.get_definitions():
@@ -58,12 +59,12 @@ func _on_pressed() -> void:
 				var refined_statement := Statement.new(refined)
 				var just_equality := refined_statement.get_conclusion()
 				# RefineJustification
-				selected_context.add_justification(refined, RefineJustification.new(assumption.as_expr_item()))
+				selected_jbox.set_justification(refined, RefineJustification.new(assumption.as_expr_item()))
 				if refined_statement.conditions.size() != 0:
 					# ModusPonensJustification
-					selected_context.add_justification(just_equality.get_expr_item(), ModusPonensJustification.new(refined))
+					selected_jbox.set_justification(just_equality.get_expr_item(), ModusPonensJustification.new(refined))
 				# EqualityJustification
 				var justification = EqualityJustification.new(
 					selected_locator, just_equality.get_expr_item().get_child(index), index != 1
 				)
-				selected_context.add_justification(selected_locator.get_root(), justification)
+				selected_jbox.set_justification(selected_locator.get_root(), justification)

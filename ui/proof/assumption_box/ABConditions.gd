@@ -5,7 +5,7 @@ var conditions : Array
 var assumption : ExprItem
 
 
-func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_handler:SelectionHandler):
+func initialise(assumption:ExprItem, assumption_context:SymmetryBox, _selection_handler:SelectionHandler):
 	self.assumption = assumption
 	
 	conditions = Statement.new(assumption).get_conditions()

@@ -6,17 +6,17 @@ signal dependencies_changed
 signal child_proven
 
 var requirement : Requirement # final
-var context : ProofBox # final
+var context :  SymmetryBox # final
 var parent : ProofStep
 
 
-func _init(requirement:Requirement, context:ProofBox, parent:ProofStep=null):
+func _init(requirement:Requirement, context:SymmetryBox, parent:ProofStep=null):
 	self.requirement = requirement
 	self.context = context.get_child_extended_with(
 		requirement.get_definitions(),
 		requirement.get_assumptions()
 	)
-	self.context.connect("justified", self,"_on_justifified")
+	self.context.get_justification_box().connect("updated", self,"_on_justifified")
 	get_justification().connect("updated", self, "_on_justification_updated")
 	get_justification().connect("request_replace", self, "justify")
 	self.parent = parent
@@ -25,7 +25,7 @@ func _init(requirement:Requirement, context:ProofBox, parent:ProofStep=null):
 # GETTERS =================================================
 
 
-func get_inner_proof_box() -> ProofBox:
+func get_inner_proof_box() -> SymmetryBox:
 	return context
 
 
@@ -61,11 +61,11 @@ func get_dependencies() -> Array:
 
 
 func justify(new_justification:Justification) -> void:
-	context.add_justification(requirement.get_goal(), new_justification)
+	context.get_justification_box().set_justification(requirement.get_goal(), new_justification)
 
 
 func _on_justifified(uid):
-	if uid == context.get_uid(requirement.get_goal()):
+	if uid == requirement.get_goal().get_unique_name():
 		emit_signal("justification_type_changed")
 		# I haven't disconnected the previous one - I don't think that will cause problems?
 		get_justification().connect("updated", self, "_on_justification_updated")
@@ -84,7 +84,7 @@ func get_justification():
 	if is_circular():
 		return CircularJustification.new()
 	else:
-		return context.get_justification_or_missing_for(requirement.get_goal())
+		return context.get_justification_box().get_justification_or_missing(requirement.get_goal())
 
 
 # PROOF STATUS ============================================
@@ -97,7 +97,7 @@ func is_circular() -> bool:
 		return parent._proves(requirement.get_goal(), get_inner_proof_box())
 
 
-func _proves(goal:ExprItem, ctx:ProofBox):
+func _proves(goal:ExprItem, ctx:SymmetryBox):
 	if ctx != get_inner_proof_box():
 		return false
 	elif goal.compare(requirement.get_goal()):
@@ -152,7 +152,7 @@ func serialize_proof() -> Dictionary:
 		dependencies=dependencies
 	}
 
-static func deserialize_proof(script:Script, dictionary, context:ProofBox, version) -> ProofStep:
+static func deserialize_proof(script:Script, dictionary, context:SymmetryBox, version) -> ProofStep:
 	var r = Requirement.deserialize(Requirement, dictionary.requirement, context.get_parse_box())
 	var n:ProofStep = script.new(
 		context.convert_requirement(r),

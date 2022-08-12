@@ -26,7 +26,7 @@ func _on_pressed() -> void:
 		var modus_ponens = ModusPonensJustification.new(
 			assumption
 		)
-		selection_handler.get_selected_proof_box().add_justification(selection_handler.get_locator().get_root(), modus_ponens)
+		selection_handler.get_selected_proof_box().get_justification_box().set_justification(selection_handler.get_locator().get_root(), modus_ponens)
 	else:
 		var matching = {} 
 		for definition in assumption.get_definitions():
@@ -38,5 +38,5 @@ func _on_pressed() -> void:
 			[], 
 			range(assumption.get_conditions().size())
 		).deep_replace_types(matching)
-		selection_handler.get_selected_proof_box().add_justification(refined, RefineJustification.new(assumption.as_expr_item()))
-		selection_handler.get_selected_proof_box().add_justification(selection_handler.get_locator().get_root(), ModusPonensJustification.new(refined))
+		selection_handler.get_selected_proof_box().get_justification_box().set_justification(refined, RefineJustification.new(assumption.as_expr_item()))
+		selection_handler.get_selected_proof_box().get_justification_box().set_justification(selection_handler.get_locator().get_root(), ModusPonensJustification.new(refined))

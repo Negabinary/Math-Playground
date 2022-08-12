@@ -33,7 +33,7 @@ func get_selected_goal() -> ExprItem:
 	else:
 		return null
 
-func get_selected_proof_box() -> ProofBox:
+func get_selected_proof_box() -> SymmetryBox:
 	if self.wpb:
 		return self.wpb.get_inner_proof_box()
 	else:

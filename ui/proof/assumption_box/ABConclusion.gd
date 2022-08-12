@@ -3,12 +3,12 @@ extends HBoxContainer
 
 var conditions : Array
 var assumption : ExprItem
-var assumption_context : ProofBox
+var assumption_context : SymmetryBox
 var definitions : Array
 var selected_locator : Locator
-var selected_context : ProofBox
+var selected_context : SymmetryBox
 
-func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_handler:SelectionHandler):
+func initialise(assumption:ExprItem, assumption_context:SymmetryBox, _selection_handler:SelectionHandler):
 	self.assumption = assumption
 	self.assumption_context = assumption_context
 	
@@ -25,7 +25,7 @@ func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_han
 		$Conclusion.add_item(conclusion.to_string())
 
 
-func update_context(selected_locator:Locator, selected_context:ProofBox):
+func update_context(selected_locator:Locator, selected_context:SymmetryBox):
 	self.selected_locator = selected_locator
 	self.selected_context = selected_context
 	var matching := {}
@@ -57,14 +57,14 @@ func _on_item_activated(_index):
 		var modus_ponens = ModusPonensJustification.new(
 			assumption
 		)
-		selected_context.add_justification(selected_locator.get_root(), existential_justification)
-		selected_context.add_justification(existential, modus_ponens)
+		selected_context.get_justification_box().set_justification(selected_locator.get_root(), existential_justification)
+		selected_context.get_justification_box().set_justification(existential, modus_ponens)
 	else:
 		if assumption_statement.get_definitions().size() == 0:
 			var modus_ponens = ModusPonensJustification.new(
 				assumption
 			)
-			selected_context.add_justification(selected_locator.get_root(), modus_ponens)
+			selected_context.get_justification_box().set_justification(selected_locator.get_root(), modus_ponens)
 		else:
 			var matching = {} 
 			for definition in assumption_statement.get_definitions():
@@ -76,5 +76,5 @@ func _on_item_activated(_index):
 				[], 
 				range(assumption_statement.get_conditions().size())
 			).deep_replace_types(matching)
-			selected_context.add_justification(refined, RefineJustification.new(assumption))
-			selected_context.add_justification(selected_locator.get_root(), ModusPonensJustification.new(refined))
+			selected_context.get_justification_box().set_justification(refined, RefineJustification.new(assumption))
+			selected_context.get_justification_box().set_justification(selected_locator.get_root(), ModusPonensJustification.new(refined))

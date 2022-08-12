@@ -44,6 +44,13 @@ func _missing_justification(expr_item:ExprItem) -> Justification:
 	return parent._get_justification(expr_item)
 
 
+func is_child_of(other:AbstractJustificationBox) -> bool:
+	if self == other:
+		return true
+	else:
+		return parent.is_child_of(other)
+
+
 # UPDATES =================================================
 
 func _on_parent_ass_added(expr_item:ExprItem):

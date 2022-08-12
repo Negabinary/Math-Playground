@@ -132,6 +132,7 @@ class ButtonOption extends Option:
 		return picture
 	
 	func action():
+		print(get_signal_connection_list("pressed"))
 		emit_signal("pressed")
 
 

@@ -40,7 +40,7 @@ static func split_toplevel(token_array) -> Array:
 	return result
 
 
-static func create_items(proof_box:ProofBox, string:String) -> Dictionary:
+static func create_items(proof_box:SymmetryBox, string:String) -> Dictionary:
 	var tokens := lex(string)
 	var tokenses := split_toplevel(tokens)
 	var items := []

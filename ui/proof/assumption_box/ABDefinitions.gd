@@ -8,7 +8,7 @@ var last_definition
 var parser : ExprItemParser2
 
 
-func initialise(assumption:ExprItem, assumption_context:ProofBox, _selection_handler:SelectionHandler):
+func initialise(assumption:ExprItem, assumption_context:SymmetryBox, _selection_handler:SelectionHandler):
 	self.assumption = assumption
 	self.selection_handler = _selection_handler
 	
@@ -56,5 +56,5 @@ func ok():
 	remaining_definitions.erase(statement.get_definitions().find(last_definition))
 	var remaining_conditions = range(len(statement.get_conditions()))
 	var specialized = statement.construct_without(remaining_definitions, remaining_conditions).deep_replace_types({last_definition:expr_item})
-	selection_handler.get_selected_proof_box().add_justification(specialized, specialization)
+	selection_handler.get_selected_proof_box().get_justification_box().set_justification(specialized, specialization)
 	get_parent().get_parent().emit_signal("proof_step_created", 0)

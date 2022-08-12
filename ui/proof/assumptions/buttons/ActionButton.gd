@@ -3,7 +3,7 @@ class_name ActionButton
 
 
 var assumption : Statement
-var assumption_context : ProofBox
+var assumption_context : SymmetryBox
 var selection_handler : SelectionHandler
 
 
@@ -32,7 +32,7 @@ func _on_pressed() -> void:
 # OTHER METHODS ===========================================
 
 
-func init(assumption:ExprItem, assumption_context:ProofBox, selection_handler:SelectionHandler):
+func init(assumption:ExprItem, assumption_context:SymmetryBox, selection_handler:SelectionHandler):
 	self.assumption = Statement.new(assumption)
 	self.assumption_context = assumption_context
 	self.selection_handler = selection_handler
@@ -47,7 +47,9 @@ func init(assumption:ExprItem, assumption_context:ProofBox, selection_handler:Se
 
 
 func _is_in_context() -> bool:
-	return assumption_context.is_ancestor_of(selection_handler.get_selected_proof_box())
+	return selection_handler.get_selected_proof_box().get_justification_box().is_child_of(
+		assumption_context.get_justification_box()
+	)
 
 
 func _update_context(_x):
