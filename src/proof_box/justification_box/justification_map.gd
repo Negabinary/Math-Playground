@@ -15,6 +15,13 @@ func add_assumption(expr_item:ExprItem) -> void:
 	expr_items[expr_item.get_unique_name()] = expr_item
 
 
+func add_missing(expr_item:ExprItem) -> MissingJustification:
+	var nj := MissingJustification.new()
+	justifications[expr_item.get_unique_name()] = nj
+	expr_items[expr_item.get_unique_name()] = expr_item
+	return nj
+
+
 func merge(other:JustificationMap) -> void:
 	for unique_string in other.justifications:
 		justifications[unique_string] = other.justifications[unique_string]

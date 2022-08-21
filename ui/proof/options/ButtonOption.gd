@@ -13,4 +13,5 @@ func init(option:Justification.ButtonOption):
 	$Button.connect("pressed", self, "_on_pressed")
 
 func _on_pressed():
+	print("HERE")
 	option.action()

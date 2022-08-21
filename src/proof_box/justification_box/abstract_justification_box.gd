@@ -19,6 +19,7 @@ func get_justification_or_missing(expr_item:ExprItem) -> Justification:
 	var justification = _get_justification(expr_item)
 	if justification:
 		return justification
+	justification_map.add_missing(expr_item)
 	return MissingJustification.new()
 
 

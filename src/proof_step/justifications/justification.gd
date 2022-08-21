@@ -132,7 +132,34 @@ class ButtonOption extends Option:
 		return picture
 	
 	func action():
-		print(get_signal_connection_list("pressed"))
+		print("HERE3")
+		emit_signal("pressed")
+
+
+class ReplaceButtonOption extends Option:
+	var text : String
+	var disabled : bool
+	var picture : Texture
+	var just : Justification
+	signal pressed
+	
+	func _init(text, disabled:bool, picture:Texture, replace_with:Justification):
+		self.text = text
+		self.disabled = disabled
+		self.picture = picture
+		self.just = replace_with
+	
+	func get_text():
+		return text
+	
+	func get_is_disabled():
+		return disabled
+	
+	func get_image():
+		return picture
+	
+	func action():
+		print("HERE3")
 		emit_signal("pressed")
 
 

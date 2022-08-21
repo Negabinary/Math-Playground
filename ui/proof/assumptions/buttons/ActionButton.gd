@@ -38,7 +38,6 @@ func init(assumption:ExprItem, assumption_context:SymmetryBox, selection_handler
 	self.selection_handler = selection_handler
 	if _should_display():
 		disabled = true
-		print(selection_handler)
 		selection_handler.connect("locator_changed", self, "_update_context")
 		connect("pressed", self, "_on_pressed")
 		_update_context("")

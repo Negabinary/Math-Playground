@@ -1,7 +1,6 @@
 extends Justification
 class_name MissingJustification 
 
-
 func serialize() -> Dictionary:
 	return {
 		justification_version=1,
@@ -113,19 +112,25 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 	]
 	
 	for option_data in option_datas:
-		var button = Justification.ButtonOption.new(
+		var bn = Justification.ButtonOption.new(
 			option_data[0], not option_data[1], option_data[2]
 		)
-		button.connect("pressed", self, "_request_replace", [
+		bn.connect("pressed", self, "_request_replace", [
 			option_data[3]
 		])
-		print(button.get_signal_connection_list("pressed"))
-		options.append(button)
+		options.append(bn)
+	
+	var prove_implication_button = Justification.ButtonOption.new("prove implication")
+	prove_implication_button.connect("pressed", self, "_request_replace", [
+		ImplicationJustification.new()
+	])
+	options.append(prove_implication_button)
 	
 	return options
 
 
 func _request_replace(justification:Justification):
+	print("HERE2")
 	emit_signal("request_replace", justification)
 
 
