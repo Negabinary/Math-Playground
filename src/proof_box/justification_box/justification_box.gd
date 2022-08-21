@@ -40,6 +40,8 @@ func _missing_justification(expr_item:ExprItem) -> Justification:
 func get_justifications_snapshot() -> JustificationMap:
 	var result := parent.get_justifications_snapshot()
 	result.merge(justification_map)
+	for assumption in assumptions:
+		result.add_assumption(assumption)
 	return result
 
 func get_parse_box() -> AbstractParseBox:
