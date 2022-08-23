@@ -64,42 +64,82 @@ func compare(other:ExprItem, conversion:={}) -> bool:
 				return false
 		return true
 
-# TODO: Check Semantics of this - could be wrong
-func is_superset(other:ExprItem, matching:={}, conversion:={}) -> bool:
-	if conversion.get(type,type) == other.type and get_child_count() == other.get_child_count():
-		if type.get_binder_type() == ExprItemType.BINDER.BINDER:
-			var from_type:ExprItemType = children[0].get_type()
-			var to_type:ExprItemType = other.children[0].get_type()
-			var new_conversion = conversion.duplicate()
-			new_conversion[from_type] = to_type
-			if !children[1].is_superset(other.children[1], matching, new_conversion):
-				return false
-			for child_id in range(2,children.size()):
-				if !children[child_id].is_superset(other.children[child_id], matching, conversion):
-					return false
-			return true
-		else:
-			for i in get_child_count():
-				if not get_child(i).is_superset(other.get_child(i), matching, conversion):
-					return false
-			return true
-	elif matching.has(type):
-		if get_child_count() > other.get_child_count():
+
+func _is_application() -> bool:
+	return (
+		(type.get_binder_type() == ExprItemType.BINDER.BINDER and get_child_count() > 2)
+		or
+		((type.get_binder_type() != ExprItemType.BINDER.BINDER) and get_child_count() > 0)
+	)
+
+
+func is_superset_2(other:ExprItem, matching:Dictionary) -> bool:
+	# Case Application
+	if _is_application():
+		if not other._is_application():
 			return false
-		elif matching[type] is String:
-			matching[type] = other.abandon_lowest(get_child_count())
-			for i in get_child_count():
-				if not get_child(i).is_superset(other.get_child(other.get_child_count() - get_child_count() + i), matching, conversion):
-					return false
+		if not abandon_lowest(1).is_superset_2(other.abandon_lowest(1), matching):
+			return false
+		return get_child(get_child_count()-1).is_superset_2(
+			other.get_child(other.get_child_count()-1), matching)
+	elif type.get_binder_type() == ExprItemType.BINDER.BINDER:
+		if not other.get_type() == type:
+			return false
+		var from_type:ExprItemType = children[0].get_type()
+		var to_type:ExprItemType = other.children[0].get_type()
+		var replaced_version = get_child(1).deep_replace_types({from_type:get_script().new(to_type)})
+		return replaced_version.is_superset_2(
+			other.get_child(1), matching
+		)
+	elif type in matching:
+		assert(get_child_count() == 0)
+		if matching[type] is String:
+			matching[type] = other
 			return true
 		else:
-			var expected_other:ExprItem = get_script().new(matching[type].get_type(), matching[type].get_children() + get_children())
-			if expected_other.is_superset(other, matching, conversion):
-				return true
-			else:
-				return false
+			return matching[type].compare(other)
 	else:
-		return false
+		assert(get_child_count() == 0)
+		return type == other.type
+
+# TODO: Check Semantics of this - could be wrong
+func is_superset(other:ExprItem, matching:={}) -> bool:
+	return is_superset_2(other, matching)
+	
+#	if type == other.type and get_child_count() == other.get_child_count():
+#		if type.get_binder_type() == ExprItemType.BINDER.BINDER:
+#			var from_type:ExprItemType = children[0].get_type()
+#			var to_type:ExprItemType = other.children[0].get_type()
+#			var new_matching := matching.duplicate()
+#			new_matching[from_type] = get_script().new(to_type)
+#			if not children[1].is_superset(other.children[1], new_matching):
+#				return false
+#			for child_id in range(2,children.size()):
+#				if not children[child_id].is_superset(other.children[child_id], matching):
+#					return false
+#			return true
+#		else:
+#			for i in get_child_count():
+#				if not get_child(i).is_superset(other.get_child(i), matching):
+#					return false
+#			return true
+#	elif matching.has(type):
+#		if get_child_count() > other.get_child_count():
+#			return false
+#		elif matching[type] is String:
+#			matching[type] = other.abandon_lowest(get_child_count())
+#			for i in get_child_count():
+#				if not get_child(i).is_superset(other.get_child(other.get_child_count() - get_child_count() + i), matching):
+#					return false
+#			return true
+#		else:
+#			var expected_other:ExprItem = get_script().new(matching[type].get_type(), matching[type].get_children() + get_children())
+#			if expected_other.is_superset(other, matching):
+#				return true
+#			else:
+#				return false
+#	else:
+#		return false
 
 
 # OPERATIONS =====================================
@@ -188,7 +228,7 @@ func serialize() -> String:
 
 func _to_string() -> String:
 	if children.size() == 0:
-		return type.to_string()
+		return type.to_string() + "#" + str(type.get_uid())
 	elif type == GlobalTypes.IMPLIES and children.size() == 2:
 		return (
 			"if " 
@@ -270,7 +310,7 @@ func _to_string() -> String:
 		for child in children:
 			children_string += child.to_string() + ", "
 		return (
-			type.to_string() 
+			type.to_string() + "#" + str(type.get_uid())
 			+ "("
 			+ children_string.left(children_string.length() - 2)
 			+ ")"
