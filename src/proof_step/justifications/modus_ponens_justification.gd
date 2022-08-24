@@ -5,11 +5,11 @@ class_name ModusPonensJustification
 var implication : ExprItem
 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="ModusPonensJustification",
-		implication=implication.serialize()
+		implication=parse_box.serialise(implication)
 	}
 
 
@@ -57,8 +57,8 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	if implication:
-		return "using " + implication.to_string() + ","
+		return "using " + parse_box.printout(implication) + ","
 	else:
 		return "using an implication,"

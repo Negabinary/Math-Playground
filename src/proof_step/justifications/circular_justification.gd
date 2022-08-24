@@ -2,7 +2,7 @@ extends Justification
 class_name CircularJustification
 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="CircularJustification"
@@ -21,5 +21,5 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 	]
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	return "justification is circular"

@@ -147,8 +147,8 @@ func serialize_proof() -> Dictionary:
 	for dep in get_dependencies():
 		dependencies.append(dep.serialize_proof())
 	return {
-		requirement=requirement.serialize(),
-		justification=get_justification().serialize(),
+		requirement=requirement.serialize(context.get_parse_box()),
+		justification=get_justification().serialize(context.get_parse_box()),
 		dependencies=dependencies
 	}
 

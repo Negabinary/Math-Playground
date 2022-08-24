@@ -40,14 +40,14 @@ func set_replace_position(value:bool, index:int):
 	emit_signal("updated")
 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="EliminatedLambdaJustification",
-		location_expr_item=location.get_root().serialize(),
+		location_expr_item=parse_box.serialise(location.get_root()),
 		location_indeces=location.get_indeces(),
-		replace_value=replace_value.serialize(),
-		replace_with=replace_with.serialize(),
+		replace_value=parse_box.serialise(replace_value),
+		replace_with=replace_with.to_string(),
 		replace_positions=replace_positions
 	}
 
@@ -98,5 +98,5 @@ func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	return "by applying that function,"

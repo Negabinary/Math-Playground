@@ -49,7 +49,7 @@ func _on_justification_changed():
 
 func _on_justification_updated():
 	var justification = proof_step.get_justification()
-	ui_justification_name.text = justification.get_justification_text()
+	ui_justification_name.text = justification.get_justification_text(proof_step.get_inner_proof_box().get_parse_box())
 	ui_unprove_button.visible = not (justification is MissingJustification)
 	ui_requirements.visible = not (justification is MissingJustification)
 	ui_requirements.visible = not (justification is MissingJustification)
@@ -60,7 +60,7 @@ func _on_justification_updated():
 	else:
 		ui_description.hide()
 	var reqs := proof_step.get_dependencies()
-	ui_requirements.show_requirements(reqs)
+	ui_requirements.show_requirements(proof_step)
 	if reqs.size() > 0:
 		_on_requirement_selected(0)
 	var selection = null

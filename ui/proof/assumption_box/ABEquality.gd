@@ -16,7 +16,7 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, selection_h
 	
 	if conclusion.get_type() == GlobalTypes.EQUALITY and conclusion.get_child_count() == 2:
 		show()
-		$LHS.add_item(conclusion.get_child(0).to_string())
-		$RHS.add_item(conclusion.get_child(1).to_string())
+		$LHS.add_item(assumption_context.get_parse_box().printout(conclusion.get_child(0).get_expr_item()))
+		$RHS.add_item(assumption_context.get_parse_box().printout(conclusion.get_child(1).get_expr_item()))
 		$UseEquality/Right.init(assumption, assumption_context, selection_handler, false)
 		$UseEquality/Left.init(assumption, assumption_context, selection_handler, true)

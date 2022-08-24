@@ -110,7 +110,7 @@ func _update_justification_label():
 		icon = ""
 	else:
 		icon = "!"
-	ui_justification_label.set_text(proof_step.get_justification().get_justification_text(), icon)
+	ui_justification_label.set_text(proof_step.get_justification().get_justification_text(proof_step.get_inner_proof_box().get_parse_box()), icon)
 
 
 func is_proven() -> bool:

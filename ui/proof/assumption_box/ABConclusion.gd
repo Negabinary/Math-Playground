@@ -22,7 +22,7 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, _selection_
 	
 	if conclusion.get_type() != GlobalTypes.EQUALITY:
 		show()
-		$Conclusion.add_item(conclusion.to_string())
+		$Conclusion.add_item(assumption_context.get_parse_box().printout(conclusion.get_expr_item()))
 
 
 func update_context(selected_locator:Locator, selected_context:SymmetryBox):

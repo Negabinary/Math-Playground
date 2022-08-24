@@ -4,11 +4,11 @@ class_name WitnessJustification
 var witness : ExprItem
 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="WitnessJustification",
-		witness=witness
+		witness=parse_box.serialise(witness)
 	}
 
 
@@ -48,8 +48,8 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	if witness:
-		return "using " + witness.to_string() + " as a witness," 
+		return "using " + parse_box.printout(witness) + " as a witness," 
 	else:
 		return "using a witness,"

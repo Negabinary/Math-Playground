@@ -37,15 +37,15 @@ func get_assumptions() -> Array:
 	return assumptions
 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:ParseBox) -> Dictionary:
 	var serial_definitions := []
 	for definition in definitions:
 		serial_definitions.append(definition.get_identifier())
 	var serial_assumptions := []
 	for assumption in assumptions:
-		serial_assumptions.append(assumption.serialize())
+		serial_assumptions.append(parse_box.serialise(assumption))
 	return {
-		goal=goal.serialize(),
+		goal=parse_box.serialise(goal),
 		definitions=serial_definitions,
 		assumptions=serial_assumptions
 	}

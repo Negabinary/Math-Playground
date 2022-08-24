@@ -6,11 +6,13 @@ var locator : Locator
 var selected_locator : Locator
 var selected_context : SymmetryBox
 
+"""
 func add_equalities(locator:Locator):
 	self.locator = locator
 	equalities = [locator.get_child(0), locator.get_child(1)]
 	for equality in equalities:
 		add_item(equality.to_string())
+"""
 
 
 func update_context(locator:Locator, context:SymmetryBox):

@@ -10,13 +10,13 @@ func _init(location:Locator, replace_with=null, forwards:=true).(location):
 	self.forwards = forwards
 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="EqualityJustification",
-		location_expr_item=location.get_root().serialize(),
+		location_expr_item=parse_box.serialise(location.get_root()),
 		location_indeces=location.get_indeces(),
-		replace_with=replace_with.serialize(),
+		replace_with=location.get_parse_box(parse_box).serialise(replace_with),
 		forwards=forwards
 	}
 
@@ -52,8 +52,9 @@ func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	if location and replace_with:
-		return "using " + location.get_expr_item().to_string() + " = " + replace_with.to_string() + ", "
+		var npb := location.get_parse_box(parse_box)
+		return "using " + npb.printout(location.get_expr_item()) + " = " + npb.printout(replace_with) + ", "
 	else:
 		return "using an equality,"

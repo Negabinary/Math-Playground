@@ -11,9 +11,9 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, _selection_
 	conditions = Statement.new(assumption).get_conditions()
 	if conditions.size() > 0:
 		show()
-		_update_conditions()
+		_update_conditions(assumption_context)
 
 
-func _update_conditions():
+func _update_conditions(assumption_context:SymmetryBox):
 	for condition in conditions:
-		$Conditions.add_item(condition.to_string())
+		$Conditions.add_item(assumption_context.get_parse_box().printout(condition))

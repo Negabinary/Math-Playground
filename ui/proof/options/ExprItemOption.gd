@@ -7,7 +7,7 @@ var parser : ExprItemParser2
 func init(option:Justification.ExprItemOption):
 	self.option = option
 	self.context = option.get_context()
-	$Label.text = option.get_expr_item().to_string() if option.get_expr_item() else "<null>"
+	$Label.text = context.printout(option.get_expr_item()) if option.get_expr_item() else "<null>"
 	$Button.connect("pressed", $ConfirmationDialog, "popup_centered")
 	$ConfirmationDialog/VBoxContainer/TextEdit.connect("text_changed", self, "_validate")
 	_validate()

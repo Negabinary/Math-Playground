@@ -1,7 +1,7 @@
 extends Justification
 class_name MissingJustification 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="MissingJustification"
@@ -134,5 +134,5 @@ func _request_replace(justification:Justification):
 	emit_signal("request_replace", justification)
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	return "missing justification"

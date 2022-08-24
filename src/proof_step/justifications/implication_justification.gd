@@ -11,7 +11,7 @@ func _init(keep_definition_ids=[], keep_condition_ids=[]):
 	self.keep_definition_ids = keep_definition_ids
 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="ImplicationJustification",
@@ -82,7 +82,7 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 				if statement.get_definitions()[j] in statement.get_conditions()[i].get_all_types().keys():
 					disabled = true
 		var co := Justification.BooleanOption.new(
-			"ASSUME " + statement.get_conditions()[i].to_string(), 
+			"ASSUME " + context.printout(statement.get_conditions()[i].get_expr_item()),
 			not i in keep_condition_ids,
 			disabled
 		)
@@ -91,5 +91,5 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	return "thus,"

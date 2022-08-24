@@ -11,12 +11,12 @@ func _init(new_type_name:="x", existential_fact=null):
 	self.existential = existential_fact
 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="InstantiateJustification",
-		new_type=new_type.serialize(),
-		existential=existential.serialize()
+		new_type=new_type.to_string(),
+		existential=parse_box.serialise(existential)
 	}
 
 
@@ -54,9 +54,9 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	if existential:
-		return "using " + existential.to_string() + ","
+		return "using " + parse_box.printout(existential) + ","
 	else:
 		return "using an existential,"
 

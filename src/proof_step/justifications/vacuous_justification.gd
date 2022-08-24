@@ -2,7 +2,7 @@ extends Justification
 class_name VacuousJustification 
 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="VacuousJustification"
@@ -28,5 +28,5 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return []
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	return "so the following is vacuous,"

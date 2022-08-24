@@ -4,7 +4,7 @@ var item
 
 func initialise(item:ModuleItem2Theorem, selection_handler):
 	self.item = item
-	$HBoxContainer3/Name.text = item.get_requirement().get_goal().to_string()
+	$HBoxContainer3/Name.text = item.get_next_proof_box().get_parse_box().printout(item.get_requirement().get_goal())
 	$HBoxContainer2/Proof/ScrollContainer/WrittenProof.display_proof(ProofStep.new(item.get_requirement(), item.get_context()))
 	
 	$HBoxContainer4/Use.init(item.get_goal(), item.get_next_proof_box(), selection_handler)

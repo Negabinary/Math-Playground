@@ -6,11 +6,11 @@ func _init(x).(x):
 	pass
 
 
-func serialize() -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="IntroducedDoubleNegativeJustification",
-		location_expr_item=location.get_root().serialize(),
+		location_expr_item=parse_box.serialise(location.get_root()),
 		location_indeces=location.get_indeces()
 	}
 
@@ -38,5 +38,5 @@ func _get_equality_options(expr_item:ExprItem, context:AbstractParseBox):
 	return []
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	return "by adding a double negative,"

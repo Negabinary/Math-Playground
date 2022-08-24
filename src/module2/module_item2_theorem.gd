@@ -20,7 +20,7 @@ func serialise():
 	var proof_step = ProofStep.new(Requirement.new(goal), context)
 	return {
 		kind="theorem",
-		expr=goal.serialize(),
+		expr=context.get_parse_box().serialise(goal),
 		proof=proof_step.serialize_proof()
 	}
 

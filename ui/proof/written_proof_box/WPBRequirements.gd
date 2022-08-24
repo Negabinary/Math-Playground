@@ -3,10 +3,12 @@ class_name WPBRequirements
 
 signal requirement_selected # int
 
+var proof_step : ProofStep
 var requirements : Array
 
-func show_requirements(requirements:Array, req_id:=0): #<ProofStep>
-	self.requirements = requirements
+func show_requirements(proof_step:ProofStep, req_id:=0): #<ProofStep>
+	self.proof_step = proof_step
+	self.requirements = proof_step.get_dependencies()
 	select_requirement(req_id)
 
 
@@ -22,7 +24,10 @@ func select_requirement(req_id:=0):
 			icon = ">"
 		elif not requirement.is_proven():
 			icon = "!"
-		new_label.set_text(requirement.get_goal().to_string(), icon)
+		new_label.set_text(
+			requirement.get_inner_proof_box().get_parse_box().printout(requirement.get_goal()), 
+			icon
+		)
 		add_child(new_label)
 		new_label.connect(
 			"pressed", 

@@ -163,7 +163,7 @@ func _draw_locator(locator:Locator, x0:float) -> float:
 			var x4 = _draw_string(" = ", x3)
 			xe = _draw_locator(locator.get_child(1), x4)
 	else:
-		xe = _draw_string(locator.get_type().to_string(), x0)
+		xe = _draw_string(locator.get_type().to_string() + "#" + str(locator.get_type().get_uid()), x0)
 		if locator.get_child_count() > 0:
 			xe = _draw_string("(", xe)
 			for i in range(0, locator.get_child_count()):

@@ -218,14 +218,6 @@ func get_unique_name(indeces=[]) -> String:
 	return string
 
 
-func serialize() -> String:
-	var string = ""
-	string += type.to_string()
-	for child in children:
-		string += "(" + child.serialize() + ")"
-	return string
-
-
 func _to_string() -> String:
 	if children.size() == 0:
 		return type.to_string() + "#" + str(type.get_uid())

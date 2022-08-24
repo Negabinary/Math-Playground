@@ -29,7 +29,7 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options := []
-	options.append(Justification.LabelOption.new("Location: " + location.get_expr_item().to_string()))
+	options.append(Justification.LabelOption.new("Location: " + context.printout(location.get_expr_item())))
 	if location == null or (not expr_item.compare(location.get_root())):
 		options.append(Justification.LabelOption.new("Location not valid", true))
 	else:
@@ -37,7 +37,7 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text():
+func get_justification_text(parse_box:ParseBox):
 	return "USING SOME SORT OF REPLACEMENT"
 
 
