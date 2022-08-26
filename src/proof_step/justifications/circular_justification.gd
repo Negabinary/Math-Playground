@@ -21,5 +21,5 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 	]
 
 
-func get_justification_text(parse_box:ParseBox):
+func get_justification_text(parse_box:AbstractParseBox):
 	return "justification is circular"

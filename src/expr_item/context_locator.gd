@@ -1,7 +1,7 @@
 class_name ContextLocator
 
 var locator : Locator
-var parse_box : ParseBox
+var parse_box : AbstractParseBox
 
 
 func _init(locator, parse_box):
@@ -14,7 +14,7 @@ func get_locator() -> Locator:
 func get_type() -> ExprItemType:
 	return get_locator().get_type()
 
-func get_context() -> ParseBox:
+func get_context() -> AbstractParseBox:
 	return parse_box
 
 func get_type_name() -> String:

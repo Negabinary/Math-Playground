@@ -4,7 +4,7 @@ class_name WrittenStatement
 signal selection_changed
 
 var expr_item : ExprItem
-var context : ParseBox
+var context : AbstractParseBox
 
 var is_selected = true
 var selection = 0
@@ -26,7 +26,7 @@ func get_locator() -> Locator:
 	return locators[selection].get_locator()
 
 
-func set_expr_item(new_expr_item:ExprItem, context:ParseBox) -> void:
+func set_expr_item(new_expr_item:ExprItem, context:AbstractParseBox) -> void:
 	expr_item = new_expr_item
 	self.context = context
 	selection = 0

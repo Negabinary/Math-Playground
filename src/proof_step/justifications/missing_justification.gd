@@ -134,5 +134,5 @@ func _request_replace(justification:Justification):
 	emit_signal("request_replace", justification)
 
 
-func get_justification_text(parse_box:ParseBox):
+func get_justification_text(parse_box:AbstractParseBox):
 	return "missing justification"

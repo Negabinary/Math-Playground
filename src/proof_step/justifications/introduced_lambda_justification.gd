@@ -44,5 +44,5 @@ func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	return []
 
 
-func get_justification_text(parse_box:ParseBox):
+func get_justification_text(parse_box:AbstractParseBox):
 	return "by introducing a function,"

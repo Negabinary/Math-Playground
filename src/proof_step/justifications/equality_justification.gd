@@ -52,7 +52,7 @@ func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text(parse_box:ParseBox):
+func get_justification_text(parse_box:AbstractParseBox):
 	if location and replace_with:
 		var npb := location.get_parse_box(parse_box)
 		return "using " + npb.printout(location.get_expr_item()) + " = " + npb.printout(replace_with) + ", "

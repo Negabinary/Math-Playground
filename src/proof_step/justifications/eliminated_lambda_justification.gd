@@ -98,5 +98,5 @@ func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text(parse_box:ParseBox):
+func get_justification_text(parse_box:AbstractParseBox):
 	return "by applying that function,"

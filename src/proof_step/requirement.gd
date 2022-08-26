@@ -37,7 +37,7 @@ func get_assumptions() -> Array:
 	return assumptions
 
 
-func serialize(parse_box:ParseBox) -> Dictionary:
+func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	var serial_definitions := []
 	for definition in definitions:
 		serial_definitions.append(definition.get_identifier())

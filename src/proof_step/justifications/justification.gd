@@ -19,7 +19,7 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return []
 
 
-func get_justification_text(parse_box:ParseBox):
+func get_justification_text(parse_box:AbstractParseBox):
 	return "USING SOMETHING OR OTHER"
 
 

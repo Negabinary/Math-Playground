@@ -57,7 +57,7 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text(parse_box:ParseBox):
+func get_justification_text(parse_box:AbstractParseBox):
 	if implication:
 		return "using " + parse_box.printout(implication) + ","
 	else:

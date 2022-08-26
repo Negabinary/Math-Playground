@@ -4,7 +4,7 @@ class_name JustificationBox
 var assumptions : Array
 var parent : AbstractJustificationBox
 
-var parse_box : ParseBox
+var parse_box : AbstractParseBox
 
 func _init(parent:AbstractJustificationBox, definitions:=[], assumptions:=[]):
 	if definitions.size() > 0:
