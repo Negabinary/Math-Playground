@@ -9,7 +9,7 @@ var replace_positions #: Array
 var replace_locations #: Array
 
 
-func _init(location:Locator, replace_value = null, replace_with:ExprItemType = ExprItemType.new(""), replace_positions = null).(location):
+func _init(location:Locator, replace_value = null, replace_with:ExprItemType = ExprItemType.new("???"), replace_positions = null).(location):
 	self.replace_with = replace_with
 	self.replace_value = replace_value
 	if replace_value:

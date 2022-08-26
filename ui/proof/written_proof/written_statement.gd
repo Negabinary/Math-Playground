@@ -4,6 +4,7 @@ class_name WrittenStatement
 signal selection_changed
 
 var expr_item : ExprItem
+var context : ParseBox
 
 var is_selected = true
 var selection = 0
@@ -22,11 +23,12 @@ var string := ""
 func get_locator() -> Locator:
 	if len(locators) == 0:
 		return Locator.new(expr_item)
-	return locators[selection]
+	return locators[selection].get_locator()
 
 
-func set_expr_item(new_expr_item:ExprItem) -> void:
+func set_expr_item(new_expr_item:ExprItem, context:ParseBox) -> void:
 	expr_item = new_expr_item
+	self.context = context
 	selection = 0
 	is_selected = false
 	update()
@@ -51,18 +53,18 @@ func _draw():
 	
 	locators = []
 	rects = []
-	var xe = _draw_locator(Locator.new(expr_item), offset)
+	var xe = _draw_locator(ContextLocator.new(Locator.new(expr_item), context), offset)
 	
 	if is_selected:
 		var rect = rects[selection]
 		draw_style_box(get_stylebox("highlighted", "WrittenStatement"), rect)
 	
-	xe = _draw_locator(Locator.new(expr_item), offset)
+	xe = _draw_locator(ContextLocator.new(Locator.new(expr_item), context), offset)
 	
 	set_custom_minimum_size(Vector2(xe, font.get_height()))
 
 
-func _draw_locator(locator:Locator, x0:float) -> float:
+func _draw_locator(locator:ContextLocator, x0:float) -> float:
 	var xe : float
 	if locator.get_type() == GlobalTypes.IMPLIES and locator.get_child_count() == 2:
 		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
@@ -163,7 +165,7 @@ func _draw_locator(locator:Locator, x0:float) -> float:
 			var x4 = _draw_string(" = ", x3)
 			xe = _draw_locator(locator.get_child(1), x4)
 	else:
-		xe = _draw_string(locator.get_type().to_string() + "#" + str(locator.get_type().get_uid()), x0)
+		xe = _draw_string(locator.get_type_name(), x0)
 		if locator.get_child_count() > 0:
 			xe = _draw_string("(", xe)
 			for i in range(0, locator.get_child_count()):
@@ -171,8 +173,8 @@ func _draw_locator(locator:Locator, x0:float) -> float:
 				if i < locator.get_child_count() - 1:
 					xe = _draw_string(", ", xe)
 			xe = _draw_string(")", xe)
-		if not locator.get_type().is_connected("renamed", self, "update"):
-			locator.get_type().connect("renamed", self, "update")
+		if not locator.is_listening_to_type(self, "update", "update"):
+			locator.listen_to_type(self, "update", "update")
 	
 	locators.append(locator)
 	rects.append(Rect2(

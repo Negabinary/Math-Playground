@@ -24,7 +24,7 @@ func init(proof_step:ProofStep, selection_handler):
 	_connect_dependencies()
 	_connect_active_dependency()
 	_connect_justification_label()
-	ui_statement.set_expr_item(proof_step.get_goal())
+	ui_statement.set_expr_item(proof_step.get_goal(), proof_step.get_inner_proof_box().get_parse_box())
 	if proof_step.get_requirement().get_assumptions().size() > 0 or proof_step.get_requirement().get_definitions().size() > 0:
 		ui_assumptions.display_assumptions(proof_step.get_requirement(), proof_step.get_inner_proof_box(), selection_handler)
 	else:

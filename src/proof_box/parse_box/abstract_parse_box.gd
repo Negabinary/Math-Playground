@@ -154,6 +154,29 @@ func get_all_types() -> TwoWayParseMap:
 	return TwoWayParseMap.new()
 
 
+func listen_to_type(type:ExprItemType, listener, on_rename:="", on_delete:="") -> void:
+	if on_rename != "":
+		type.connect("renamed", listener, on_rename)
+	if on_delete != "":
+		type.connect("deleted", listener, on_delete)
+
+
+func is_listening_to_type(type:ExprItemType, listener, on_rename:="", on_delete:="") -> bool:
+	if on_rename != "":
+		return type.is_connected("renamed", listener, on_rename)
+	elif on_delete != "":
+		return type.is_connected("deleted", listener, on_rename)
+	else:
+		return true
+
+
+func unlisten_to_type(type:ExprItemType, listener, on_rename:="", on_delete:="") -> void:
+	if on_rename != "":
+		type.disconnect("renamed", listener, on_rename)
+	if on_delete != "":
+		type.disconnect("deleted", listener, on_delete)
+
+
 static func _get_module_and_overwrite(identifier:String) -> PoolStringArray:
 	var result := identifier.split(".")
 	result.remove(result.size()-1)
