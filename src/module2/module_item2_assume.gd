@@ -15,4 +15,4 @@ func get_assumption() -> ExprItem:
 	return assumption
 
 func serialise():
-	return {kind="assumption", expr=context.get_parse_box().serialise(assumption)}
+	return {kind="assumption", expr=proof_box.get_parse_box().serialise(assumption)}
