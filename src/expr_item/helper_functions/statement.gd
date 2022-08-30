@@ -68,6 +68,10 @@ func get_conditions() -> Array:
 	return conditions
 
 
+func get_inner_parse_box(parent:AbstractParseBox) -> AbstractParseBox:
+	return ParseBox.new(parent, definitions)
+
+
 func get_condition_eis() -> Array:
 	var condition_eis := []
 	for condition in conditions:

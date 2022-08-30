@@ -82,7 +82,7 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 				if statement.get_definitions()[j] in statement.get_conditions()[i].get_all_types().keys():
 					disabled = true
 		var co := Justification.BooleanOption.new(
-			"ASSUME " + context.printout(statement.get_conditions()[i].get_expr_item()),
+			"ASSUME " + statement.get_inner_parse_box(context).printout(statement.get_conditions()[i].get_expr_item()),
 			not i in keep_condition_ids,
 			disabled
 		)
