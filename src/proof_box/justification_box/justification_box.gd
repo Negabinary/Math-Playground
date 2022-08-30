@@ -3,18 +3,12 @@ class_name JustificationBox
 
 var assumptions : Array
 var parent : AbstractJustificationBox
+var definitions
 
-var parse_box : AbstractParseBox
 
-func _init(parent:AbstractJustificationBox, definitions:=[], assumptions:=[]):
-	if definitions.size() > 0:
-		parse_box = ParseBox.new(
-			parent.get_parse_box(),
-			definitions
-		)
-	else:
-		parse_box = parent.get_parse_box()
+func _init(parent:AbstractJustificationBox, assumptions:=[], definitions:=[]):
 	self.assumptions = assumptions
+	self.definitions = definitions
 	self.parent = parent
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
 	parent.connect("assumption_removed", self, "_on_parent_ass_removed")
@@ -43,9 +37,6 @@ func get_justifications_snapshot() -> JustificationMap:
 	for assumption in assumptions:
 		result.add_assumption(assumption)
 	return result
-
-func get_parse_box() -> AbstractParseBox:
-	return parse_box
 
 
 func _on_parent_ass_added(expr_item:ExprItem):
@@ -76,3 +67,7 @@ func is_child_of(other:AbstractJustificationBox) -> bool:
 		return true
 	else:
 		return parent.is_child_of(other)
+
+
+func get_definitions() -> Array:
+	return definitions

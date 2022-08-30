@@ -13,7 +13,8 @@ var bottom_proof_box : SymmetryBox
 func _init(name:String):
 	self.name = name
 	bottom_proof_box = SymmetryBox.new(
-		GlobalTypes.JUSTIFICATION_BOX
+		GlobalTypes.JUSTIFICATION_BOX,
+		GlobalTypes.PARSE_BOX
 	)
 
 
@@ -37,6 +38,7 @@ func deserialize_cell(cell_json:Dictionary) -> void:
 	cells.append(new_cell)
 
 
+# A lot of this code is duplicated. This is the version used for imports
 static func deserialise_item(item, proof_box:SymmetryBox) -> ModuleItem2:
 		var module_item : ModuleItem2
 		if item.kind == "definition":
@@ -58,7 +60,8 @@ static func deserialise_item(item, proof_box:SymmetryBox) -> ModuleItem2:
 		elif item.kind == "import":
 			return ModuleItem2Import.new(
 				proof_box,
-				item.module
+				item.module,
+				item.get("namespace", false)
 			)
 		else:
 			assert(false)

@@ -4,9 +4,10 @@ var locator : Locator
 var parse_box : AbstractParseBox
 
 
-func _init(locator, parse_box):
+func _init(locator:Locator, parse_box:AbstractParseBox):
 	self.locator = locator
 	self.parse_box = parse_box
+	assert(parse_box != null)
 
 func get_locator() -> Locator:
 	return locator
@@ -17,8 +18,8 @@ func get_type() -> ExprItemType:
 func get_context() -> AbstractParseBox:
 	return parse_box
 
-func get_type_name() -> String:
-	return parse_box.get_name_for(locator.get_type())
+func get_type_listener() -> IdentifierListener:
+	return parse_box.get_il_for(locator.get_type())
 
 func get_expr_item() -> ExprItem:
 	return locator.get_expr_item()
@@ -35,6 +36,7 @@ func get_child(idx:int) -> ContextLocator:
 
 func get_parent_type() -> ExprItemType:
 	return locator.get_parent_type()
+
 
 func listen_to_type(listener, on_rename:="", on_delete:="") -> void:
 	parse_box.listen_to_type(get_type(), listener, on_rename, on_delete)

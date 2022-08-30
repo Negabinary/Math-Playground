@@ -130,7 +130,6 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 
 
 func _request_replace(justification:Justification):
-	print("HERE2")
 	emit_signal("request_replace", justification)
 
 

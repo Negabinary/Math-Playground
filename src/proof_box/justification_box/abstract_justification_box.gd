@@ -45,11 +45,6 @@ func get_justifications_snapshot() -> JustificationMap:
 	return null
 
 
-func get_parse_box() -> AbstractParseBox:
-	assert(false) # virtual
-	return null
-
-
 func is_child_of(other:AbstractJustificationBox) -> bool:
-	assert(false)
+	assert(false) # virtual
 	return false

@@ -1,12 +1,6 @@
 extends AbstractJustificationBox
 class_name RootJustificationBox
 
-var parse_box : RootParseBox
-
-
-func _init():
-	parse_box = RootParseBox.new()
-
 
 func _is_assumed(expr_item:ExprItem) -> bool:
 	return false
@@ -18,10 +12,6 @@ func _missing_justification(expr_item:ExprItem) -> Justification:
 
 func get_justifications_snapshot() -> JustificationMap:
 	return justification_map.duplicate()
-
-
-func get_parse_box() -> AbstractParseBox:
-	return parse_box
 
 
 func is_child_of(other:AbstractJustificationBox) -> bool:

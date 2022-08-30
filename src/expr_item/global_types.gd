@@ -15,15 +15,15 @@ var TAG := ExprItemType.new("TAG")
 var ANY := ExprItemType.new("ANY")
 var PROP := ExprItemType.new("PROP")
 
-var JUSTIFICATION_BOX := JustificationBox.new(
-	RootJustificationBox.new(),
+var JUSTIFICATION_BOX := RootJustificationBox.new()
+
+var PARSE_BOX := ParseBox.new(
+	RootParseBox.new(),
 	[
 		IMPLIES, FORALL, EQUALITY, NOT, EXISTS, LAMBDA, AND, OR,
 		TAG, ANY, PROP
 	]
 )
-
-var PARSE_BOX := JUSTIFICATION_BOX.get_parse_box()
 
 func _init():
 	FORALL.binder = ExprItemType.BINDER.BINDER

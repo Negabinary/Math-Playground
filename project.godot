@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/expr_item/context_locator.gd"
 }, {
+"base": "AbstractParseBox",
+"class": "DeferredParseBox",
+"language": "GDScript",
+"path": "res://src/proof_box/parse_box/deferred_parse_box.gd"
+}, {
 "base": "Reference",
 "class": "Eaters",
 "language": "GDScript",
@@ -98,6 +103,16 @@ _global_script_classes=[ {
 "class": "ExprItemType",
 "language": "GDScript",
 "path": "res://src/expr_item/expr_item_type.gd"
+}, {
+"base": "Reference",
+"class": "IdentifierBuilder",
+"language": "GDScript",
+"path": "res://src/proof_box/parse_box/helper/identifier_builder.gd"
+}, {
+"base": "IdentifierBuilder",
+"class": "IdentifierListener",
+"language": "GDScript",
+"path": "res://src/proof_box/parse_box/helper/identifier_listener.gd"
 }, {
 "base": "Justification",
 "class": "ImplicationJustification",
@@ -157,7 +172,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "JustificationMap",
 "language": "GDScript",
-"path": "res://src/proof_box/justification_box/justification_map.gd"
+"path": "res://src/proof_box/justification_box/helper/justification_map.gd"
 }, {
 "base": "Object",
 "class": "Locator",
@@ -213,6 +228,11 @@ _global_script_classes=[ {
 "class": "ModusPonensJustification",
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/modus_ponens_justification.gd"
+}, {
+"base": "Object",
+"class": "MultiMap",
+"language": "GDScript",
+"path": "res://util/multi_map.gd"
 }, {
 "base": "ColorRect",
 "class": "Notebook",
@@ -312,7 +332,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "TwoWayParseMap",
 "language": "GDScript",
-"path": "res://src/proof_box/parse_box/two_way_parse_map.gd"
+"path": "res://src/proof_box/parse_box/helper/two_way_parse_map.gd"
 }, {
 "base": "ActionButton",
 "class": "UseButton",
@@ -369,6 +389,7 @@ _global_script_class_icons={
 "Book": "",
 "CircularJustification": "",
 "ContextLocator": "",
+"DeferredParseBox": "",
 "Eaters": "",
 "EliminatedLambdaJustification": "",
 "EqualityButton": "",
@@ -378,6 +399,8 @@ _global_script_class_icons={
 "ExprItemParser2": "",
 "ExprItemTagHelper": "",
 "ExprItemType": "",
+"IdentifierBuilder": "",
+"IdentifierListener": "",
 "ImplicationJustification": "",
 "ImportJustificationBox": "",
 "ImportParseBox": "",
@@ -401,6 +424,7 @@ _global_script_class_icons={
 "ModuleItem2Import": "",
 "ModuleItem2Theorem": "",
 "ModusPonensJustification": "",
+"MultiMap": "",
 "Notebook": "",
 "NotebookCell": "",
 "PageContainer": "",

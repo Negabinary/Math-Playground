@@ -29,7 +29,9 @@ func eat_toplevel(input_tape:ParserInputTape):
 			var name := Eaters.eat_name(input_tape)
 			if name.error:
 				return name
-			var def_item := ModuleItem2Import.new(proof_box, name.name)
+			var def_item := ModuleItem2Import.new(
+				proof_box, name.name #, true # TODO
+			)
 			proof_box = def_item.get_next_proof_box()
 			return {error=false, type="import", items=[def_item]}
 		"define":

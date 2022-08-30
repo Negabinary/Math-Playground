@@ -3,16 +3,22 @@ class_name ModuleItem2Import
 
 var module
 var name : String
+var namespace := false
 
-func _init(context:SymmetryBox, name:String):
+func _init(context:SymmetryBox, name:String, namespace:=false):
 	module = Module2Loader.get_module(name)
 	# Todo: switch this to .get_child_extended_with()
 	proof_box = SymmetryBox.new(
 		ImportJustificationBox.new(
 			context.get_justification_box(),
 			name,
-			module.get_final_proof_box().get_justification_box(),
-			false # TODO: change to 'true'
+			module.get_final_proof_box().get_justification_box()
+		),
+		ImportParseBox.new(
+			context.get_parse_box(),
+			name,
+			module.get_final_proof_box().get_parse_box(),
+			namespace
 		)
 	)
 	self.name = name
@@ -31,4 +37,4 @@ func get_module():
 
 
 func serialise():
-	return {kind="import", module=name}
+	return {kind="import", module=name, namespace=namespace}

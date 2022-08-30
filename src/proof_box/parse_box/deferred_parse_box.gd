@@ -1,24 +1,31 @@
 extends AbstractParseBox
-class_name ParseBox
+class_name DeferredParseBox
 
 var strings := [] # Bottom to Top
 var types := []
+var name_types := []
 var given_listeners := MultiMap.new() # <String, IdentifierListener>
 var dotted_listeners := MultiMap.new() # <String, IdentifierListener>
 var parent:AbstractParseBox
 
 
-func _init(parent:AbstractParseBox, definitions:=[]): #<ExprItemType, String>
+
+func _init(parent:AbstractParseBox, definitions:=[], name_types:=[]):
 	assert(parent != null)
 	self.parent = parent
-	for definition in definitions:
-		strings.append(definition.get_identifier())
-		types.append(definition)
-		definition.connect("renamed", self, "_update_definition_name", [definition, definition.to_string()])
+	self.types = definitions
+	self.name_types = name_types
+	for i in len(name_types):
+		strings.append(name_types[i].get_identifier())
+		name_types[i].connect("renamed", self, "_update_definition_name", [i, name_types[i].get_identifier()])
 
 
 func get_parent() -> AbstractParseBox:
 	return parent
+
+
+func get_name_types() -> Array:
+	return name_types
 
 
 func get_definitions() -> Array:
@@ -42,7 +49,7 @@ func parse(ib:IdentifierBuilder) -> ExprItemType:
 
 func get_il_for(type:ExprItemType) -> IdentifierListener:
 	if type in types:
-		var identifier:String = type.get_identifier()
+		var identifier:String = strings[types.find(type)]
 		var ib := IdentifierListener.new(identifier)
 		given_listeners.append_to(identifier, ib)
 		for i in types.find(type):
@@ -53,7 +60,7 @@ func get_il_for(type:ExprItemType) -> IdentifierListener:
 		var ib := parent.get_il_for(type)
 		if not ib.has_module():
 			var oc := 0
-			for i in len(types):
+			for i in len(strings):
 				if ib.get_identifier() == strings[i]:
 					oc += 1
 			if oc > 0:
@@ -90,7 +97,7 @@ func _update_definition_name(definition:ExprItemType, old_name:String):
 	var new_name := definition.to_string()
 	
 	# First, update internally
-	var idx = types.find(definition)
+	var idx = name_types.find(definition)
 	strings[idx] = new_name
 	definition.disconnect("renamed", self, "_update_definition_name")
 	definition.connect("renamed", self, "_update_definition_name", [definition, new_name])

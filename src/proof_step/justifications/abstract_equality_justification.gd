@@ -29,7 +29,7 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options := []
-	options.append(Justification.LabelOption.new("Location: " + context.printout(location.get_expr_item())))
+	options.append(Justification.LabelOption.new("Location: " + location.get_parse_box(context).printout(location.get_expr_item())))
 	if location == null or (not expr_item.compare(location.get_root())):
 		options.append(Justification.LabelOption.new("Location not valid", true))
 	else:

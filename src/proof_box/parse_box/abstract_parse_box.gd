@@ -1,14 +1,57 @@
 extends Object
 class_name AbstractParseBox
 
-
 signal added # (type:ExprItemType, new_name:String)
 signal renamed # (type:ExprItemType, old_name:String, new_name:String)
 signal removed # (type:ExprItemType, old_name:String)
 
-
 var NORMAL_PARSE_BOX = load("res://src/proof_box/parse_box/parse_box.gd")
 
+
+# Queries =================================================
+
+func parse_full(full_name:String) -> ExprItemType:
+	var ib := IdentifierBuilder.parse(IdentifierBuilder, full_name)
+	return parse(ib)
+
+
+# @Obselete
+func get_name_for(type:ExprItemType) -> String:
+	var ib := get_il_for(type)
+	var result := ib.get_full_string()
+	remove_listener(ib)
+	return result
+
+
+# Virtual Methods =========================================
+
+func parse(ib:IdentifierBuilder) -> ExprItemType:
+	assert(false) # virual
+	return null
+
+
+func get_all_types() -> TwoWayParseMap:
+	assert(false) # virual
+	return TwoWayParseMap.new()
+
+
+func get_il_for(type:ExprItemType) -> IdentifierListener:
+	assert(false) # virual
+	return null
+
+
+# Virtual : Listeners -------------------------------------
+
+func remove_listener(il:IdentifierListener) -> void:
+	assert(false) # virual
+
+
+func get_listeners_for(identifier:String) -> Array:
+	assert(false) # virtual
+	return []
+
+
+# Printing ================================================
 
 func serialise(expr_item:ExprItem) -> String:
 	if expr_item.get_type().is_binder():
@@ -68,7 +111,7 @@ func printout(expr_item:ExprItem) -> String:
 	elif type == GlobalTypes.LAMBDA and children.size() > 2:
 		var children_string:String = (
 			"(fun " 
-			+ printout(children[0]) 
+			+ children[0].get_type().get_identifier()
 			+ ". " 
 			+ NORMAL_PARSE_BOX.new(self, [children[0].get_type()]).printout(children[1])
 			+ ")("
@@ -125,57 +168,7 @@ func printout(expr_item:ExprItem) -> String:
 		)
 
 
-func parse_full(full_name:String) -> ExprItemType:
-	var split := full_name.split(".",true)
-	if split.size() == 1:
-		return parse(full_name, "")
-	else:
-		var module := split[0]
-		split.remove(0)
-		var ident = split.join(".")
-		if module == "":
-			ident = "." + ident
-		return parse(ident, module)
-	
-
-
-func parse(identifier:String, module:String) -> ExprItemType:
-	assert(false) # abstract
-	return null
-
-
-func get_name_for(type:ExprItemType) -> String:
-	assert(false) # abstract
-	return ""
-
-
-func get_all_types() -> TwoWayParseMap:
-	assert(false) # abstract
-	return TwoWayParseMap.new()
-
-
-func listen_to_type(type:ExprItemType, listener, on_rename:="", on_delete:="") -> void:
-	if on_rename != "":
-		type.connect("renamed", listener, on_rename)
-	if on_delete != "":
-		type.connect("deleted", listener, on_delete)
-
-
-func is_listening_to_type(type:ExprItemType, listener, on_rename:="", on_delete:="") -> bool:
-	if on_rename != "":
-		return type.is_connected("renamed", listener, on_rename)
-	elif on_delete != "":
-		return type.is_connected("deleted", listener, on_rename)
-	else:
-		return true
-
-
-func unlisten_to_type(type:ExprItemType, listener, on_rename:="", on_delete:="") -> void:
-	if on_rename != "":
-		type.disconnect("renamed", listener, on_rename)
-	if on_delete != "":
-		type.disconnect("deleted", listener, on_delete)
-
+# HELPERS =================================================
 
 static func _get_module_and_overwrite(identifier:String) -> PoolStringArray:
 	var result := identifier.split(".")

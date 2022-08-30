@@ -2,13 +2,22 @@ extends AbstractParseBox
 class_name RootParseBox
 
 
-func parse(identifier:String, module:String) -> ExprItemType:
+
+func parse(ib:IdentifierBuilder) -> ExprItemType:
 	return null
-
-
-func get_name_for(type:ExprItemType) -> String:
-	return ","
 
 
 func get_all_types() -> TwoWayParseMap:
 	return TwoWayParseMap.new()
+
+
+func get_il_for(type:ExprItemType) -> IdentifierListener:
+	return null
+
+
+func remove_listener(il:IdentifierListener) -> void:
+	pass
+
+
+func get_listeners_for(identifier:String) -> Array:
+	return []

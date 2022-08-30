@@ -7,19 +7,12 @@ It's expected that this assumption may need to be revised in later versions of t
 editor with multiple files open at once.
 """
 
-var parse_box : ImportParseBox
 var import_box : AbstractJustificationBox
 var imported_map : JustificationMap
 var parent : AbstractJustificationBox
 
 
-func _init(parent:AbstractJustificationBox, import_name:String, import_box:AbstractJustificationBox, namespace:bool):
-	parse_box = ImportParseBox.new(
-		parent.get_parse_box(),
-		import_name,
-		import_box.get_parse_box(),
-		namespace
-	)
+func _init(parent:AbstractJustificationBox, import_name:String, import_box:AbstractJustificationBox):
 	imported_map = import_box.get_justifications_snapshot()
 	self.import_box = import_box
 	self.parent = parent
@@ -37,10 +30,6 @@ func _missing_justification(expr_item:ExprItem) -> Justification:
 		return imported_map.get_justification_for(expr_item)
 	else:
 		return parent._get_justification(expr_item)
-
-
-func get_parse_box() -> AbstractParseBox:
-	return parse_box
 
 
 func get_justifications_snapshot() -> JustificationMap:

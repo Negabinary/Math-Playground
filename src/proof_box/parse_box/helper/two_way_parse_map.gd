@@ -62,6 +62,14 @@ func parse(identifier:String, module:="") -> ExprItemType:
 		return null
 
 
+func parse_ib(ib:IdentifierBuilder) -> ExprItemType:
+	var array = parsing_map.get(ib.get_module(), {}).get(ib.get_identifier(), [])
+	if ib.get_override_count() < array.size():
+		return array[ib.get_override_count()]
+	else:
+		return null
+
+
 func get_module(value:ExprItemType) -> String:
 	return module_map.get(value, "")
 
@@ -78,6 +86,17 @@ func get_full_name(value:ExprItemType) -> String:
 		return module + "." + get_identifier(value)
 
 
+func get_il_for(value:ExprItemType) -> IdentifierListener:
+	if not value in naming_map:
+		return null
+	else:
+		return IdentifierListener.new(
+			naming_map[value],
+			parsing_map[module_map[value]][naming_map[value]].find(value),
+			module_map[value]
+		)
+
+
 func get_all_types() -> Array:
 	return naming_map.keys()
 
@@ -91,6 +110,10 @@ func get_all_names() -> Array:
 
 func count_same_name(identifier:String, module:String) -> int:
 	return parsing_map.get(module,{}).get(identifier,[]).size()
+
+
+func count_same_name_ib(ib:IdentifierBuilder) -> int:
+	return parsing_map.get(ib.get_module(),{}).get(ib.get_identifier(),[]).size()
 
 
 func get_missing_from(other:TwoWayParseMap) -> Array:

@@ -1,14 +1,10 @@
 extends AbstractJustificationBox
 class_name ReparentableJustificationBox
 
-var parse_box : ReparentableParseBox
 var parent : AbstractJustificationBox
 
 
-func _init(parent:AbstractJustificationBox):
-	parse_box = ReparentableParseBox.new(
-		parent.get_parse_box()
-	)
+func _init(parent:AbstractJustificationBox, definitions := []).(definitions):
 	self.parent = parent
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
 	parent.connect("assumption_removed", self, "_on_parent_ass_removed")
@@ -24,7 +20,6 @@ func set_parent(new_parent:AbstractJustificationBox):
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
 	parent.connect("assumption_removed", self, "_on_parent_ass_removed")
 	parent.connect("updated", self, "_on_parent_updated")
-	parse_box.set_parent(new_parent.get_parse_box())
 	
 	var old_summary = parent.get_justifications_snapshot()
 	var new_summary = new_parent.get_justifications_snapshot()

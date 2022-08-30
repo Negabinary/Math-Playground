@@ -19,6 +19,8 @@ var rects := []
 
 var string := ""
 
+var rename_listeners := []
+
 
 func get_locator() -> Locator:
 	if len(locators) == 0:
@@ -28,6 +30,7 @@ func get_locator() -> Locator:
 
 func set_expr_item(new_expr_item:ExprItem, context:AbstractParseBox) -> void:
 	expr_item = new_expr_item
+	assert(context != null)
 	self.context = context
 	selection = 0
 	is_selected = false
@@ -65,6 +68,9 @@ func _draw():
 
 
 func _draw_locator(locator:ContextLocator, x0:float) -> float:
+	for rl in rename_listeners:
+		locator.get_context().remove_listener(rl)
+	rename_listeners.clear()
 	var xe : float
 	if locator.get_type() == GlobalTypes.IMPLIES and locator.get_child_count() == 2:
 		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
@@ -165,7 +171,10 @@ func _draw_locator(locator:ContextLocator, x0:float) -> float:
 			var x4 = _draw_string(" = ", x3)
 			xe = _draw_locator(locator.get_child(1), x4)
 	else:
-		xe = _draw_string(locator.get_type_name(), x0)
+		var listener := locator.get_type_listener()
+		xe = _draw_string(listener.get_full_string() + "#" + str(locator.get_type().get_uid()), x0)
+		listener.connect("renamed", self, "update")
+		rename_listeners.append(listener)
 		if locator.get_child_count() > 0:
 			xe = _draw_string("(", xe)
 			for i in range(0, locator.get_child_count()):
@@ -173,8 +182,6 @@ func _draw_locator(locator:ContextLocator, x0:float) -> float:
 				if i < locator.get_child_count() - 1:
 					xe = _draw_string(", ", xe)
 			xe = _draw_string(")", xe)
-		if not locator.is_listening_to_type(self, "update", "update"):
-			locator.listen_to_type(self, "update", "update")
 	
 	locators.append(locator)
 	rects.append(Rect2(

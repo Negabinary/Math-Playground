@@ -15,7 +15,8 @@ func deserialise(item, proof_box, version, selection_handler:SelectionHandler):
 	initialise(
 		ModuleItem2Import.new(
 			proof_box,
-			item.module
+			item.module,
+			item.get("namespace", false)
 		),
 		selection_handler
 	)
