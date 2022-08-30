@@ -1,4 +1,3 @@
-extends Object
 class_name MultiMap
 
 var mm := {}

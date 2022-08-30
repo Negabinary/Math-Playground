@@ -1,4 +1,3 @@
-extends Object
 class_name AbstractParseBox
 
 signal added # (type:ExprItemType, new_name:String)

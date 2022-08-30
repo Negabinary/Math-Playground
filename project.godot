@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_box/justification_box/abstract_justification_box.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "AbstractParseBox",
 "language": "GDScript",
 "path": "res://src/proof_box/parse_box/abstract_parse_box.gd"
@@ -79,7 +79,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/equality_justification.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ExprItem",
 "language": "GDScript",
 "path": "res://src/expr_item/expr_item.gd"
@@ -99,7 +99,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/expr_item/helper_functions/expr_item_tag_helper.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "ExprItemType",
 "language": "GDScript",
 "path": "res://src/expr_item/expr_item_type.gd"
@@ -179,7 +179,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_box/justification_box/helper/justification_map.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "Locator",
 "language": "GDScript",
 "path": "res://src/expr_item/locator.gd"
@@ -234,7 +234,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/modus_ponens_justification.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "MultiMap",
 "language": "GDScript",
 "path": "res://util/multi_map.gd"
@@ -294,7 +294,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_box/parse_box/reparentable_parse_box.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "Requirement",
 "language": "GDScript",
 "path": "res://src/proof_step/requirement.gd"
@@ -319,7 +319,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/proof/assumptions/buttons/StarButton.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "Statement",
 "language": "GDScript",
 "path": "res://src/expr_item/helper_functions/statement.gd"
