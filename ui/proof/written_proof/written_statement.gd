@@ -172,7 +172,7 @@ func _draw_locator(locator:ContextLocator, x0:float) -> float:
 			xe = _draw_locator(locator.get_child(1), x4)
 	else:
 		var listener := locator.get_type_listener()
-		xe = _draw_string(listener.get_full_string() + "#" + str(locator.get_type().get_uid()), x0)
+		xe = _draw_string(listener.get_full_string(), x0)
 		listener.connect("renamed", self, "update")
 		rename_listeners.append(listener)
 		if locator.get_child_count() > 0:
