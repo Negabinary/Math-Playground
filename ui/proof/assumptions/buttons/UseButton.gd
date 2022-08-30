@@ -24,7 +24,7 @@ func _can_use() -> bool:
 func _on_pressed() -> void:
 	if assumption.get_definitions().size() == 0:
 		var modus_ponens = ModusPonensJustification.new(
-			assumption
+			assumption.as_expr_item()
 		)
 		selection_handler.get_selected_proof_box().get_justification_box().set_justification(selection_handler.get_locator().get_root(), modus_ponens)
 	else:

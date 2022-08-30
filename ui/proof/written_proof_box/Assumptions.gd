@@ -1,8 +1,8 @@
 extends VBoxContainer
 class_name Assumptions
 
-const scene_cell_definition := preload("res://ui/notebook/cell/CellDefinition.tscn")
-const scene_cell_assumption := preload("res://ui/notebook/cell/CellAssumption.tscn")
+const scene_cell_definition := preload("res://ui/proof/assumptions/ProofDefinition.tscn")
+const scene_cell_assumption := preload("res://ui/proof/assumptions/ProofAssumption.tscn")
 
 var requirement:Requirement
 var inner_proof_box:SymmetryBox
@@ -22,21 +22,12 @@ func _update_assumptions():
 	var definitions:Array = requirement.get_definitions()
 	for definition in definitions:
 		var nc = scene_cell_definition.instance()
-		nc.initialise(ModuleItem2Definition.new(
-			inner_proof_box, 
-			definition
-		))
+		nc.initialise(definition)
 		add_child(nc)
 	var assumptions:Array = requirement.get_assumptions()
 	for assumption in assumptions:
 		var nc  = scene_cell_assumption.instance()
-		nc.initialise(
-			ModuleItem2Assumption.new(
-				inner_proof_box,
-				assumption
-			),
-			selection_handler
-		)
+		nc.initialise(assumption, inner_proof_box, selection_handler)
 		add_child(nc)
 
 func has_assumptions():
