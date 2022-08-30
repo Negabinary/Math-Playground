@@ -104,6 +104,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/expr_item/expr_item_type.gd"
 }, {
+"base": "LineEdit",
+"class": "ExprItemTypeEdit",
+"language": "GDScript",
+"path": "res://ui/components/expr_item_type_edit.gd"
+}, {
 "base": "Reference",
 "class": "IdentifierBuilder",
 "language": "GDScript",
@@ -399,6 +404,7 @@ _global_script_class_icons={
 "ExprItemParser2": "",
 "ExprItemTagHelper": "",
 "ExprItemType": "",
+"ExprItemTypeEdit": "",
 "IdentifierBuilder": "",
 "IdentifierListener": "",
 "ImplicationJustification": "",

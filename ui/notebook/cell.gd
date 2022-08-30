@@ -60,6 +60,7 @@ func deserialise(json:Dictionary, context, version) -> void:
 			var nc : Node
 			if item.kind == "definition":
 				nc = scene_cell_definition.instance()
+				nc.read_only = false
 			elif item.kind == "assumption":
 				nc = scene_cell_assumption.instance()
 			elif item.kind == "theorem":
@@ -114,6 +115,7 @@ func eval(notify=true):
 			if item is ModuleItem2Definition:
 				nc = scene_cell_definition.instance()
 				ui_use_area.add_child(nc)
+				nc.read_only = false
 				nc.initialise(item)
 			elif item is ModuleItem2Assumption:
 				nc = scene_cell_assumption.instance()

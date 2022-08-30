@@ -1,11 +1,16 @@
 extends HBoxContainer
 
 var item
+var read_only := true
 
 func initialise(item:ModuleItem2Definition):
 	show()
 	self.item = item
-	$Name.text = item.get_definition().to_string()
+	$Name.type = item.get_definition()
+	if read_only:
+		$Name.editable = false
+		$Name.context_menu_enabled = false
+		$Name.selecting_enabled = false
 
 func serialise():
 	return item.serialise()

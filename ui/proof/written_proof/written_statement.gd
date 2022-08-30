@@ -19,7 +19,7 @@ var rects := []
 
 var string := ""
 
-var rename_listeners := []
+var rename_listeners := {} #<IdentifierListener, AbstractParseBox>
 
 
 func get_locator() -> Locator:
@@ -49,6 +49,10 @@ func select_whole():
 
 
 func _draw():
+	for rl in rename_listeners:
+		rename_listeners[rl].remove_listener(rl)
+	rename_listeners.clear()
+	
 	font = get_font("font", "WrittenStatement")
 	bold_font = get_font("bold_font", "WrittenStatement")
 	offset = get_constant("indentation", "WrittenProof")
@@ -68,9 +72,6 @@ func _draw():
 
 
 func _draw_locator(locator:ContextLocator, x0:float) -> float:
-	for rl in rename_listeners:
-		locator.get_context().remove_listener(rl)
-	rename_listeners.clear()
 	var xe : float
 	if locator.get_type() == GlobalTypes.IMPLIES and locator.get_child_count() == 2:
 		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
@@ -174,7 +175,7 @@ func _draw_locator(locator:ContextLocator, x0:float) -> float:
 		var listener := locator.get_type_listener()
 		xe = _draw_string(listener.get_full_string(), x0)
 		listener.connect("renamed", self, "update")
-		rename_listeners.append(listener)
+		rename_listeners[listener] = locator.get_context()
 		if locator.get_child_count() > 0:
 			xe = _draw_string("(", xe)
 			for i in range(0, locator.get_child_count()):

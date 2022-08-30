@@ -38,12 +38,14 @@ func is_binder() -> bool:
 
 
 func rename(new_name:String):
+	if new_name == "":
+		new_name = "???"
 	identifier = new_name
 	fm_strings = [identifier]
 	emit_signal("renamed")
 
 
-func get_identifier():
+func get_identifier() -> String:
 	return identifier
 
 func _to_string():

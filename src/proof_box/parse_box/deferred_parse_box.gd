@@ -17,7 +17,7 @@ func _init(parent:AbstractParseBox, definitions:=[], name_types:=[]):
 	self.name_types = name_types
 	for i in len(name_types):
 		strings.append(name_types[i].get_identifier())
-		name_types[i].connect("renamed", self, "_update_definition_name", [i, name_types[i].get_identifier()])
+		name_types[i].connect("renamed", self, "_update_definition_name", [name_types[i], name_types[i].get_identifier()])
 
 
 func get_parent() -> AbstractParseBox:
@@ -94,7 +94,10 @@ func get_all_types() -> TwoWayParseMap:
 # Own Listening ===========================================
 
 func _update_definition_name(definition:ExprItemType, old_name:String):
-	var new_name := definition.to_string()
+	var new_name := definition.get_identifier()
+	
+	var listeners_new = get_listeners_for(new_name)
+	var listeners_old = get_listeners_for(old_name)
 	
 	# First, update internally
 	var idx = name_types.find(definition)
@@ -103,9 +106,9 @@ func _update_definition_name(definition:ExprItemType, old_name:String):
 	definition.connect("renamed", self, "_update_definition_name", [definition, new_name])
 	
 	# Then tell those who are about to be overshadowed
-	for l in get_listeners_for(new_name):
+	for l in listeners_new:
 		l.notify_rename()
 	
 	# Then tell the current definition and those who are no longer overshadowed
-	for l in get_listeners_for(old_name):
+	for l in listeners_old:
 		l.notify_rename()

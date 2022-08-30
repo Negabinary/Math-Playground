@@ -89,6 +89,9 @@ func get_all_types() -> TwoWayParseMap:
 func _update_definition_name(definition:ExprItemType, old_name:String):
 	var new_name := definition.to_string()
 	
+	var listeners_new = get_listeners_for(new_name)
+	var listeners_old = get_listeners_for(old_name)
+	
 	# First, update internally
 	var idx = types.find(definition)
 	strings[idx] = new_name
@@ -96,9 +99,9 @@ func _update_definition_name(definition:ExprItemType, old_name:String):
 	definition.connect("renamed", self, "_update_definition_name", [definition, new_name])
 	
 	# Then tell those who are about to be overshadowed
-	for l in get_listeners_for(new_name):
+	for l in listeners_new:
 		l.notify_rename()
 	
 	# Then tell the current definition and those who are no longer overshadowed
-	for l in get_listeners_for(old_name):
+	for l in listeners_old:
 		l.notify_rename()
