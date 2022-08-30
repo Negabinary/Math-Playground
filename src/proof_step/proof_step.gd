@@ -153,7 +153,7 @@ func serialize_proof() -> Dictionary:
 	}
 
 static func deserialize_proof(script:Script, dictionary, context:SymmetryBox, version) -> ProofStep:
-	var r = Requirement.deserialize(Requirement, dictionary.requirement, context.get_parse_box())
+	var r = Requirement.deserialize(Requirement, dictionary.requirement, context)
 	var n:ProofStep = script.new(
 		context.convert_requirement(r),
 		context

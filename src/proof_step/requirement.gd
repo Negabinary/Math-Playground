@@ -51,16 +51,16 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	}
 
 
-static func deserialize(script, dict:Dictionary, parse_box:AbstractParseBox) -> Requirement:
+static func deserialize(script, dict:Dictionary, context) -> Requirement:  # : SymmetryBox
 	var definitions := []
 	for definition in dict.definitions:
 		definitions.append(ExprItemType.new(definition))
-	var new_parse_box := ParseBox.new(parse_box, definitions)
+	var new_context = context.get_child_extended_with(definitions)
 	var assumptions := []
 	for assumption in dict.assumptions:
-		assumptions.append(ExprItemBuilder.deserialize(assumption, new_parse_box))
+		assumptions.append(ExprItemBuilder.deserialize(assumption, new_context.get_parse_box()))
 	return script.new(
-		ExprItemBuilder.deserialize(dict.goal, new_parse_box),
+		ExprItemBuilder.deserialize(dict.goal, new_context.get_parse_box()),
 		definitions,
 		assumptions
 	)

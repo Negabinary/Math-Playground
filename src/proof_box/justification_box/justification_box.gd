@@ -3,12 +3,10 @@ class_name JustificationBox
 
 var assumptions : Array
 var parent : AbstractJustificationBox
-var definitions
 
 
-func _init(parent:AbstractJustificationBox, assumptions:=[], definitions:=[]):
+func _init(parent:AbstractJustificationBox, assumptions:=[]):
 	self.assumptions = assumptions
-	self.definitions = definitions
 	self.parent = parent
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
 	parent.connect("assumption_removed", self, "_on_parent_ass_removed")
@@ -67,7 +65,3 @@ func is_child_of(other:AbstractJustificationBox) -> bool:
 		return true
 	else:
 		return parent.is_child_of(other)
-
-
-func get_definitions() -> Array:
-	return definitions
