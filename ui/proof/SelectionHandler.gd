@@ -34,7 +34,7 @@ func get_selected_goal() -> ExprItem:
 		return null
 
 func get_selected_proof_box() -> SymmetryBox:
-	if self.wpb:
+	if self.wpb and self.wpb.is_inside_tree():
 		return self.wpb.get_inner_proof_box()
 	else:
 		return null
