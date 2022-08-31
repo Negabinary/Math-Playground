@@ -5,6 +5,8 @@ var j_text = ConstantAutostring.new("USING BLACK MAGIC (i.e. This is sound but I
 export var icon : String
 
 func set_text(new_text, new_icon:="") -> void:
+	if j_text.is_connected("updated", self, "update"):
+		j_text.disconnect("updated", self, "update")
 	if new_text is String:
 		j_text = ConstantAutostring.new(new_text)
 	else:

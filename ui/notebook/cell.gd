@@ -110,6 +110,7 @@ func eval(notify=true):
 		ui_edit_area.hide()
 		for child in ui_use_area.get_children():
 			ui_use_area.remove_child(child)
+			child.queue_free()
 		for item in parse_result.items:
 			var nc : Node
 			if item is ModuleItem2Definition:

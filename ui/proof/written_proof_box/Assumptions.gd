@@ -19,6 +19,7 @@ func display_assumptions(requirement:Requirement, inner_proof_box:SymmetryBox, s
 func _update_assumptions():
 	for child in get_children():
 		remove_child(child)
+		child.queue_free()
 	var definitions:Array = requirement.get_definitions()
 	for definition in definitions:
 		var nc = scene_cell_definition.instance()

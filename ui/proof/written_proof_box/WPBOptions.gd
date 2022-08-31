@@ -14,6 +14,7 @@ func set_options(options:Array) -> void:
 	for child in get_children():
 		#child.deregister()
 		remove_child(child)
+		child.queue_free()
 	for option in self.options:
 		var bo
 		if option is Justification.BooleanOption:

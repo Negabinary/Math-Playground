@@ -70,6 +70,7 @@ func _change_dependencies():
 	var old_children = ui_dependencies.get_children()
 	for child in ui_dependencies.get_children():
 		ui_dependencies.remove_child(child)
+		child.queue_free()
 	for new_dependency in dependencies:
 		var new_ui_dependency = WPB_SCENE.instance()
 		new_ui_dependency.init(new_dependency, selection_handler)

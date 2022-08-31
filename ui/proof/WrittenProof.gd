@@ -17,7 +17,10 @@ func _update():
 
 func _clear():
 	if $Justification.get_child_count() != 0:
-		$Justification.remove_child($Justification.get_child(0))
+		var child = $Justification.get_child(0)
+		$Justification.remove_child(child)
+		child.queue_free()
+		
 
 
 func _display_proof_step():

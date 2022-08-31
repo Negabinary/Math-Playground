@@ -37,6 +37,7 @@ func move_cell_down(cell:NotebookCell) -> void:
 func delete_cell(cell:NotebookCell) -> void:
 	var idx := cell.get_index()
 	ui_cells.remove_child(cell)
+	cell.queue_free()
 	_recompile_from(idx)
 
 func _recompile_from(idx:int, to=ui_cells.get_child_count()):
@@ -53,6 +54,7 @@ func clear() -> void:
 	Module2Loader.clear()
 	for child in ui_cells.get_children():
 		ui_cells.remove_child(child)
+		child.queue_free()
 
 func deserialise(json:Dictionary) -> void:
 	clear()
