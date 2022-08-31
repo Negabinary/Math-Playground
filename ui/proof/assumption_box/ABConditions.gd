@@ -2,7 +2,7 @@ extends HBoxContainer
 
 
 var conditions : Array
-var condition_strings : Autostring
+var condition_strings := [] # <Autostring>
 var assumption : ExprItem
 
 
@@ -12,7 +12,7 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, _selection_
 	conditions = statement.get_conditions()
 	var inner_pb = statement.get_inner_parse_box(assumption_context.get_parse_box())
 	for condition in conditions:
-		var autostring := ExprItemAutostring.new(condition, inner_pb)
+		var autostring := ExprItemAutostring.new(condition.get_expr_item(), inner_pb)
 		condition_strings.append(autostring)
 		autostring.connect("updated", self, "_update_conditions")
 	

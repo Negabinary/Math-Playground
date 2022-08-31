@@ -24,7 +24,7 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, _selection_
 	if conclusion.get_type() != GlobalTypes.EQUALITY:
 		show()
 		autostring = ExprItemAutostring.new(
-			conclusion.get_expr_item(), assumption_context.get_parse_box()
+			conclusion.get_expr_item(), assumption_statement.get_inner_parse_box(assumption_context.get_parse_box())
 		)
 		_update_conclusion()
 

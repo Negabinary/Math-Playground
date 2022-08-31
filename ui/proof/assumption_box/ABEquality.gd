@@ -22,10 +22,12 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, selection_h
 			conclusion.get_child(0).get_expr_item(), 
 			assumption_statement.get_inner_parse_box(assumption_context.get_parse_box())
 		)
+		_update_lhs()
 		rhs_autostring = ExprItemAutostring.new(
 			conclusion.get_child(1).get_expr_item(), 
 			assumption_statement.get_inner_parse_box(assumption_context.get_parse_box())
 		)
+		_update_rhs()
 		$UseEquality/Right.init(assumption, assumption_context, selection_handler, false)
 		$UseEquality/Left.init(assumption, assumption_context, selection_handler, true)
 
@@ -35,4 +37,4 @@ func _update_lhs():
 
 func _update_rhs():
 	$RHS.clear()
-	$RHS.add_item(lhs_autostring.get_string())
+	$RHS.add_item(rhs_autostring.get_string())

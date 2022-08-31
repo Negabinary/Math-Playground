@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends Control
 
 var path : String = ""
 var folder_name = "user://"

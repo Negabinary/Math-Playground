@@ -4,6 +4,7 @@ class_name SelectionHandler
 signal locator_changed
 
 var wpb
+var assumption_pane
 
 func take_selection(wpb):
 	if is_instance_valid(self.wpb) and self.wpb != null and self.wpb != wpb:

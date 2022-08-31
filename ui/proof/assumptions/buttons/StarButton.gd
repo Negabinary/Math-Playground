@@ -4,6 +4,7 @@ class_name StarButton
 
 var assumption : Statement
 var assumption_context : SymmetryBox
+var selection_handler
 
 
 func _init():
@@ -16,6 +17,7 @@ func _init():
 func init(assumption:ExprItem, assumption_context:SymmetryBox, selection_handler:SelectionHandler):
 	self.assumption = Statement.new(assumption)
 	self.assumption_context = assumption_context
+	self.selection_handler = selection_handler
 	if _should_display():
 		disabled = false
 		connect("pressed", self, "_on_pressed")
@@ -34,4 +36,8 @@ func _should_display() -> bool:
 	return false
 
 
-
+func _on_pressed():
+	if pressed:
+		selection_handler.assumption_pane.save_assumption(assumption.as_expr_item(), assumption_context, self)
+	else:
+		selection_handler.assumption_pane.remove_assumption(self)

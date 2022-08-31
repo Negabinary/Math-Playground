@@ -1,8 +1,5 @@
 extends PanelContainer
 
-signal proof_step_created # (unit)
-signal request_to_prove # ()
-
 var assumption : ExprItem
 var assumption_context : SymmetryBox
 var definitions := []

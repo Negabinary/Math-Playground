@@ -38,14 +38,15 @@ func _ons_item_activated(index):
 func _validate():
 	var string_to_parse = $ConfirmationDialog/VBoxContainer/TextEdit.text
 	var selected_context = selection_handler.get_selected_proof_box()
-	parser = ExprItemParser2.new(string_to_parse, selected_context.get_parse_box())
-	if parser.error:
-		$ConfirmationDialog.get_ok().disabled = true
-		$ConfirmationDialog/VBoxContainer/Label.text = str(parser.error_dict)
-	else:
-		$ConfirmationDialog.get_ok().disabled = false
-		$ConfirmationDialog.get_ok().connect("pressed", self, "ok")
-		$ConfirmationDialog/VBoxContainer/Label.text = ""
+	if selected_context:
+		parser = ExprItemParser2.new(string_to_parse, selected_context.get_parse_box())
+		if parser.error:
+			$ConfirmationDialog.get_ok().disabled = true
+			$ConfirmationDialog/VBoxContainer/Label.text = str(parser.error_dict)
+		else:
+			$ConfirmationDialog.get_ok().disabled = false
+			$ConfirmationDialog.get_ok().connect("pressed", self, "ok")
+			$ConfirmationDialog/VBoxContainer/Label.text = ""
 
 
 func ok():
