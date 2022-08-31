@@ -1,4 +1,3 @@
-extends Node
 class_name ItemParser2
 
 var proof_box : SymmetryBox

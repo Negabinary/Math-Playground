@@ -109,12 +109,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_box/parse_box/helper/expr_item_autostring.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "ExprItemBuilder",
 "language": "GDScript",
 "path": "res://src/expr_item/expr_item_builder.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "ExprItemParser2",
 "language": "GDScript",
 "path": "res://src/module2/expr_item_parser2.gd"
@@ -179,7 +179,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/justifications/introduced_lambda_justification.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "ItemParser2",
 "language": "GDScript",
 "path": "res://src/module2/item_parser2.gd"

@@ -1,4 +1,3 @@
-extends Node
 class_name ExprItemParser2
 
 var proof_box : AbstractParseBox
