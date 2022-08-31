@@ -6,15 +6,21 @@ signal locator_changed
 var wpb
 
 func take_selection(wpb):
-	if self.wpb != null and self.wpb != wpb:
+	if is_instance_valid(self.wpb) and self.wpb != null and self.wpb != wpb:
+		self.wpb.disconnect("tree_exiting", self, "deselect")
 		self.wpb.deselect()
 	self.wpb = wpb
 	if wpb != null:
 		wpb.select()
 	emit_signal("locator_changed", get_locator())
+	if not wpb.is_connected("tree_exiting", self, "deselect"):
+		wpb.connect("tree_exiting", self, "deselect")
+
+func deselect():
+	take_selection(null)
 
 func locator_changed(x, wpb):
-	if self.wpb != null and self.wpb != wpb:
+	if is_instance_valid(self.wpb) and self.wpb != null and self.wpb != wpb:
 		self.wpb.deselect()
 	self.wpb = wpb
 	if wpb != null:
@@ -22,19 +28,19 @@ func locator_changed(x, wpb):
 	emit_signal("locator_changed", get_locator())
 
 func get_locator() -> Locator:
-	if self.wpb:
+	if is_instance_valid(self.wpb) and self.wpb:
 		return self.wpb.get_selected_locator()
 	else:
 		return null
 
 func get_selected_goal() -> ExprItem:
-	if self.wpb:
+	if is_instance_valid(self.wpb) and self.wpb:
 		return self.wpb.get_goal()
 	else:
 		return null
 
 func get_selected_proof_box() -> SymmetryBox:
-	if self.wpb:
+	if is_instance_valid(self.wpb) and self.wpb:
 		return self.wpb.get_inner_proof_box()
 	else:
 		return null

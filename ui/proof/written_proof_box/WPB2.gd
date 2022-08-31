@@ -65,9 +65,7 @@ func _connect_dependencies():
 
 
 func _change_dependencies():
-	var keepers := {}
 	var dependencies := proof_step.get_dependencies()
-	var old_children = ui_dependencies.get_children()
 	for child in ui_dependencies.get_children():
 		ui_dependencies.remove_child(child)
 		child.queue_free()
