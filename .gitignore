@@ -9,3 +9,4 @@ addons/
 .mono/
 data_*/
 override.cfg
+.VSCodeCounter/
