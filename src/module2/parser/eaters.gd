@@ -35,7 +35,10 @@ static func eat_bindings(input_tape:ParserInputTape, proof_box:AbstractParseBox)
 		while not input_tape.done():
 			if input_tape.peek() in keywords:
 				break
-			var type := ExprItemType.new(input_tape.pop().contents)
+			var name := input_tape.pop().contents
+			if name.count(".") > 0:
+				return err(input_tape.previous(), "'.' is not allowed in new variable names.")
+			var type := ExprItemType.new(name)
 			grouped_types.append(type)
 		types.append_array(grouped_types)
 		if input_tape.try_eat(":"):

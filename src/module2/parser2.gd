@@ -8,10 +8,16 @@ static func lex(string:String) -> Array:
 		var c := string[i]
 		if c in [" ","\n","\t",""]:
 			if cuml_word != "":
+				if cuml_word != ".":
+					if cuml_word.ends_with("."):
+						cuml_word = cuml_word.left(len(cuml_word) - 1)
+						result.append(Token2.new(start_word, i, cuml_word))
+						cuml_word = "."
+						start_word = i - 2
 				result.append(Token2.new(start_word, i, cuml_word))
 				cuml_word = ""
 			start_word = i
-		elif c in [".", ":", "(", ")", ","]:
+		elif c in [":", "(", ")", ","]:
 			if cuml_word != "":
 				result.append(Token2.new(start_word, i, cuml_word))
 				cuml_word = ""
