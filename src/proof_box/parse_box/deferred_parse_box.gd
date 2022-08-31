@@ -17,7 +17,7 @@ func _init(parent:AbstractParseBox, definitions:=[], name_types:=[]):
 	self.name_types = name_types
 	for i in len(name_types):
 		strings.append(name_types[i].get_identifier())
-		name_types[i].connect("renamed", self, "_update_definition_name", [name_types[i], name_types[i].get_identifier()])
+		name_types[i].connect("updated", self, "_update_definition_name", [name_types[i], name_types[i].get_identifier()])
 
 
 func get_parent() -> AbstractParseBox:
@@ -99,11 +99,17 @@ func _update_definition_name(definition:ExprItemType, old_name:String):
 	var listeners_new = get_listeners_for(new_name)
 	var listeners_old = get_listeners_for(old_name)
 	
+	print(listeners_old.size())
+	
+	# Clear listners
+	given_listeners.clear(old_name)
+	dotted_listeners.clear(old_name)
+	
 	# First, update internally
 	var idx = name_types.find(definition)
 	strings[idx] = new_name
-	definition.disconnect("renamed", self, "_update_definition_name")
-	definition.connect("renamed", self, "_update_definition_name", [definition, new_name])
+	definition.disconnect("updated", self, "_update_definition_name")
+	definition.connect("updated", self, "_update_definition_name", [definition, new_name])
 	
 	# Then tell those who are about to be overshadowed
 	for l in listeners_new:

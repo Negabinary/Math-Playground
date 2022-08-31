@@ -24,9 +24,9 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	if expr_item.get_type() != GlobalTypes.IMPLIES or expr_item.get_child_count() != 2:
-		return [Justification.LabelOption.new("Not an implication!", true)]
+		return [Justification.LabelOption.new(ConstantAutostring.new("Not an implication!"), true)]
 	return []
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "so the following is vacuous,"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("so the following is vacuous,")

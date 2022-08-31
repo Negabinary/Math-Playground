@@ -49,7 +49,7 @@ func _on_justification_changed():
 
 func _on_justification_updated():
 	var justification = proof_step.get_justification()
-	ui_justification_name.text = justification.get_justification_text(proof_step.get_inner_proof_box().get_parse_box())
+	ui_justification_name.autostring = justification.get_justification_text(proof_step.get_inner_proof_box().get_parse_box())
 	ui_unprove_button.visible = not (justification is MissingJustification)
 	ui_requirements.visible = not (justification is MissingJustification)
 	ui_requirements.visible = not (justification is MissingJustification)

@@ -66,7 +66,7 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var statement := Statement.new(expr_item)
 	for i in statement.get_definitions().size():
 		var bo := Justification.BooleanOption.new(
-			"DEFINE " + statement.get_definitions()[i].to_string(), 
+			ConcatAutostring.new(["DEFINE ", statement.get_definitions()[i]]), 
 			not i in keep_definition_ids
 		)
 		var rc := []
@@ -82,7 +82,7 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 				if statement.get_definitions()[j] in statement.get_conditions()[i].get_all_types().keys():
 					disabled = true
 		var co := Justification.BooleanOption.new(
-			"ASSUME " + statement.get_inner_parse_box(context).printout(statement.get_conditions()[i].get_expr_item()),
+			ConcatAutostring.new(["ASSUME ", ExprItemAutostring.new(statement.get_conditions()[i].get_expr_item(), statement.get_inner_parse_box(context))]),
 			not i in keep_condition_ids,
 			disabled
 		)
@@ -91,5 +91,5 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return options
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "thus,"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("thus,")

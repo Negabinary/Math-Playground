@@ -15,11 +15,11 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, selection:Locator):
 	return [
-		Justification.LabelOption.new(
+		Justification.LabelOption.new(ConstantAutostring.new(
 			"Proof is circlar. Delete the last step."
-		)
+		))
 	]
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "justification is circular"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("justification is circular")

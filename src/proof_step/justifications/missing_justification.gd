@@ -113,18 +113,12 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 	
 	for option_data in option_datas:
 		var bn = Justification.ButtonOption.new(
-			option_data[0], not option_data[1], option_data[2]
+			ConstantAutostring.new(option_data[0]), not option_data[1], option_data[2]
 		)
 		bn.connect("pressed", self, "_request_replace", [
 			option_data[3]
 		])
 		options.append(bn)
-	
-	var prove_implication_button = Justification.ButtonOption.new("prove implication")
-	prove_implication_button.connect("pressed", self, "_request_replace", [
-		ImplicationJustification.new()
-	])
-	options.append(prove_implication_button)
 	
 	return options
 
@@ -133,5 +127,5 @@ func _request_replace(justification:Justification):
 	emit_signal("request_replace", justification)
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "missing justification"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("missing justification")

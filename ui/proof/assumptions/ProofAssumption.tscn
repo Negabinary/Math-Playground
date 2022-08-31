@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ui/theme/fonts/ui_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://ui/theme/fonts/justification_font.tres" type="DynamicFont" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://ui/proof/assumptions/buttons/UseButton.gd" type="Script" id=6]
 [ext_resource path="res://ui/proof/assumptions/buttons/EqualityButton.gd" type="Script" id=7]
 [ext_resource path="res://ui/proof/assumptions/buttons/StarButton.gd" type="Script" id=8]
+[ext_resource path="res://util/autostring/AutostringLabel.gd" type="Script" id=9]
 
 [node name="CellAssumption" type="VBoxContainer"]
 margin_top = 23.0
@@ -37,6 +38,7 @@ size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "0"
+script = ExtResource( 9 )
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="."]
 margin_top = 27.0

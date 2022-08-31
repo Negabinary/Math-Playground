@@ -15,8 +15,10 @@ func add_assumption(expr_item:ExprItem) -> void:
 	expr_items[expr_item.get_unique_name()] = expr_item
 
 
-func add_missing(expr_item:ExprItem) -> MissingJustification:
-	var nj := MissingJustification.new()
+var MISSING_JUSTIFICATION = load("res://src/proof_step/justifications/missing_justification.gd")
+
+func add_missing(expr_item:ExprItem):
+	var nj = MISSING_JUSTIFICATION.new()
 	justifications[expr_item.get_unique_name()] = nj
 	expr_items[expr_item.get_unique_name()] = expr_item
 	return nj

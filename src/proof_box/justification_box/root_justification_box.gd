@@ -10,7 +10,7 @@ func _missing_justification(expr_item:ExprItem) -> Justification:
 	return null
 
 
-func get_justifications_snapshot() -> JustificationMap:
+func get_justifications_snapshot():
 	return justification_map.duplicate()
 
 

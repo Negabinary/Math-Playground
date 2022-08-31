@@ -47,13 +47,13 @@ func set_general(ei:ExprItem):
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options = []
-	options.append(Justification.LabelOption.new("General form:"))
+	options.append(Justification.LabelOption.new(ConstantAutostring.new("General form:")))
 	var eio := Justification.ExprItemOption.new(general, context)
 	eio.connect("expr_item_changed", self, "set_general")
 	options.append(eio)
 	
 	if general == null:
-		options.append(Justification.LabelOption.new("Expression missing!", true))
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("Expression missing!"), true))
 		return options
 	
 	var general_statement := Statement.new(general)
@@ -68,9 +68,9 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	)
 	
 	if not matches:
-		options.append(Justification.LabelOption.new("Not a general form", true))
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("Not a general form"), true))
 	return options
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "by taking a specific case,"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("by taking a specific case,")

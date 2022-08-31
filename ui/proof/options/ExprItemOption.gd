@@ -3,11 +3,23 @@ extends HBoxContainer
 var option : Justification.ExprItemOption
 var context : AbstractParseBox
 var parser : ExprItemParser2
+var text_listener:Autostring
+
+
+func _update():
+	$Label.text = text_listener.get_string()
+
 
 func init(option:Justification.ExprItemOption):
 	self.option = option
 	self.context = option.get_context()
-	$Label.text = context.printout(option.get_expr_item()) if option.get_expr_item() else "<null>"
+	self.text_listener = (
+		ExprItemAutostring.new(option.get_expr_item(), option.get_context())
+		if option.get_expr_item() else
+		ConstantAutostring.new("[not set.]")
+	)
+	text_listener.connect("updated", self,"_update")
+	_update()
 	$Button.connect("pressed", $ConfirmationDialog, "popup_centered")
 	$ConfirmationDialog/VBoxContainer/TextEdit.connect("text_changed", self, "_validate")
 	_validate()

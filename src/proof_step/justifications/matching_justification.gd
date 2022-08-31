@@ -35,13 +35,13 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	if expr_item.get_type() != GlobalTypes.EQUALITY or expr_item.get_child_count() != 2:
-		return [Justification.LabelOption.new("cannot match an expression that is not an equality", true)]
+		return [Justification.LabelOption.new(ConstantAutostring.new("cannot match an expression that is not an equality"), true)]
 	var lhs := expr_item.get_child(0)
 	var rhs := expr_item.get_child(1)
 	if lhs.get_child_count() == 0 or rhs.get_child_count() == 0:
-		return [Justification.LabelOption.new("cannot match something that is not a function", true)]
+		return [Justification.LabelOption.new(ConstantAutostring.new("cannot match something that is not a function"), true)]
 	return []
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "by matching arguments,"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("by matching arguments,")

@@ -34,6 +34,12 @@ func get_child(idx:int) -> ContextLocator:
 		pb_child = ParseBox.new(pb_child, [locator.get_child(0).get_type()])
 	return get_script().new(loc_child, pb_child)
 
+func get_children() -> Array:
+	var result = []
+	for i in get_child_count():
+		result.append(get_child(i))
+	return result
+
 func get_parent_type() -> ExprItemType:
 	return locator.get_parent_type()
 

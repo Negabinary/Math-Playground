@@ -2,16 +2,25 @@ extends VBoxContainer
 
 var item
 var selection_handler
+var autostring : Autostring
 
 func initialise(item:ModuleItem2Assumption, selection_handler:SelectionHandler):
 	self.item = item
 	self.selection_handler = selection_handler
-	$HBoxContainer/Name.text = item.get_next_proof_box().get_parse_box().printout(item.get_assumption())
+	autostring = ExprItemAutostring.new(
+		item.get_assumption(),
+		item.get_next_proof_box().get_parse_box()
+	)
+	autostring.connect("updated", self, "_update_text")
+	_update_text()
 	$HBoxContainer2/Star.init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
 	$HBoxContainer2/Use.init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
 	$HBoxContainer2/Instantiate.init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
 	$HBoxContainer2/EqLeft.init(item.get_assumption(), item.get_next_proof_box(), selection_handler, true)
 	$HBoxContainer2/EqRight.init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
+
+func _update_text():
+	$HBoxContainer/Name.text = autostring.get_string()
 
 func serialise():
 	return item.serialise()

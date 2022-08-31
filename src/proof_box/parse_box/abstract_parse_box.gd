@@ -1,11 +1,6 @@
 class_name AbstractParseBox
 
-signal added # (type:ExprItemType, new_name:String)
-signal renamed # (type:ExprItemType, old_name:String, new_name:String)
-signal removed # (type:ExprItemType, old_name:String)
-
 var NORMAL_PARSE_BOX = load("res://src/proof_box/parse_box/parse_box.gd")
-
 
 # Queries =================================================
 
@@ -71,100 +66,6 @@ func serialise(expr_item:ExprItem) -> String:
 		for child in expr_item.get_children():
 			string += "(" + serialise(child) + ")"
 		return string
-
-
-func printout(expr_item:ExprItem) -> String:
-	var type = expr_item.get_type()
-	var children = expr_item.get_children()
-	
-	if children.size() == 0:
-		return get_name_for(type)
-	elif type == GlobalTypes.IMPLIES and children.size() == 2:
-		return (
-			"if " 
-			+ printout(children[0]) 
-			+ " then " 
-			+ printout(children[1])
-		)
-	elif type == GlobalTypes.FORALL and children.size() == 2:
-		return (
-			"forall " 
-			+ children[0].get_type().get_identifier()
-			+ ". " 
-			+ NORMAL_PARSE_BOX.new(self, [children[0].get_type()]).printout(children[1])
-		)
-	elif type == GlobalTypes.EXISTS and children.size() == 2:
-		return (
-			"exists " 
-			+ children[0].get_type().get_identifier()
-			+ ". " 
-			+ NORMAL_PARSE_BOX.new(self, [children[0].get_type()]).printout(children[1])
-		)
-	elif type == GlobalTypes.LAMBDA and children.size() == 2:
-		return (
-			"fun " 
-			+ children[0].get_type().get_identifier()
-			+ ". " 
-			+ NORMAL_PARSE_BOX.new(self, [children[0].get_type()]).printout(children[1])
-		)
-	elif type == GlobalTypes.LAMBDA and children.size() > 2:
-		var children_string:String = (
-			"(fun " 
-			+ children[0].get_type().get_identifier()
-			+ ". " 
-			+ NORMAL_PARSE_BOX.new(self, [children[0].get_type()]).printout(children[1])
-			+ ")("
-		)
-		for i in range(2, children.size() - 1):
-			children_string += printout(children[i]) + ", "
-		children_string += printout(children[-1]) + ")"
-		return children_string
-	elif type == GlobalTypes.AND and children.size() == 2:
-		var children_string := ""
-		if children[0].get_type() in [GlobalTypes.AND, GlobalTypes.OR]:
-			children_string += "(" + printout(children[0]) + ")"
-		else:
-			children_string += printout(children[0])
-		children_string += " and "
-		if children[1].get_type() in [GlobalTypes.AND, GlobalTypes.OR]:
-			children_string += "(" + printout(children[1]) + ")"
-		else:
-			children_string += printout(children[1])
-		return children_string
-	elif type == GlobalTypes.OR and children.size() == 2:
-		var children_string := ""
-		if children[0].get_type() in [GlobalTypes.OR]:
-			children_string += "(" + printout(children[0]) + ")"
-		else:
-			children_string += printout(children[0])
-		children_string += " or "
-		if children[1].get_type() in [GlobalTypes.OR]:
-			children_string += "(" + printout(children[1]) + ")"
-		else:
-			children_string += printout(children[1])
-		return children_string
-	elif type == GlobalTypes.EQUALITY and children.size() == 2:
-		var children_string := ""
-		if children[0].get_type() in [GlobalTypes.OR, GlobalTypes.AND, GlobalTypes.EQUALITY]:
-			children_string += "(" + printout(children[0]) + ")"
-		else:
-			children_string += printout(children[0])
-		children_string += " = "
-		if children[1].get_type() in [GlobalTypes.OR, GlobalTypes.AND, GlobalTypes.EQUALITY]:
-			children_string += "(" + printout(children[1]) + ")"
-		else:
-			children_string += printout(children[1])
-		return children_string
-	else:
-		var children_string = ""
-		for child in children:
-			children_string += printout(child) + ", "
-		return (
-			get_name_for(type)
-			+ "("
-			+ children_string.left(children_string.length() - 2)
-			+ ")"
-		)
 
 
 # HELPERS =================================================

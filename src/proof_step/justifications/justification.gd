@@ -19,8 +19,8 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return []
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "USING SOMETHING OR OTHER"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("USING SOMETHING OR OTHER")
 
 
 func get_justification_description():
@@ -41,16 +41,16 @@ class Option:
 class BooleanOption extends Option:
 	signal value_changed # bool
 	
-	var label:String
+	var label:Autostring
 	var value:bool
 	var disabled := false
 	
-	func _init(label:String, initial_value:bool, disabled:=false):
+	func _init(label:Autostring, initial_value:bool, disabled:=false):
 		self.label = label
 		self.value = initial_value
 		self.disabled = disabled
 	
-	func get_label() -> String:
+	func get_label() -> Autostring:
 		return label
 	
 	func get_disabled() -> bool:
@@ -97,10 +97,10 @@ class ExprItemTypeNameOption:
 
 
 class LabelOption extends Option:
-	var text : String
+	var text : Autostring
 	var err : bool
 	
-	func _init(text:String, err=false):
+	func _init(text:Autostring, err=false):
 		self.text = text
 		self.err = err
 	
@@ -112,57 +112,56 @@ class LabelOption extends Option:
 
 
 class ButtonOption extends Option:
-	var text : String
+	var text : Autostring
 	var disabled : bool
 	var picture : Texture
 	signal pressed
 	
-	func _init(text, disabled:=false, picture:Texture=null):
+	func _init(text:Autostring, disabled:=false, picture:Texture=null):
 		self.text = text
 		self.disabled = disabled
 		self.picture = picture
 	
-	func get_text():
+	func get_text() -> Autostring:
 		return text
 	
-	func get_is_disabled():
+	func get_is_disabled() -> bool:
 		return disabled
 	
-	func get_image():
+	func get_image() -> Texture:
 		return picture
 	
 	func action():
-		print("HERE3")
 		emit_signal("pressed")
 
 
 class ReplaceButtonOption extends Option:
-	var text : String
+	var text : Autostring
 	var disabled : bool
 	var picture : Texture
 	var just : Justification
 	signal pressed
 	
-	func _init(text, disabled:bool, picture:Texture, replace_with:Justification):
+	func _init(text:Autostring, disabled:bool, picture:Texture, replace_with:Justification):
 		self.text = text
 		self.disabled = disabled
 		self.picture = picture
 		self.just = replace_with
 	
-	func get_text():
+	func get_text() -> Autostring:
 		return text
 	
-	func get_is_disabled():
+	func get_is_disabled() -> bool:
 		return disabled
 	
-	func get_image():
+	func get_image() -> Texture:
 		return picture
 	
 	func action():
-		print("HERE3")
 		emit_signal("pressed")
 
 
+"""
 class LocatorOption:
 	signal location_updated
 	var expr_item : ExprItem
@@ -181,3 +180,4 @@ class LocatorOption:
 	func set_locator(locator:Locator):
 		location = locator
 		emit_signal("updated")
+"""

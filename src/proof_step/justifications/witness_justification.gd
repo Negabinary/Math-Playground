@@ -37,19 +37,19 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	if expr_item.get_type() != GlobalTypes.EXISTS or expr_item.get_child_count() != 2:
-		return [Justification.LabelOption.new("Witness can only prove existentials!", true)]
+		return [Justification.LabelOption.new(ConstantAutostring.new("Witness can only prove existentials!"), true)]
 	var options = []
-	options.append(Justification.LabelOption.new("Witness:"))
+	options.append(Justification.LabelOption.new(ConstantAutostring.new("Witness:")))
 	var eio = Justification.ExprItemOption.new(witness, context)
 	eio.connect("expr_item_changed", self, "set_witness")
 	options.append(eio)
 	if witness == null:
-		options.append(Justification.LabelOption.new("Witness Missing", true))
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("Witness Missing"), true))
 	return options
 
 
-func get_justification_text(parse_box:AbstractParseBox):
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	if witness:
-		return "using " + parse_box.printout(witness) + " as a witness," 
+		return ConcatAutostring.new(["using ", ExprItemAutostring.new(witness, parse_box), " as a witness,"])
 	else:
-		return "using a witness,"
+		return ConstantAutostring.new("using a witness,")

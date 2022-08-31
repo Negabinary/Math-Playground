@@ -29,16 +29,20 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options := []
-	options.append(Justification.LabelOption.new("Location: " + location.get_parse_box(context).printout(location.get_expr_item())))
+	options.append(Justification.LabelOption.new(
+		ConcatAutostring.new(["Location: ", ExprItemAutostring.new(location.get_expr_item(), location.get_parse_box(context))])
+	))
 	if location == null or (not expr_item.compare(location.get_root())):
-		options.append(Justification.LabelOption.new("Location not valid", true))
+		options.append(Justification.LabelOption.new(
+			ConstantAutostring.new("Location not valid"), true
+		))
 	else:
 		options.append_array(_get_equality_options(location.get_expr_item(), context))
 	return options
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "USING SOME SORT OF REPLACEMENT"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("USING SOME SORT OF REPLACEMENT")
 
 
 # VIRTUAL =====================================================================
@@ -52,7 +56,7 @@ func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
 
 
 func _get_equality_options(what:ExprItem, context:AbstractParseBox):
-	return [Justification.LabelOption.new("Abstract justification used", true)]
+	return [Justification.LabelOption.new(ConstantAutostring.new("Abstract justification used"), true)]
 
 
 # LOCATION ====================================================================

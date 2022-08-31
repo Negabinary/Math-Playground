@@ -7,6 +7,7 @@ var assumption_context : SymmetryBox
 var definitions : Array
 var selected_locator : Locator
 var selected_context : SymmetryBox
+var autostring : Autostring
 
 func initialise(assumption:ExprItem, assumption_context:SymmetryBox, _selection_handler:SelectionHandler):
 	self.assumption = assumption
@@ -22,7 +23,15 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, _selection_
 	
 	if conclusion.get_type() != GlobalTypes.EQUALITY:
 		show()
-		$Conclusion.add_item(assumption_context.get_parse_box().printout(conclusion.get_expr_item()))
+		autostring = ExprItemAutostring.new(
+			conclusion.get_expr_item(), assumption_context.get_parse_box()
+		)
+		_update_conclusion()
+
+
+func _update_conclusion():
+	$Conclusion.clear()
+	$Conclusion.add_item(autostring.get_string())
 
 
 func update_context(selected_locator:Locator, selected_context:SymmetryBox):

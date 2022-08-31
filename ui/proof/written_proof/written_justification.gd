@@ -1,11 +1,15 @@
 extends TextureButton
 class_name WrittenJustification
 
-export var j_text : String = "USING BLACK MAGIC (i.e. This is sound but I haven't implemented a visualisation for this reasoning yet)"
+var j_text = ConstantAutostring.new("USING BLACK MAGIC (i.e. This is sound but I haven't implemented a visualisation for this reasoning yet)")
 export var icon : String
 
-func set_text(new_text:String, new_icon:="") -> void:
-	j_text = new_text
+func set_text(new_text, new_icon:="") -> void:
+	if new_text is String:
+		j_text = ConstantAutostring.new(new_text)
+	else:
+		j_text = new_text
+	j_text.connect("updated", self, "update")
 	icon = new_icon
 	update()
 
@@ -17,5 +21,5 @@ func _draw():
 	var icon_font:Font = get_font("warning_font", "WrittenJustification")
 	draw_string(icon_font, Vector2((offset-icon_font.get_string_size(icon).x)*2/3, icon_font.get_ascent()), icon, icon_color)
 	var opener = "" #if toggle_mode == false else ("- " if pressed else "+ ")
-	draw_string(font, Vector2(offset, font.get_ascent()), opener + j_text, font_color)
-	set_custom_minimum_size(Vector2(offset, 0) + font.get_string_size(opener + j_text))
+	draw_string(font, Vector2(offset, font.get_ascent()), opener + j_text.get_string(), font_color)
+	set_custom_minimum_size(Vector2(offset, 0) + font.get_string_size(opener + j_text.get_string()))

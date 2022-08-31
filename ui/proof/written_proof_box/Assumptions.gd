@@ -13,7 +13,7 @@ func display_assumptions(requirement:Requirement, inner_proof_box:SymmetryBox, s
 	self.inner_proof_box = inner_proof_box
 	self.selection_handler = selection_handler
 	for definition in requirement.get_definitions():
-		definition.connect("renamed", self, "_update_assumptions")
+		definition.connect("updated", self, "_update_assumptions")
 	_update_assumptions()
 
 func _update_assumptions():

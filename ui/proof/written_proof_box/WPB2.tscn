@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ui/proof/written_proof_box/Assumptions.gd" type="Script" id=1]
 [ext_resource path="res://ui/proof/written_proof_box/WPB2.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://ui/theme/fonts/justification_font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://ui/proof/written_proof_box/WPB_Justification.gd" type="Script" id=7]
 [ext_resource path="res://ui/proof/written_proof_box/WPBRequirements.gd" type="Script" id=8]
+[ext_resource path="res://util/autostring/AutostringLabel.gd" type="Script" id=9]
 
 [node name="WrittenProofBox" type="MarginContainer"]
 margin_top = 20.0
@@ -76,6 +77,7 @@ size_flags_horizontal = 3
 custom_colors/font_color = Color( 0.537255, 0.537255, 0.537255, 1 )
 custom_fonts/font = ExtResource( 6 )
 text = "JUSTIFICATION NAME"
+script = ExtResource( 9 )
 
 [node name="UnproveButton" type="Button" parent="WrittenProofBox/Justification/Options/VBoxContainer/HBoxContainer"]
 margin_left = 492.0

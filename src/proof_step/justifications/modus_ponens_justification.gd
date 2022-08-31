@@ -42,23 +42,23 @@ func get_requirements_for(expr_item:ExprItem, parse_box:AbstractParseBox):
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options = []
-	options.append(Justification.LabelOption.new("Implication:"))
+	options.append(Justification.LabelOption.new(ConstantAutostring.new("Implication:")))
 	var eio := Justification.ExprItemOption.new(implication, context)
 	eio.connect("expr_item_changed", self, "set_implication")
 	options.append(eio)
 	if implication == null:
-		options.append(Justification.LabelOption.new("Implication missing!", true))
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("Implication missing!"), true))
 		return options
 	var statement = Statement.new(implication)
 	if not expr_item.compare(statement.get_conclusion().get_expr_item()):
-		options.append(Justification.LabelOption.new("Implication conclusion does not match goal.", true))
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("Implication conclusion does not match goal."), true))
 	if statement.get_definitions().size() != 0:
-		options.append(Justification.LabelOption.new("Implication must not have quantifiers.", true))
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("Implication must not have quantifiers."), true))
 	return options
 
 
-func get_justification_text(parse_box:AbstractParseBox):
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	if implication:
-		return "using " + parse_box.printout(implication) + ","
+		return ConcatAutostring.new(["using ", ExprItemAutostring.new(implication, parse_box), ","])
 	else:
-		return "using an implication,"
+		return ConstantAutostring.new("using an implication,")

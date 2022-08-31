@@ -26,11 +26,11 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	if expr_item.get_type() != GlobalTypes.EQUALITY or expr_item.get_child_count() != 2:
-		return [Justification.LabelOption.new("Not an equality!")]
+		return [Justification.LabelOption.new(ConstantAutostring.new("Not an equality!"))]
 	if not expr_item.get_child(0).compare(expr_item.get_child(1)):
-		return [Justification.LabelOption.new("Sides of the equality must be exactly the same!")]
+		return [Justification.LabelOption.new(ConstantAutostring.new("Sides of the equality must be exactly the same!"))]
 	return []
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "using reflexivity,"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("using reflexivity,")

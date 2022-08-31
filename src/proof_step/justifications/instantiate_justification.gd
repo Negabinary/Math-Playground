@@ -38,27 +38,27 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	var options = []
-	options.append(Justification.LabelOption.new("Existential: "))
+	options.append(Justification.LabelOption.new(ConstantAutostring.new("Existential: ")))
 	var eio := Justification.ExprItemOption.new(existential, context)
 	eio.connect("expr_item_changed", self, "set_existential_fact")
 	options.append(eio)
 	if existential == null:
-		options.append(Justification.LabelOption.new("Existential missing!", true))
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("Existential missing!"), true))
 		return options
 	if existential == null:
-		options.append(Justification.LabelOption.new("expression missing", true))
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("expression missing"), true))
 	if existential.get_type() != GlobalTypes.EXISTS:
-		options.append(Justification.LabelOption.new("expression must be an existential", true))
-	options.append(Justification.LabelOption.new("Name for new instance: "))
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("expression must be an existential"), true))
+	options.append(Justification.LabelOption.new(ConstantAutostring.new("Name for new instance: ")))
 	options.append(Justification.ExprItemTypeNameOption.new(new_type))
 	return options
 
 
-func get_justification_text(parse_box:AbstractParseBox):
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	if existential:
-		return "using " + parse_box.printout(existential) + ","
+		return ConcatAutostring.new(["using ", ExprItemAutostring.new(existential, parse_box), ","])
 	else:
-		return "using an existential,"
+		return ConstantAutostring.new("using an existential,")
 
 
 func set_existential_fact(existential_fact:ExprItem):

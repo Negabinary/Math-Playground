@@ -1,7 +1,7 @@
+extends Autostring
 class_name ExprItemType
 
 
-signal renamed
 signal deleted
 
 
@@ -41,7 +41,7 @@ func rename(new_name:String):
 		new_name = "???"
 	identifier = new_name
 	fm_strings = [identifier]
-	emit_signal("renamed")
+	emit_signal("updated")
 
 
 func get_identifier() -> String:

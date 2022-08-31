@@ -5,6 +5,8 @@ var conditions : Array
 var assumption : ExprItem
 var selection_handler : SelectionHandler
 
+var lhs_autostring : Autostring
+var rhs_autostring : Autostring
 
 func initialise(assumption:ExprItem, assumption_context:SymmetryBox, selection_handler:SelectionHandler):
 	self.assumption = assumption
@@ -16,7 +18,21 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, selection_h
 	
 	if conclusion.get_type() == GlobalTypes.EQUALITY and conclusion.get_child_count() == 2:
 		show()
-		$LHS.add_item(assumption_context.get_parse_box().printout(conclusion.get_child(0).get_expr_item()))
-		$RHS.add_item(assumption_context.get_parse_box().printout(conclusion.get_child(1).get_expr_item()))
+		lhs_autostring = ExprItemAutostring.new(
+			conclusion.get_child(0).get_expr_item(), 
+			assumption_statement.get_inner_parse_box(assumption_context.get_parse_box())
+		)
+		rhs_autostring = ExprItemAutostring.new(
+			conclusion.get_child(1).get_expr_item(), 
+			assumption_statement.get_inner_parse_box(assumption_context.get_parse_box())
+		)
 		$UseEquality/Right.init(assumption, assumption_context, selection_handler, false)
 		$UseEquality/Left.init(assumption, assumption_context, selection_handler, true)
+
+func _update_lhs():
+	$LHS.clear()
+	$LHS.add_item(lhs_autostring.get_string())
+
+func _update_rhs():
+	$RHS.clear()
+	$RHS.add_item(lhs_autostring.get_string())

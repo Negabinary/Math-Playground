@@ -38,11 +38,11 @@ func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
 
 func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	if what.get_type() != GlobalTypes.LAMBDA:
-		return [Justification.LabelOption.new("That location is not a lambda expression!", true)]
+		return [Justification.LabelOption.new(ConstantAutostring.new("That location is not a lambda expression!"), true)]
 	if what.get_child_count() < 3:
-		return [Justification.LabelOption.new("That lambda is not applied to anything!", true)]
+		return [Justification.LabelOption.new(ConstantAutostring.new("That lambda is not applied to anything!"), true)]
 	return []
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "by introducing a function,"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("by introducing a function,")

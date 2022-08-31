@@ -4,7 +4,10 @@ var selection_handler
 
 func initialise(assumption:ExprItem, context:SymmetryBox, selection_handler:SelectionHandler):
 	self.selection_handler = selection_handler
-	$HBoxContainer/Name.text = context.get_parse_box().printout(assumption)
+	$HBoxContainer/Name.autostring = ExprItemAutostring.new(
+		assumption,
+		context.get_parse_box()
+	)
 	$HBoxContainer2/Star.init(assumption, context, selection_handler)
 	$HBoxContainer2/Use.init(assumption, context, selection_handler)
 	$HBoxContainer2/Instantiate.init(assumption, context, selection_handler)

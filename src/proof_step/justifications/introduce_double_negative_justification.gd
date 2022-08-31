@@ -31,12 +31,12 @@ func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
 
 func _get_equality_options(expr_item:ExprItem, context:AbstractParseBox):
 	if expr_item.type != GlobalTypes.NOT or expr_item.get_child_count() != 1:
-		return [Justification.LabelOption.new("That location is not a double negative!", true)]
+		return [Justification.LabelOption.new(ConstantAutostring.new("That location is not a double negative!"), true)]
 	expr_item = expr_item.get_child(0)
 	if expr_item.type != GlobalTypes.NOT or expr_item.get_child_count() != 1:
-		return [Justification.LabelOption.new("That location is not not not a double negative!", true)]
+		return [Justification.LabelOption.new(ConstantAutostring.new("That location is not not not a double negative!"), true)]
 	return []
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "by adding a double negative,"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("by adding a double negative,")

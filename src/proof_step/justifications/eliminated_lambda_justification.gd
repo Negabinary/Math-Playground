@@ -78,25 +78,25 @@ func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
 
 func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	var options = []
-	options.append(Justification.LabelOption.new("Replace instances of:"))
+	options.append(Justification.LabelOption.new(ConstantAutostring.new("Replace instances of:")))
 	var eio := Justification.ExprItemOption.new(replace_value, location.get_parse_box(context))
 	eio.connect("expr_item_changed", self, "set_replace_value")
 	options.append(eio)
 	if replace_value == null:
-		options.append(Justification.LabelOption.new("expression missing", true))
-	options.append(Justification.LabelOption.new("with a variable called:"))
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("expression missing"), true))
+	options.append(Justification.LabelOption.new(ConstantAutostring.new("with a variable called:")))
 	options.append(Justification.ExprItemTypeNameOption.new(replace_with))
 	if replace_value != null:
 		if replace_locations.size() == 0:
-			options.append(Justification.LabelOption.new("(this will be a constant function, since the expression above does not appear in the goal)"))
+			options.append(Justification.LabelOption.new(ConstantAutostring.new("(this will be a constant function, since the expression above does not appear in the goal)")))
 		else:
-			options.append(Justification.LabelOption.new("specifically these instances:"))
+			options.append(Justification.LabelOption.new(ConstantAutostring.new("specifically these instances:")))
 			for i in replace_locations.size():
-				var boolean_option = Justification.BooleanOption.new(MiscUtil.ordinal(i), replace_positions[i])
+				var boolean_option = Justification.BooleanOption.new(ConstantAutostring.new(MiscUtil.ordinal(i)), replace_positions[i])
 				boolean_option.connect("value_changed", self, "set_replace_position", [i])
 				options.append(boolean_option)
 	return options
 
 
-func get_justification_text(parse_box:AbstractParseBox):
-	return "by applying that function,"
+func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
+	return ConstantAutostring.new("by applying that function,")
