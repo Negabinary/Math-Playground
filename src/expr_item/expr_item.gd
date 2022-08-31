@@ -5,11 +5,13 @@ var children : Array  		# of ExprItem
 var string : String
 var all_types = null
 
+
 func _init(new_type:ExprItemType, new_children:=[]):
 	type = new_type
 	children = new_children
 	if GlobalTypes:
 		string = to_string()
+
 
 # GETTERS ========================================
 
@@ -72,14 +74,14 @@ func _is_application() -> bool:
 	)
 
 
-func is_superset_2(other:ExprItem, matching:Dictionary) -> bool:
+func is_superset(other:ExprItem, matching:={}) -> bool:
 	# Case Application
 	if _is_application():
 		if not other._is_application():
 			return false
-		if not abandon_lowest(1).is_superset_2(other.abandon_lowest(1), matching):
+		if not abandon_lowest(1).is_superset(other.abandon_lowest(1), matching):
 			return false
-		return get_child(get_child_count()-1).is_superset_2(
+		return get_child(get_child_count()-1).is_superset(
 			other.get_child(other.get_child_count()-1), matching)
 	elif type.get_binder_type() == ExprItemType.BINDER.BINDER:
 		if not other.get_type() == type:
@@ -87,7 +89,7 @@ func is_superset_2(other:ExprItem, matching:Dictionary) -> bool:
 		var from_type:ExprItemType = children[0].get_type()
 		var to_type:ExprItemType = other.children[0].get_type()
 		var replaced_version = get_child(1).deep_replace_types({from_type:get_script().new(to_type)})
-		return replaced_version.is_superset_2(
+		return replaced_version.is_superset(
 			other.get_child(1), matching
 		)
 	elif type in matching:
@@ -100,45 +102,6 @@ func is_superset_2(other:ExprItem, matching:Dictionary) -> bool:
 	else:
 		assert(get_child_count() == 0)
 		return type == other.type
-
-# TODO: Check Semantics of this - could be wrong
-func is_superset(other:ExprItem, matching:={}) -> bool:
-	return is_superset_2(other, matching)
-	
-#	if type == other.type and get_child_count() == other.get_child_count():
-#		if type.get_binder_type() == ExprItemType.BINDER.BINDER:
-#			var from_type:ExprItemType = children[0].get_type()
-#			var to_type:ExprItemType = other.children[0].get_type()
-#			var new_matching := matching.duplicate()
-#			new_matching[from_type] = get_script().new(to_type)
-#			if not children[1].is_superset(other.children[1], new_matching):
-#				return false
-#			for child_id in range(2,children.size()):
-#				if not children[child_id].is_superset(other.children[child_id], matching):
-#					return false
-#			return true
-#		else:
-#			for i in get_child_count():
-#				if not get_child(i).is_superset(other.get_child(i), matching):
-#					return false
-#			return true
-#	elif matching.has(type):
-#		if get_child_count() > other.get_child_count():
-#			return false
-#		elif matching[type] is String:
-#			matching[type] = other.abandon_lowest(get_child_count())
-#			for i in get_child_count():
-#				if not get_child(i).is_superset(other.get_child(other.get_child_count() - get_child_count() + i), matching):
-#					return false
-#			return true
-#		else:
-#			var expected_other:ExprItem = get_script().new(matching[type].get_type(), matching[type].get_children() + get_children())
-#			if expected_other.is_superset(other, matching):
-#				return true
-#			else:
-#				return false
-#	else:
-#		return false
 
 
 # OPERATIONS =====================================
@@ -158,6 +121,7 @@ func deep_replace_types(types:Dictionary) -> ExprItem: #<ExprItemType, ExprItem>
 			new_type = types[type].get_type()
 			new_children = types[type].get_children() + new_children
 	return get_script().new(new_type, new_children)
+
 
 func replace_at(indeces:Array, drop:int, with:ExprItem) -> ExprItem:
 	indeces = indeces.duplicate()
@@ -220,82 +184,6 @@ func get_unique_name(indeces=[]) -> String:
 func _to_string() -> String:
 	if children.size() == 0:
 		return type.to_string() + "#" + str(type.get_uid())
-	elif type == GlobalTypes.IMPLIES and children.size() == 2:
-		return (
-			"if " 
-			+ children[0].to_string() 
-			+ " then " 
-			+ children[1].to_string()
-		)
-	elif type == GlobalTypes.FORALL and children.size() == 2:
-		return (
-			"forall " 
-			+ children[0].to_string() 
-			+ ". " 
-			+ children[1].to_string()
-		)
-	elif type == GlobalTypes.EXISTS and children.size() == 2:
-		return (
-			"exists " 
-			+ children[0].to_string() 
-			+ ". " 
-			+ children[1].to_string()
-		)
-	elif type == GlobalTypes.LAMBDA and children.size() == 2:
-		return (
-			"fun " 
-			+ children[0].to_string() 
-			+ ". " 
-			+ children[1].to_string()
-		)
-	elif type == GlobalTypes.LAMBDA and children.size() > 2:
-		var children_string:String = (
-			"(fun " 
-			+ children[0].to_string() 
-			+ ". " 
-			+ children[1].to_string()
-			+ ")("
-		)
-		for i in range(2, children.size() - 1):
-			children_string += children[i].to_string() + ", "
-		children_string += children[-1].to_string() + ")"
-		return children_string
-	elif type == GlobalTypes.AND and children.size() == 2:
-		var children_string := ""
-		if children[0].get_type() in [GlobalTypes.AND, GlobalTypes.OR]:
-			children_string += "(" + children[0].to_string() + ")"
-		else:
-			children_string += children[0].to_string()
-		children_string += " and "
-		if children[1].get_type() in [GlobalTypes.AND, GlobalTypes.OR]:
-			children_string += "(" + children[1].to_string() + ")"
-		else:
-			children_string += children[1].to_string()
-		return children_string
-	elif type == GlobalTypes.OR and children.size() == 2:
-		var children_string := ""
-		if children[0].get_type() in [GlobalTypes.OR]:
-			children_string += "(" + children[0].to_string() + ")"
-		else:
-			children_string += children[0].to_string()
-		children_string += " or "
-		if children[1].get_type() in [GlobalTypes.OR]:
-			children_string += "(" + children[1].to_string() + ")"
-		else:
-			children_string += children[1].to_string()
-		return children_string
-	elif type == GlobalTypes.EQUALITY and children.size() == 2:
-		var children_string := ""
-		if children[0].get_type() in [GlobalTypes.OR, GlobalTypes.AND, GlobalTypes.EQUALITY]:
-			children_string += "(" + children[0].to_string() + ")"
-		else:
-			children_string += children[0].to_string()
-		children_string += " = "
-		if children[1].get_type() in [GlobalTypes.OR, GlobalTypes.AND, GlobalTypes.EQUALITY]:
-			children_string += "(" + children[1].to_string() + ")"
-		else:
-			children_string += children[1].to_string()
-		return children_string
 	else:
 		var children_string = ""
 		for child in children:
