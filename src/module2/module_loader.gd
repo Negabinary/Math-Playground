@@ -1,3 +1,5 @@
+extends Node
+
 var cache := {} #<String, Modules>
 var folder := "user://lib2/"
 var suffix := ".mml"
