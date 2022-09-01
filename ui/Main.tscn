@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ui/theme/main_theme.theme" type="Theme" id=1]
 [ext_resource path="res://ui/Main.gd" type="Script" id=2]
+[ext_resource path="res://ui/file/StdLib.gd" type="Script" id=3]
 [ext_resource path="res://ui/notebook/Notebook.tscn" type="PackedScene" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -63,6 +64,37 @@ margin_left = 181.0
 margin_right = 225.0
 margin_bottom = 20.0
 text = "Save"
+
+[node name="Control" type="Control" parent="Controls/FileControls"]
+margin_left = 181.0
+margin_right = 856.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="StdLib" type="Button" parent="Controls/FileControls"]
+margin_left = 860.0
+margin_right = 1014.0
+margin_bottom = 20.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Get Standard Library"
+script = ExtResource( 3 )
+
+[node name="AcceptDialog" type="AcceptDialog" parent="Controls/FileControls/StdLib"]
+margin_left = -588.723
+margin_top = 144.335
+margin_right = -113.723
+margin_bottom = 439.335
+window_title = "Download Standard Library"
+
+[node name="Tree" type="TextEdit" parent="Controls/FileControls/StdLib/AcceptDialog"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 467.0
+margin_bottom = 260.0
+text = "Getting list of available files..."
+readonly = true
+
+[node name="HTTPRequest" type="HTTPRequest" parent="Controls/FileControls/StdLib/AcceptDialog"]
 
 [node name="FileDialog" type="FileDialog" parent="Controls"]
 margin_right = 325.0
