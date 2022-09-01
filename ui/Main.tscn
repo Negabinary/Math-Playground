@@ -5,6 +5,13 @@
 [ext_resource path="res://ui/notebook/Notebook.tscn" type="PackedScene" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 5.0
+content_margin_right = 5.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color( 0.878431, 0.878431, 0.878431, 1 )
+shadow_color = Color( 0, 0, 0, 0.352941 )
+shadow_size = 4
 
 [node name="ColorRect" type="Control"]
 anchor_right = 1.0
@@ -24,28 +31,30 @@ rect_min_size = Vector2( 0, 24 )
 custom_styles/panel = SubResource( 1 )
 
 [node name="FileControls" type="HBoxContainer" parent="Controls"]
-margin_right = 1024.0
-margin_bottom = 24.0
+margin_left = 5.0
+margin_top = 2.0
+margin_right = 1019.0
+margin_bottom = 22.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="New" type="Button" parent="Controls/FileControls"]
 margin_right = 41.0
-margin_bottom = 24.0
+margin_bottom = 20.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "New"
 
 [node name="Load" type="Button" parent="Controls/FileControls"]
 margin_left = 45.0
 margin_right = 92.0
-margin_bottom = 24.0
+margin_bottom = 20.0
 text = "Open"
 
 [node name="Save" type="Button" parent="Controls/FileControls"]
 margin_left = 96.0
 margin_right = 177.0
-margin_bottom = 24.0
+margin_bottom = 20.0
 text = "Save As ..."
 
 [node name="Save2" type="Button" parent="Controls/FileControls"]

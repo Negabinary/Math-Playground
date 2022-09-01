@@ -10,6 +10,10 @@ func _ready():
 	$Controls/FileControls/New.connect("pressed", self, "_new_file_button")
 	$Controls/FileControls/Load.connect("pressed", self, "_load_file_button")
 	$Controls/FileControls/Save.connect("pressed", self, "_save_as_button")
+	var dir = Directory.new()
+	if not dir.dir_exists("user://save/"):
+		dir.make_dir("user://save/")
+	$Controls/FileDialog.current_dir = "user://save/"
 	ui_save_button.connect("pressed", self, "_save_button")
 
 

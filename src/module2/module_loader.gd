@@ -1,7 +1,7 @@
 extends Node
 
 var cache := {} #<String, Modules>
-var folder := "user://lib2/"
+var folder := "user://save/"
 var suffix := ".mml"
 
 func clear() -> void:
