@@ -21,3 +21,7 @@ func remove_listener(il:IdentifierListener) -> void:
 
 func get_listeners_for(identifier:String) -> Array:
 	return []
+
+
+func is_inside(other:AbstractParseBox) -> bool:
+	return other == self

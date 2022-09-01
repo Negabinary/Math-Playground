@@ -34,6 +34,11 @@ func get_il_for(type:ExprItemType) -> IdentifierListener:
 	return null
 
 
+func is_inside(other:AbstractParseBox) -> bool:
+	assert(false) # virtual
+	return false
+
+
 # Virtual : Listeners -------------------------------------
 
 func remove_listener(il:IdentifierListener) -> void:

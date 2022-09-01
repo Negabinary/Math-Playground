@@ -91,6 +91,10 @@ func get_all_types() -> TwoWayParseMap:
 	return result
 
 
+func is_inside(other:AbstractParseBox) -> bool:
+	return other == self or parent.is_inside(other)
+
+
 # Own Listening ===========================================
 
 func _update_definition_name(definition:ExprItemType, old_name:String):

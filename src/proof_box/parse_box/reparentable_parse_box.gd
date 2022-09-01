@@ -65,3 +65,7 @@ func get_all_types() -> TwoWayParseMap: # <String, ExprItem>
 
 func get_listeners_for(identifier:String) -> Array:
 	return current_mod_listeners.get_all(identifier)
+
+
+func is_inside(other:AbstractParseBox) -> bool:
+	return other == self or parent.is_inside(other)

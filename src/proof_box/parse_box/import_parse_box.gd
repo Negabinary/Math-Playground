@@ -58,3 +58,7 @@ func get_all_types():
 	var parent_map = parent.get_all_types()
 	parent_map.merge(imported_type_map)
 	return parent_map
+
+
+func is_inside(other:AbstractParseBox) -> bool:
+	return other == self or parent.is_inside(other) or import_box.is_inside(other)

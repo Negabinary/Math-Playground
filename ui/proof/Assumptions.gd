@@ -18,7 +18,8 @@ func save_assumption(assumption:ExprItem, assumption_context:SymmetryBox, reques
 	request_map[requester] = assumption_box
 	$VBoxContainer.add_child(assumption_box)
 	assumption_box.initialise(assumption, assumption_context, selection_handler)
-	requester.connect("tree_exiting", self, "remove_assumption", [requester])
+	if requester:
+		requester.connect("tree_exiting", self, "remove_assumption", [requester])
 
 
 func remove_assumption(requester:StarButton=null):

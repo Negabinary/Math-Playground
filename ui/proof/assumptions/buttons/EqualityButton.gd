@@ -26,7 +26,7 @@ func _can_use() -> bool:
 	if equality.get_expr_item().compare(selection_handler.get_locator().get_expr_item()):
 		return true
 	elif equality.get_expr_item().is_superset(selection_handler.get_locator().get_expr_item(), matching):
-		return true
+		return not ("*" in matching.values())
 	else:
 		return false
 
