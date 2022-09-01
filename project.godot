@@ -534,6 +534,10 @@ environment_variables/measurementId="G-1T6D85JE2R"
 environment_variables/clientId="306594356559-aliph5olg6mc3pirsd2ifl1fgfuea1qp.apps.googleusercontent.com"
 environment_variables/clientSecret="0Jb4RlOx9XSN2Bcet-uiotdk"
 
+[global]
+
+rcedit=true
+
 [gui]
 
 theme/custom="res://ui/theme/main_theme.theme"
