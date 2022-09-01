@@ -82,6 +82,18 @@ func convert_requirement(r:Requirement) -> Requirement:
 	)
 
 
+func convert_expr_item(ei:ExprItem, old_defs:Array) -> ExprItem:
+	if len(old_defs) == 0:
+		return ei
+	var new_defs := _get_next_definitions(old_defs)
+	if old_defs == new_defs:
+		return ei
+	var map := {}
+	for i in old_defs.size():
+		map[old_defs[i]] = ExprItem.new(new_defs[i])
+	return ei.deep_replace_types(map)
+
+
 func get_justification_box() -> AbstractJustificationBox:
 	return justification_box
 

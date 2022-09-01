@@ -41,6 +41,7 @@ func eat_toplevel(input_tape:ParserInputTape):
 			var name_item := ModuleItem2Definition.new(
 				proof_box, type
 			)
+			var converted := proof_box.convert_expr_item(ExprItem.new(type), [type])
 			proof_box = name_item.get_next_proof_box()
 			if input_tape.done():
 				return {error=false, type="define", items=[name_item]}
@@ -49,7 +50,7 @@ func eat_toplevel(input_tape:ParserInputTape):
 				if tag_parse.error:
 					return tag_parse
 				var def_item := ModuleItem2Assumption.new(
-					proof_box, ExprItemTagHelper.tag_to_statement(tag_parse.tag, ExprItem.new(type))
+					proof_box, ExprItemTagHelper.tag_to_statement(tag_parse.tag, converted)
 				)
 				proof_box = def_item.get_next_proof_box()
 				return {error=false, type="define", items=[name_item, def_item]}
@@ -72,7 +73,7 @@ func eat_toplevel(input_tape:ParserInputTape):
 				if expr_parse.error:
 					return expr_parse
 				var rhs : ExprItem = expr_parse.expr_item
-				var lhs : ExprItem = ExprItem.new(type)
+				var lhs : ExprItem = converted
 				for b_type in bindings_types:
 					lhs = lhs.apply(ExprItem.new(b_type))
 				var expr_item = ExprItem.new(
