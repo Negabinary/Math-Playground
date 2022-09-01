@@ -23,7 +23,7 @@ onready var scene_cell_show := load("res://ui/notebook/cell/CellShow.tscn")
 onready var scene_cell_import := load("res://ui/notebook/cell/CellImport.tscn")
 
 
-var top_proof_box:SymmetryBox = SymmetryBox.new(GlobalTypes.JUSTIFICATION_BOX, GlobalTypes.PARSE_BOX)
+var top_proof_box:SymmetryBox = GlobalTypes.get_root_symmetry()
 var bottom_proof_box := top_proof_box
 var selection_handler : SelectionHandler
 

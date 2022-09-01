@@ -12,10 +12,7 @@ var bottom_proof_box : SymmetryBox
 
 func _init(name:String):
 	self.name = name
-	bottom_proof_box = SymmetryBox.new(
-		GlobalTypes.JUSTIFICATION_BOX,
-		GlobalTypes.PARSE_BOX
-	)
+	bottom_proof_box = GlobalTypes.get_root_symmetry()
 
 
 func get_name() -> String:

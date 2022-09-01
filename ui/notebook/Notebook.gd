@@ -7,7 +7,7 @@ onready var ui_cells := $HSplitContainer/ScrollContainer/Container/MarginContain
 onready var ui_new_cell_button := $HSplitContainer/ScrollContainer/Container/MarginContainer/VBoxContainer/NewCell
 onready var selection_handler := $SelectionHandler
 
-var top_symmetry_box := SymmetryBox.new(GlobalTypes.JUSTIFICATION_BOX, GlobalTypes.PARSE_BOX)
+var top_symmetry_box := GlobalTypes.get_root_symmetry()
 
 
 func _ready():
