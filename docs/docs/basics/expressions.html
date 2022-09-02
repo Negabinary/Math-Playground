@@ -1,0 +1,212 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Mathematical Expressions &mdash; Math Playground 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Commands" href="commands.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                Math Playground
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+      <li>Mathematical Expressions</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/basics/expressions.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#define">Define</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#assume">Assume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#show">Show</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#import">Import</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mathematical Expressions</a></li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <section id="mathematical-expressions">
+<h1>Mathematical Expressions<a class="headerlink" href="#mathematical-expressions" title="Permalink to this headline">¶</a></h1>
+<dl>
+<dt>Functions</dt><dd><p>In mathematical expressions, you can choose whether to call functions in a more functional-language style with <code class="code docutils literal notranslate"><span class="pre">f</span> <span class="pre">x</span> <span class="pre">y</span></code> or a more imperative-language style with <code class="code docutils literal notranslate"><span class="pre">f</span> <span class="pre">(x,y)</span></code>. This is because <code class="code docutils literal notranslate"><span class="pre">,</span></code> is syntactic sugar that compiles to <code class="code docutils literal notranslate"><span class="pre">)(</span></code>.</p>
+</dd>
+<dt>Sets</dt><dd><p>Sets are represented using predicates. Instead of saying “x is in the set of natural numbers”, we have an “is a natural number” predicate, <code class="code docutils literal notranslate"><span class="pre">Nat</span></code>, and then say that it applies to x, <code class="code docutils literal notranslate"><span class="pre">Nat</span> <span class="pre">x</span></code>.</p>
+</dd>
+<dt>Infix Notation</dt><dd><p>There are three built-in infix operators, <code class="code docutils literal notranslate"><span class="pre">_</span> <span class="pre">and</span> <span class="pre">_</span></code>, <code class="code docutils literal notranslate"><span class="pre">_</span> <span class="pre">or</span> <span class="pre">_</span></code>, and <code class="code docutils literal notranslate"><span class="pre">_</span> <span class="pre">=</span> <span class="pre">_</span></code>. All user-defined expressions are prefix, e.g. <code class="code docutils literal notranslate"><span class="pre">+</span> <span class="pre">_</span> <span class="pre">_</span></code>.</p>
+</dd>
+<dt>If</dt><dd><p>If statements in this language are often called implication in other languages. When we write <code class="code docutils literal notranslate"><span class="pre">if</span> <span class="pre">P</span> <span class="pre">then</span> <span class="pre">Q</span></code>, we are saying that <code class="code docutils literal notranslate"><span class="pre">P</span></code> implies <code class="code docutils literal notranslate"><span class="pre">Q</span></code>, or whenever <code class="code docutils literal notranslate"><span class="pre">P</span></code> holds, <code class="code docutils literal notranslate"><span class="pre">Q</span></code> also holds.</p>
+</dd>
+<dt>Bi-Implication</dt><dd><p>To denote <code class="code docutils literal notranslate"><span class="pre">(if</span> <span class="pre">P</span> <span class="pre">then</span> <span class="pre">Q)</span> <span class="pre">and</span> <span class="pre">(if</span> <span class="pre">Q</span> <span class="pre">then</span> <span class="pre">P)</span></code>, you can write <cite>P = Q</cite>. (There is no difference between equality and bi-implication in this language.)</p>
+</dd>
+<dt>Quantifiers</dt><dd><p>There are two quantifiers in this language: <code class="code docutils literal notranslate"><span class="pre">forall</span> <span class="pre">_</span> <span class="pre">.</span> <span class="pre">_</span></code> and <code class="code docutils literal notranslate"><span class="pre">exists</span> <span class="pre">_</span> <span class="pre">.</span> <span class="pre">_</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forall</span> <span class="n">A</span> <span class="n">B</span> <span class="o">.</span> <span class="k">if</span> <span class="n">A</span> <span class="n">then</span> <span class="k">if</span> <span class="n">B</span> <span class="n">then</span> <span class="n">A</span>
+
+<span class="n">exists</span> <span class="n">x</span> <span class="n">y</span><span class="o">.</span> <span class="n">P</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can specify sets that the new identifiers belong to using <code class="code docutils literal notranslate"><span class="pre">:</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forall</span> <span class="n">x</span> <span class="n">y</span> <span class="p">:</span> <span class="n">Nat</span><span class="p">,</span> <span class="n">a</span> <span class="n">b</span> <span class="p">:</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">P</span><span class="o">.</span> <span class="k">if</span> <span class="n">P</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">a</span><span class="p">)</span> <span class="n">then</span> <span class="n">P</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt>Anonymous Functions</dt><dd><p>Anonymous function (lambdas) are speficied using <cite>fun _ . _</cite>. Like quantifiers you can specify multiple identifiers, but unlike quantifiers you cannot specify that the arguments belong to a certain set.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fun</span> <span class="n">x</span> <span class="n">y</span><span class="o">.</span> <span class="o">+</span> <span class="mi">2</span> <span class="p">(</span><span class="o">+</span> <span class="n">x</span> <span class="n">y</span><span class="p">))</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="mi">12</span>
+</pre></div>
+</div>
+</dd>
+<dt>Negation</dt><dd><p>The <code class="code docutils literal notranslate"><span class="pre">¬</span></code> symbol denotes negation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>¬ (3 = 4)
+</pre></div>
+</div>
+</dd>
+<dt>Set Shorthand</dt><dd><p>In cases where it would be easier to read <cite>n : Nat</cite> can be written instead of <cite>Nat n</cite> to indicate set membership. Below some shorthands are shown, with their equivalents below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xs</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Nat</span>
+<span class="n">List</span> <span class="n">Nat</span> <span class="n">xs</span>
+
+<span class="n">f</span> <span class="p">:</span> <span class="n">Nat</span> <span class="o">-&gt;</span> <span class="n">Nat</span> <span class="o">-&gt;</span> <span class="n">Nat</span>
+<span class="n">forall</span> <span class="n">T</span><span class="o">.</span> <span class="k">if</span> <span class="n">Nat</span> <span class="n">T</span> <span class="n">then</span> <span class="n">forall</span> <span class="n">T</span><span class="s1">&#39;. if nat T&#39;</span> <span class="n">then</span> <span class="n">Nat</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">T</span><span class="s1">&#39;))</span>
+
+<span class="p">[]</span> <span class="p">:</span> <span class="n">forall</span> <span class="n">x</span><span class="o">.</span> <span class="n">List</span> <span class="n">x</span>
+<span class="n">forall</span> <span class="n">x</span><span class="o">.</span> <span class="n">List</span> <span class="n">x</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</section>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2022, Matthew Keenan.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.
+        </div>
+    </div>  
+
+</body>
+</html>

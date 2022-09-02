@@ -10,6 +10,9 @@ Math Playground
    :maxdepth: 2
    :caption: Contents:
 
+   basics/commands.rst
+   basics/expressions.rst
+
 About
 ------
 Math Playground is a 'playground' in two senses of the word:
@@ -67,10 +70,3 @@ The standard library is a little bit lacking for now, but if you have a file you
    import std.arith.peano
 
    show + 1 1 = 2
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
