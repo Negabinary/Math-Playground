@@ -138,35 +138,35 @@
 <dt>Bi-Implication</dt><dd><p>To denote <code class="code docutils literal notranslate"><span class="pre">(if</span> <span class="pre">P</span> <span class="pre">then</span> <span class="pre">Q)</span> <span class="pre">and</span> <span class="pre">(if</span> <span class="pre">Q</span> <span class="pre">then</span> <span class="pre">P)</span></code>, you can write <cite>P = Q</cite>. (There is no difference between equality and bi-implication in this language.)</p>
 </dd>
 <dt>Quantifiers</dt><dd><p>There are two quantifiers in this language: <code class="code docutils literal notranslate"><span class="pre">forall</span> <span class="pre">_</span> <span class="pre">.</span> <span class="pre">_</span></code> and <code class="code docutils literal notranslate"><span class="pre">exists</span> <span class="pre">_</span> <span class="pre">.</span> <span class="pre">_</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forall</span> <span class="n">A</span> <span class="n">B</span> <span class="o">.</span> <span class="k">if</span> <span class="n">A</span> <span class="n">then</span> <span class="k">if</span> <span class="n">B</span> <span class="n">then</span> <span class="n">A</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="k">forall</span><span class="w"> </span>A<span class="w"> </span>B<span class="w"> </span>.<span class="w"> </span><span class="k">if</span><span class="w"> </span>A<span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">if</span><span class="w"> </span>B<span class="w"> </span><span class="k">then</span><span class="w"> </span>A<span class="w"></span>
 
-<span class="n">exists</span> <span class="n">x</span> <span class="n">y</span><span class="o">.</span> <span class="n">P</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="k">exists</span><span class="w"> </span>x<span class="w"> </span>y.<span class="w"> </span>P(x,y)<span class="w"></span>
 </pre></div>
 </div>
 <p>You can specify sets that the new identifiers belong to using <code class="code docutils literal notranslate"><span class="pre">:</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">forall</span> <span class="n">x</span> <span class="n">y</span> <span class="p">:</span> <span class="n">Nat</span><span class="p">,</span> <span class="n">a</span> <span class="n">b</span> <span class="p">:</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">P</span><span class="o">.</span> <span class="k">if</span> <span class="n">P</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">a</span><span class="p">)</span> <span class="n">then</span> <span class="n">P</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="k">forall</span><span class="w"> </span>x<span class="w"> </span>y<span class="w"> </span>:<span class="w"> </span>Nat,<span class="w"> </span>a<span class="w"> </span>b<span class="w"> </span>:<span class="w"> </span>Bool,<span class="w"> </span>P.<span class="w"> </span><span class="k">if</span><span class="w"> </span>P(x,a)<span class="w"> </span><span class="k">then</span><span class="w"> </span>P(y,b)<span class="w"></span>
 </pre></div>
 </div>
 </dd>
 <dt>Anonymous Functions</dt><dd><p>Anonymous function (lambdas) are speficied using <cite>fun _ . _</cite>. Like quantifiers you can specify multiple identifiers, but unlike quantifiers you cannot specify that the arguments belong to a certain set.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">fun</span> <span class="n">x</span> <span class="n">y</span><span class="o">.</span> <span class="o">+</span> <span class="mi">2</span> <span class="p">(</span><span class="o">+</span> <span class="n">x</span> <span class="n">y</span><span class="p">))</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="mi">12</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span>(fun<span class="w"> </span>x<span class="w"> </span>y.<span class="w"> </span>+<span class="w"> </span>2<span class="w"> </span>(+<span class="w"> </span>x<span class="w"> </span>y))<span class="w"> </span>(5,5)<span class="w"> </span>=<span class="w"> </span>12<span class="w"></span>
 </pre></div>
 </div>
 </dd>
 <dt>Negation</dt><dd><p>The <code class="code docutils literal notranslate"><span class="pre">¬</span></code> symbol denotes negation.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>¬ (3 = 4)
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span>¬<span class="w"> </span>(3<span class="w"> </span>=<span class="w"> </span>4)<span class="w"></span>
 </pre></div>
 </div>
 </dd>
 <dt>Set Shorthand</dt><dd><p>In cases where it would be easier to read <cite>n : Nat</cite> can be written instead of <cite>Nat n</cite> to indicate set membership. Below some shorthands are shown, with their equivalents below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xs</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Nat</span>
-<span class="n">List</span> <span class="n">Nat</span> <span class="n">xs</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span>xs<span class="w"> </span>:<span class="w"> </span>List<span class="w"> </span>Nat<span class="w"></span>
+List<span class="w"> </span>Nat<span class="w"> </span>xs<span class="w"></span>
 
-<span class="n">f</span> <span class="p">:</span> <span class="n">Nat</span> <span class="o">-&gt;</span> <span class="n">Nat</span> <span class="o">-&gt;</span> <span class="n">Nat</span>
-<span class="n">forall</span> <span class="n">T</span><span class="o">.</span> <span class="k">if</span> <span class="n">Nat</span> <span class="n">T</span> <span class="n">then</span> <span class="n">forall</span> <span class="n">T</span><span class="s1">&#39;. if nat T&#39;</span> <span class="n">then</span> <span class="n">Nat</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">T</span><span class="s1">&#39;))</span>
+f<span class="w"> </span>:<span class="w"> </span>Nat<span class="w"> </span>-&gt;<span class="w"> </span>Nat<span class="w"> </span>-&gt;<span class="w"> </span>Nat<span class="w"></span>
+<span class="k">forall</span><span class="w"> </span>T.<span class="w"> </span><span class="k">if</span><span class="w"> </span>Nat<span class="w"> </span>T<span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="k">forall</span><span class="w"> </span>T&#39;.<span class="w"> </span><span class="k">if</span><span class="w"> </span>nat<span class="w"> </span>T&#39;<span class="w"> </span><span class="k">then</span><span class="w"> </span>Nat(f(T,<span class="w"> </span>T&#39;))<span class="w"></span>
 
-<span class="p">[]</span> <span class="p">:</span> <span class="n">forall</span> <span class="n">x</span><span class="o">.</span> <span class="n">List</span> <span class="n">x</span>
-<span class="n">forall</span> <span class="n">x</span><span class="o">.</span> <span class="n">List</span> <span class="n">x</span> <span class="p">[]</span>
+[]<span class="w"> </span>:<span class="w"> </span><span class="k">forall</span><span class="w"> </span>x.<span class="w"> </span>List<span class="w"> </span>x<span class="w"></span>
+<span class="k">forall</span><span class="w"> </span>x.<span class="w"> </span>List<span class="w"> </span>x<span class="w"> </span>[]<span class="w"></span>
 </pre></div>
 </div>
 </dd>

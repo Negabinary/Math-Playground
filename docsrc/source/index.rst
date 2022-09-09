@@ -3,23 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Math Playground
-===============
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   basics/commands.rst
-   basics/expressions.rst
-
 About
 ------
-Math Playground is a 'playground' in two senses of the word:
+There are two ways that Math Playground is a 'playground':
 
 Firstly, it is a 'playground' in that I'm intending for this to be a program in which doing formal proofs is so natural it allows you to experiment and not plan out your proofs.
 
 Secondly, it is a 'playground' in that I, as a developer, am constantly toying with it, adding new features. It's a prototype, and the focus is user-friendliness, not correctness (though anything incorrect is still a bug).
+
+I hope it provides inspiration for what proof assistants could look like, and if I get more time, it would be nice for this to turn into an actual proof assistant interface further down the line.
 
 Getting Started
 ---------------
@@ -70,3 +62,10 @@ The standard library is a little bit lacking for now, but if you have a file you
    import std.arith.peano
 
    show + 1 1 = 2
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Language Reference
+   
+   basics/commands.rst
+   basics/expressions.rst

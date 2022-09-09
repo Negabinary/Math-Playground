@@ -30,7 +30,8 @@
   <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Math Playground" href="../index.html" /> 
+    <link rel="next" title="Mathematical Expressions" href="expressions.html" />
+    <link rel="prev" title="About" href="../index.html" /> 
 
 </head>
 
@@ -113,6 +114,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#import">Import</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="expressions.html">Mathematical Expressions</a></li>
 </ul>
 
                             
@@ -129,46 +131,46 @@
 <section id="define">
 <h2>Define<a class="headerlink" href="#define" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="code docutils literal notranslate"><span class="pre">define</span></code> keyword creates new identifiers. Types, sets, predicates, propositions, functions and objects are all created the same way, and treated the same way by the prover. There’s nothing to stop you compiling <code class="code docutils literal notranslate"><span class="pre">4(5)</span></code> (but good luck proving anything where <code class="code docutils literal notranslate"><span class="pre">4</span></code> is a function).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">define</span> <span class="n">Bool</span>
-<span class="n">define</span> <span class="n">bool_and</span>
-<span class="n">define</span> <span class="n">bool_not</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">define</span><span class="w"> </span>Bool<span class="w"></span>
+<span class="kd">define</span><span class="w"> </span>bool_and<span class="w"></span>
+<span class="kd">define</span><span class="w"> </span>bool_not<span class="w"></span>
 </pre></div>
 </div>
 <p>If you are definining a constructor, you can use <code class="code docutils literal notranslate"><span class="pre">define</span> <span class="pre">_</span> <span class="pre">:</span> <span class="pre">_</span></code> to assume that the constructor belongs to some set. Note it would not be appropriate to define a function, such as <cite>bool_and</cite> with a set, because we would want to prove that it belongs to that set instead of assuming.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">define</span> <span class="n">true</span> <span class="p">:</span> <span class="n">Bool</span>
-<span class="n">define</span> <span class="n">false</span> <span class="p">:</span> <span class="n">Bool</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">define</span><span class="w"> </span>true<span class="w"> </span>:<span class="w"> </span>Bool<span class="w"></span>
+<span class="kd">define</span><span class="w"> </span>false<span class="w"> </span>:<span class="w"> </span>Bool<span class="w"></span>
 </pre></div>
 </div>
 <p>The above is shorthand for:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">define</span> <span class="n">true</span>
-<span class="n">assume</span> <span class="n">Bool</span><span class="p">(</span><span class="n">true</span><span class="p">)</span>
-<span class="n">define</span> <span class="n">false</span>
-<span class="n">assume</span> <span class="n">Bool</span><span class="p">(</span><span class="n">false</span><span class="p">)</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">define</span><span class="w"> </span>true<span class="w"></span>
+<span class="kd">assume</span><span class="w"> </span>Bool(true)<span class="w"></span>
+<span class="kd">define</span><span class="w"> </span>false<span class="w"></span>
+<span class="kd">assume</span><span class="w"> </span>Bool(false)<span class="w"></span>
 </pre></div>
 </div>
 <p>Finally there is also a <code class="code docutils literal notranslate"><span class="pre">define</span> <span class="pre">_</span> <span class="pre">as</span> <span class="pre">_</span></code> constructor which allows you to define an identifier in terms of a mathematical expression.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">define</span> <span class="n">bool_or</span> <span class="n">x</span> <span class="n">y</span> <span class="k">as</span>
-    <span class="n">bool_not</span><span class="p">(</span>
-        <span class="n">bool_and</span><span class="p">(</span>
-            <span class="n">bool_not</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
-            <span class="n">bool_not</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">define</span><span class="w"> </span>bool_or<span class="w"> </span>x<span class="w"> </span>y<span class="w"> </span><span class="k">as</span><span class="w"></span>
+<span class="w">    </span>bool_not(<span class="w"></span>
+<span class="w">        </span>bool_and(<span class="w"></span>
+<span class="w">            </span>bool_not(x),<span class="w"></span>
+<span class="w">            </span>bool_not(y)<span class="w"></span>
+<span class="w">        </span>)<span class="w"></span>
+<span class="w">    </span>)<span class="w"></span>
 </pre></div>
 </div>
 <p>The above is shorthand for:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">define</span> <span class="n">bool_or</span>
-<span class="n">assume</span> <span class="n">forall</span> <span class="n">x</span><span class="o">.</span> <span class="n">forall</span> <span class="n">y</span><span class="o">.</span>
-    <span class="n">bool_or</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">bool_not</span><span class="p">(</span><span class="n">bool_and</span><span class="p">(</span><span class="n">bool_not</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">bool_not</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">define</span><span class="w"> </span>bool_or<span class="w"></span>
+<span class="kd">assume</span><span class="w"> </span><span class="k">forall</span><span class="w"> </span>x.<span class="w"> </span><span class="k">forall</span><span class="w"> </span>y.<span class="w"></span>
+<span class="w">    </span>bool_or(x,<span class="w"> </span>y)<span class="w"> </span>=<span class="w"> </span>bool_not(bool_and(bool_not(x),<span class="w"> </span>bool_not(y)))<span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="assume">
 <h2>Assume<a class="headerlink" href="#assume" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="code docutils literal notranslate"><span class="pre">assume</span></code> keyword takes a mathematical statement and assumes it to be true, so that you can use it in proofs.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">assume</span> <span class="n">bool_not</span> <span class="n">true</span> <span class="o">=</span> <span class="n">false</span>
-<span class="n">assume</span> <span class="n">bool_not</span> <span class="n">false</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">assume</span> <span class="n">forall</span> <span class="n">x</span><span class="o">.</span> <span class="k">if</span> <span class="n">Bool</span> <span class="n">x</span> <span class="n">then</span> <span class="n">x</span> <span class="o">=</span> <span class="n">true</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">=</span> <span class="n">false</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">assume</span><span class="w"> </span>bool_not<span class="w"> </span>true<span class="w"> </span>=<span class="w"> </span>false<span class="w"></span>
+<span class="kd">assume</span><span class="w"> </span>bool_not<span class="w"> </span>false<span class="w"> </span>=<span class="w"> </span>true<span class="w"></span>
+<span class="kd">assume</span><span class="w"> </span><span class="k">forall</span><span class="w"> </span>x.<span class="w"> </span><span class="k">if</span><span class="w"> </span>Bool<span class="w"> </span>x<span class="w"> </span><span class="k">then</span><span class="w"> </span>x<span class="w"> </span>=<span class="w"> </span>true<span class="w"> </span><span class="k">or</span><span class="w"> </span>x<span class="w"> </span>=<span class="w"> </span>false<span class="w"></span>
 </pre></div>
 </div>
 <p>Remember, it’s my fault if a finished proof is wrong, but it’s your fault if an assumption is wrong, so check your assumptions!</p>
@@ -176,14 +178,14 @@
 <section id="show">
 <h2>Show<a class="headerlink" href="#show" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="code docutils literal notranslate"><span class="pre">show</span></code> keyword takes a mathematical statement and allows you to prove it to be true. You can also use it as an assumption in later proofs.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">show</span> <span class="n">forall</span> <span class="n">x</span> <span class="p">:</span> <span class="n">Bool</span><span class="o">.</span> <span class="n">bool_not</span> <span class="p">(</span><span class="n">bool_not</span> <span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">show</span><span class="w"> </span><span class="k">forall</span><span class="w"> </span>x<span class="w"> </span>:<span class="w"> </span>Bool.<span class="w"> </span>bool_not<span class="w"> </span>(bool_not<span class="w"> </span>x)<span class="w"> </span>=<span class="w"> </span>x<span class="w"></span>
 </pre></div>
 </div>
 </section>
 <section id="import">
 <h2>Import<a class="headerlink" href="#import" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="code docutils literal notranslate"><span class="pre">import</span></code> keyword allows you to use all the definitions and assumptions in another file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">std.logic</span>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">import</span><span class="w"> </span>std.logic<span class="w"></span>
 </pre></div>
 </div>
 <p>The import name <code class="code docutils literal notranslate"><span class="pre">std.logic</span></code> refers to the file <code class="code docutils literal notranslate"><span class="pre">%AppData%/Godot/app_userdata/DiscMathPlayground/save/std/logic.mml</span></code> on Windows, or <code class="code docutils literal notranslate"><span class="pre">User://save/std/logic.mml</span></code> online.</p>
