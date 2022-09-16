@@ -31,6 +31,12 @@ func eat_toplevel(input_tape:ParserInputTape):
 			var def_item := ModuleItem2Import.new(
 				proof_box, name.name #, true # TODO
 			)
+			if def_item.error:
+				return {
+					error=true,
+					error_type="Could not load module: ", 
+					token=input_tape.previous()
+				}
 			proof_box = def_item.get_next_proof_box()
 			return {error=false, type="import", items=[def_item]}
 		"define":

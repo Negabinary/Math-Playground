@@ -11,7 +11,7 @@ func clear() -> void:
 func get_module(module_name:String) -> Module:
 	if not (module_name in cache):
 		load_module(module_name)
-	return cache[module_name]
+	return cache.get(module_name, null)
 
 
 func _name_to_path(module_name:String) -> String:
@@ -24,7 +24,8 @@ func load_module(module_name:String) -> void:
 	var contents = file.get_as_text()
 	file.close()
 	var json = JSON.parse(contents).result
-	var module = Module.new(module_name)
-	for cell in json.cells:
-		module.deserialize_cell(cell)
-	cache[module_name] = module
+	if json:
+		var module = Module.new(module_name)
+		for cell in json.cells:
+			module.deserialize_cell(cell)
+		cache[module_name] = module
