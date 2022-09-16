@@ -28,7 +28,7 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	var reqs = [Requirement.new(existential)]
 	var old_type := existential.get_child(0).get_type()
 	var new_assumption = existential.get_child(1).deep_replace_types({old_type:ExprItem.new(new_type)})
-	reqs.append(Requirement.new(
+	reqs.push_front(Requirement.new(
 		expr_item,
 		[new_type],
 		[new_assumption]
