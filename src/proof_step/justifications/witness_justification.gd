@@ -12,7 +12,7 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	}
 
 
-func _init(witness:=null):
+func _init(witness:ExprItem=null):
 	self.witness = witness
 
 
