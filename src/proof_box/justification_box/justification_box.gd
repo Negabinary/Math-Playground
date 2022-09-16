@@ -26,7 +26,7 @@ func _is_assumed(expr_item:ExprItem) -> bool:
 
 
 func _missing_justification(expr_item:ExprItem) -> Justification:
-	return parent._get_justification(expr_item)
+	return null #parent._get_justification(expr_item)
 
 
 func get_justifications_snapshot() -> JustificationMap:
