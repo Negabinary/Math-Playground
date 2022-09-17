@@ -1,0 +1,207 @@
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Mathematical Statements &mdash; Math Playground 3.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Language Reference" href="expressions.html" />
+    <link rel="prev" title="Commands" href="commands.html" /> 
+
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a class="site-nav-toggle hidden-lg-up"><i class="icon-menu"></i></a>
+            <a class="site-title" href="../index.html">
+                Math Playground
+            </a>
+        </div>
+    </header>
+
+
+<div class="breadcrumbs-outer hidden-xs-down">
+    <div class="container">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a></li>
+        
+      <li>Mathematical Statements</li>
+    
+    
+      <li class="breadcrumbs-aside">
+        
+            
+            <a href="../_sources/basics/statements.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+</div>
+    </div>
+</div>
+    <div class="main-outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-3 site-nav">
+                    
+<div role="search">
+    <form class="search" action="../search.html" method="get">
+        <div class="icon-input">
+            <input type="text" name="q" placeholder="Search" />
+            <span class="icon-search"></span>
+        </div>
+        <input type="submit" value="Go" class="d-hidden" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+                    <div class="site-nav-tree">
+                        
+                            
+                            
+                                <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#define">Define</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#assume">Assume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#show">Show</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html#import">Import</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mathematical Statements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-a-statement">Using a Statement</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="expressions.html">Language Reference</a></li>
+</ul>
+
+                            
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="document">
+                        
+                            
+  <section id="mathematical-statements">
+<h1>Mathematical Statements<a class="headerlink" href="#mathematical-statements" title="Permalink to this headline">¶</a></h1>
+<p>Mathematical statements are at the core of Math Playground. They can be assumed, proved, or used to prove other statements.</p>
+<p>Statements may have any number of local definitions, followed by any number of conditions, and then a conclusion. An example is given below:</p>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="k">forall</span><span class="w"> </span>x<span class="w"> </span>y<span class="w"> </span>:<span class="w"> </span>Nat.<span class="w"></span>
+<span class="k">if</span><span class="w"> </span>odd(x)<span class="w"> </span><span class="k">and</span><span class="w"> </span>odd(y)<span class="w"> </span><span class="k">then</span><span class="w"></span>
+odd(*<span class="w"> </span>x<span class="w"> </span>y)<span class="w"></span>
+</pre></div>
+</div>
+<p>In this example, the local definitions are <code class="code docutils literal notranslate"><span class="pre">x</span></code> and <code class="code docutils literal notranslate"><span class="pre">y</span></code>; the conditions are <code class="code docutils literal notranslate"><span class="pre">x</span> <span class="pre">:</span> <span class="pre">Nat</span></code>, <code class="code docutils literal notranslate"><span class="pre">y</span> <span class="pre">:</span> <span class="pre">Nat</span></code>, <code class="code docutils literal notranslate"><span class="pre">odd(x)</span></code> and <code class="code docutils literal notranslate"><span class="pre">odd(y)</span></code>; and the conclusion is <code class="code docutils literal notranslate"><span class="pre">odd(*</span> <span class="pre">x</span> <span class="pre">y)</span></code>.</p>
+<p>That is:</p>
+<ul class="simple">
+<li><p>any <code class="code docutils literal notranslate"><span class="pre">forall</span></code> constructions that apply to the conclusion</p></li>
+</ul>
+<p>count as local definitions,</p>
+<ul class="simple">
+<li><p>any type annotations, <code class="code docutils literal notranslate"><span class="pre">_</span> <span class="pre">:</span> <span class="pre">_</span></code></p></li>
+<li><p>any (curried) <code class="code docutils literal notranslate"><span class="pre">if</span> <span class="pre">_</span> <span class="pre">then</span></code> clauses</p></li>
+<li><p>any clauses within <code class="code docutils literal notranslate"><span class="pre">if</span> <span class="pre">_</span> <span class="pre">then</span></code> separated by an <code class="code docutils literal notranslate"><span class="pre">and</span></code></p></li>
+</ul>
+<p>count as conditions, and the remainder of the statement is the conclusion.</p>
+<section id="using-a-statement">
+<h2>Using a Statement<a class="headerlink" href="#using-a-statement" title="Permalink to this headline">¶</a></h2>
+<p>The following buttons, that appears just below where a statement is assumed or proven, allow you to use that statement in other proofs:</p>
+<img alt="Image showing a button with a star, a button that says 'use', and two buttons pointing, left and right." src="../_images/use_statement.png" />
+<dl>
+<dt>Star</dt><dd><p>The star button lets you save the statement to the left-hand pane so you can find it easier.</p>
+<p>Starring a statement also lets you double-click on a local definition to substitute another expression for that definition.</p>
+</dd>
+<dt>Use</dt><dd><p>The use button lights green if the currently selected goal matches the conclusion of the statement, and the statement is in scope.</p>
+</dd>
+<dt>&lt;== / ==&gt;</dt><dd><p>The arrow buttons appear if the conclusion is an equality. When the currently selected expression matches the left-hand or right-hand side of the equality, an arrow appears allowing you to replace the current expresion with the other side of the equality.</p>
+</dd>
+<dt>Instantiate</dt><dd><p>The instantiate button appears if the conclusion is an existential. It lights green when in scope, and allows you to use the existential.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+    <div class="footer" role="contentinfo">
+        <div class="container">
+            &#169; Copyright 2022, Matthew Keenan.
+        Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.
+        </div>
+    </div>  
+
+</body>
+</html>

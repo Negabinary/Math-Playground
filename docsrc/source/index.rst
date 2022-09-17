@@ -65,7 +65,8 @@ The standard library is a little bit lacking for now, but if you have a file you
 
 .. toctree::
    :maxdepth: 2
-   :caption: Language Reference
-   
+   :caption: Contents
+
    basics/commands.rst
+   basics/statements.rst
    basics/expressions.rst
