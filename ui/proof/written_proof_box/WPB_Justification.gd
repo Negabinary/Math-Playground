@@ -52,7 +52,7 @@ func _on_justification_updated():
 	ui_justification_name.autostring = justification.get_justification_text(proof_step.get_inner_proof_box().get_parse_box())
 	ui_unprove_button.visible = not (justification is MissingJustification or justification is AssumptionJustification or justification is CircularJustification)
 	ui_requirements.visible = not (justification is MissingJustification or justification is AssumptionJustification or justification is CircularJustification)
-	ui_options.columns = 2 if justification is MissingJustification else 1
+	ui_options.columns = 1 if justification is MissingJustification else 1
 	if justification.get_justification_description():
 		ui_description.show()
 		ui_description.text = justification.get_justification_description()
