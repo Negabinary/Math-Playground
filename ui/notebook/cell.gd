@@ -23,7 +23,14 @@ onready var scene_cell_show := load("res://ui/notebook/cell/CellShow.tscn")
 onready var scene_cell_import := load("res://ui/notebook/cell/CellImport.tscn")
 
 
-var top_proof_box:SymmetryBox = GlobalTypes.get_root_symmetry()
+var top_proof_box:SymmetryBox = SymmetryBox.new(
+	ReparentableJustificationBox.new(
+		RootJustificationBox.new()
+	),
+	ReparentableParseBox.new(
+		RootParseBox.new()
+	)
+)
 var bottom_proof_box := top_proof_box
 var selection_handler : SelectionHandler
 
@@ -49,6 +56,14 @@ func serialise() -> Dictionary:
 	return dict
 
 
+func set_top_proof_box(tpb:SymmetryBox) -> void:
+	self.top_proof_box.get_justification_box().set_parent(tpb.get_justification_box())
+	self.top_proof_box.get_parse_box().set_parent(tpb.get_parse_box())
+	if ui_error_box.visible:
+		eval(false)
+	$VBoxContainer/Tree.text = PoolStringArray(tpb.get_parse_box().get_all_types().get_all_names()).join(";  ")
+
+
 func deserialise(json:Dictionary, context, version) -> void:
 	_ready()
 	ui_entry_box.text = json.string
@@ -72,17 +87,6 @@ func deserialise(json:Dictionary, context, version) -> void:
 			context = nc.item.get_next_proof_box()
 		bottom_proof_box = context
 		ui_edit_button.show()
-
-
-func set_top_proof_box(tpb:SymmetryBox) -> void:
-	self.top_proof_box = tpb
-	self.bottom_proof_box = tpb
-	if ui_use_area.visible:
-		edit(false)
-		eval(false)
-	elif ui_error_box.visible:
-		eval(false)
-	$VBoxContainer/Tree.text = PoolStringArray(tpb.get_parse_box().get_all_types().get_all_names()).join(";  ")
 
 
 func get_bottom_proof_box() -> SymmetryBox:

@@ -4,7 +4,7 @@ class_name ReparentableJustificationBox
 var parent : AbstractJustificationBox
 
 
-func _init(parent:AbstractJustificationBox, definitions := []).(definitions):
+func _init(parent:AbstractJustificationBox):
 	self.parent = parent
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
 	parent.connect("assumption_removed", self, "_on_parent_ass_removed")
@@ -16,7 +16,7 @@ func set_parent(new_parent:AbstractJustificationBox):
 	parent.disconnect("assumption_added", self, "_on_parent_ass_added")
 	parent.disconnect("assumption_removed", self, "_on_parent_ass_removed")
 	parent.disconnect("updated", self, "_on_parent_updated")
-	self.parent = parent
+	self.parent = new_parent
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
 	parent.connect("assumption_removed", self, "_on_parent_ass_removed")
 	parent.connect("updated", self, "_on_parent_updated")
@@ -36,7 +36,7 @@ func _is_assumed(expr_item:ExprItem) -> bool:
 
 
 func _missing_justification(expr_item:ExprItem) -> Justification:
-	return parent._get_justification(expr_item)
+	return null
 
 
 func is_child_of(other:AbstractJustificationBox) -> bool:
@@ -44,6 +44,10 @@ func is_child_of(other:AbstractJustificationBox) -> bool:
 		return true
 	else:
 		return parent.is_child_of(other)
+
+
+func get_justifications_snapshot() -> JustificationMap:
+	return parent.get_justifications_snapshot()
 
 
 # UPDATES =================================================
