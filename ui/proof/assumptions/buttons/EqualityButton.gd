@@ -46,6 +46,8 @@ func _on_pressed() -> void:
 				selected_locator, conclusion.get_expr_item().get_child(index), index != 1
 			)
 			selected_jbox.set_justification(selected_locator.get_root(), justification)
+			if assumption.get_conditions().size() > 0:
+				selected_jbox.set_justification(conclusion.get_expr_item(), ModusPonensJustification.new(assumption.as_expr_item()))
 		else:
 			var matching := {}
 			for definition in assumption.get_definitions():
@@ -60,11 +62,12 @@ func _on_pressed() -> void:
 				var just_equality := refined_statement.get_conclusion()
 				# RefineJustification
 				selected_jbox.set_justification(refined, RefineJustification.new(assumption.as_expr_item()))
-				if refined_statement.conditions.size() != 0:
+				if refined_statement.get_conditions().size() > 0:
 					# ModusPonensJustification
 					selected_jbox.set_justification(just_equality.get_expr_item(), ModusPonensJustification.new(refined))
 				# EqualityJustification
-				var justification = EqualityJustification.new(
-					selected_locator, just_equality.get_expr_item().get_child(index), index != 1
-				)
-				selected_jbox.set_justification(selected_locator.get_root(), justification)
+				if not just_equality.get_expr_item().compare(selected_locator.get_root()):
+					var justification = EqualityJustification.new(
+						selected_locator, just_equality.get_expr_item().get_child(index), index != 1
+					)
+					selected_jbox.set_justification(selected_locator.get_root(), justification)
