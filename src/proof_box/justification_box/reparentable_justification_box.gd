@@ -18,7 +18,7 @@ func set_parent(new_parent:AbstractJustificationBox):
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
 	parent.connect("assumption_removed", self, "_on_parent_ass_removed")
 	
-	var old_summary = parent.get_justifications_snapshot()
+	var old_summary = old_parent.get_justifications_snapshot()
 	var new_summary = new_parent.get_justifications_snapshot()
 	for old_assumption in old_summary.get_assumptions_not_in(new_summary):
 		emit_signal("assumption_removed", old_assumption)

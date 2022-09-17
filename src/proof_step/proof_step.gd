@@ -17,8 +17,7 @@ func _init(requirement:Requirement, context:SymmetryBox, parent:ProofStep=null):
 		requirement.get_assumptions()
 	)
 	self.context.get_justification_box().connect("updated", self,"_on_justifified")
-	get_justification().connect("updated", self, "_on_justification_updated")
-	get_justification().connect("request_replace", self, "justify")
+	_connect_justification()
 	self.parent = parent
 
 
@@ -68,10 +67,33 @@ func _on_justifified(uid):
 	if uid == requirement.get_goal().get_unique_name():
 		emit_signal("justification_type_changed")
 		# I haven't disconnected the previous one - I don't think that will cause problems?
-		get_justification().connect("updated", self, "_on_justification_updated")
-		get_justification().connect("request_replace", self, "justify")
+		_connect_justification()
 		emit_signal("dependencies_changed")
 		emit_signal("child_proven")
+
+
+func _connect_justification():
+	var justification := get_justification()
+	justification.connect("updated", self, "_on_justification_updated")
+	justification.connect("request_replace", self, "justify")
+	if justification is MissingJustification:
+		context.get_justification_box().connect("assumption_added", self, "_on_assumption_added")
+	elif context.get_justification_box().is_connected("assumption_added", self, "_on_assumption_added"):
+		context.get_justification_box().disconnect("assumption_added", self, "_on_assumption_added")
+	if justification is AssumptionJustification:
+		context.get_justification_box().connect("assumption_removed", self, "_on_assumption_removed")
+	elif context.get_justification_box().is_connected("assumption_removed", self, "_on_assumption_removed"):
+		context.get_justification_box().disconnect("assumption_removed", self, "_on_assumption_removed")
+
+
+func _on_assumption_added(assumption:ExprItem):
+	if assumption.compare(requirement.get_goal()):
+		_on_justifified(assumption.get_unique_name())
+
+
+func _on_assumption_removed(assumption:ExprItem):
+	if assumption.compare(requirement.get_goal()):
+		_on_justifified(assumption.get_unique_name())
 
 
 func _on_justification_updated():
@@ -80,7 +102,7 @@ func _on_justification_updated():
 	emit_signal("child_proven")
 
 
-func get_justification():
+func get_justification() -> Justification:
 	if is_circular():
 		return CircularJustification.new()
 	else:

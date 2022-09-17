@@ -16,11 +16,7 @@ func set_justification(expr_item:ExprItem, justification) -> void:
 func get_justification_or_missing(expr_item:ExprItem) -> Justification:
 	if _is_assumed(expr_item):
 		return AssumptionJustification.new()
-	var justification = _get_justification(expr_item)
-	if justification:
-		return justification
-	justification_map.add_missing(expr_item)
-	return MissingJustification.new()
+	return _get_justification(expr_item)
 
 
 func _is_assumed(expr_item:ExprItem) -> bool:
@@ -28,8 +24,10 @@ func _is_assumed(expr_item:ExprItem) -> bool:
 	return false
 
 
+# Could be extended
 func _find_justification_in_tree(expr_item:ExprItem) -> Justification:
-	return null
+	justification_map.add_missing(expr_item)
+	return justification_map.get_justification_for(expr_item)
 
 
 func _get_justification(expr_item:ExprItem) -> Justification:
