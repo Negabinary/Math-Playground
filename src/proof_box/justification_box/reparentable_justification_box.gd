@@ -8,18 +8,15 @@ func _init(parent:AbstractJustificationBox):
 	self.parent = parent
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
 	parent.connect("assumption_removed", self, "_on_parent_ass_removed")
-	parent.connect("updated", self, "_on_parent_updated")
 
 
 func set_parent(new_parent:AbstractJustificationBox):
 	var old_parent = parent
 	parent.disconnect("assumption_added", self, "_on_parent_ass_added")
 	parent.disconnect("assumption_removed", self, "_on_parent_ass_removed")
-	parent.disconnect("updated", self, "_on_parent_updated")
 	self.parent = new_parent
 	parent.connect("assumption_added", self, "_on_parent_ass_added")
 	parent.connect("assumption_removed", self, "_on_parent_ass_removed")
-	parent.connect("updated", self, "_on_parent_updated")
 	
 	var old_summary = parent.get_justifications_snapshot()
 	var new_summary = new_parent.get_justifications_snapshot()
@@ -27,16 +24,10 @@ func set_parent(new_parent:AbstractJustificationBox):
 		emit_signal("assumption_removed", old_assumption)
 	for old_assumption in new_summary.get_assumptions_not_in(old_summary):
 		emit_signal("assumption_added", old_assumption)
-	for uid in new_summary.get_updated_uids(old_summary):
-		emit_signal("updated", uid)
 
 
 func _is_assumed(expr_item:ExprItem) -> bool:
 	return parent._is_assumed(expr_item)
-
-
-func _missing_justification(expr_item:ExprItem) -> Justification:
-	return null
 
 
 func is_child_of(other:AbstractJustificationBox) -> bool:

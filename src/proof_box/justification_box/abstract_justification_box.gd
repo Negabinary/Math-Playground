@@ -28,8 +28,7 @@ func _is_assumed(expr_item:ExprItem) -> bool:
 	return false
 
 
-func _missing_justification(expr_item:ExprItem) -> Justification:
-	assert(false) # virtual
+func _find_justification_in_tree(expr_item:ExprItem) -> Justification:
 	return null
 
 
@@ -37,7 +36,7 @@ func _get_justification(expr_item:ExprItem) -> Justification:
 	var justification = justification_map.get_justification_for(expr_item)
 	if justification_map.has_justification_for(expr_item):
 		return justification
-	return _missing_justification(expr_item)
+	return _find_justification_in_tree(expr_item)
 
 
 func get_justifications_snapshot() -> JustificationMap:
