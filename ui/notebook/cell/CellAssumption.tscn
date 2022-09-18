@@ -1,7 +1,5 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://ui/theme/fonts/ui_font.tres" type="DynamicFont" id=1]
-[ext_resource path="res://ui/theme/fonts/justification_font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://ui/notebook/cell/CellAssumption.gd" type="Script" id=3]
 [ext_resource path="res://ui/theme/icons/star.tres" type="Texture" id=4]
 [ext_resource path="res://ui/proof/assumptions/buttons/InstantiateButton.gd" type="Script" id=5]
@@ -14,9 +12,6 @@ margin_top = 23.0
 margin_right = 755.0
 margin_bottom = 42.0
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_right = 755.0
@@ -27,18 +22,23 @@ custom_constants/separation = 20
 margin_right = 45.0
 margin_bottom = 23.0
 rect_min_size = Vector2( 45, 0 )
-custom_fonts/font = ExtResource( 2 )
+theme_type_variation = "LabelQuiet"
 text = "assume"
 
-[node name="Name" type="Label" parent="HBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer"]
 margin_left = 65.0
-margin_top = 3.0
 margin_right = 755.0
-margin_bottom = 20.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+scroll_vertical_enabled = false
+
+[node name="Name" type="Label" parent="HBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+margin_right = 690.0
+margin_bottom = 17.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 1 )
+theme_type_variation = "LabelMath"
 text = "0"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="."]
@@ -52,36 +52,46 @@ margin_bottom = 22.0
 rect_min_size = Vector2( 76, 0 )
 
 [node name="Star" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
 margin_left = 80.0
 margin_right = 112.0
 margin_bottom = 22.0
+theme_type_variation = "ButtonStar"
 icon = ExtResource( 4 )
 script = ExtResource( 8 )
 
 [node name="Use" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
 margin_left = 116.0
 margin_right = 153.0
 margin_bottom = 22.0
+theme_type_variation = "ButtonGreen"
 text = "Use"
 script = ExtResource( 6 )
 
 [node name="Instantiate" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
 margin_left = 157.0
 margin_right = 245.0
 margin_bottom = 22.0
+theme_type_variation = "ButtonGreen"
 text = "Instantiate"
 script = ExtResource( 5 )
 
 [node name="EqLeft" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
 margin_left = 249.0
 margin_right = 292.0
 margin_bottom = 22.0
+theme_type_variation = "ButtonGreen"
 text = "<=="
 script = ExtResource( 7 )
 
 [node name="EqRight" type="Button" parent="HBoxContainer2"]
+unique_name_in_owner = true
 margin_left = 296.0
 margin_right = 339.0
 margin_bottom = 22.0
+theme_type_variation = "ButtonGreen"
 text = "==>"
 script = ExtResource( 7 )

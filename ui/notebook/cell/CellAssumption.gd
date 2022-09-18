@@ -13,14 +13,14 @@ func initialise(item:ModuleItem2Assumption, selection_handler:SelectionHandler):
 	)
 	autostring.connect("updated", self, "_update_text")
 	_update_text()
-	$HBoxContainer2/Star.init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
-	$HBoxContainer2/Use.init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
-	$HBoxContainer2/Instantiate.init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
-	$HBoxContainer2/EqLeft.init(item.get_assumption(), item.get_next_proof_box(), selection_handler, true)
-	$HBoxContainer2/EqRight.init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
+	$"%Star".init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
+	$"%Use".init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
+	$"%Instantiate".init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
+	$"%EqLeft".init(item.get_assumption(), item.get_next_proof_box(), selection_handler, true)
+	$"%EqRight".init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
 
 func _update_text():
-	$HBoxContainer/Name.text = autostring.get_string()
+	$"%Name".text = autostring.get_string()
 
 func serialise():
 	return item.serialise()

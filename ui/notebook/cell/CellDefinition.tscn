@@ -1,12 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://ui/components/expr_item_type_edit.gd" type="Script" id=1]
-[ext_resource path="res://ui/theme/fonts/justification_font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://ui/notebook/cell/CellDefinition.gd" type="Script" id=3]
-
-[sub_resource type="StyleBoxEmpty" id=2]
-
-[sub_resource type="StyleBoxEmpty" id=1]
 
 [node name="CellDefinition" type="HBoxContainer"]
 margin_right = 755.0
@@ -18,14 +13,13 @@ script = ExtResource( 3 )
 margin_right = 45.0
 margin_bottom = 23.0
 rect_min_size = Vector2( 45, 0 )
-custom_fonts/font = ExtResource( 2 )
+theme_type_variation = "LabelQuiet"
 text = "define"
 
 [node name="Name" type="LineEdit" parent="."]
 margin_left = 65.0
 margin_right = 113.0
 margin_bottom = 23.0
-custom_styles/read_only = SubResource( 2 )
-custom_styles/normal = SubResource( 1 )
+theme_type_variation = "LineEditQuiet"
 expand_to_text_length = true
 script = ExtResource( 1 )

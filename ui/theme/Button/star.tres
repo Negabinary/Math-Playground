@@ -6,6 +6,6 @@ content_margin_right = 6.0
 content_margin_top = 1.0
 content_margin_bottom = 1.0
 bg_color = Color( 1, 1, 1, 1 )
+draw_center = false
 border_color = Color( 0, 0, 0, 1 )
 shadow_color = Color( 0.113725, 0.113725, 0.113725, 0.6 )
-shadow_size = 2

@@ -8,9 +8,7 @@ var selection_handler
 
 
 func _init():
-	add_stylebox_override("normal", get_stylebox("star", "Button"))
-	add_stylebox_override("pressed", get_stylebox("star_pressed", "Button"))
-	add_stylebox_override("hover", get_stylebox("star_hover", "Button"))
+	theme_type_variation = "ButtonStar"
 	toggle_mode = true
 
 

@@ -2,7 +2,7 @@ extends VBoxContainer
 
 var proof_step : ProofStep
 onready var main = $"../../../.."
-onready var selection_handler = $"../../../../../../../../../../../../../../SelectionHandler"
+onready var selection_handler = get_tree().get_nodes_in_group("selection_handler")[0]
 
 
 func display_proof(proof_step:ProofStep):

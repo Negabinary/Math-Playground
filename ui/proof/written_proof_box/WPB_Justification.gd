@@ -53,6 +53,7 @@ func _on_justification_updated():
 	ui_unprove_button.visible = not (justification is MissingJustification or justification is AssumptionJustification or justification is CircularJustification)
 	ui_requirements.visible = not (justification is MissingJustification or justification is AssumptionJustification or justification is CircularJustification)
 	ui_options.columns = 1 if justification is MissingJustification else 1
+	ui_req_separator.visible = not (justification is MissingJustification)
 	if justification.get_justification_description():
 		ui_description.show()
 		ui_description.text = justification.get_justification_description()

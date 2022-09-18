@@ -264,7 +264,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://util/multi_map.gd"
 }, {
-"base": "ColorRect",
+"base": "Control",
 "class": "Notebook",
 "language": "GDScript",
 "path": "res://ui/notebook/Notebook.gd"
@@ -537,10 +537,11 @@ environment_variables/clientSecret="0Jb4RlOx9XSN2Bcet-uiotdk"
 [global]
 
 rcedit=true
+theme=false
 
 [gui]
 
-theme/custom="res://ui/theme/main_theme.theme"
+theme/custom="res://ui/paper_theme/paper_theme.theme"
 theme/custom_font="res://ui/theme/fonts/ui_font.tres"
 
 [input]

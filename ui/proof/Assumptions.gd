@@ -5,7 +5,7 @@ var ASSUMPTION_BOX := load("res://ui/proof/assumption_box/AssumptionBox.tscn")
 var goal : ExprItem
 var proof_box : SymmetryBox
 var locator : Locator
-onready var selection_handler:SelectionHandler = $"../../../..//SelectionHandler"
+onready var selection_handler:SelectionHandler = get_tree().get_nodes_in_group("selection_handler")[0]
 var request_map := {} #<StarButton, AssumptionBox>
 
 

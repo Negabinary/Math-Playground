@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://ui/theme/main_theme.theme" type="Theme" id=1]
+[ext_resource path="res://ui/paper_theme/paper_theme.theme" type="Theme" id=1]
 [ext_resource path="res://ui/Main.gd" type="Script" id=2]
 [ext_resource path="res://ui/file/StdLib.gd" type="Script" id=3]
 [ext_resource path="res://ui/notebook/Notebook.tscn" type="PackedScene" id=4]
@@ -23,7 +23,6 @@ script = ExtResource( 2 )
 [node name="Notebook" parent="." instance=ExtResource( 4 )]
 margin_top = 24.0
 size_flags_vertical = 3
-color = Color( 0.584314, 0.584314, 0.584314, 1 )
 
 [node name="Controls" type="PanelContainer" parent="."]
 anchor_right = 1.0

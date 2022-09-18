@@ -8,9 +8,7 @@ var selection_handler : SelectionHandler
 
 
 func _init():
-	add_stylebox_override("normal", get_stylebox("green", "Button"))
-	add_stylebox_override("pressed", get_stylebox("green_pressed", "Button"))
-	add_stylebox_override("hover", get_stylebox("green_hover", "Button"))
+	theme_type_variation = "ButtonGreen"
 
 
 # VIRTUAL METHODS =========================================

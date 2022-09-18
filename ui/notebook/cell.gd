@@ -42,7 +42,15 @@ func _ready():
 		ui_up_button.connect("pressed", self, "_on_request_move_up_button")
 		ui_down_button.connect("pressed", self, "_on_request_move_down_button")
 		ui_delete_button.connect("pressed", self, "_on_request_delete_button")
-
+	$"%Enter".syntax_highlighting = true
+	$"%Enter".clear_colors()
+	var keywords = [
+		'import', 'define', 'assume', 'show', 'forall', 'exists', 'fun', 'if', 'then', 
+		'_import_', '_define_', "_import_", "_define_", "_assume_", "_show_", "_forall_", 
+		"_exists_", "_fun_", "_if_", "_then_", "_->_", "as","and", "or", ":", ".", "=", ","
+	]
+	for keyword in keywords:
+		$"%Enter".add_keyword_color(keyword, Color("#2A9D8F"))
 
 func serialise() -> Dictionary:
 	var dict = {
