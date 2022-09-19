@@ -16,7 +16,13 @@ func set_justification(expr_item:ExprItem, justification) -> void:
 func get_justification_or_missing(expr_item:ExprItem) -> Justification:
 	if _is_assumed(expr_item):
 		return AssumptionJustification.new()
-	return _get_justification(expr_item)
+	var j := _get_justification(expr_item)
+	if j == null:
+		var mj = MissingJustification.new()
+		set_justification(expr_item, mj)
+		return mj
+	else:
+		return j
 
 
 func _is_assumed(expr_item:ExprItem) -> bool:

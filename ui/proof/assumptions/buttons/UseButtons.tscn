@@ -84,7 +84,7 @@ script = ExtResource( 11 )
 [node name="StarLw" type="Button" parent="."]
 unique_name_in_owner = true
 margin_left = 352.0
-margin_right = 388.0
+margin_right = 386.0
 margin_bottom = 22.0
 theme_type_variation = "ButtonStar"
 icon = ExtResource( 7 )
@@ -92,8 +92,8 @@ script = ExtResource( 12 )
 
 [node name="StarRw" type="Button" parent="."]
 unique_name_in_owner = true
-margin_left = 392.0
-margin_right = 426.0
+margin_left = 390.0
+margin_right = 427.0
 margin_bottom = 22.0
 theme_type_variation = "ButtonStar"
 icon = ExtResource( 6 )

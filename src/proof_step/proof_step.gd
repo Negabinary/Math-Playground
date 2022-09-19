@@ -17,8 +17,8 @@ func _init(requirement:Requirement, context:SymmetryBox, parent:ProofStep=null):
 		requirement.get_assumptions()
 	)
 	self.context.get_justification_box().connect("updated", self,"_on_justifified")
-	_connect_justification()
 	self.parent = parent
+	_connect_justification()
 
 
 # GETTERS =================================================
@@ -110,7 +110,11 @@ func get_justification() -> Justification:
 		if parent != null:
 			var wuj := parent._who_uses_justification(justification)
 			if wuj:
-				justification = CircularJustification.new()
+				if wuj.get_inner_proof_box().get_justification_box() == context.get_justification_box():
+					justification = CircularJustification.new()
+				else:
+					justification = MissingJustification.new()
+					context.get_justification_box().set_justification(requirement.get_goal(), justification)
 	return justification
 
 

@@ -25,6 +25,21 @@ func get_parent() -> Locator:
 		return null
 
 
+func compare_contexts(other:Locator) -> bool:
+	var placeholder := ExprItem.new(ExprItemType.new("PLACEHOLDER"))
+	var self_with_hole := get_root().replace_at(
+		get_indeces(),
+		get_abandon(),
+		placeholder
+	)
+	var other_with_hole := other.get_root().replace_at(
+		other.get_indeces(),
+		other.get_abandon(),
+		placeholder
+	)
+	return self_with_hole.compare(other_with_hole)
+
+
 func get_parent_type() -> ExprItemType:
 	return null if indeces.size() == 0 else get_parent().get_type()
 

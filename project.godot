@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "AbstractEqualityJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/abstract_equality_justification.gd"
+"path": "res://src/proof_step/justifications/equality/abstract_equality_justification.gd"
 }, {
 "base": "Reference",
 "class": "AbstractJustificationBox",
@@ -32,7 +32,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "AssumptionJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/assumption_justification.gd"
+"path": "res://src/proof_step/justifications/trivial/assumption_justification.gd"
 }, {
 "base": "VBoxContainer",
 "class": "Assumptions",
@@ -57,7 +57,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "CircularJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/circular_justification.gd"
+"path": "res://src/proof_step/justifications/trivial/circular_justification.gd"
 }, {
 "base": "Autostring",
 "class": "ConcatAutostring",
@@ -87,7 +87,7 @@ _global_script_classes=[ {
 "base": "AbstractEqualityJustification",
 "class": "EliminatedLambdaJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/eliminated_lambda_justification.gd"
+"path": "res://src/proof_step/justifications/equality/eliminated_lambda_justification.gd"
 }, {
 "base": "ActionButton",
 "class": "EqualityButton",
@@ -97,7 +97,7 @@ _global_script_classes=[ {
 "base": "AbstractEqualityJustification",
 "class": "EqualityJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/equality_justification.gd"
+"path": "res://src/proof_step/justifications/equality/equality_justification.gd"
 }, {
 "base": "Reference",
 "class": "ExprItem",
@@ -137,7 +137,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "FromConjunctionJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/from_conjunction_justification.gd"
+"path": "res://src/proof_step/justifications/propositional/from_conjunction_justification.gd"
 }, {
 "base": "Reference",
 "class": "IdentifierBuilder",
@@ -152,7 +152,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "ImplicationJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/implication_justification.gd"
+"path": "res://src/proof_step/justifications/quantification/implication_justification.gd"
 }, {
 "base": "AbstractJustificationBox",
 "class": "ImportJustificationBox",
@@ -172,17 +172,17 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "InstantiateJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/instantiate_justification.gd"
+"path": "res://src/proof_step/justifications/quantification/instantiate_justification.gd"
 }, {
 "base": "AbstractEqualityJustification",
 "class": "IntroducedDoubleNegativeJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/introduce_double_negative_justification.gd"
+"path": "res://src/proof_step/justifications/equality/introduce_double_negative_justification.gd"
 }, {
 "base": "AbstractEqualityJustification",
 "class": "IntroducedLambdaJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/introduced_lambda_justification.gd"
+"path": "res://src/proof_step/justifications/equality/introduced_lambda_justification.gd"
 }, {
 "base": "Reference",
 "class": "ItemParser2",
@@ -217,7 +217,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "MatchingJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/matching_justification.gd"
+"path": "res://src/proof_step/justifications/matching/matching_justification.gd"
 }, {
 "base": "Reference",
 "class": "MiscUtil",
@@ -227,7 +227,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "MissingJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/missing_justification.gd"
+"path": "res://src/proof_step/justifications/trivial/missing_justification.gd"
 }, {
 "base": "Reference",
 "class": "Module",
@@ -262,7 +262,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "ModusPonensJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/modus_ponens_justification.gd"
+"path": "res://src/proof_step/justifications/propositional/modus_ponens_justification.gd"
 }, {
 "base": "Reference",
 "class": "MultiMap",
@@ -307,12 +307,12 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "RefineJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/refine_justification.gd"
+"path": "res://src/proof_step/justifications/quantification/refine_justification.gd"
 }, {
 "base": "Justification",
 "class": "ReflexiveJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/reflexive_justification.gd"
+"path": "res://src/proof_step/justifications/matching/reflexive_justification.gd"
 }, {
 "base": "Autostring",
 "class": "RelayAutostring",
@@ -382,7 +382,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "VacuousJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/vacuous_justification.gd"
+"path": "res://src/proof_step/justifications/propositional/vacuous_justification.gd"
 }, {
 "base": "MarginContainer",
 "class": "WPBJustification",
@@ -402,7 +402,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "WitnessJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/witness_justification.gd"
+"path": "res://src/proof_step/justifications/quantification/witness_justification.gd"
 }, {
 "base": "TextureButton",
 "class": "WrittenJustification",

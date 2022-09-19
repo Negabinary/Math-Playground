@@ -25,6 +25,10 @@ static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Ju
 				ExprItemBuilder.deserialize(j.replace_with, locator.get_parse_box(parse_box)),
 				j.forwards
 			)
+		{"justification_type": "FromConjunctionJustification", ..}:
+			return FromConjunctionJustification.new(
+				ExprItemBuilder.deserialize(j.conjunction, parse_box)
+			)
 		{"justification_type": "ImplicationJustification", ..}:
 			return ImplicationJustification.new(
 				j.keep_definition_ids,
