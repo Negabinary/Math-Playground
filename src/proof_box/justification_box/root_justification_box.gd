@@ -6,6 +6,10 @@ func _is_assumed(expr_item:ExprItem) -> bool:
 	return false
 
 
+func _missing_justification(expr_item:ExprItem) -> Justification:
+	return null
+
+
 func get_justifications_snapshot():
 	return justification_map.duplicate()
 

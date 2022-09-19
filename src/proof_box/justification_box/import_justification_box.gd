@@ -25,6 +25,13 @@ func _is_assumed(expr_item:ExprItem) -> bool:
 	return imported_map.is_assumed(expr_item) or parent._is_assumed(expr_item)
 
 
+func _missing_justification(expr_item:ExprItem) -> Justification:
+	if imported_map.has_justification_for(expr_item):
+		return imported_map.get_justification_for(expr_item)
+	else:
+		return parent._get_justification(expr_item)
+
+
 func get_justifications_snapshot() -> JustificationMap:
 	var result := parent.get_justifications_snapshot()
 	result.merge(imported_map)
