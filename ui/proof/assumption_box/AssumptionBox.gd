@@ -21,10 +21,10 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, selection_h
 	ui_conclusion = $VBoxContainer/Conclusion
 	ui_conclusion.initialise(assumption, assumption_context,  selection_handler)
 	ui_actions = $VBoxContainer/Use
-	if ui_conclusion.visible:
-		$VBoxContainer/Use/InstantiateButton.init(assumption, assumption_context, selection_handler)
-		$VBoxContainer/Use/UseButton.init(assumption, assumption_context, selection_handler)
-		ui_actions.show()
+	$"%InstantiateButton".init(assumption, assumption_context, selection_handler)
+	$"%UseButton".init(assumption, assumption_context, selection_handler)
+	$"%LStar".init(assumption, assumption_context, selection_handler)
+	$"%RStar".init(assumption, assumption_context, selection_handler, true)
 	ui_equality = $VBoxContainer/Equality
 	ui_equality.initialise(assumption, assumption_context,  selection_handler)
 	
