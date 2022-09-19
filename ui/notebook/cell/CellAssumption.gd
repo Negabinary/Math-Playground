@@ -13,11 +13,7 @@ func initialise(item:ModuleItem2Assumption, selection_handler:SelectionHandler):
 	)
 	autostring.connect("updated", self, "_update_text")
 	_update_text()
-	$"%Star".init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
-	$"%Use".init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
-	$"%Instantiate".init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
-	$"%EqLeft".init(item.get_assumption(), item.get_next_proof_box(), selection_handler, true)
-	$"%EqRight".init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
+	$"%UseButtons".init(item.get_assumption(), item.get_next_proof_box(), selection_handler)
 
 func _update_text():
 	$"%Name".text = autostring.get_string()

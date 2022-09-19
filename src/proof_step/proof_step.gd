@@ -37,33 +37,32 @@ func get_requirement() -> Requirement:
 
 
 func get_dependencies() -> Array:
-	if is_circular():
-		return []
-	else:
-		var ureqs = get_justification().get_requirements_for(
-			requirement.get_goal(), 
-			context.get_parse_box()
-		)
-		var reqs = []
-		if ureqs != null:
-			for ureq in ureqs:
-				reqs.append(context.convert_requirement(ureq))
-		var proof_steps := []
-		for req in reqs:
-			proof_steps.append(get_script().new(req, context, self))
-		for proof_step in proof_steps:
-			proof_step.connect("child_proven", self, "emit_signal", ["child_proven"])
-		return proof_steps
+	var ureqs = get_justification().get_requirements_for(
+		requirement.get_goal(), 
+		context.get_parse_box()
+	)
+	var reqs = []
+	if ureqs != null:
+		for ureq in ureqs:
+			reqs.append(context.convert_requirement(ureq))
+	var proof_steps := []
+	for req in reqs:
+		proof_steps.append(get_script().new(req, context, self))
+	for proof_step in proof_steps:
+		proof_step.connect("child_proven", self, "emit_signal", ["child_proven"])
+	return proof_steps
 
 
 # JUSTIFICATION ===========================================
 
 
 func justify(new_justification:Justification) -> void:
+	justification = null
 	context.get_justification_box().set_justification(requirement.get_goal(), new_justification)
 
 
 func _on_justifified(uid):
+	justification = null
 	if uid == requirement.get_goal().get_unique_name():
 		emit_signal("justification_type_changed")
 		# I haven't disconnected the previous one - I don't think that will cause problems?
@@ -97,38 +96,34 @@ func _on_assumption_removed(assumption:ExprItem):
 
 
 func _on_justification_updated():
+	justification = null
 	emit_signal("justification_properties_changed")
 	emit_signal("dependencies_changed")
 	emit_signal("child_proven")
 
 
+var justification : Justification
+
 func get_justification() -> Justification:
-	if is_circular():
-		return CircularJustification.new()
-	else:
-		return context.get_justification_box().get_justification_or_missing(requirement.get_goal())
+	if justification == null:
+		justification = context.get_justification_box().get_justification_or_missing(requirement.get_goal())
+		if parent != null:
+			var wuj := parent._who_uses_justification(justification)
+			if wuj:
+				justification = CircularJustification.new()
+	return justification
 
 
 # PROOF STATUS ============================================
 
 
-func is_circular() -> bool:
-	if parent == null:
-		return false
+func _who_uses_justification(j:Justification) -> ProofStep:
+	if get_justification() == j:
+		return self
+	elif parent == null:
+		return null
 	else:
-		return parent._proves(requirement.get_goal(), get_inner_proof_box())
-
-
-func _proves(goal:ExprItem, ctx:SymmetryBox):
-	if ctx != get_inner_proof_box():
-		return false
-	elif goal.compare(requirement.get_goal()):
-		return true
-	else:
-		if parent == null:
-			return false
-		else:
-			return parent._proves(goal, ctx)
+		return parent._who_uses_justification(j)
 
 
 func is_justification_valid() -> bool:
@@ -139,8 +134,6 @@ func is_justification_valid() -> bool:
 
 
 func is_proven():
-	if is_circular():
-		return false
 	if is_justification_valid():
 		for dependency in get_dependencies():
 			if not dependency.is_proven():
@@ -151,8 +144,6 @@ func is_proven():
 
 
 func is_proven_except(idx:int):
-	if is_circular():
-		return false
 	if is_justification_valid():
 		var deps := get_dependencies()
 		for dep in deps.size():

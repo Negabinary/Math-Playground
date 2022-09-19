@@ -95,6 +95,12 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 			RefineJustification.new()
 		],
 		[
+			"prove this and something else",
+			true,
+			load("res://ui/theme/descriptive_buttons/refine.tres"),
+			FromConjunctionJustification.new()
+		],
+		[
 			"use an existential",
 			true,
 			load("res://ui/theme/descriptive_buttons/instantiate.tres"),
