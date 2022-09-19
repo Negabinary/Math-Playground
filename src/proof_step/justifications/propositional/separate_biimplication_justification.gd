@@ -8,6 +8,7 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="SeparateBiimplicationJustification",
+		left=leftwards
 	}
 
 

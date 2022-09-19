@@ -67,6 +67,8 @@ static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Ju
 			)
 		{"justification_type": "ReflexiveJustification", ..}:
 			return ReflexiveJustification.new()
+		{"justification_type": "SeparateBiimplicationJustification", ..}:
+			return SeparateBiimplicationJustification.new(j.left)
 		{"justification_type": "VacuousJustification", ..}:
 			return VacuousJustification.new()
 		{"justification_type": "WitnessJustification", ..}:
