@@ -1,5 +1,7 @@
 extends PanelContainer
 
+signal request_unstar
+
 var assumption : ExprItem
 var assumption_context : SymmetryBox
 var definitions := []
@@ -25,6 +27,7 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, selection_h
 	$"%UseButton".init(assumption, assumption_context, selection_handler)
 	$"%LStar".init(assumption, assumption_context, selection_handler)
 	$"%RStar".init(assumption, assumption_context, selection_handler, true)
+	$"%UnstarButton".connect("pressed", self, "emit_signal", ["request_unstar"])
 	ui_equality = $VBoxContainer/Equality
 	ui_equality.initialise(assumption, assumption_context,  selection_handler)
 	

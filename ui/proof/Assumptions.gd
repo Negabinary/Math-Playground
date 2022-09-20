@@ -15,6 +15,7 @@ func _ready():
 
 func save_assumption(assumption:ExprItem, assumption_context:SymmetryBox, requester:StarButton=null):
 	var assumption_box = ASSUMPTION_BOX.instance()
+	assumption_box.connect("request_unstar", self, "_on_request_unstar", [assumption_box, requester])
 	request_map[requester] = assumption_box
 	$VBoxContainer.add_child(assumption_box)
 	assumption_box.initialise(assumption, assumption_context, selection_handler)
@@ -22,9 +23,17 @@ func save_assumption(assumption:ExprItem, assumption_context:SymmetryBox, reques
 		requester.connect("tree_exiting", self, "remove_assumption", [requester])
 
 
+func _on_request_unstar(assumption_box, requester:StarButton):
+	if requester:
+		requester.pressed = false
+	remove_child(assumption_box)
+	assumption_box.queue_free()
+
+
 func remove_assumption(requester:StarButton=null):
 	var to_remove = request_map.get(requester,null)
 	if to_remove:
 		request_map.erase(requester)
 		$VBoxContainer.remove_child(to_remove)
-		to_remove.queue_free()
+		if is_instance_valid(to_remove):
+			to_remove.queue_free()
