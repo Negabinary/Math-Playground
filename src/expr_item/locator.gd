@@ -113,6 +113,16 @@ func _to_string():
 	return get_expr_item().to_string()
 
 
+func get_descendent(indeces:Array) -> Locator:
+	var result : Locator = self
+	for index in indeces:
+		if result.get_child_count() > index:
+			result = result.get_child(index)
+		else:
+			return null
+	return result
+
+
 func find_all(find:ExprItem) -> Array: #<Locator>
 	if get_type() == find.get_type():
 		if get_child_count() >= find.get_child_count():

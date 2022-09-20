@@ -31,13 +31,14 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 		return null
 	var conj_statement = Statement.new(conjunction)
 	var conj_conclusion = conj_statement.get_conclusion()
-	var ei_statement := Statement.new(expr_item)
-	var ei_conclusion = ei_statement.get_conclusion()
+	var ei_conclusion = Locator.new(expr_item).get_descendent(conj_conclusion.get_indeces())
+	if ei_conclusion == null:
+		return null
 	if not conj_conclusion.compare_contexts(ei_conclusion):
 		return null
 	var matching := {}
-	var conj_definitions = conj_statement.get_definitions()
-	var ei_definitions = ei_statement.get_definitions()
+	var conj_definitions = conj_conclusion.get_outside_definitions()
+	var ei_definitions = ei_conclusion.get_outside_definitions()
 	for i in len(conj_statement.get_definitions()):
 		matching[ei_definitions[i]] = ExprItem.new(conj_definitions[i])
 	if not _is_in_conjunction(
@@ -67,16 +68,20 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 		return options
 	var conj_statement = Statement.new(conjunction)
 	var conj_conclusion = conj_statement.get_conclusion()
-	var ei_statement := Statement.new(expr_item)
-	var ei_conclusion = ei_statement.get_conclusion()
+	var ei_conclusion = Locator.new(expr_item).get_descendent(conj_conclusion.get_indeces())
+	if ei_conclusion == null:
+		options.append(Justification.LabelOption.new(ConstantAutostring.new(
+			"Conjunction does not have the right definitions / conditions!"
+		), true))
+		return options
 	if not conj_conclusion.compare_contexts(ei_conclusion):
 		options.append(Justification.LabelOption.new(ConstantAutostring.new(
 			"Conjunction does not have the right definitions / conditions!"
 		), true))
 		return options
 	var matching := {}
-	var conj_definitions = conj_statement.get_definitions()
-	var ei_definitions = ei_statement.get_definitions()
+	var conj_definitions = conj_conclusion.get_outside_definitions()
+	var ei_definitions = ei_conclusion.get_outside_definitions()
 	for i in len(conj_statement.get_definitions()):
 		matching[ei_definitions[i]] = ExprItem.new(conj_definitions[i])
 	if not _is_in_conjunction(

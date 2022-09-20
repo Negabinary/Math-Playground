@@ -30,7 +30,7 @@ func _on_pressed():
 			)
 		assumption_context.justification_box.set_justification(
 			full_impl, 
-			SeparateBiimplicationJustification.new(left)
+			SeparateBiimplicationJustification.new(equality.get_indeces(), left)
 		)
 		selection_handler.assumption_pane.save_assumption(full_impl, assumption_context, self)
 	else:

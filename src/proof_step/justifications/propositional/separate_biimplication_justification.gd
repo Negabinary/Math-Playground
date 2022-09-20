@@ -2,25 +2,26 @@ extends Justification
 class_name SeparateBiimplicationJustification 
 
 var leftwards := false
+var indeces := []
 
 
 func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,
 		justification_type="SeparateBiimplicationJustification",
+		indeces=indeces,
 		left=leftwards
 	}
 
 
-func _init(leftwards):
+func _init(indeces:Array, leftwards:bool):
+	self.indeces = indeces
 	self.leftwards = leftwards
 	emit_signal("updated")
 
 
 func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
-	var ei_statement := Statement.new(expr_item)
-	var ei_conclusion = ei_statement.get_conclusion()
-	var implication = ei_conclusion.get_parent()
+	var implication := Locator.new(expr_item).get_descendent(indeces)
 	if implication == null:
 		return null
 	if implication.get_type() != GlobalTypes.IMPLIES or implication.get_child_count() != 2:
