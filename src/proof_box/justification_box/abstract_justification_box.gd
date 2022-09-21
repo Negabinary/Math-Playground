@@ -9,8 +9,12 @@ var justification_map := JustificationMap.new()
 
 func set_justification(expr_item:ExprItem, justification) -> void:
 	justification_map.add_entry(expr_item, justification)
-	var uname = expr_item.get_unique_name()
+	justification.connect("request_replace", self, "_on_request_replace", [expr_item])
 	emit_signal("updated", expr_item.get_unique_name())
+
+
+func _on_request_replace(justification, expr_item:ExprItem):
+	set_justification(expr_item, justification)
 
 
 func get_justification_or_missing(expr_item:ExprItem) -> Justification:
