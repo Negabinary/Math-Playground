@@ -82,12 +82,12 @@ func _change_dependencies():
 
 
 func _connect_active_dependency():
-	ui_justification_holder.connect("change_active_dependency", self, "_change_active_depenency")
+	proof_step.connect("active_dependency_changed", self, "_change_active_depenency")
 	_change_active_depenency()
 
 
 func _change_active_depenency():
-	var dependency_id = ui_justification_holder.get_active_dependency()
+	var dependency_id = proof_step.get_active_dependency()
 	for child in ui_dependencies.get_children():
 		if child.get_index() == dependency_id:
 			child.show()

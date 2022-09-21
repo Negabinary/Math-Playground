@@ -195,6 +195,21 @@ func is_proven_except(idx:int):
 		return false
 
 
+# ACTIVE DEPENDENCY ======================================
+
+# This is just for the UI
+
+signal active_dependency_changed
+var active_dependency := 0
+
+func set_active_dependency(value:int):
+	active_dependency = value
+	emit_signal("active_dependency_changed")
+
+func get_active_dependency() -> int:
+	return active_dependency
+
+
 # SAVE / LOAD =============================================
 
 

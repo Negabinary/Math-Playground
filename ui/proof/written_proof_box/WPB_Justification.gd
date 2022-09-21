@@ -1,8 +1,6 @@
 extends Control
 class_name WPBJustification
 
-signal change_active_dependency # int
-
 var ui_justification_name : Label
 var ui_unprove_button : Button
 var ui_description : Label
@@ -52,7 +50,6 @@ func _on_justification_updated():
 	ui_justification_name.autostring = justification.get_justification_text(proof_step.get_inner_proof_box().get_parse_box())
 	ui_unprove_button.visible = not (justification is MissingJustification or justification is AssumptionJustification or justification is CircularJustification)
 	ui_requirements.visible = not (justification is MissingJustification or justification is AssumptionJustification or justification is CircularJustification)
-	ui_options.columns = 1 if justification is MissingJustification else 1
 	ui_req_separator.visible = not (justification is MissingJustification)
 	if justification.get_justification_description():
 		ui_description.show()
@@ -92,7 +89,7 @@ func locator_changed(new_locator):
 func _on_requirement_selected(id):
 	active_dependency = id
 	ui_requirements.select_requirement(id)
-	emit_signal("change_active_dependency")
+	proof_step.set_active_dependency(id)
 
 
 func get_active_dependency():
