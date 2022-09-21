@@ -31,5 +31,5 @@ const WP_BOX = preload("res://ui/proof/written_proof_box/WPB2.tscn")
 
 static func build(proof_step:ProofStep, selection_handler:SelectionHandler) -> Node:
 	var node : Node = WP_BOX.instance()
-	node.init(proof_step, selection_handler)
+	node.init(proof_step, selection_handler, WP_BOX)
 	return node

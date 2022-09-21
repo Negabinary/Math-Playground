@@ -17,7 +17,6 @@ func _init(requirement:Requirement, context:SymmetryBox, parent:ProofStep=null):
 	)
 	self.parent = parent
 	_connect_justification()
-	_connect_justification_properties()
 	_connect_dependencies()
 	_connect_proof_status()
 
@@ -107,7 +106,8 @@ func justify(new_justification:Justification) -> void:
 signal justification_properties_changed
 
 func _connect_justification_properties():
-	justification.connect("updated", self, "emit_signal", ["justification_properties_changed"])
+	if not justification.is_connected("updated", self, "emit_signal"):
+		justification.connect("updated", self, "emit_signal", ["justification_properties_changed"])
 	emit_signal("justification_properties_changed")
 
 
@@ -208,20 +208,19 @@ func serialize_proof() -> Dictionary:
 		dependencies=dependencies
 	}
 
-static func deserialize_proof(script:Script, dictionary, context:SymmetryBox, version) -> ProofStep:
+static func deserialize_proof(script:Script, dictionary, context:SymmetryBox, version) -> void:
 	var r = Requirement.deserialize(Requirement, dictionary.requirement, context)
-	var n:ProofStep = script.new(
-		context.convert_requirement(r),
-		context
+	var cr = context.convert_requirement(r)
+	var ipb = context.get_child_extended_with(
+		cr.get_definitions(),
+		cr.get_assumptions()
 	)
-	if not n.is_proven():
-		var j := JustificationBuilder.deserialize(
+	var j := JustificationBuilder.deserialize(
 			dictionary.justification, 
-			n.get_inner_proof_box().get_parse_box(),
+			ipb.get_parse_box(),
 			version
 		)
-		if j:
-			n.justify(j)
+	if j:
+		ipb.get_justification_box().set_justification(cr.get_goal(), j)
 	for dependency in dictionary.dependencies:
-		deserialize_proof(script, dependency, n.get_inner_proof_box(), version)
-	return n
+		deserialize_proof(script, dependency, ipb, version)

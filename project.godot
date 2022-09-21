@@ -529,6 +529,7 @@ Module2Loader="*res://src/module2/module_loader.gd"
 
 [debug]
 
+settings/profiler/max_functions=65535
 gdscript/warnings/unused_variable=false
 gdscript/warnings/shadowed_variable=false
 gdscript/warnings/unused_argument=false

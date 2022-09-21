@@ -49,10 +49,9 @@ static func deserialise_item(item, proof_box:SymmetryBox) -> ModuleItem2:
 				ExprItemBuilder.deserialize(item.expr, proof_box.get_parse_box())
 			)
 		elif item.kind == "theorem":
-			return ModuleItem2Theorem.new(
+			return ModuleItem2Assumption.new(
 				proof_box, 
-				ExprItemBuilder.deserialize(item.expr, proof_box.get_parse_box()),
-				item.proof
+				ExprItemBuilder.deserialize(item.expr, proof_box.get_parse_box())
 			)
 		elif item.kind == "import":
 			return ModuleItem2Import.new(

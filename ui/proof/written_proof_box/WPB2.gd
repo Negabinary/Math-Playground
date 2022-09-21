@@ -11,12 +11,13 @@ var ui_dependencies : MarginContainer
 var ui_assumptions : Assumptions
 
 
-var WPB_SCENE = load("res://ui/proof/written_proof_box/WPB2.tscn")
+var WPB_SCENE
 
 
 # INITIALISATION ==========================================
 
-func init(proof_step:ProofStep, selection_handler):
+func init(proof_step:ProofStep, selection_handler, WPB_SCENE):
+	self.WPB_SCENE = WPB_SCENE
 	self.proof_step = proof_step
 	self.selection_handler = selection_handler
 	_find_ui_elements()
@@ -75,7 +76,7 @@ func _change_dependencies():
 		child.queue_free()
 	for new_dependency in dependencies:
 		var new_ui_dependency = WPB_SCENE.instance()
-		new_ui_dependency.init(new_dependency, selection_handler)
+		new_ui_dependency.init(new_dependency, selection_handler, WPB_SCENE)
 		ui_dependencies.add_child(new_ui_dependency)
 	_change_active_depenency()
 
