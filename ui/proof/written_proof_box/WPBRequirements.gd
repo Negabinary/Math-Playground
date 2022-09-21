@@ -15,7 +15,7 @@ func show_requirements(proof_step:ProofStep, req_id:=-1): #<ProofStep>
 		child.queue_free()
 	for i in len(requirements):
 		var child = DependencyOption.new(requirements[i])
-		child.connect("pressed", self, "emit_signal", ["requirement_selected", i])
+		child.connect("pressed", proof_step, "set_active_dependency", [i])
 		add_child(child)
 	select_requirement(req_id)
 

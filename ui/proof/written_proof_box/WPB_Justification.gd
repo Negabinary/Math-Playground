@@ -19,10 +19,8 @@ var active_dependency := 0
 
 func _find_ui_elements() -> void:
 	ui_justification_name = $"%JustificationName"
-	ui_unprove_button = $"%UnproveButton"
 	ui_description = $"%JustificationDescription"
 	ui_requirements = $"%Requirements"
-	self.ui_requirements.connect("requirement_selected", self, "_on_requirement_selected")
 	ui_req_separator = $"%ReqSeparator"
 	ui_options = $"%Options"
 	ui_panel = $"%OptionsPanel"
@@ -30,10 +28,14 @@ func _find_ui_elements() -> void:
 
 func init(proof_step:ProofStep, selection_handler:SelectionHandler):
 	_find_ui_elements()
+	if self.proof_step:
+		self.proof_step.disconnect("justification_type_changed", self, "_on_justification_changed")
+		self.proof_step.disconnect("justification_properties_changed", self, "_on_justification_updated")
+		self.proof_step.disconnect("active_dependency_changed", self, "_on_requirement_selected")
 	self.proof_step = proof_step
-	ui_unprove_button.connect("pressed", proof_step, "justify", [MissingJustification.new()])
 	proof_step.connect("justification_type_changed", self, "_on_justification_changed")
 	proof_step.connect("justification_properties_changed", self, "_on_justification_updated")
+	proof_step.connect("active_dependency_changed", self, "_on_requirement_selected")
 	self.selection_handler = selection_handler
 	_on_justification_changed()
 
@@ -48,7 +50,6 @@ func _on_justification_changed():
 func _on_justification_updated():
 	var justification = proof_step.get_justification()
 	ui_justification_name.autostring = justification.get_justification_text(proof_step.get_inner_proof_box().get_parse_box())
-	ui_unprove_button.visible = not (justification is MissingJustification or justification is AssumptionJustification or justification is CircularJustification)
 	ui_requirements.visible = not (justification is MissingJustification or justification is AssumptionJustification or justification is CircularJustification)
 	ui_req_separator.visible = not (justification is MissingJustification)
 	if justification.get_justification_description():
@@ -59,7 +60,7 @@ func _on_justification_updated():
 	var reqs := proof_step.get_dependencies()
 	ui_requirements.show_requirements(proof_step)
 	if reqs.size() > 0:
-		_on_requirement_selected(0)
+		_on_requirement_selected()
 	var selection = null
 	if selection_handler.get_wpb() == get_parent().get_parent():
 		selection = selection_handler.get_locator()
@@ -86,14 +87,9 @@ func locator_changed(new_locator):
 	)
 
 
-func _on_requirement_selected(id):
-	active_dependency = id
-	ui_requirements.select_requirement(id)
-	proof_step.set_active_dependency(id)
-
-
-func get_active_dependency():
-	return active_dependency
+func _on_requirement_selected():
+	active_dependency = proof_step.get_active_dependency()
+	ui_requirements.select_requirement(active_dependency)
 
 
 # UI ======================================================

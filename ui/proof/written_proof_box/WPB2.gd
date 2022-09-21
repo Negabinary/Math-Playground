@@ -110,7 +110,7 @@ func _update_justification_label():
 	var icon : String
 	if not proof_step.is_justification_valid():
 		icon = "x"
-	elif proof_step.is_proven_except(ui_justification_holder.get_active_dependency()):
+	elif proof_step.is_proven_except(proof_step.get_active_dependency()):
 		icon = ""
 	else:
 		icon = "!"

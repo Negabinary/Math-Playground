@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://ui/components/PageContainer.gd" type="Script" id=1]
 [ext_resource path="res://ui/notebook/PaperScroller.gd" type="Script" id=2]
@@ -11,7 +11,8 @@
 [ext_resource path="res://ui/theme/icons/trash.tres" type="Texture" id=9]
 [ext_resource path="res://ui/proof/written_proof_box/WPBOptions.gd" type="Script" id=10]
 [ext_resource path="res://ui/proof/written_proof_box/WPB_Justification.gd" type="Script" id=11]
-[ext_resource path="res://ui/notebook/Options.gd" type="Script" id=12]
+[ext_resource path="res://ui/notebook/options/Options.gd" type="Script" id=12]
+[ext_resource path="res://ui/notebook/options/UnproveButton.gd" type="Script" id=13]
 
 [node name="Notebook" type="PanelContainer"]
 anchor_right = 1.0
@@ -138,6 +139,7 @@ margin_left = 368.0
 margin_right = 400.0
 margin_bottom = 22.0
 icon = ExtResource( 9 )
+script = ExtResource( 13 )
 
 [node name="JustificationDescription" type="Label" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer"]
 unique_name_in_owner = true
