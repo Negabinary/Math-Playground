@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://ui/components/PageContainer.gd" type="Script" id=1]
 [ext_resource path="res://ui/notebook/PaperScroller.gd" type="Script" id=2]
@@ -7,6 +7,11 @@
 [ext_resource path="res://ui/proof/Assumptions.gd" type="Script" id=5]
 [ext_resource path="res://ui/notebook/Notebook.gd" type="Script" id=6]
 [ext_resource path="res://ui/paper_theme/Paper001_4K_Color.png" type="Texture" id=7]
+[ext_resource path="res://ui/proof/written_proof_box/WPBRequirements.gd" type="Script" id=8]
+[ext_resource path="res://ui/theme/icons/trash.tres" type="Texture" id=9]
+[ext_resource path="res://ui/proof/written_proof_box/WPBOptions.gd" type="Script" id=10]
+[ext_resource path="res://ui/proof/written_proof_box/WPB_Justification.gd" type="Script" id=11]
+[ext_resource path="res://ui/notebook/Options.gd" type="Script" id=12]
 
 [node name="Notebook" type="PanelContainer"]
 anchor_right = 1.0
@@ -50,10 +55,9 @@ margin_bottom = 582.0
 tab_align = 0
 
 [node name="Bookmarks" type="VBoxContainer" parent="HSplitContainer/MarginContainer/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 19.0
+margin_top = 23.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
 custom_constants/separation = 10
@@ -61,7 +65,7 @@ custom_constants/separation = 10
 [node name="AssumptionPane" type="ScrollContainer" parent="HSplitContainer/MarginContainer/TabContainer/Bookmarks"]
 unique_name_in_owner = true
 margin_right = 178.0
-margin_bottom = 553.0
+margin_bottom = 549.0
 rect_clip_content = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -77,89 +81,122 @@ size_flags_horizontal = 3
 custom_constants/separation = 10
 
 [node name="Options" type="VBoxContainer" parent="HSplitContainer/MarginContainer/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 23.0
 rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource( 12 )
 
 [node name="Control" type="Control" parent="HSplitContainer/MarginContainer/TabContainer/Options"]
-margin_right = 178.0
+margin_right = 420.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 0, 40 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/MarginContainer/TabContainer/Options"]
 margin_top = 44.0
-margin_right = 178.0
+margin_right = 420.0
 margin_bottom = 549.0
 rect_clip_content = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
-[node name="PanelContainer" type="PanelContainer" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer"]
-margin_right = 178.0
-margin_bottom = 164.0
+[node name="JustificationOptions" type="PanelContainer" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer"]
+unique_name_in_owner = true
+margin_right = 420.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
 theme_type_variation = "DrawnBox"
+script = ExtResource( 11 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 168.0
-margin_bottom = 154.0
+margin_right = 410.0
+margin_bottom = 85.0
 
-[node name="JustificationName" type="Label" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer"]
+margin_right = 400.0
+margin_bottom = 22.0
+
+[node name="JustificationName" type="Label" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_right = 158.0
-margin_bottom = 17.0
-text = "This is some test text"
+margin_top = 2.0
+margin_right = 364.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "[Insert Justification Name]"
+autowrap = true
 script = ExtResource( 4 )
 
-[node name="HSeparator" type="HSeparator" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/PanelContainer/VBoxContainer"]
-margin_top = 21.0
-margin_right = 158.0
-margin_bottom = 29.0
-
-[node name="Label2" type="Label" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/PanelContainer/VBoxContainer"]
-margin_top = 33.0
-margin_right = 158.0
-margin_bottom = 50.0
-text = "Dependencies:"
-
-[node name="Dependencies" type="VBoxContainer" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/PanelContainer/VBoxContainer"]
+[node name="UnproveButton" type="Button" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_top = 54.0
-margin_right = 158.0
-margin_bottom = 144.0
+margin_left = 368.0
+margin_right = 400.0
+margin_bottom = 22.0
+icon = ExtResource( 9 )
 
-[node name="CheckBox" type="CheckBox" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/PanelContainer/VBoxContainer/Dependencies"]
-margin_right = 158.0
-margin_bottom = 19.0
-theme_type_variation = "OptionTicked"
+[node name="JustificationDescription" type="Label" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 26.0
+margin_right = 400.0
+margin_bottom = 43.0
+autowrap = true
 
-[node name="CheckBox2" type="CheckBox" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/PanelContainer/VBoxContainer/Dependencies"]
-margin_top = 23.0
-margin_right = 158.0
-margin_bottom = 42.0
-theme_type_variation = "OptionTicked"
-disabled = true
-pressed = true
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer"]
+margin_top = 47.0
+margin_right = 400.0
+margin_bottom = 55.0
 
-[node name="CheckBox3" type="CheckBox" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/PanelContainer/VBoxContainer/Dependencies"]
-margin_top = 46.0
-margin_right = 158.0
-margin_bottom = 66.0
-theme_type_variation = "OptionWarn"
+[node name="RequirementsLabel" type="Label" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 26.0
+margin_right = 400.0
+margin_bottom = 43.0
+text = "requirements:"
+autowrap = true
 
-[node name="CheckBox4" type="CheckBox" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/PanelContainer/VBoxContainer/Dependencies"]
-margin_top = 70.0
-margin_right = 158.0
-margin_bottom = 90.0
-theme_type_variation = "OptionWarn"
-disabled = true
-pressed = true
+[node name="Requirements" type="VBoxContainer" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 59.0
+margin_right = 400.0
+margin_bottom = 59.0
+script = ExtResource( 8 )
+
+[node name="ReqSeparator" type="HSeparator" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 63.0
+margin_right = 400.0
+margin_bottom = 71.0
+
+[node name="OptionsLabel" type="Label" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 26.0
+margin_right = 400.0
+margin_bottom = 43.0
+text = "options:"
+autowrap = true
+
+[node name="Options" type="VBoxContainer" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 75.0
+margin_right = 400.0
+margin_bottom = 75.0
+script = ExtResource( 10 )
+
+[node name="Jank" type="Control" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer"]
+visible = false
+margin_top = 79.0
+margin_right = 400.0
+margin_bottom = 79.0
+
+[node name="OptionsPanel" type="Control" parent="HSplitContainer/MarginContainer/TabContainer/Options/ScrollContainer/JustificationOptions/VBoxContainer/Jank"]
+unique_name_in_owner = true
+margin_right = 40.0
+margin_bottom = 40.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer"]
 unique_name_in_owner = true

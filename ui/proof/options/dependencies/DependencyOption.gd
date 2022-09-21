@@ -5,6 +5,7 @@ var proof_step : ProofStep
 var autostring : Autostring
 
 func _init(proof_step:ProofStep):
+	clip_text = true
 	self.proof_step = proof_step
 	proof_step.connect("proof_status", self, "_update")
 	autostring = ExprItemAutostring.new(

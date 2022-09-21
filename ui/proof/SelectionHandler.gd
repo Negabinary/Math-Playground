@@ -2,17 +2,21 @@ extends Node
 class_name SelectionHandler
 
 signal locator_changed
+signal wpb_changed
 
 var wpb
 var assumption_pane
 
 func take_selection(wpb):
+	var different_wpb : bool = wpb != self.wpb
 	if is_instance_valid(self.wpb) and self.wpb != null and self.wpb != wpb:
 		self.wpb.disconnect("tree_exiting", self, "deselect")
 		self.wpb.deselect()
 	self.wpb = wpb
 	if wpb != null:
 		wpb.select()
+	if different_wpb:
+		emit_signal("wpb_changed")
 	emit_signal("locator_changed", get_locator())
 	if not wpb.is_connected("tree_exiting", self, "deselect"):
 		wpb.connect("tree_exiting", self, "deselect")
@@ -21,11 +25,14 @@ func deselect():
 	take_selection(null)
 
 func locator_changed(x, wpb):
+	var different_wpb : bool = wpb != self.wpb
 	if is_instance_valid(self.wpb) and self.wpb != null and self.wpb != wpb:
 		self.wpb.deselect()
 	self.wpb = wpb
 	if wpb != null:
 		wpb.select()
+	if different_wpb:
+		emit_signal("wpb_changed")
 	emit_signal("locator_changed", get_locator())
 
 func get_locator() -> Locator:

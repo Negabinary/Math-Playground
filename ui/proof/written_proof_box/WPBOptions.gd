@@ -1,4 +1,4 @@
-extends GridContainer
+extends Container
 class_name WPBOptions
 
 const BOOLEAN_OPTION = preload("res://ui/proof/options/BooleanOption.tscn")

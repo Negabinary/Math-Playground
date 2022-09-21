@@ -1,4 +1,4 @@
-extends MarginContainer
+extends Control
 class_name WPBJustification
 
 signal change_active_dependency # int
@@ -9,7 +9,7 @@ var ui_description : Label
 var ui_requirements : WPBRequirements
 var ui_req_separator : Control
 var ui_options : WPBOptions
-var ui_panel : PanelContainer
+var ui_panel : Control
 
 var proof_step : ProofStep
 var selection_handler : SelectionHandler # final
@@ -20,14 +20,14 @@ var active_dependency := 0
 # INITIALISATION ==========================================
 
 func _find_ui_elements() -> void:
-	ui_justification_name = $Options/VBoxContainer/HBoxContainer/JustificationName
-	ui_unprove_button = $Options/VBoxContainer/HBoxContainer/UnproveButton
-	ui_description = $Options/VBoxContainer/JustificationDescription
-	ui_requirements = $Options/VBoxContainer/VBoxContainer/Requirements
+	ui_justification_name = $"%JustificationName"
+	ui_unprove_button = $"%UnproveButton"
+	ui_description = $"%JustificationDescription"
+	ui_requirements = $"%Requirements"
 	self.ui_requirements.connect("requirement_selected", self, "_on_requirement_selected")
-	ui_req_separator = $Options/VBoxContainer/VBoxContainer/HSeparator
-	ui_options = $Options/VBoxContainer/VBoxContainer/Options
-	ui_panel = $Options
+	ui_req_separator = $"%ReqSeparator"
+	ui_options = $"%Options"
+	ui_panel = $"%OptionsPanel"
 
 
 func init(proof_step:ProofStep, selection_handler:SelectionHandler):

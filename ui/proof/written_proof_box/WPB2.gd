@@ -57,6 +57,10 @@ func get_selected_locator() -> Locator:
 	return ui_statement.get_locator()
 
 
+func get_proof_step() -> ProofStep:
+	return proof_step
+
+
 # DEPENDENCIES =================================================
 
 func _connect_dependencies():
