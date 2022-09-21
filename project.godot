@@ -139,6 +139,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/components/expr_item_type_edit.gd"
 }, {
+"base": "Reference",
+"class": "ForallHelper",
+"language": "GDScript",
+"path": "res://src/expr_item/helper_functions/forall_helper.gd"
+}, {
 "base": "Justification",
 "class": "FromConjunctionJustification",
 "language": "GDScript",
@@ -456,6 +461,7 @@ _global_script_class_icons={
 "ExprItemTagHelper": "",
 "ExprItemType": "",
 "ExprItemTypeEdit": "",
+"ForallHelper": "",
 "FromConjunctionJustification": "",
 "IdentifierBuilder": "",
 "IdentifierListener": "",

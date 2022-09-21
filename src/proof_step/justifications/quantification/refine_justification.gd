@@ -20,11 +20,11 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	if general == null:
 		return null
 	
-	var general_statement := Statement.new(general)
-	var specific_statement := Statement.new(expr_item)
+	var general_statement := ForallHelper.new(general)
+	var specific_statement := ForallHelper.new(expr_item)
 	
 	var matching = {}
-	for definition in Statement.new(general).get_definitions():
+	for definition in general_statement.get_definitions():
 		matching[definition] = "*"
 	
 	var matches:bool = general_statement.get_conclusion_with_conditions().is_superset(
@@ -56,11 +56,11 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 		options.append(Justification.LabelOption.new(ConstantAutostring.new("Expression missing!"), true))
 		return options
 	
-	var general_statement := Statement.new(general)
-	var specific_statement := Statement.new(expr_item)
+	var general_statement := ForallHelper.new(general)
+	var specific_statement := ForallHelper.new(expr_item)
 	
 	var matching = {}
-	for definition in Statement.new(general).get_definitions():
+	for definition in general_statement.get_definitions():
 		matching[definition] = "*"
 	
 	var matches:bool = general_statement.get_conclusion_with_conditions().is_superset(
