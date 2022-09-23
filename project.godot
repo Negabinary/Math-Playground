@@ -94,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/expr_item/context_locator.gd"
 }, {
+"base": "Justification",
+"class": "ContradictionJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/negative/contradiction_justification.gd"
+}, {
 "base": "AbstractParseBox",
 "class": "DeferredParseBox",
 "language": "GDScript",
@@ -422,7 +427,7 @@ _global_script_classes=[ {
 "base": "Justification",
 "class": "VacuousJustification",
 "language": "GDScript",
-"path": "res://src/proof_step/justifications/propositional/vacuous_justification.gd"
+"path": "res://src/proof_step/justifications/negative/vacuous_justification.gd"
 }, {
 "base": "Control",
 "class": "WPBJustification",
@@ -477,6 +482,7 @@ _global_script_class_icons={
 "ConcatAutostring": "",
 "ConstantAutostring": "",
 "ContextLocator": "",
+"ContradictionJustification": "",
 "DeferredParseBox": "",
 "DependencyOption": "",
 "Eaters": "",

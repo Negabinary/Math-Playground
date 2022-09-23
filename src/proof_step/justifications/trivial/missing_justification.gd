@@ -83,6 +83,12 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 			VacuousJustification.new()
 		],
 		[
+			"proof by contradiction",
+			expr_item.get_type() == GlobalTypes.NOT,
+			load("res://ui/theme/descriptive_buttons/vacuous.tres"),
+			ContradictionJustification.new()
+		],
+		[
 			"prove a part of this disjunction",
 			expr_item.get_type() == GlobalTypes.OR and _get_or_id_start(locator) == -1,
 			load("res://ui/theme/descriptive_buttons/vacuous.tres"),

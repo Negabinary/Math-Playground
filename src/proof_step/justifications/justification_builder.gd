@@ -12,6 +12,10 @@ static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Ju
 			)
 		{"justification_type": "CombineJustification", ..}:
 			return CombineJustification.new()
+		{"justification_type": "ContradictionJustification", ..}:
+			return ContradictionJustification.new(
+				ExprItemBuilder.deserialize(j.contradiction, parse_box)
+			)
 		{"justification_type": "EliminatedLambdaJustification", ..}:
 			var locator := Locator.new(
 				ExprItemBuilder.deserialize(j.location_expr_item, parse_box),
