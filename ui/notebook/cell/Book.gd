@@ -14,6 +14,7 @@ onready var scene_cell_import := load("res://ui/notebook/cell/CellImport.tscn")
 func open_book():
 	if not loaded:
 		load_book()
+	rect_size = OS.window_size / 2
 	popup_centered()
 	loaded = true
 
