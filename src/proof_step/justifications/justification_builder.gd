@@ -69,6 +69,10 @@ static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Ju
 			return ModusPonensJustification.new(
 				ExprItemBuilder.deserialize(j.implication, parse_box)
 			)
+		{"justification_type": "OneOfJustification", ..}:
+			return OneOfJustification.new(
+				j.keep_ids
+			)
 		{"justification_type": "RefineJustification", ..}:
 			return RefineJustification.new(
 				ExprItemBuilder.deserialize(j.general, parse_box)

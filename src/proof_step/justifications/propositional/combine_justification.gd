@@ -15,8 +15,8 @@ func _get_clauses(expr_item:ExprItem) -> Array: #<ExprItem>
 	while exploring.size() > 0:
 		var next:ExprItem = exploring.pop_front()
 		if next.get_type() == GlobalTypes.AND and next.get_child_count() == 2:
-			final_options.push_front(next.get_child(1))
-			final_options.push_front(next.get_child(0))
+			exploring.push_front(next.get_child(1))
+			exploring.push_front(next.get_child(0))
 		else:
 			final_options.append(next)
 	return final_options

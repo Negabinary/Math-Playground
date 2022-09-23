@@ -32,6 +32,39 @@ func _is_matchable(locator:Locator):
 	return false
 
 
+func _get_or_id_start(locator:Locator) -> int:
+	if locator == null:
+		return -1
+	if locator.get_parent() == null:
+		return 0
+	if locator.get_parent().get_type() == GlobalTypes.OR and locator.get_parent().get_child_count() == 2:
+		if locator.get_indeces()[-1] == 0:
+			return _get_or_id_start(locator.get_parent())
+		else:
+			var pr = _get_or_id_start(locator.get_parent())
+			if pr == -1:
+				return -1
+			else:
+				return pr + _get_or_id_range(locator.get_parent().get_child(0).get_expr_item())
+	return -1
+
+
+func _get_or_id_range(expr_item:ExprItem) -> int:
+	if expr_item.get_type() == GlobalTypes.OR and expr_item.get_child_count() == 2:
+		return _get_or_id_range(expr_item.get_child(0)) + _get_or_id_range(expr_item.get_child(1))
+	return 1
+
+
+func _get_or_keep(clauses:int, start:int, length:int) -> Array:
+	var result = []
+	for k in clauses:
+		if k >= start and k < start + length:
+			result.append(true)
+		else:
+			result.append(false)
+	return result
+
+
 func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, selection:Locator):
 	var options := []
 	var locator = (selection if selection.get_root().compare(expr_item) else null) if selection else null
@@ -48,6 +81,18 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 			expr_item.get_type() == GlobalTypes.IMPLIES,
 			load("res://ui/theme/descriptive_buttons/vacuous.tres"),
 			VacuousJustification.new()
+		],
+		[
+			"prove a part of this disjunction",
+			expr_item.get_type() == GlobalTypes.OR and _get_or_id_start(locator) == -1,
+			load("res://ui/theme/descriptive_buttons/vacuous.tres"),
+			OneOfJustification.new(_get_or_keep(_get_or_id_range(expr_item), 0, 0))
+		],
+		[
+			"prove this part of the disjunction",
+			expr_item.get_type() == GlobalTypes.OR and _get_or_id_start(locator) != -1,
+			load("res://ui/theme/descriptive_buttons/vacuous.tres"),
+			OneOfJustification.new(_get_or_keep(_get_or_id_range(expr_item), _get_or_id_start(locator), _get_or_id_range(locator.get_expr_item()))) if locator else null
 		],
 		[
 			"use a witness",

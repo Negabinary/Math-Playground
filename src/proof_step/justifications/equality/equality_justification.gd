@@ -26,6 +26,8 @@ func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
 
 
 func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
+	if replace_with == null:
+		return null
 	if forwards:
 		return [Requirement.new(ExprItem.new(
 			GlobalTypes.EQUALITY,
@@ -49,25 +51,16 @@ func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	var rw_option := Justification.ExprItemOption.new(replace_with, location.get_parse_box(context))
 	rw_option.connect("expr_item_changed", self, "set_replace_with")
 	options.append(rw_option)
+	if replace_with == null:
+		options.append(Justification.LabelOption.new(ConstantAutostring.new("Missing replacement!"), true))
 	return options
-
-
-func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
-	if location and replace_with:
-		var npb := location.get_parse_box(parse_box)
-		return ConcatAutostring.new([
-			"using ",
-			ExprItemAutostring.new(location.get_expr_item(), npb),
-			" = ",
-			ExprItemAutostring.new(replace_with, npb)
-		])
-	else:
-		return ConstantAutostring.new("using an equality,")
 
 
 func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 	if location == null or (not expr_item.compare(location.get_root())):
 		return [ConstantAutostring.new("error: invalid location")]
+	if replace_with == null:
+		return [ConstantAutostring.new("error: no replacement")]
 	else:
 		return [
 			ConstantAutostring.new("substituting"),

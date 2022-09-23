@@ -309,6 +309,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/notebook/cell.gd"
 }, {
+"base": "Justification",
+"class": "OneOfJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/propositional/one_of_justification.gd"
+}, {
 "base": "Container",
 "class": "PageContainer",
 "language": "GDScript",
@@ -515,6 +520,7 @@ _global_script_class_icons={
 "MultiMap": "",
 "Notebook": "",
 "NotebookCell": "",
+"OneOfJustification": "",
 "PageContainer": "",
 "ParseBox": "",
 "Parser2": "",
