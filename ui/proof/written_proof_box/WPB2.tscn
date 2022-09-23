@@ -63,7 +63,7 @@ script = ExtResource( 7 )
 [node name="OptionsPanel" type="PanelContainer" parent="WrittenProofBox/MissingPostit"]
 unique_name_in_owner = true
 margin_left = 30.0
-margin_right = 175.0
+margin_right = 450.0
 margin_bottom = 32.0
 size_flags_horizontal = 0
 theme_type_variation = "Postit"
@@ -71,16 +71,16 @@ theme_type_variation = "Postit"
 [node name="VBoxContainer" type="VBoxContainer" parent="WrittenProofBox/MissingPostit/OptionsPanel"]
 margin_left = 10.0
 margin_top = 1.0
-margin_right = 135.0
+margin_right = 410.0
 margin_bottom = 22.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="WrittenProofBox/MissingPostit/OptionsPanel/VBoxContainer"]
-margin_right = 125.0
+margin_right = 400.0
 margin_bottom = 17.0
 
 [node name="MissingLabel" type="Label" parent="WrittenProofBox/MissingPostit/OptionsPanel/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-margin_right = 125.0
+margin_right = 400.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 theme_type_variation = "LabelQuiet"
@@ -90,8 +90,9 @@ text = "missing justification!"
 [node name="Options" type="VBoxContainer" parent="WrittenProofBox/MissingPostit/OptionsPanel/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 21.0
-margin_right = 125.0
+margin_right = 400.0
 margin_bottom = 21.0
+rect_min_size = Vector2( 400, 0 )
 script = ExtResource( 3 )
 
 [node name="Statement" type="Control" parent="WrittenProofBox"]
