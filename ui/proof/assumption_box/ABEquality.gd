@@ -30,8 +30,6 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, selection_h
 		_update_rhs()
 		$"%Right".init(assumption, assumption_context, selection_handler, false)
 		$"%Left".init(assumption, assumption_context, selection_handler, true)
-		$"%Ustar".init(assumption, assumption_context, selection_handler, true)
-		$"%Dstar".init(assumption, assumption_context, selection_handler, false)
 
 func _update_lhs():
 	$LHS.clear()

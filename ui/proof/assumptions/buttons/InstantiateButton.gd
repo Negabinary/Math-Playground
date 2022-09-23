@@ -17,7 +17,7 @@ func _on_pressed():
 		existential
 	)
 	var modus_ponens = ModusPonensJustification.new(
-		assumption
+		assumption.as_expr_item()
 	)
 	selection_handler.get_selected_proof_box().get_justification_box().set_justification(selection_handler.get_locator().get_root(), existential_justification)
 	selection_handler.get_selected_proof_box().get_justification_box().set_justification(existential, modus_ponens)

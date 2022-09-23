@@ -54,6 +54,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/notebook/cell/Book.gd"
 }, {
+"base": "ActionButton",
+"class": "CaseSplitButton",
+"language": "GDScript",
+"path": "res://ui/proof/assumptions/buttons/CaseSplitButton.gd"
+}, {
+"base": "Justification",
+"class": "CaseSplitJustification",
+"language": "GDScript",
+"path": "res://src/proof_step/justifications/propositional/case_split_justification.gd"
+}, {
 "base": "Justification",
 "class": "CircularJustification",
 "language": "GDScript",
@@ -444,6 +454,8 @@ _global_script_class_icons={
 "Autostring": "",
 "AutostringLabel": "",
 "Book": "",
+"CaseSplitButton": "",
+"CaseSplitJustification": "",
 "CircularJustification": "",
 "ConcatAutostring": "",
 "ConstantAutostring": "",

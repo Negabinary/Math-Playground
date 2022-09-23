@@ -4,6 +4,10 @@ static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Ju
 	match j:
 		{"justification_type": "AssumptionJustification", ..}:
 			return null
+		{"justification_type": "CaseSplitJustification", ..}:
+			return CaseSplitJustification.new(
+				ExprItemBuilder.deserialize(j.disjunction, parse_box)
+			)
 		{"justification_type": "EliminatedLambdaJustification", ..}:
 			var locator := Locator.new(
 				ExprItemBuilder.deserialize(j.location_expr_item, parse_box),

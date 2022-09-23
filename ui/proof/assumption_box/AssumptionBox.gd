@@ -25,8 +25,11 @@ func initialise(assumption:ExprItem, assumption_context:SymmetryBox, selection_h
 	ui_actions = $VBoxContainer/Use
 	$"%InstantiateButton".init(assumption, assumption_context, selection_handler)
 	$"%UseButton".init(assumption, assumption_context, selection_handler)
+	$"%CaseSplit".init(assumption, assumption_context, selection_handler)
 	$"%LStar".init(assumption, assumption_context, selection_handler)
 	$"%RStar".init(assumption, assumption_context, selection_handler, true)
+	$"%Ustar".init(assumption, assumption_context, selection_handler, true)
+	$"%Dstar".init(assumption, assumption_context, selection_handler, false)
 	$"%UnstarButton".connect("pressed", self, "emit_signal", ["request_unstar"])
 	ui_equality = $VBoxContainer/Equality
 	ui_equality.initialise(assumption, assumption_context,  selection_handler)

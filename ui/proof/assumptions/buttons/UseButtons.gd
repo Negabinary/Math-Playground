@@ -4,6 +4,7 @@ func init(assumption:ExprItem, proof_box:SymmetryBox, selection_handler:Selectio
 	$"%Star".init(assumption, proof_box, selection_handler)
 	$"%Use".init(assumption, proof_box, selection_handler)
 	$"%Instantiate".init(assumption, proof_box, selection_handler)
+	$"%CaseSplit".init(assumption, proof_box, selection_handler)
 	$"%EqLeft".init(assumption, proof_box, selection_handler, true)
 	$"%EqRight".init(assumption, proof_box, selection_handler)
 	$"%StarL".init(assumption, proof_box, selection_handler)

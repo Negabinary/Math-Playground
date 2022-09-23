@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://ui/proof/assumptions/buttons/InstantiateButton.gd" type="Script" id=1]
 [ext_resource path="res://ui/proof/assumptions/buttons/UseButton.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://ui/proof/assumptions/buttons/UseButtons.gd" type="Script" id=10]
 [ext_resource path="res://ui/proof/assumptions/buttons/AndStarButton.gd" type="Script" id=11]
 [ext_resource path="res://ui/proof/assumptions/buttons/ImplStarButton.gd" type="Script" id=12]
+[ext_resource path="res://ui/proof/assumptions/buttons/CaseSplitButton.gd" type="Script" id=13]
 
 [node name="UseButtons" type="HBoxContainer"]
 margin_left = 80.0
@@ -45,10 +46,19 @@ theme_type_variation = "ButtonGreen"
 text = "Instantiate"
 script = ExtResource( 1 )
 
-[node name="EqLeft" type="Button" parent="."]
+[node name="CaseSplit" type="Button" parent="."]
 unique_name_in_owner = true
 margin_left = 169.0
-margin_right = 212.0
+margin_right = 249.0
+margin_bottom = 22.0
+theme_type_variation = "ButtonGreen"
+text = "Case Split"
+script = ExtResource( 13 )
+
+[node name="EqLeft" type="Button" parent="."]
+unique_name_in_owner = true
+margin_left = 253.0
+margin_right = 296.0
 margin_bottom = 22.0
 theme_type_variation = "ButtonGreen"
 text = "<=="
@@ -56,8 +66,8 @@ script = ExtResource( 3 )
 
 [node name="EqRight" type="Button" parent="."]
 unique_name_in_owner = true
-margin_left = 216.0
-margin_right = 259.0
+margin_left = 300.0
+margin_right = 343.0
 margin_bottom = 22.0
 theme_type_variation = "ButtonGreen"
 text = "==>"
@@ -65,8 +75,8 @@ script = ExtResource( 3 )
 
 [node name="StarL" type="Button" parent="."]
 unique_name_in_owner = true
-margin_left = 263.0
-margin_right = 302.0
+margin_left = 347.0
+margin_right = 386.0
 margin_bottom = 22.0
 theme_type_variation = "ButtonStar"
 icon = ExtResource( 4 )
@@ -74,8 +84,8 @@ script = ExtResource( 11 )
 
 [node name="StarR" type="Button" parent="."]
 unique_name_in_owner = true
-margin_left = 306.0
-margin_right = 348.0
+margin_left = 390.0
+margin_right = 432.0
 margin_bottom = 22.0
 theme_type_variation = "ButtonStar"
 icon = ExtResource( 5 )
@@ -83,8 +93,8 @@ script = ExtResource( 11 )
 
 [node name="StarLw" type="Button" parent="."]
 unique_name_in_owner = true
-margin_left = 352.0
-margin_right = 386.0
+margin_left = 436.0
+margin_right = 470.0
 margin_bottom = 22.0
 theme_type_variation = "ButtonStar"
 icon = ExtResource( 7 )
@@ -92,8 +102,8 @@ script = ExtResource( 12 )
 
 [node name="StarRw" type="Button" parent="."]
 unique_name_in_owner = true
-margin_left = 390.0
-margin_right = 427.0
+margin_left = 474.0
+margin_right = 511.0
 margin_bottom = 22.0
 theme_type_variation = "ButtonStar"
 icon = ExtResource( 6 )
