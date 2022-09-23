@@ -11,12 +11,12 @@ script = ExtResource( 3 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_right = 755.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 custom_constants/separation = 20
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 margin_right = 45.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 rect_min_size = Vector2( 45, 0 )
 theme_type_variation = "LabelQuiet"
 text = "assume"
@@ -24,7 +24,7 @@ text = "assume"
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer"]
 margin_left = 65.0
 margin_right = 755.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 scroll_vertical_enabled = false
 
@@ -38,9 +38,9 @@ theme_type_variation = "LabelMath"
 text = "0"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="."]
-margin_top = 27.0
+margin_top = 21.0
 margin_right = 755.0
-margin_bottom = 49.0
+margin_bottom = 43.0
 
 [node name="Label" type="Control" parent="HBoxContainer2"]
 margin_right = 76.0
@@ -49,3 +49,4 @@ rect_min_size = Vector2( 76, 0 )
 
 [node name="UseButtons" parent="HBoxContainer2" instance=ExtResource( 1 )]
 unique_name_in_owner = true
+margin_right = 591.0

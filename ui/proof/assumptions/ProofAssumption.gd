@@ -8,8 +8,4 @@ func initialise(assumption:ExprItem, context:SymmetryBox, selection_handler:Sele
 		assumption,
 		context.get_parse_box()
 	)
-	$HBoxContainer2/Star.init(assumption, context, selection_handler)
-	$HBoxContainer2/Use.init(assumption, context, selection_handler)
-	$HBoxContainer2/Instantiate.init(assumption, context, selection_handler)
-	$HBoxContainer2/EqLeft.init(assumption, context, selection_handler, true)
-	$HBoxContainer2/EqRight.init(assumption, context, selection_handler)
+	$"%UseButtons".init(assumption, context, selection_handler)
