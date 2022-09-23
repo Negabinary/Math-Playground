@@ -4,6 +4,8 @@ static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Ju
 	match j:
 		{"justification_type": "AssumptionJustification", ..}:
 			return null
+		{"justification_type": "BothDirectionsJustification", ..}:
+			return BothDirectionsJustification.new()
 		{"justification_type": "CaseSplitJustification", ..}:
 			return CaseSplitJustification.new(
 				ExprItemBuilder.deserialize(j.disjunction, parse_box)

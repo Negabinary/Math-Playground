@@ -56,6 +56,12 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 			WitnessJustification.new()
 		],
 		[
+			"prove both directions",
+			expr_item.get_type() == GlobalTypes.EQUALITY,
+			load("res://ui/theme/descriptive_buttons/witness.tres"),
+			BothDirectionsJustification.new()
+		],
+		[
 			"eliminate a double negative",
 			_is_double_negative(locator),
 			load("res://ui/theme/descriptive_buttons/double_negative.tres"),
@@ -93,6 +99,12 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 			true,
 			load("res://ui/theme/descriptive_buttons/refine.tres"),
 			RefineJustification.new()
+		],
+		[
+			"use a custom case split",
+			true,
+			load("res://ui/theme/descriptive_buttons/refine.tres"),
+			CaseSplitJustification.new()
 		],
 		[
 			"prove this and something else",
