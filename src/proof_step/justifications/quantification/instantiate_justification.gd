@@ -45,10 +45,9 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	if existential == null:
 		options.append(Justification.LabelOption.new(ConstantAutostring.new("Existential missing!"), true))
 		return options
-	if existential == null:
-		options.append(Justification.LabelOption.new(ConstantAutostring.new("expression missing"), true))
 	if existential.get_type() != GlobalTypes.EXISTS:
 		options.append(Justification.LabelOption.new(ConstantAutostring.new("expression must be an existential"), true))
+		return options
 	options.append(Justification.LabelOption.new(ConstantAutostring.new("Name for new instance: ")))
 	options.append(Justification.ExprItemTypeNameOption.new(new_type))
 	return options
@@ -64,3 +63,18 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 func set_existential_fact(existential_fact:ExprItem):
 	self.existential = existential_fact
 	emit_signal("updated")
+
+
+func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
+	if existential == null:
+		return [ConstantAutostring.new("error: existential missing!")]
+	if existential.get_type() != GlobalTypes.EXISTS:
+		return [ConstantAutostring.new("error: existential missing!")]
+	else:
+		return [
+			ConstantAutostring.new("having used"),
+			[1,ConstantAutostring.new("an existential")],
+			ConstantAutostring.new("to prove"),
+			[0,ConstantAutostring.new("an expression")]
+		]
+

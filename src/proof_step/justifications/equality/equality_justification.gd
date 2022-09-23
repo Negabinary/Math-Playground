@@ -63,3 +63,15 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 		])
 	else:
 		return ConstantAutostring.new("using an equality,")
+
+
+func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
+	if location == null or (not expr_item.compare(location.get_root())):
+		return [ConstantAutostring.new("error: invalid location")]
+	else:
+		return [
+			ConstantAutostring.new("substituting"),
+			[1,ConstantAutostring.new("an equality")],
+			ConstantAutostring.new("into"),
+			[0,ConstantAutostring.new("an expression")]
+		]

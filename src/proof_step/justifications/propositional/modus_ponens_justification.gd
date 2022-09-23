@@ -57,6 +57,29 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	return options
 
 
+func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
+	if implication == null:
+		return [ConstantAutostring.new("error: missing implication!")]
+	var statement = Statement.new(implication)
+	if not expr_item.compare(statement.get_conclusion().get_expr_item()):
+		return [ConstantAutostring.new("error: implication conclusion does not match goal!")]
+	if statement.get_definitions().size() != 0:
+		return [ConstantAutostring.new("error: implication must not have quantifiers")]
+	var conditions = Statement.new(implication).get_conditions()
+	var result = []
+	result.append(ConstantAutostring.new("using"))
+	result.append([len(conditions), ConstantAutostring.new("this implication,")])
+	if len(conditions) > 0:
+		result.append(ConstantAutostring.new("if"))
+	for i in len(conditions):
+		if i > 0:
+			result.append(ConstantAutostring.new("and"))
+		result.append([i,ExprItemAutostring.new(conditions[i].get_expr_item(), context)])
+	if len(conditions) > 0:
+		result.append(ConcatAutostring.new(["then ", ExprItemAutostring.new(statement.get_conclusion().get_expr_item(), context)]))
+	return result
+
+
 func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	if implication:
 		return ConcatAutostring.new(["using ", ExprItemAutostring.new(implication, parse_box), ","])
