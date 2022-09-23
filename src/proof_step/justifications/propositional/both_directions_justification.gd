@@ -40,7 +40,7 @@ func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 	else:
 		return [
 			ConstantAutostring.new("since we can go"),
-			[1,ConstantAutostring.new("from left to right")],
+			[0,ConstantAutostring.new("from left to right")],
 			ConstantAutostring.new("and"),
-			[0,ConstantAutostring.new("from right to left,")]
+			[1,ConstantAutostring.new("from right to left,")]
 		]

@@ -10,6 +10,8 @@ static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Ju
 			return CaseSplitJustification.new(
 				ExprItemBuilder.deserialize(j.disjunction, parse_box)
 			)
+		{"justification_type": "CombineJustification", ..}:
+			return CombineJustification.new()
 		{"justification_type": "EliminatedLambdaJustification", ..}:
 			var locator := Locator.new(
 				ExprItemBuilder.deserialize(j.location_expr_item, parse_box),

@@ -22,15 +22,6 @@ func set_disjunction(disjunction:ExprItem):
 	emit_signal("updated")
 
 
-func _is_in_conjunction(expr_item:ExprItem, conj:ExprItem):
-	if expr_item.compare(conj):
-		return true
-	elif conj.get_type() == GlobalTypes.AND and conj.get_child_count() == 2:
-		return _is_in_conjunction(expr_item, conj.get_child(0)) or _is_in_conjunction(expr_item, conj.get_child(1))
-	else:
-		return false
-
-
 func get_clauses() -> Array: #<ExprItem>
 	var exploring := [disjunction]
 	var final_options := []

@@ -62,6 +62,12 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 			BothDirectionsJustification.new()
 		],
 		[
+			"prove all sides of the 'and's",
+			expr_item.get_type() == GlobalTypes.AND,
+			load("res://ui/theme/descriptive_buttons/witness.tres"),
+			CombineJustification.new()
+		],
+		[
 			"eliminate a double negative",
 			_is_double_negative(locator),
 			load("res://ui/theme/descriptive_buttons/double_negative.tres"),
