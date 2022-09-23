@@ -6,7 +6,6 @@ var selection_handler # final
 
 var ui_statement : WrittenStatement
 var ui_missing_postit : Control
-var ui_justification_label : WrittenJustification
 var ui_dependencies : MarginContainer
 var ui_assumptions : Assumptions
 
@@ -37,7 +36,6 @@ func init(proof_step:ProofStep, selection_handler, WPB_SCENE):
 
 func _find_ui_elements() -> void:
 	ui_statement = $WrittenProofBox/Statement
-	ui_justification_label = $WrittenProofBox/JustificationLabel
 	ui_dependencies = $WrittenProofBox/Dependencies
 	ui_assumptions = $WrittenProofBox/MarginContainer/Assumptions
 

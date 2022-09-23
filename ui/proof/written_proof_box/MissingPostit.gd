@@ -11,7 +11,7 @@ func init(proof_step:ProofStep, selection_handler):
 	_update()
 
 
-func _update():
+func _update(_x=null):
 	var justification := proof_step.get_justification()
 	visible = justification is MissingJustification
 	if visible:
