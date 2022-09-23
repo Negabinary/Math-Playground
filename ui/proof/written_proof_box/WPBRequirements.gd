@@ -5,25 +5,23 @@ signal requirement_selected # int
 
 var proof_step : ProofStep
 var requirements : Array
-var req_id := 0
 
-func show_requirements(proof_step:ProofStep, req_id:=-1): #<ProofStep>
+
+func init(proof_step:ProofStep):
+	self.proof_step = proof_step
+	proof_step.connect("dependencies_changed", self, "_update")
+	_update()
+
+
+func _update():
 	self.proof_step = proof_step
 	requirements = proof_step.get_dependencies()
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
 	for i in len(requirements):
-		var child = DependencyOption.new(requirements[i])
-		child.connect("pressed", proof_step, "set_active_dependency", [i])
+		var autostring = ExprItemAutostring.new(
+			requirements[i].get_goal(), requirements[i].get_inner_proof_box().get_parse_box()
+		)
+		var child = DependencyOption.new(requirements[i], autostring, i)
 		add_child(child)
-	select_requirement(req_id)
-
-
-func select_requirement(req_id:=0):
-	self.req_id = req_id
-	for i in len(requirements):
-		if req_id == i:
-			get_child(i).select()
-		else:
-			get_child(i).deselect()

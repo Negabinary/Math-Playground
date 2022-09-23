@@ -5,7 +5,7 @@ var proof_step : ProofStep
 var selection_handler # final
 
 var ui_statement : WrittenStatement
-var ui_justification_holder : WPBJustification
+var ui_missing_postit : Control
 var ui_justification_label : WrittenJustification
 var ui_dependencies : MarginContainer
 var ui_assumptions : Assumptions
@@ -21,10 +21,10 @@ func init(proof_step:ProofStep, selection_handler, WPB_SCENE):
 	self.proof_step = proof_step
 	self.selection_handler = selection_handler
 	_find_ui_elements()
-	ui_justification_holder.init(proof_step, selection_handler)
 	_connect_dependencies()
 	_connect_active_dependency()
-	_connect_justification_label()
+	$"%JustificationSummary".init(proof_step)
+	$"%MissingPostit".init(proof_step, selection_handler)
 	ui_statement.set_expr_item(proof_step.get_goal(), proof_step.get_inner_proof_box().get_parse_box())
 	if proof_step.get_requirement().get_assumptions().size() > 0 or proof_step.get_requirement().get_definitions().size() > 0:
 		ui_assumptions.display_assumptions(proof_step.get_requirement(), proof_step.get_inner_proof_box(), selection_handler)
@@ -37,7 +37,6 @@ func init(proof_step:ProofStep, selection_handler, WPB_SCENE):
 
 func _find_ui_elements() -> void:
 	ui_statement = $WrittenProofBox/Statement
-	ui_justification_holder = $WrittenProofBox/Justification
 	ui_justification_label = $WrittenProofBox/JustificationLabel
 	ui_dependencies = $WrittenProofBox/Dependencies
 	ui_assumptions = $WrittenProofBox/MarginContainer/Assumptions
@@ -93,28 +92,9 @@ func _change_active_depenency():
 			child.show()
 		else:
 			child.hide()
-	_update_justification_label()
 
 
 enum ProofStatus {PROVEN, JUSTIFIED, UNPROVEN}
-
-
-func _connect_justification_label():
-	proof_step.connect("justification_type_changed", self, "_update_justification_label")
-	proof_step.connect("justification_properties_changed", self, "_update_justification_label")
-	proof_step.connect("child_proven", self, "_update_justification_label")
-	_update_justification_label()
-
-
-func _update_justification_label():
-	var icon : String
-	if not proof_step.is_justification_valid():
-		icon = "x"
-	elif proof_step.is_proven_except(proof_step.get_active_dependency()):
-		icon = ""
-	else:
-		icon = "!"
-	ui_justification_label.set_text(proof_step.get_justification().get_justification_text(proof_step.get_inner_proof_box().get_parse_box()), icon)
 
 
 func is_proven() -> bool:
@@ -126,7 +106,6 @@ func is_proven() -> bool:
 
 func _on_ui_statement_selected(locator:Locator):
 	selection_handler.locator_changed(locator, self)
-	ui_justification_holder.locator_changed(locator)
 
 func select():
 	pass

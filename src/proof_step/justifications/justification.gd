@@ -23,8 +23,23 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	return ConstantAutostring.new("USING SOMETHING OR OTHER")
 
 
-func get_justification_description():
+func get_justification_type() -> String:
 	return ""
+
+
+func get_justification_description() -> String:
+	return ""
+
+
+func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
+	var result = []
+	var reqs = get_requirements_for(expr_item, context)
+	if reqs:
+		if len(reqs) > 1:
+			for i in len(reqs):
+				result.append([i, ConstantAutostring.new(str(i+1))])
+	result.append(get_justification_text(context))
+	return result
 
 
 func serialize(parse_box:AbstractParseBox) -> Dictionary:

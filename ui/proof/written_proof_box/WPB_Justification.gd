@@ -31,12 +31,11 @@ func init(proof_step:ProofStep, selection_handler:SelectionHandler):
 	if self.proof_step:
 		self.proof_step.disconnect("justification_type_changed", self, "_on_justification_changed")
 		self.proof_step.disconnect("justification_properties_changed", self, "_on_justification_updated")
-		self.proof_step.disconnect("active_dependency_changed", self, "_on_requirement_selected")
 	self.proof_step = proof_step
 	proof_step.connect("justification_type_changed", self, "_on_justification_changed")
 	proof_step.connect("justification_properties_changed", self, "_on_justification_updated")
-	proof_step.connect("active_dependency_changed", self, "_on_requirement_selected")
 	self.selection_handler = selection_handler
+	ui_requirements.init(proof_step)
 	_on_justification_changed()
 
 
@@ -58,9 +57,6 @@ func _on_justification_updated():
 	else:
 		ui_description.hide()
 	var reqs := proof_step.get_dependencies()
-	ui_requirements.show_requirements(proof_step)
-	if reqs.size() > 0:
-		_on_requirement_selected()
 	var selection = null
 	if selection_handler.get_wpb() == get_parent().get_parent():
 		selection = selection_handler.get_locator()
@@ -85,11 +81,6 @@ func locator_changed(new_locator):
 			else null
 		)
 	)
-
-
-func _on_requirement_selected():
-	active_dependency = proof_step.get_active_dependency()
-	ui_requirements.select_requirement(active_dependency)
 
 
 # UI ======================================================

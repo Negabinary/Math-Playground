@@ -33,6 +33,10 @@ func get_requirement() -> Requirement:
 	return requirement
 
 
+func get_parent() -> ProofStep:
+	return parent
+
+
 # JUSTIFICATION ===========================================
 
 
