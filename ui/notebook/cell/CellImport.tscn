@@ -45,6 +45,7 @@ margin_top = 50.0
 margin_right = 730.0
 margin_bottom = 463.0
 theme_type_variation = "Book"
+resizable = true
 script = ExtResource( 5 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="BookButton/Book"]

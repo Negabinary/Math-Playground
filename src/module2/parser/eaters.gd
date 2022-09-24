@@ -47,6 +47,7 @@ static func eat_bindings(input_tape:ParserInputTape, proof_box:AbstractParseBox)
 				return tag_parse
 			for type in grouped_types:
 				tags[type] = tag_parse.tag
+		proof_box = ParseBox.new(proof_box, grouped_types)
 		if not input_tape.try_eat(","):
 			break
 	if types.size() == 0:
