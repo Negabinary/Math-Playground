@@ -90,6 +90,7 @@ func _update_justification():
 				context.get_justification_box().set_justification(requirement.get_goal(), justification)
 	emit_signal("justification_type_changed")
 	_connect_justification_properties()
+	choose_dependency()
 
 
 func _who_uses_justification(j:Justification) -> ProofStep:
@@ -205,6 +206,17 @@ func is_proven_except(idx:int):
 
 signal active_dependency_changed
 var active_dependency := 0
+
+func choose_dependency():
+	active_dependency = 0
+	var deps := get_dependencies()
+	for i in len(deps):
+		if not deps[i].is_proven():
+			active_dependency = i
+			emit_signal("active_dependency_changed")
+			return
+	emit_signal("active_dependency_changed")
+	return
 
 func set_active_dependency(value:int):
 	active_dependency = value

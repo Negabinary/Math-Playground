@@ -14,6 +14,7 @@ var bold_font : Font
 var offset : int
 var font_color : Color
 
+# postorder
 var locators := []
 var rects := []
 
@@ -28,13 +29,48 @@ func get_locator() -> Locator:
 	return locators[selection].get_locator()
 
 
+func set_locator(locator:Locator):#
+	var i = _get_locator_index(locator.get_root(), locator.get_indeces())
+	selection = i
+	is_selected = true
+	emit_signal("selection_changed", locators[i])
+	update()
+
+
+func _get_locator_index(root:ExprItem, indeces:Array) -> int:
+	if indeces.size() == 0:
+		return _get_expr_item_size(root) - 1
+	else:
+		var result = 0
+		var cut_indeces = indeces.duplicate()
+		cut_indeces.pop_front()
+		for i in range(indeces[0]):
+			result += _get_expr_item_size(root.get_child(i))
+		return result + _get_locator_index(root.get_child(indeces[0]), cut_indeces)
+
+
+func _get_expr_item_size(expr_item:ExprItem) -> int:
+	var result = 0
+	for child in expr_item.get_children():
+		result += _get_expr_item_size(child)
+	return result + 1
+
+
 func set_expr_item(new_expr_item:ExprItem, context:AbstractParseBox) -> void:
 	expr_item = new_expr_item
 	assert(context != null)
 	self.context = context
 	selection = 0
 	is_selected = false
+	locators = []
+	_build_locators(ContextLocator.new(Locator.new(new_expr_item), context))
 	update()
+
+
+func _build_locators(locator:ContextLocator):
+	for c in locator.get_child_count():
+		_build_locators(locator.get_child(c))
+	locators.append(locator)
 
 
 func deselect():

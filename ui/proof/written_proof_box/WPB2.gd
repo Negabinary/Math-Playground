@@ -59,6 +59,14 @@ func get_proof_step() -> ProofStep:
 	return proof_step
 
 
+func get_wpb_child(index:int) -> WrittenProofBox2:
+	if index < ui_dependencies.get_child_count():
+		var wpb2 : WrittenProofBox2 = ui_dependencies.get_child(index)
+		return wpb2
+	else:
+		return null
+
+
 # DEPENDENCIES =================================================
 
 func _connect_dependencies():
@@ -66,7 +74,10 @@ func _connect_dependencies():
 	_change_dependencies()
 
 
+signal now_has_dependencies
+
 func _change_dependencies():
+	var had_depdenencies = ui_dependencies.get_child_count() != 0
 	var dependencies := proof_step.get_dependencies()
 	for child in ui_dependencies.get_children():
 		ui_dependencies.remove_child(child)
@@ -76,6 +87,8 @@ func _change_dependencies():
 		new_ui_dependency.init(new_dependency, selection_handler, WPB_SCENE)
 		ui_dependencies.add_child(new_ui_dependency)
 	_change_active_depenency()
+	if not had_depdenencies and ui_dependencies.get_child_count() != 0:
+		emit_signal("now_has_dependencies")
 
 
 func _connect_active_dependency():
@@ -104,6 +117,13 @@ func is_proven() -> bool:
 
 func _on_ui_statement_selected(locator:Locator):
 	selection_handler.locator_changed(locator, self)
+
+func take_selection(locator:=null):
+	if locator == null:
+		ui_statement.set_locator(Locator.new(proof_step.get_goal()))
+	else:
+		ui_statement.set_locator(locator)
+	
 
 func select():
 	pass

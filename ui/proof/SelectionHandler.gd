@@ -39,13 +39,15 @@ func set_wpb(new_wpb):
 		if get_wpb():
 			self.wpb.deselect()
 			if wpb.is_connected("tree_exiting", self, "clear_wpb"):
+				wpb.disconnect("now_has_dependencies", self, "_on_selected_gain_dependencies")
 				wpb.disconnect("tree_exiting", self, "clear_wpb")
-				wpb.get_proof_step().disconnect("justification_type_changed", self, "emit_signal")
+				wpb.get_proof_step().disconnect("justification_type_changed", self, "_on_selected_justified")
 		wpb = new_wpb
 		if new_wpb:
 			wpb.select()
+			new_wpb.connect("now_has_dependencies", self, "_on_selected_gain_dependencies")
 			new_wpb.connect("tree_exiting", self, "clear_wpb")
-			new_wpb.get_proof_step().connect("justification_type_changed", self, "emit_signal", ["justification_changed"])
+			new_wpb.get_proof_step().connect("justification_type_changed", self, "_on_selected_justified")
 	emit_signal("wpb_changed")
 	emit_signal("justification_changed")
 
@@ -73,6 +75,17 @@ func locator_changed(x, wpb):
 # Justification ===========================================
 
 signal justification_changed
+
+
+func _on_selected_gain_dependencies():
+	while wpb.get_wpb_child(wpb.get_proof_step().get_active_dependency()):
+		wpb.get_wpb_child(wpb.get_proof_step().get_active_dependency()).take_selection()
+	emit_signal("justification_changed")
+
+
+func _on_selected_justified():
+	emit_signal("justification_changed")
+
 
 func get_justification() -> Justification:
 	if get_wpb():
