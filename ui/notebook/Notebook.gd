@@ -23,6 +23,7 @@ func new_cell(json = null, proof_box = null, version = 0) -> void:
 	node.connect("request_delete", self, "delete_cell", [node])
 	node.connect("request_move_up", self, "move_cell_up", [node])
 	node.connect("request_move_down", self, "move_cell_down", [node])
+	node.connect("bottom_proof_box_changed", self, "_update_pb_after", [node])
 
 
 func move_cell_up(cell:NotebookCell) -> void:
@@ -44,6 +45,12 @@ func delete_cell(cell:NotebookCell) -> void:
 	cell.queue_free()
 	if idx < $"%Cells".get_child_count():
 		$"%Cells".get_child(idx).set_top_proof_box(_get_proof_box_before(idx))
+
+
+func _update_pb_after(cell:NotebookCell) -> void:
+	var idx := cell.get_index()
+	if idx + 1 < $"%Cells".get_child_count():
+		$"%Cells".get_child(idx+1).set_top_proof_box(cell.get_bottom_proof_box())
 
 
 func _get_proof_box_before(idx:int) -> SymmetryBox:

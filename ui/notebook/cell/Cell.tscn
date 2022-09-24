@@ -59,31 +59,59 @@ margin_bottom = 18.0
 size_flags_horizontal = 3
 
 [node name="EditButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+unique_name_in_owner = true
 visible = false
 margin_left = 52.0
 margin_right = 91.0
 margin_bottom = 19.0
-text = "Edit"
+text = "Edit source"
+
+[node name="CancelButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+margin_left = 523.0
+margin_right = 580.0
+margin_bottom = 19.0
+text = "Cancel"
 
 [node name="ParseButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+unique_name_in_owner = true
 margin_left = 584.0
 margin_right = 633.0
 margin_bottom = 19.0
 text = "Parse"
 
+[node name="ReParseConfirmation" type="ConfirmationDialog" parent="VBoxContainer/Panel/HBoxContainer/ParseButton"]
+unique_name_in_owner = true
+margin_left = -351.0
+margin_top = 121.0
+margin_right = -123.0
+margin_bottom = 202.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/Panel/HBoxContainer/ParseButton/ReParseConfirmation"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 220.0
+margin_bottom = 65.0
+text = "Are you sure you want to re-parse this? Progress on this cell, and cells below could be lost."
+autowrap = true
+
 [node name="UpButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+unique_name_in_owner = true
 margin_left = 637.0
 margin_right = 658.0
 margin_bottom = 19.0
 text = "^"
 
 [node name="DownButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+unique_name_in_owner = true
 margin_left = 662.0
 margin_right = 682.0
 margin_bottom = 19.0
 text = "v"
 
 [node name="DeleteButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+unique_name_in_owner = true
 margin_left = 686.0
 margin_right = 743.0
 margin_bottom = 19.0
@@ -97,6 +125,7 @@ margin_bottom = 71.0
 rect_min_size = Vector2( 0, 40 )
 
 [node name="Edit" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
 margin_top = 31.0
 margin_right = 745.0
 margin_bottom = 367.0
@@ -117,15 +146,18 @@ __meta__ = {
 }
 
 [node name="Error" type="RichTextLabel" parent="VBoxContainer/Edit"]
+unique_name_in_owner = true
 margin_top = 254.0
 margin_right = 745.0
 margin_bottom = 336.0
+rect_min_size = Vector2( 0, 30 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 fit_content_height = true
 
 [node name="Use" type="VBoxContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
 visible = false
 margin_top = 23.0
 margin_right = 755.0
