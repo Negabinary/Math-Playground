@@ -7,7 +7,7 @@ func _on_pressed():
 	$AcceptDialog/HTTPRequest.cancel_request()
 	$AcceptDialog/HTTPRequest.download_file = "user://modules.txt"
 	$AcceptDialog/HTTPRequest.connect("request_completed", self, "_on_list_downloaded")
-	$AcceptDialog/HTTPRequest.request("http://raw.githubusercontent.com/Negabinary/Math-Playground-Library/main/std/modules.txt")
+	$AcceptDialog/HTTPRequest.request("https://raw.githubusercontent.com/Negabinary/Math-Playground-Library/main/std/modules.txt")
 	$AcceptDialog.popup_centered()
 
 func _on_list_downloaded(x,y,z,w):
@@ -36,4 +36,4 @@ func download_all(x,y,z,w):
 		dir.make_dir_recursive("user://save/std/" + path)
 		dir.remove("user://save/std/" + path)
 		$AcceptDialog/HTTPRequest.connect("request_completed", self, "download_all")
-		$AcceptDialog/HTTPRequest.request("http://raw.githubusercontent.com/Negabinary/Math-Playground-Library/main/std/" + path)
+		$AcceptDialog/HTTPRequest.request("https://raw.githubusercontent.com/Negabinary/Math-Playground-Library/main/std/" + path)

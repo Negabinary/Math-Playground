@@ -84,10 +84,11 @@ margin_top = 144.335
 margin_right = -113.723
 margin_bottom = 439.335
 window_title = "Download Standard Library"
+dialog_text = "Downloading Standard Library"
 
 [node name="Tree" type="TextEdit" parent="Controls/FileControls/StdLib/AcceptDialog"]
 margin_left = 8.0
-margin_top = 8.0
+margin_top = 25.0
 margin_right = 467.0
 margin_bottom = 260.0
 text = "Getting list of available files..."
