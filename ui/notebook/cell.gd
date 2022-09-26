@@ -140,7 +140,13 @@ func _on_update_rescues():
 			unwanted_types.append(rescues[rid])
 			unwanted_names.append(rescue_names[rid])
 	emit_signal("request_absolve_responsibility", unwanted_types, unwanted_names)
-	$"%Rescues".text = str(rescue_names)
+	if rescue_names.size() > 0:
+		$"%MissingTypesOverview".text = str(rescue_names)
+		$"%SuspensionPostit".show()
+		$"%Scribble".show()
+	else:
+		$"%SuspensionPostit".hide()
+		$"%Scribble".hide()
 
 func take_responsibility(rescue, rescue_name):
 	top_proof_box.get_parse_box().take_responsibility_for(rescue, rescue_name)
