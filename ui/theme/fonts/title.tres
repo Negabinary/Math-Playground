@@ -3,5 +3,5 @@
 [ext_resource path="res://ui/theme/fonts/MPLUS1p-Black.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 48
+size = 14
 font_data = ExtResource( 1 )

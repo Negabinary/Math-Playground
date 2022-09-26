@@ -157,6 +157,7 @@ func serialise() -> Dictionary:
 	var dict = {
 		string = $"%Enter".text,
 		compiled = $"%UseArea".visible,
+		title = $"%Title".text
 	}
 	if $"%UseArea".visible:
 		dict["items"] = []
@@ -167,6 +168,7 @@ func serialise() -> Dictionary:
 
 func deserialise(json:Dictionary, version) -> void:
 	$"%Enter".text = json.string
+	$"%Title".text = json.get("title","")
 	if json.compiled:
 		hide_edit_area()
 		bottom_proof_box = $"%UseArea".deserialise(json.items, top_proof_box, version)

@@ -2,8 +2,8 @@ extends TextEdit
 
 func _ready():
 	connect("text_changed", self, "_on_text_changed")
-	rect_min_size.y = get_line_count() * get_line_height()
+	_on_text_changed()
 
 
 func _on_text_changed():
-	rect_min_size.y = get_line_count() * get_line_height()
+	rect_min_size.y = (get_line_count() + 1) * get_line_height()

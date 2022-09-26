@@ -247,7 +247,7 @@ custom_constants/separation = 20
 [node name="Cells" type="VBoxContainer" parent="HSplitContainer/ScrollContainer/MarginContainer/Container/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_right = 92.0
-custom_constants/separation = 20
+custom_constants/separation = 5
 
 [node name="NewCell" type="Button" parent="HSplitContainer/ScrollContainer/MarginContainer/Container/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

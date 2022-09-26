@@ -47,6 +47,9 @@ func merge(other:TwoWayParseMap) -> void:
 				var previous_list = parsing_map[""].get(identifier, [])
 				parsing_map[""][identifier] = other.parsing_map[""][identifier]
 				parsing_map[""][identifier].append_array(previous_list)
+				for type in other.parsing_map[""][identifier]:
+					module_map[type] = ""
+					naming_map[type] = identifier
 	
 
 
