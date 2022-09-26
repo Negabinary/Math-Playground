@@ -52,30 +52,6 @@ func _ready():
 # API =====================================================
 
 func set_top_proof_box(tpb:SymmetryBox) -> void:
-	"""
-	var old_all_types := top_proof_box.get_parse_box().get_all_types()
-	var new_all_types := tpb.get_parse_box().get_all_types()
-	
-	var removed_types := old_all_types.get_missing_from(new_all_types)
-	var needed_types := []
-	var unneeded_types := []
-	
-	var census := take_type_census(TypeCensus.new())
-	
-	for t in removed_types:
-		if census.has_type(t):
-			needed_types.append(t)
-		else:
-			unneeded_types.append(t)
-	
-	previous_proof_box = tpb
-	var rescue_proof_box = previous_proof_box
-	if needed_types.size() > 0:
-		rescue_proof_box = SymmetryBox.new(
-			previous_proof_box.get_justification_box(),
-			RescueParseBox.new()
-		)
-	"""
 	self.top_proof_box.get_justification_box().set_parent(tpb.get_justification_box())
 	self.top_proof_box.get_parse_box().set_parent(tpb.get_parse_box())
 

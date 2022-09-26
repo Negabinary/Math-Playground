@@ -52,8 +52,8 @@ func set_parent(new_parent:AbstractParseBox):
 		parent.add_addition_listener(al)
 	_dismiss_rescued_types(new_types)
 	for l in listener_to_type.keys():
-		print(self)
-		l.notify_rename()
+		if l in listener_to_type:
+			l.notify_rename()
 
 
 # RESCUES =================================================
@@ -119,17 +119,23 @@ func parse(ib:IdentifierBuilder) -> ExprItemType:
 
 func get_il_for(type:ExprItemType) -> IdentifierListener:
 	if type in rescued_types:
-		var new_il = IdentifierListener.new("[MISSING]")
+		var idx = rescued_types.size() - rescued_types.find(type) - 1
+		var new_il = IdentifierListener.new("[MISSING]",idx)
 		add_listener(type, new_il)
 		return new_il
 	else:
 		var result := parent.get_il_for(type)
+		if result.get_identifier() == "[MISSING]" and (not result.has_module()):
+			result.override(rescued_types.size())
 		add_listener(type, result)
 		return result
 
 
 func get_all_types() -> TwoWayParseMap: # <String, ExprItem>
-	return parent.get_all_types()
+	var parent_map = parent.get_all_types()
+	for t in rescued_types:
+		parent_map.augment(t, "[MISSING]")
+	return parent_map
 
 
 func get_listeners_for(identifier:String) -> Array:

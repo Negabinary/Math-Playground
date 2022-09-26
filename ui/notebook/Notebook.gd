@@ -45,9 +45,10 @@ func move_cell_down(cell:NotebookCell) -> void:
 func delete_cell(cell:NotebookCell) -> void:
 	var idx := cell.get_index()
 	$"%Cells".remove_child(cell)
-	cell.queue_free()
 	if idx < $"%Cells".get_child_count():
 		$"%Cells".get_child(idx).set_top_proof_box(_get_proof_box_before(idx))
+	cell.set_top_proof_box(top_symmetry_box)
+	cell.queue_free()
 
 
 func _update_pb_after(cell:NotebookCell) -> void:
