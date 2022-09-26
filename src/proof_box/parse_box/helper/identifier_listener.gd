@@ -8,6 +8,9 @@ signal deleted
 func _init(identifier:String, overrides:=0, module:="").(identifier, overrides, module):
 	pass
 
+func duplicate() -> IdentifierBuilder:
+	return get_script().new(identifier, overrides, module)
+
 func notify_rename():
 	emit_signal("updated")
 

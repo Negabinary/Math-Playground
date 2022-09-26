@@ -10,8 +10,9 @@ custom_constants/separation = 20
 script = ExtResource( 3 )
 
 [node name="Label" type="Label" parent="."]
+margin_top = 1.0
 margin_right = 45.0
-margin_bottom = 23.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 45, 0 )
 theme_type_variation = "LabelQuiet"
 text = "define"
@@ -19,7 +20,7 @@ text = "define"
 [node name="Name" type="LineEdit" parent="."]
 margin_left = 65.0
 margin_right = 113.0
-margin_bottom = 23.0
+margin_bottom = 19.0
 theme_type_variation = "LineEditQuiet"
 expand_to_text_length = true
 script = ExtResource( 1 )

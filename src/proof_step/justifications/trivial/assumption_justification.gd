@@ -16,3 +16,7 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 		justification_version=1,
 		justification_type="AssumptionJustification"
 	}
+
+
+func _get_all_types() -> Dictionary:
+	return {}

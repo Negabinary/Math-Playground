@@ -3,7 +3,6 @@ class_name ExprItem
 var type : ExprItemType
 var children : Array  		# of ExprItem
 var string : String
-var all_types = null
 
 
 func _init(new_type:ExprItemType, new_children:=[]):
@@ -31,13 +30,28 @@ func get_children() -> Array:
 	return children.duplicate()
 
 
+var all_types = null
+
 func get_all_types() -> Dictionary:
+	if get_type().get_uid() == 207:
+			print("HERE!")
 	if all_types == null:
 		all_types = {type:1}
-		for child in children:
-			var child_types:Dictionary = child.get_all_types()
-			for k in child_types:
-				all_types[k] = all_types.get(k, 0) + child_types[k]
+		if type.is_binder():
+			var r_type = get_child(0).get_type()
+			var from = get_child(1).get_all_types().duplicate()
+			from.erase(r_type)
+			for k in from:
+				all_types[k] = all_types.get(k, 0) + from[k]
+			for cid in range(2,get_child_count()):
+				var child_types:Dictionary = get_child(cid).get_all_types()
+				for k in child_types:
+					all_types[k] = all_types.get(k, 0) + child_types[k]
+		else:
+			for child in children:
+				var child_types:Dictionary = child.get_all_types()
+				for k in child_types:
+					all_types[k] = all_types.get(k, 0) + child_types[k]
 	return all_types
 
 

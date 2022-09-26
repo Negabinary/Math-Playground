@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:export-ydpi="96"
+   inkscape:export-xdpi="96"
+   inkscape:export-filename="C:\Users\Matt\OneDrive - University of Cambridge\Projects\Manipulator\Manipulator 5 (Godot)\ui\paper_theme\scribble\scribble.png"
+   sodipodi:docname="scribble.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 264.58333 158.75"
+   height="600"
+   width="1000">
+  <defs
+     id="defs2">
+    <clipPath
+       id="clip0">
+      <rect
+         x="356"
+         y="358"
+         width="514"
+         height="140"
+         id="rect833" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-grids="false"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="1592"
+     inkscape:window-height="1017"
+     inkscape:window-width="1920"
+     inkscape:snap-others="false"
+     inkscape:object-paths="false"
+     inkscape:object-nodes="true"
+     inkscape:snap-global="true"
+     units="px"
+     showgrid="true"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="g1494"
+     inkscape:document-units="mm"
+     inkscape:cy="225.4417"
+     inkscape:cx="449.78235"
+     inkscape:zoom="0.98994949"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base">
+    <inkscape:grid
+       spacingy="52.916666"
+       spacingx="52.916666"
+       id="grid1481"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <g
+       id="g1494">
+      <path
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         sodipodi:nodetypes="ccccc"
+         id="path838"
+         fill-rule="evenodd"
+         fill="none"
+         stroke-miterlimit="8"
+         stroke-width="1.97055"
+         stroke="#000000"
+         d="M 264.58333,52.916666 C 264.75332,66.575444 13.13789,77.598678 5.0993,90.452082 -1.6029277,95.555173 218.59313,79.508321 224.28709,83.534226 229.98105,87.560638 14.291197,117.04006 21.006838,120.75674 27.722964,124.47291 264.71785,89.769764 264.66568,105.83333" />
+      <path
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         d="M 264.58333,52.916666 C 264.6355,36.8531 27.722964,71.556238 21.006838,67.840068 14.291197,64.123388 229.98105,34.643972 224.28709,30.61756 218.59313,26.591655 -1.9525472,50.656595 4.7496808,45.553504 17.978444,24.88819 223.00162,24.004558 231.54165,18.650615 c 8.54004,-5.353942 -9.48513,-6.236176 -29.84901,-5.821676 0,0 -155.171301,11.329613 -156.52409,6.147197 C 43.815762,13.79372 258.61207,5.85085 247.49158,5.6126601 47.841243,1.3363477 25.719749,17.205751 13.630746,22.450641 1.5417421,27.695531 41.341762,9.3203166 41.159507,6.4144687 40.977252,3.5086208 8.0180858,7.2162772 8.0180858,7.2162772"
+         stroke="#000000"
+         stroke-width="1.97055"
+         stroke-miterlimit="8"
+         fill="none"
+         fill-rule="evenodd"
+         id="path1487"
+         sodipodi:nodetypes="czcccczszzc" />
+      <path
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         d="m 264.50098,105.83333 c 0.16999,13.65878 -229.529339,39.38184 -233.558885,40.20812 6.661248,7.77578 163.538015,2.53545 195.424395,-6.26759"
+         stroke="#000000"
+         stroke-width="1.97055"
+         stroke-miterlimit="8"
+         fill="none"
+         fill-rule="evenodd"
+         id="path1489"
+         sodipodi:nodetypes="ccc" />
+    </g>
+  </g>
+</svg>

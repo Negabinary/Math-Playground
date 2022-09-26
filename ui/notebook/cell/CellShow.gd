@@ -34,3 +34,7 @@ func deserialise(item, proof_box, version, selection_handler:SelectionHandler):
 		),
 		selection_handler
 	)
+
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	item.take_type_census(census)
+	return $"%WrittenProof".take_type_census(census)

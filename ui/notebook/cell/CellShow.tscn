@@ -21,12 +21,12 @@ script = ExtResource( 6 )
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="."]
 margin_right = 755.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 custom_constants/separation = 20
 
 [node name="Label" type="Label" parent="HBoxContainer3"]
 margin_right = 45.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 rect_min_size = Vector2( 45, 0 )
 theme_type_variation = "LabelQuiet"
 text = "show"
@@ -34,7 +34,7 @@ text = "show"
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer3"]
 margin_left = 65.0
 margin_right = 755.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 size_flags_horizontal = 3
 
 [node name="Name" type="Label" parent="HBoxContainer3/ScrollContainer"]
@@ -43,14 +43,14 @@ margin_right = 690.0
 margin_bottom = 17.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+theme_type_variation = "LabelMath"
 custom_fonts/font = ExtResource( 1 )
 text = "0"
 
 [node name="HBoxContainer2" type="MarginContainer" parent="."]
-margin_top = 33.0
+margin_top = 27.0
 margin_right = 755.0
-margin_bottom = 133.0
+margin_bottom = 127.0
 
 [node name="Proof" type="PanelContainer" parent="HBoxContainer2"]
 margin_right = 755.0
@@ -89,16 +89,16 @@ custom_constants/margin_bottom = 0
 
 [node name="Label2" type="Label" parent="HBoxContainer2"]
 margin_right = 755.0
-margin_bottom = 23.0
+margin_bottom = 17.0
 rect_min_size = Vector2( 45, 0 )
 size_flags_vertical = 0
 theme_type_variation = "LabelQuiet"
 text = "proof:"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="."]
-margin_top = 143.0
+margin_top = 137.0
 margin_right = 755.0
-margin_bottom = 165.0
+margin_bottom = 159.0
 
 [node name="Label" type="Label" parent="HBoxContainer4"]
 margin_top = 2.0

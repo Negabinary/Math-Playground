@@ -85,3 +85,7 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 		return ConcatAutostring.new(["using ", ExprItemAutostring.new(implication, parse_box), ","])
 	else:
 		return ConstantAutostring.new("using an implication,")
+
+
+func _get_all_types() -> Dictionary:
+	return implication.get_all_types()

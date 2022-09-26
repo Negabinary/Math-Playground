@@ -40,3 +40,7 @@ func _get_equality_options(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	return ConstantAutostring.new("by adding a double negative,")
+
+
+func _get_all_types() -> Dictionary:
+	return location.get_root().get_all_types()

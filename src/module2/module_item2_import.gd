@@ -42,3 +42,10 @@ func get_module():
 
 func serialise():
 	return {kind="import", module=name, namespace=namespace}
+
+
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	var all_types:TwoWayParseMap = module.get_final_proof_box().get_parse_box().get_all_types()
+	for type in all_types.get_all_types():
+		census.remove_entry(type)
+	return census

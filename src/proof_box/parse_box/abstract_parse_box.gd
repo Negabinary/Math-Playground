@@ -50,6 +50,14 @@ func get_listeners_for(identifier:String) -> Array:
 	return []
 
 
+func add_addition_listener(al:ParseAdditionListener) -> void:
+	assert(false) # virtual
+
+
+func remove_addition_listener(al:ParseAdditionListener) -> void:
+	assert(false) # virtual
+
+
 # Printing ================================================
 
 func serialise(expr_item:ExprItem) -> String:

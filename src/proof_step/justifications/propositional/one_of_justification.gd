@@ -90,3 +90,7 @@ func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 		return [ConstantAutostring.new("error : no clauses selected!")]
 	else:
 		return [ConstantAutostring.new("which is one clause of:")]
+
+
+func _get_all_types() -> Dictionary:
+	return {}

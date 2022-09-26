@@ -32,3 +32,8 @@ func get_requirement() -> Requirement:
 
 func get_context() -> SymmetryBox:
 	return context
+
+
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	census.add_entry("show", self, goal.get_all_types())
+	return census

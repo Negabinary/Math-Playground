@@ -46,3 +46,7 @@ func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 
 func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	return ConstantAutostring.new("by introducing a function,")
+
+
+func _get_all_types() -> Dictionary:
+	return location.get_root().get_all_types()

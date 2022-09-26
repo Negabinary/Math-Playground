@@ -10,6 +10,12 @@ func _init(expr_item:ExprItem, context:AbstractParseBox):
 	root = ContextLocator.new(Locator.new(expr_item), context)
 
 
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		for listener in listeners:
+			root.get_context().remove_listener(listener)
+
+
 func get_string() -> String:
 	_clear_listeners()
 	return _printout(root)

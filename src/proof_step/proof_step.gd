@@ -255,3 +255,17 @@ static func deserialize_proof(script:Script, dictionary, context:SymmetryBox, ve
 		ipb.get_justification_box().set_justification(cr.get_goal(), j)
 	for dependency in dictionary.dependencies:
 		deserialize_proof(script, dependency, ipb, version)
+
+
+# TYPE CENSUS =============================================
+
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	var new_census = census if requirement.get_definitions().size() == 0 else TypeCensus.new()
+	for dep in get_dependencies():
+		dep.take_type_census(new_census)
+	get_justification().take_type_census(new_census)
+	if requirement.get_definitions().size() > 0:
+		for def in get_inner_proof_box().get_parse_box().get_definitions():
+			new_census.remove_entry(def)
+		census.merge(new_census)
+	return census

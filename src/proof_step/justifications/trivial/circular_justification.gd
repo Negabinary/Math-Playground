@@ -23,3 +23,7 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 
 func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	return ConstantAutostring.new("justification is circular")
+
+
+func _get_all_types() -> Dictionary:
+	return {}

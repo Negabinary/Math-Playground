@@ -53,3 +53,7 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 		return ConcatAutostring.new(["using ", ExprItemAutostring.new(witness, parse_box), " as a witness,"])
 	else:
 		return ConstantAutostring.new("using a witness,")
+
+
+func _get_all_types() -> Dictionary:
+	return witness.get_all_types()

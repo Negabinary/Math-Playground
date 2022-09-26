@@ -62,3 +62,13 @@ func get_all_types():
 
 func is_inside(other:AbstractParseBox) -> bool:
 	return other == self or parent.is_inside(other) or import_box.is_inside(other)
+
+
+# Addition Listeners ======================================
+
+func add_addition_listener(al:ParseAdditionListener) -> void:
+	parent.add_addition_listener(al)
+
+
+func remove_addition_listener(al:ParseAdditionListener) -> void:
+	parent.remove_addition_listener(al)

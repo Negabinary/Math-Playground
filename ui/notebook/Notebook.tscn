@@ -240,22 +240,22 @@ custom_constants/margin_bottom = 30
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/ScrollContainer/MarginContainer/Container/MarginContainer"]
 margin_left = 10.0
 margin_top = 30.0
-margin_right = 78.0
+margin_right = 102.0
 margin_bottom = 69.0
 custom_constants/separation = 20
 
 [node name="Cells" type="VBoxContainer" parent="HSplitContainer/ScrollContainer/MarginContainer/Container/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_right = 68.0
+margin_right = 92.0
 custom_constants/separation = 20
 
 [node name="NewCell" type="Button" parent="HSplitContainer/ScrollContainer/MarginContainer/Container/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 20.0
-margin_right = 68.0
+margin_right = 92.0
 margin_bottom = 39.0
 size_flags_horizontal = 3
-text = "Add Cell"
+text = "Add Section"
 
 [node name="SelectionHandler" type="Node" parent="." groups=["selection_handler"]]
 script = ExtResource( 3 )

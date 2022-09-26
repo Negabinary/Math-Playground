@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ui/notebook/cell.gd" type="Script" id=1]
 [ext_resource path="res://ui/notebook/cell/TextBox.gd" type="Script" id=2]
+[ext_resource path="res://ui/paper_theme/scribble/scribble.png" type="Texture" id=3]
+[ext_resource path="res://ui/notebook/cell/UseArea.gd" type="Script" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 15.0
@@ -39,7 +41,7 @@ script = ExtResource( 1 )
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = 15.0
 margin_right = 760.0
-margin_bottom = 367.0
+margin_bottom = 486.0
 
 [node name="Panel" type="PanelContainer" parent="VBoxContainer"]
 margin_right = 745.0
@@ -117,18 +119,71 @@ margin_right = 743.0
 margin_bottom = 19.0
 text = "Delete"
 
-[node name="Tree" type="RichTextLabel" parent="VBoxContainer"]
-visible = false
+[node name="Cancelling" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 31.0
 margin_right = 745.0
-margin_bottom = 71.0
+margin_bottom = 59.0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/Cancelling"]
+margin_right = 405.0
+margin_bottom = 28.0
+size_flags_horizontal = 5
+theme_type_variation = "Postit"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Cancelling/PanelContainer"]
+margin_left = 10.0
+margin_top = 1.0
+margin_right = 395.0
+margin_bottom = 18.0
+
+[node name="Label" type="Label" parent="VBoxContainer/Cancelling/PanelContainer"]
+margin_left = 10.0
+margin_top = 1.0
+margin_right = 395.0
+margin_bottom = 18.0
+text = "Section Suspended"
+
+[node name="Label2" type="Label" parent="VBoxContainer/Cancelling/PanelContainer"]
+margin_left = 10.0
+margin_top = 1.0
+margin_right = 395.0
+margin_bottom = 18.0
+text = "This section has been suspended because it is missing some types:"
+
+[node name="TypeTester" type="RichTextLabel" parent="VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 63.0
+margin_right = 745.0
+margin_bottom = 103.0
 rect_min_size = Vector2( 0, 40 )
+fit_content_height = true
+
+[node name="Rescues" type="RichTextLabel" parent="VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 107.0
+margin_right = 745.0
+margin_bottom = 147.0
+rect_min_size = Vector2( 0, 40 )
+custom_colors/default_color = Color( 0.905882, 0.27451, 0.27451, 1 )
+fit_content_height = true
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 151.0
+margin_right = 745.0
+margin_bottom = 170.0
+text = "Test Types"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+margin_top = 174.0
+margin_right = 745.0
+margin_bottom = 182.0
 
 [node name="Edit" type="VBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 31.0
+margin_top = 186.0
 margin_right = 745.0
-margin_bottom = 367.0
+margin_bottom = 482.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -149,17 +204,40 @@ __meta__ = {
 unique_name_in_owner = true
 margin_top = 254.0
 margin_right = 745.0
-margin_bottom = 336.0
+margin_bottom = 284.0
 rect_min_size = Vector2( 0, 30 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 fit_content_height = true
 
-[node name="Use" type="VBoxContainer" parent="VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/Edit"]
+margin_top = 288.0
+margin_right = 745.0
+margin_bottom = 296.0
+
+[node name="UseArea" type="MarginContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
-visible = false
-margin_top = 23.0
-margin_right = 755.0
-margin_bottom = 192.0
+margin_top = 486.0
+margin_right = 745.0
+margin_bottom = 486.0
+script = ExtResource( 4 )
+
+[node name="Use" type="VBoxContainer" parent="VBoxContainer/UseArea"]
+unique_name_in_owner = true
+margin_right = 745.0
 custom_constants/separation = 10
+
+[node name="Scribble" type="Control" parent="VBoxContainer/UseArea"]
+unique_name_in_owner = true
+margin_right = 745.0
+rect_clip_content = true
+
+[node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer/UseArea/Scribble"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+texture = ExtResource( 3 )
+patch_margin_top = 200
+patch_margin_bottom = 200
+axis_stretch_vertical = 2

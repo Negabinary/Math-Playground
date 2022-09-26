@@ -44,3 +44,7 @@ func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 			ConstantAutostring.new("and"),
 			[1,ConstantAutostring.new("from right to left,")]
 		]
+
+
+func _get_all_types() -> Dictionary:
+	return {}

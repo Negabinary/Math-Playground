@@ -20,3 +20,6 @@ func deserialise(item, proof_box, version, selection_handler:SelectionHandler):
 		),
 		selection_handler
 	)
+
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	return item.take_type_census(census)

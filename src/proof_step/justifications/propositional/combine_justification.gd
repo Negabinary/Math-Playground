@@ -46,3 +46,7 @@ func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 			result.append(ConstantAutostring.new("and"))
 		result.append([i,ExprItemAutostring.new(cases[i], context)])
 	return result
+
+
+func _get_all_types() -> Dictionary:
+	return {}

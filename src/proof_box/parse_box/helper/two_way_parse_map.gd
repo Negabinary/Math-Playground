@@ -133,7 +133,6 @@ func get_renames(other:TwoWayParseMap) -> Array:
 				result.append(t)
 	return result
 
-
 # HELPER ==================================================
 
 static func _count_dots(identifier) -> int:

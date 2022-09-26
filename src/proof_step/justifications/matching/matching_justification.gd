@@ -60,3 +60,7 @@ func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 		ConstantAutostring.new("and"),
 		[0,ConstantAutostring.new("their applications")]
 	]
+
+
+func _get_all_types() -> Dictionary:
+	return {}

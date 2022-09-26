@@ -33,3 +33,7 @@ static func build(proof_step:ProofStep, selection_handler:SelectionHandler) -> N
 	var node : Node = WP_BOX.instance()
 	node.init(proof_step, selection_handler, WP_BOX)
 	return node
+
+
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	return proof_step.take_type_census(census)

@@ -7,3 +7,7 @@ func _init():
 
 func get_next_proof_box():
 	return proof_box
+
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	assert(false) # virtual
+	return null

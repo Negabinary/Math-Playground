@@ -67,3 +67,7 @@ func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 		ConstantAutostring.new("and"),
 		[1,ConstantAutostring.new("false")]
 	]
+
+
+func _get_all_types() -> Dictionary:
+	return contradiction.get_all_types()

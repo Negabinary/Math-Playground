@@ -113,3 +113,13 @@ func _update_definition_name(definition:ExprItemType, old_name:String):
 	# Then tell the current definition and those who are no longer overshadowed
 	for l in listeners_old:
 		l.notify_rename()
+
+
+# Addition Listeners ======================================
+
+func add_addition_listener(al:ParseAdditionListener) -> void:
+	parent.add_addition_listener(al)
+
+
+func remove_addition_listener(al:ParseAdditionListener) -> void:
+	parent.remove_addition_listener(al)

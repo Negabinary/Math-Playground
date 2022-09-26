@@ -13,13 +13,13 @@ func _ready():
 	ui_new_cell_button.connect("pressed", self, "new_cell", [null])
 
 
-func new_cell(json = null, proof_box = null, version = 0) -> void:
+func new_cell(json = null, version = 0) -> void:
 	var node := cell.instance()
 	node.selection_handler = selection_handler
 	$"%Cells".add_child(node)
 	node.set_top_proof_box(_get_proof_box_before($"%Cells".get_child_count() - 1))
 	if json != null:
-		node.deserialise(json, proof_box, version)	
+		node.deserialise(json, version)	
 	node.connect("request_delete", self, "delete_cell", [node])
 	node.connect("request_move_up", self, "move_cell_up", [node])
 	node.connect("request_move_down", self, "move_cell_down", [node])
@@ -32,6 +32,9 @@ func move_cell_up(cell:NotebookCell) -> void:
 		$"%Cells".move_child(cell, cell.get_index() - 1)
 		cell.set_top_proof_box(_get_proof_box_before(cell.get_index()))
 		previous_cell.set_top_proof_box(cell.get_bottom_proof_box())
+		if previous_cell.get_index() < $"%Cells".get_child_count() - 1:
+			var next_cell = $"%Cells".get_child(previous_cell.get_index() + 1)
+			next_cell.set_top_proof_box(previous_cell.get_bottom_proof_box())
 
 
 func move_cell_down(cell:NotebookCell) -> void:
@@ -70,7 +73,7 @@ func clear() -> void:
 func deserialise(json:Dictionary) -> void:
 	clear()
 	for i in len(json.cells):
-		new_cell(json.cells[i], _get_proof_box_before(i), json.version if "version" in json else 0)
+		new_cell(json.cells[i], json.version if "version" in json else 0)
 
 
 func serialise() -> Dictionary:

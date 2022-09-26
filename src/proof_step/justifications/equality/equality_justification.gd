@@ -68,3 +68,12 @@ func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 			ConstantAutostring.new("into"),
 			[0,ConstantAutostring.new("an expression")]
 		]
+
+func _get_all_types() -> Dictionary:
+	return _combine_all_types(
+		location.get_root().get_all_types(),
+		_remove_types_from(
+			location.get_outside_definitions(),
+			replace_with.get_all_types()
+		)
+	)

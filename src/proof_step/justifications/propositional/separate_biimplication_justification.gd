@@ -50,3 +50,7 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	return ConstantAutostring.new("going leftwards," if leftwards else "going rightwards,")
+
+
+func _get_all_types() -> Dictionary:
+	return {}

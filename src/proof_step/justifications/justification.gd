@@ -46,6 +46,32 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {}
 
 
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	census.add_entry("justification", self, _get_all_types())
+	return census
+
+
+func _get_all_types() -> Dictionary:
+	assert(false) # virtual
+	return {}
+
+
+func _combine_all_types(x:Dictionary, y:Dictionary) -> Dictionary:
+	var result := {}
+	for kx in x:
+		result[kx] = x[kx]
+	for ky in y:
+		result[ky] = result.get(ky,0) + y[ky]
+	return result
+
+
+func _remove_types_from(types:Array, y:Dictionary) -> Dictionary:
+	var result := y.duplicate()
+	for type in types:
+		result.erase(type)
+	return result
+
+
 # OPTIONS ===============================================
 
 

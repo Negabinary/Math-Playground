@@ -16,3 +16,7 @@ func get_assumption() -> ExprItem:
 
 func serialise():
 	return {kind="assumption", expr=proof_box.get_parse_box().serialise(assumption)}
+
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	census.add_entry("assumption", self, assumption.get_all_types())
+	return census

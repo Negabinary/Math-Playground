@@ -23,6 +23,12 @@ var string := ""
 var rename_listeners := {} #<IdentifierListener, AbstractParseBox>
 
 
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		for rl in rename_listeners:
+			rename_listeners[rl].remove_listener(rl)
+
+
 func get_locator() -> Locator:
 	if len(locators) == 0:
 		return Locator.new(expr_item)

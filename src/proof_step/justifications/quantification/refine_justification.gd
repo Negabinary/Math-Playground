@@ -74,3 +74,7 @@ func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 
 func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	return ConstantAutostring.new("by taking a specific case,")
+
+
+func _get_all_types() -> Dictionary:
+	return general.get_all_types()

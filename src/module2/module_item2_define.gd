@@ -14,3 +14,7 @@ func get_definition() -> ExprItemType:
 
 func serialise():
 	return {kind="definition", type=definition.to_string()}
+
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	census.remove_entry(definition)
+	return census

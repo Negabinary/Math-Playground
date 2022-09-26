@@ -25,3 +25,13 @@ func get_listeners_for(identifier:String) -> Array:
 
 func is_inside(other:AbstractParseBox) -> bool:
 	return other == self
+
+
+# Addition Listeners ======================================
+
+func add_addition_listener(al:ParseAdditionListener) -> void:
+	pass
+
+
+func remove_addition_listener(al:ParseAdditionListener) -> void:
+	pass

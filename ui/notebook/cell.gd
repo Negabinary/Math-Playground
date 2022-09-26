@@ -4,35 +4,37 @@ class_name NotebookCell
 signal request_delete # TODO
 signal request_move_up # TODO
 signal request_move_down # TODO
-signal update
-
-onready var scene_cell_definition := load("res://ui/notebook/cell/CellDefinition.tscn")
-onready var scene_cell_assumption := load("res://ui/notebook/cell/CellAssumption.tscn")
-onready var scene_cell_show := load("res://ui/notebook/cell/CellShow.tscn")
-onready var scene_cell_import := load("res://ui/notebook/cell/CellImport.tscn")
 
 
+var previous_proof_box:SymmetryBox = SymmetryBox.new(
+	RootJustificationBox.new(),
+	RootParseBox.new()
+)
+var rescue_types : Array = []
 var top_proof_box:SymmetryBox = SymmetryBox.new(
 	ReparentableJustificationBox.new(
-		RootJustificationBox.new()
+		previous_proof_box.get_justification_box()
 	),
 	ReparentableParseBox.new(
-		RootParseBox.new()
+		previous_proof_box.get_parse_box()
 	)
 )
-signal bottom_proof_box_changed
+var bottom_rescue_types := []
 var bottom_proof_box := top_proof_box
+signal bottom_proof_box_changed
+
+
 var selection_handler : SelectionHandler
 
 
 func _ready():
-	$"%EditButton".connect("pressed", self, "edit")
+	$"%EditButton".connect("pressed", self, "show_edit_area")
 	$"%ParseButton".connect("pressed", self, "_on_parse_button")
 	$"%ReParseConfirmation".connect("confirmed", self, "_on_parse_confirmed")
-	$"%CancelButton".connect("pressed", self, "cancel")
-	$"%UpButton".connect("pressed", self, "_on_request_move_up_button")
-	$"%DownButton".connect("pressed", self, "_on_request_move_down_button")
-	$"%DeleteButton".connect("pressed", self, "_on_request_delete_button")
+	$"%CancelButton".connect("pressed", self, "hide_edit_area")
+	$"%UpButton".connect("pressed", self, "emit_signal", ["request_move_up"])
+	$"%DownButton".connect("pressed", self, "emit_signal", ["request_move_down"])
+	$"%DeleteButton".connect("pressed", self, "emit_signal", ["request_delete"])
 	$"%Enter".syntax_highlighting = true
 	$"%Enter".clear_colors()
 	var keywords = [
@@ -42,59 +44,57 @@ func _ready():
 	]
 	for keyword in keywords:
 		$"%Enter".add_keyword_color(keyword, Color("#2A9D8F"))
+	
+	$"%Button".connect("pressed", self, "_test_types")
+	top_proof_box.get_parse_box().connect("update_rescues", self, "_on_update_rescues")
 
 
-func serialise() -> Dictionary:
-	var dict = {
-		string = $"%Enter".text,
-		compiled = $"%Use".visible,
-	}
-	if $"%Use".visible:
-		dict["items"] = []
-		for child in $"%Use".get_children():
-			dict["items"].append(child.serialise())
-	return dict
-
+# API =====================================================
 
 func set_top_proof_box(tpb:SymmetryBox) -> void:
+	"""
+	var old_all_types := top_proof_box.get_parse_box().get_all_types()
+	var new_all_types := tpb.get_parse_box().get_all_types()
+	
+	var removed_types := old_all_types.get_missing_from(new_all_types)
+	var needed_types := []
+	var unneeded_types := []
+	
+	var census := take_type_census(TypeCensus.new())
+	
+	for t in removed_types:
+		if census.has_type(t):
+			needed_types.append(t)
+		else:
+			unneeded_types.append(t)
+	
+	previous_proof_box = tpb
+	var rescue_proof_box = previous_proof_box
+	if needed_types.size() > 0:
+		rescue_proof_box = SymmetryBox.new(
+			previous_proof_box.get_justification_box(),
+			RescueParseBox.new()
+		)
+	"""
 	self.top_proof_box.get_justification_box().set_parent(tpb.get_justification_box())
 	self.top_proof_box.get_parse_box().set_parent(tpb.get_parse_box())
-	$VBoxContainer/Tree.text = PoolStringArray(tpb.get_parse_box().get_all_types().get_all_names()).join(";  ")
-
-
-func deserialise(json:Dictionary, context, version) -> void:
-	$"%Enter".text = json.string
-	if json.compiled:
-		$"%Edit".hide()
-		$"%Use".show()
-		$"%ParseButton".hide()
-		for item in json.items:
-			var nc : Node
-			if item.kind == "definition":
-				nc = scene_cell_definition.instance()
-				nc.read_only = false
-			elif item.kind == "assumption":
-				nc = scene_cell_assumption.instance()
-			elif item.kind == "theorem":
-				nc = scene_cell_show.instance()
-			elif item.kind == "import":
-				nc = scene_cell_import.instance()
-			$"%Use".add_child(nc)
-			nc.deserialise(item, context, version, selection_handler)
-			context = nc.item.get_next_proof_box()
-		bottom_proof_box = context
-		$"%EditButton".show()
 
 
 func get_bottom_proof_box() -> SymmetryBox:
 	return bottom_proof_box
 
 
-func _input(event):
-	if $"%Enter".has_focus():
-		if event.is_action_pressed("enter"):
-			get_tree().set_input_as_handled()
-			eval()
+func hide_edit_area() -> void:
+	$"%Edit".hide()
+	$"%ParseButton".hide()
+	$"%EditButton".show()
+
+
+func show_edit_area(allow_cancel:=true) -> void:
+	$"%EditButton".hide()
+	$"%ParseButton".show()
+	$"%CancelButton".visible = allow_cancel
+	$"%Edit".show()
 
 
 func eval():
@@ -103,49 +103,29 @@ func eval():
 	if parse_result.error:
 		$"%Error".text = str(parse_result)
 	elif parse_result.items.size() == 0:
-		pass
+		$"%Error".text = "Section empty!"
 	else:
-		$"%ParseButton".hide()
-		$"%Edit".hide()
-		for child in $"%Use".get_children():
-			$"%Use".remove_child(child)
-			child.queue_free()
-		for item in parse_result.items:
-			var nc : Node
-			if item is ModuleItem2Definition:
-				nc = scene_cell_definition.instance()
-				$"%Use".add_child(nc)
-				nc.read_only = false
-				nc.initialise(item)
-			elif item is ModuleItem2Assumption:
-				nc = scene_cell_assumption.instance()
-				$"%Use".add_child(nc)
-				nc.initialise(item, selection_handler)
-			elif item is ModuleItem2Theorem:
-				nc = scene_cell_show.instance()
-				$"%Use".add_child(nc)
-				nc.initialise(item, selection_handler)
-			elif item is ModuleItem2Import:
-				nc = scene_cell_import.instance()
-				$"%Use".add_child(nc)
-				nc.initialise(item, selection_handler)
-		$"%Use".show()
-		$"%EditButton".show()
+		hide_edit_area()
+		$"%UseArea".set_items(parse_result.items)
 		bottom_proof_box = parse_result.proof_box
 		emit_signal("bottom_proof_box_changed")
 
 
-func cancel():
-	$"%Edit".hide()
-	$"%ParseButton".hide()
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	var children := $"%Use".get_children()
+	children.invert()
+	for item in children:
+		item.take_type_census(census)
+	return census
 
 
-func edit(notify=true):
-	$"%EditButton".hide()
-	$"%ParseButton".show()
-	$"%Edit".show()
-	if notify:
-		emit_signal("update")
+# Button Actions ==========================================
+
+func _input(event):
+	if $"%Enter".has_focus():
+		if event.is_action_pressed("enter"):
+			get_tree().set_input_as_handled()
+			eval()
 
 
 func _on_parse_button():
@@ -159,13 +139,34 @@ func _on_parse_confirmed():
 	eval()
 
 
-func _on_request_delete_button():
-	emit_signal("request_delete")
+func _test_types():
+	var census2 = top_proof_box.get_parse_box().type_to_listeners.keys()
+	var census := take_type_census(TypeCensus.new())
+	$"%TypeTester".text = census.print_result(top_proof_box.get_parse_box())
+	$"%TypeTester".text += "\n" + str(census2)
+
+# Rescues =================================================
+
+func _on_update_rescues():
+	$"%Rescues".text = str(top_proof_box.get_parse_box().rescued_old_names)
+
+# Serialization ===========================================
+
+func serialise() -> Dictionary:
+	var dict = {
+		string = $"%Enter".text,
+		compiled = $"%UseArea".visible,
+	}
+	if $"%UseArea".visible:
+		dict["items"] = []
+		for child in $"%Use".get_children():
+			dict["items"].append(child.serialise())
+	return dict
 
 
-func _on_request_move_up_button():
-	emit_signal("request_move_up")
-
-
-func _on_request_move_down_button():
-	emit_signal("request_move_down")
+func deserialise(json:Dictionary, version) -> void:
+	$"%Enter".text = json.string
+	if json.compiled:
+		hide_edit_area()
+		bottom_proof_box = $"%UseArea".deserialise(json.items, top_proof_box, version)
+		emit_signal("bottom_proof_box_changed")
