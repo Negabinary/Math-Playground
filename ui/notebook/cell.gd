@@ -4,6 +4,7 @@ class_name NotebookCell
 signal request_delete # TODO
 signal request_move_up # TODO
 signal request_move_down # TODO
+signal request_absolve_responsibility # (Array<ExprItemType>,Array<String>)
 
 
 var previous_proof_box:SymmetryBox = SymmetryBox.new(
@@ -124,7 +125,25 @@ func _test_types():
 # Rescues =================================================
 
 func _on_update_rescues():
-	$"%Rescues".text = str(top_proof_box.get_parse_box().rescued_old_names)
+	var rescues:Array = top_proof_box.get_parse_box().get_rescue_types()
+	var rescue_names:Array = top_proof_box.get_parse_box().get_rescue_types_old_names()
+	var census := take_type_census(TypeCensus.new())
+	var desired_types := []
+	var desired_names := []
+	var unwanted_types := []
+	var unwanted_names := []
+	for rid in rescues.size():
+		if census.has_type(rescues[rid]):
+			desired_types.append(rescues[rid])
+			desired_names.append(rescue_names[rid])
+		else:
+			unwanted_types.append(rescues[rid])
+			unwanted_names.append(rescue_names[rid])
+	emit_signal("request_absolve_responsibility", unwanted_types, unwanted_names)
+	$"%Rescues".text = str(rescue_names)
+
+func take_responsibility(rescue, rescue_name):
+	top_proof_box.get_parse_box().take_responsibility_for(rescue, rescue_name)
 
 # Serialization ===========================================
 

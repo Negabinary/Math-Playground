@@ -24,13 +24,21 @@ func new_cell(json = null, version = 0) -> void:
 	node.connect("request_move_up", self, "move_cell_up", [node])
 	node.connect("request_move_down", self, "move_cell_down", [node])
 	node.connect("bottom_proof_box_changed", self, "_update_pb_after", [node])
+	node.connect("request_absolve_responsibility", self, "_on_request_absolve", [node])
 
+
+func _on_request_absolve(types:Array, names:Array, cell:NotebookCell):
+	var idx:int = cell.get_index()
+	if $"%Cells".get_child_count() > (idx + 1):
+		var next = $"%Cells".get_child(idx + 1)
+		next.take_responsibility(types, names)
+	
 
 func move_cell_up(cell:NotebookCell) -> void:
 	if cell.get_index() > 0:
 		var previous_cell = $"%Cells".get_child(cell.get_index() - 1)
+		cell.set_top_proof_box(_get_proof_box_before(previous_cell.get_index()))
 		$"%Cells".move_child(cell, cell.get_index() - 1)
-		cell.set_top_proof_box(_get_proof_box_before(cell.get_index()))
 		previous_cell.set_top_proof_box(cell.get_bottom_proof_box())
 		if previous_cell.get_index() < $"%Cells".get_child_count() - 1:
 			var next_cell = $"%Cells".get_child(previous_cell.get_index() + 1)
