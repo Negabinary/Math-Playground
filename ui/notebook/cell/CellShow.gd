@@ -38,3 +38,6 @@ func deserialise(item, proof_box, version, selection_handler:SelectionHandler):
 func take_type_census(census:TypeCensus) -> TypeCensus:
 	item.take_type_census(census)
 	return $"%WrittenProof".take_type_census(census)
+
+func get_next_proof_box() -> SymmetryBox:
+	return item.get_next_proof_box()

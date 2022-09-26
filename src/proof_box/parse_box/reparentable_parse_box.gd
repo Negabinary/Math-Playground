@@ -24,8 +24,8 @@ func add_listener(type:ExprItemType, listener:IdentifierListener):
 func remove_listener(listener:IdentifierListener) -> void:
 	var type:ExprItemType = listener_to_type.get(listener,null)
 	if type:
-		type_to_listeners[type].erase(listener)
-		if type_to_listeners[type].size() == 0:
+		type_to_listeners.get(type,[]).erase(listener)
+		if type in type_to_listeners and type_to_listeners[type].size() == 0:
 			type_to_listeners.erase(type)
 			if type in rescued_types:
 				_forget_rescue_type(type)

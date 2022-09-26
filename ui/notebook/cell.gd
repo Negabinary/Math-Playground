@@ -1,30 +1,9 @@
 extends PanelContainer
 class_name NotebookCell
 
-signal request_delete # TODO
-signal request_move_up # TODO
-signal request_move_down # TODO
-signal request_absolve_responsibility # (Array<ExprItemType>,Array<String>)
-
-
-var previous_proof_box:SymmetryBox = SymmetryBox.new(
-	RootJustificationBox.new(),
-	RootParseBox.new()
-)
-var rescue_types : Array = []
-var top_proof_box:SymmetryBox = SymmetryBox.new(
-	ReparentableJustificationBox.new(
-		previous_proof_box.get_justification_box()
-	),
-	ReparentableParseBox.new(
-		previous_proof_box.get_parse_box()
-	)
-)
-var bottom_rescue_types := []
-var bottom_proof_box := top_proof_box
-signal bottom_proof_box_changed
-
-
+signal request_delete
+signal request_move_up
+signal request_move_down
 var selection_handler : SelectionHandler
 
 
@@ -50,16 +29,78 @@ func _ready():
 	top_proof_box.get_parse_box().connect("update_rescues", self, "_on_update_rescues")
 
 
-# API =====================================================
+# Previous Cell ============================================
 
-func set_top_proof_box(tpb:SymmetryBox) -> void:
-	self.top_proof_box.get_justification_box().set_parent(tpb.get_justification_box())
-	self.top_proof_box.get_parse_box().set_parent(tpb.get_parse_box())
+var previous_cell : NotebookCell
+var top_j_box := ReparentableJustificationBox.new(GlobalTypes.get_root_symmetry().get_justification_box())
+var top_p_box := ReparentableParseBox.new(GlobalTypes.get_root_symmetry().get_parse_box())
+var top_proof_box := SymmetryBox.new(top_j_box, top_p_box)
 
 
-func get_bottom_proof_box() -> SymmetryBox:
-	return bottom_proof_box
+func set_previous_cell(new_previous:NotebookCell):
+	if previous_cell:
+		previous_cell.disconnect("bottom_proof_box_changed", self, "_set_top_proof_box")
+		previous_cell.disconnect("request_absolve_responsibility", self, "take_responsibility")
+	previous_cell = new_previous
+	_set_top_proof_box()
+	if previous_cell:
+		previous_cell.connect("bottom_proof_box_changed", self, "_set_top_proof_box")
+		previous_cell.connect("request_absolve_responsibility", self, "take_responsibility")
 
+
+func _get_previous_proof_box() -> SymmetryBox:
+	if previous_cell == null:
+		return GlobalTypes.get_root_symmetry()
+	else:
+		return previous_cell.get_bottom_proof_box()
+
+
+func _set_top_proof_box() -> void:
+	var tpb := _get_previous_proof_box()
+	top_j_box.set_parent(tpb.get_justification_box())
+	top_p_box.set_parent(tpb.get_parse_box())
+
+
+# Rescue Area =============================================
+
+signal request_absolve_responsibility # (Array<ExprItemType>,Array<String>)
+
+func _on_update_rescues():
+	var rescues:Array = top_proof_box.get_parse_box().get_rescue_types()
+	var rescue_names:Array = top_proof_box.get_parse_box().get_rescue_types_old_names()
+	var census := take_type_census(TypeCensus.new())
+	var desired_types := []
+	var desired_names := []
+	var unwanted_types := []
+	var unwanted_names := []
+	for rid in rescues.size():
+		if census.has_type(rescues[rid]):
+			desired_types.append(rescues[rid])
+			desired_names.append(rescue_names[rid])
+		else:
+			unwanted_types.append(rescues[rid])
+			unwanted_names.append(rescue_names[rid])
+	emit_signal("request_absolve_responsibility", unwanted_types, unwanted_names)
+	if rescue_names.size() > 0:
+		$"%MissingTypesOverview".text = str(rescue_names)
+		if not $"%SuspensionPostit".visible:
+			$"%SuspensionPostit".show()
+			$"%Scribble".show()
+			emit_signal("bottom_proof_box_changed")
+	else:
+		if $"%SuspensionPostit".visible:
+			$"%SuspensionPostit".hide()
+			$"%Scribble".hide()
+			emit_signal("bottom_proof_box_changed")
+
+func take_responsibility(rescue, rescue_name):
+	top_proof_box.get_parse_box().take_responsibility_for(rescue, rescue_name)
+
+func is_suspended() -> bool:
+	return $"%Scribble".visible
+
+
+# Edit Area ===============================================
 
 func hide_edit_area() -> void:
 	$"%Edit".hide()
@@ -84,19 +125,8 @@ func eval():
 	else:
 		hide_edit_area()
 		$"%UseArea".set_items(parse_result.items)
-		bottom_proof_box = parse_result.proof_box
 		emit_signal("bottom_proof_box_changed")
 
-
-func take_type_census(census:TypeCensus) -> TypeCensus:
-	var children := $"%Use".get_children()
-	children.invert()
-	for item in children:
-		item.take_type_census(census)
-	return census
-
-
-# Button Actions ==========================================
 
 func _input(event):
 	if $"%Enter".has_focus():
@@ -106,7 +136,7 @@ func _input(event):
 
 
 func _on_parse_button():
-	if $"%Use".visible:
+	if $"%UseArea".visible:
 		$"%ReParseConfirmation".popup_centered()
 	else:
 		eval()
@@ -116,40 +146,37 @@ func _on_parse_confirmed():
 	eval()
 
 
+# Use Area ================================================
+
+func take_type_census(census:TypeCensus) -> TypeCensus:
+	var children := $"%Use".get_children()
+	children.invert()
+	for item in children:
+		item.take_type_census(census)
+	return census
+
+signal bottom_proof_box_changed
+
+func get_bottom_proof_box() -> SymmetryBox:
+	if is_suspended():
+		return _get_previous_proof_box()
+	else:
+		var result = $"%UseArea".get_bottom_proof_box()
+		if result:
+			return result
+		else:
+			return top_proof_box
+
+
+# Button Actions ==========================================
+
+
 func _test_types():
 	var census2 = top_proof_box.get_parse_box().type_to_listeners.keys()
 	var census := take_type_census(TypeCensus.new())
 	$"%TypeTester".text = census.print_result(top_proof_box.get_parse_box())
 	$"%TypeTester".text += "\n" + str(census2)
 
-# Rescues =================================================
-
-func _on_update_rescues():
-	var rescues:Array = top_proof_box.get_parse_box().get_rescue_types()
-	var rescue_names:Array = top_proof_box.get_parse_box().get_rescue_types_old_names()
-	var census := take_type_census(TypeCensus.new())
-	var desired_types := []
-	var desired_names := []
-	var unwanted_types := []
-	var unwanted_names := []
-	for rid in rescues.size():
-		if census.has_type(rescues[rid]):
-			desired_types.append(rescues[rid])
-			desired_names.append(rescue_names[rid])
-		else:
-			unwanted_types.append(rescues[rid])
-			unwanted_names.append(rescue_names[rid])
-	emit_signal("request_absolve_responsibility", unwanted_types, unwanted_names)
-	if rescue_names.size() > 0:
-		$"%MissingTypesOverview".text = str(rescue_names)
-		$"%SuspensionPostit".show()
-		$"%Scribble".show()
-	else:
-		$"%SuspensionPostit".hide()
-		$"%Scribble".hide()
-
-func take_responsibility(rescue, rescue_name):
-	top_proof_box.get_parse_box().take_responsibility_for(rescue, rescue_name)
 
 # Serialization ===========================================
 
@@ -171,5 +198,5 @@ func deserialise(json:Dictionary, version) -> void:
 	$"%Title".text = json.get("title","")
 	if json.compiled:
 		hide_edit_area()
-		bottom_proof_box = $"%UseArea".deserialise(json.items, top_proof_box, version)
+		$"%UseArea".deserialise(json.items, top_proof_box, version)
 		emit_signal("bottom_proof_box_changed")

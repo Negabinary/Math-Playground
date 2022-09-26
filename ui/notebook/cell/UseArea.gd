@@ -7,6 +7,12 @@ onready var scene_cell_import := load("res://ui/notebook/cell/CellImport.tscn")
 
 onready var selection_handler : SelectionHandler = get_tree().get_nodes_in_group("selection_handler")[0]
 
+func get_bottom_proof_box() -> SymmetryBox:
+	if $"%Use".get_child_count() == 0:
+		return null
+	else:
+		return $"%Use".get_child($"%Use".get_child_count() - 1).get_next_proof_box()
+
 
 func set_items(items:Array):
 	for child in $"%Use".get_children():
