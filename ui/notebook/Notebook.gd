@@ -73,7 +73,8 @@ func deserialise(json:Dictionary) -> void:
 func serialise() -> Dictionary:
 	var cell_obj := []
 	for cell in $"%Cells".get_children():
-		cell_obj.append(cell.serialise())
+		if not cell.is_suspended():
+			cell_obj.append(cell.serialise())
 	return {cells=cell_obj, version=30}
 
 

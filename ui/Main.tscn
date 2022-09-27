@@ -57,6 +57,24 @@ margin_right = 177.0
 margin_bottom = 20.0
 text = "Save As ..."
 
+[node name="SuspensionWarning" type="ConfirmationDialog" parent="Controls/FileControls/Save"]
+unique_name_in_owner = true
+margin_left = 130.0
+margin_top = 144.0
+margin_right = 497.0
+margin_bottom = 272.0
+window_title = "Warning"
+
+[node name="Label2" type="Label" parent="Controls/FileControls/Save/SuspensionWarning"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 359.0
+margin_bottom = 93.0
+text = "Some cells in this document are currently suspended and will not be saved.
+
+Are you sure you wish to continue?"
+autowrap = true
+
 [node name="Save2" type="Button" parent="Controls/FileControls"]
 visible = false
 margin_left = 181.0

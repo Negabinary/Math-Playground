@@ -38,7 +38,6 @@ func set_items(items:Array):
 			$"%Use".add_child(nc)
 			nc.initialise(item, selection_handler)
 	show()
-	$"%Scribble".hide()
 
 
 func deserialise(json_items:Array, context, version):
@@ -57,5 +56,4 @@ func deserialise(json_items:Array, context, version):
 		nc.deserialise(item, context, version, selection_handler)
 		context = nc.item.get_next_proof_box()
 	show()
-	$"%Scribble".hide()
 	return context

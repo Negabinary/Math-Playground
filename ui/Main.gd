@@ -47,18 +47,23 @@ func _confirm_load_file(path:String):
 
 
 func _save_as_button():
+	if ui_notebook.check_for_suspensions():
+		$"%SuspensionWarning".connect("confirmed", self, "_confirm_save_as_1")
+		$"%SuspensionWarning".popup_centered()
+	else:
+		_confirm_save_as_1()
+
+func _confirm_save_as_1():
 	$Controls/FileDialog.mode = FileDialog.MODE_SAVE_FILE
 	if $Controls/FileDialog.is_connected("file_selected", self, "_confirm_load_file"):
 		$Controls/FileDialog.disconnect("file_selected", self, "_confirm_load_file")
-	if not $Controls/FileDialog.is_connected("file_selected", self, "_confirm_save_file"):
-		$Controls/FileDialog.connect("file_selected", self,"_confirm_save_file")
+	if not $Controls/FileDialog.is_connected("file_selected", self, "_confirm_save_as_2"):
+		$Controls/FileDialog.connect("file_selected", self,"_confirm_save_as_2")
 	$Controls/FileDialog.invalidate()
 	$Controls/FileDialog.popup_centered()
 
 
-func _confirm_save_file(path:String):
-	# TODO: CHECK FOR UNSAVED WORK
-	# TODO: CHECK FOR OVERWRITE
+func _confirm_save_as_2(path:String):
 	self.path = path
 	var file := File.new()
 	file.open(path, File.WRITE)
@@ -69,6 +74,14 @@ func _confirm_save_file(path:String):
 
 
 func _save_button():
+	if ui_notebook.check_for_suspensions():
+		$"%SuspensionWarning".connect("confirmed", self, "_confirm_save_1")
+		$"%SuspensionWarning".popup_centered()
+	else:
+		_confirm_save_1()
+
+
+func _confirm_save_1():
 	var file := File.new()
 	file.open(path, File.WRITE)
 	file.store_string(JSON.print(ui_notebook.serialise(),"    "))
