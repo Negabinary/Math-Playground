@@ -46,7 +46,7 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 		justification_type="EliminatedLambdaJustification",
 		location_expr_item=parse_box.serialise(location.get_root()),
 		location_indeces=location.get_indeces(),
-		replace_value=parse_box.serialise(replace_value),
+		replace_value=location.get_parse_box(parse_box).serialise(replace_value),
 		replace_with=replace_with.to_string(),
 		replace_positions=replace_positions
 	}
