@@ -21,7 +21,7 @@ func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
 	if what.get_child_count() < 3:
 		return null
 	var x := what.get_child(1).deep_replace_types({
-		what.get_child(0).get_type() : what.get_child(2)
+		what.get_child(0).get_type() : what.get_child(2).alpha_duplicate()
 	})
 	var y := what.get_children()
 	y.pop_front()

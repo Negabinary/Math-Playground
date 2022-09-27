@@ -177,6 +177,25 @@ func abandon_lowest(count:int) -> ExprItem:
 	return get_script().new(type, new_children)
 
 
+func alpha_duplicate(replacements:={}) -> ExprItem:
+	if type.is_binder():
+		var ot = get_child(0).get_type()
+		var nt = ExprItemType.new(ot.get_identifier())
+		replacements[ot] = nt
+		var c1 = get_child(1).alpha_duplicate(replacements)
+		replacements.erase(ot)
+		var children := [get_script().new(nt), c1]
+		for i in range(2, get_child_count()):
+			children.append(get_child(i).alpha_duplicate(replacements))
+		return get_script().new(type, children)
+	else:
+		var rt = replacements.get(type, type)
+		var c := []
+		for cd in get_children():
+			c.append(cd.alpha_duplicate(replacements))
+		return get_script().new(rt, c)
+
+
 # SERIALIZATION =====================================
 
 

@@ -20,7 +20,11 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 	if replace_with == null:
 		return null
 	var replaced_requirement = Requirement.new(
-		location.get_root().replace_at(location.get_indeces(), location.get_abandon(), replace_with)
+		location.get_root().replace_at(
+			location.get_indeces(), 
+			location.get_abandon(), 
+			replace_with.alpha_duplicate()
+		)
 	)
 	var requirements = _get_equality_requirements(location.get_expr_item(), context).duplicate()
 	if requirements == null:
