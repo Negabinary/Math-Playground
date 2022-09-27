@@ -23,7 +23,7 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 		location.get_root().replace_at(
 			location.get_indeces(), 
 			location.get_abandon(), 
-			replace_with.alpha_duplicate()
+			replace_with
 		)
 	)
 	var requirements = _get_equality_requirements(location.get_expr_item(), context).duplicate()

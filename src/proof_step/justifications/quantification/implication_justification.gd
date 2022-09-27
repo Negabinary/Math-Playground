@@ -4,20 +4,36 @@ class_name ImplicationJustification
 
 var keep_condition_ids : Array
 var keep_definition_ids : Array
+var definition_identifiers #Array # <ExprItemType>
 
 
-func _init(keep_definition_ids=[], keep_condition_ids=[]):
+func _init(keep_definition_ids=[], keep_condition_ids=[],definition_identifier_names=null):
 	self.keep_condition_ids = keep_condition_ids
 	self.keep_definition_ids = keep_definition_ids
+	if definition_identifier_names:
+		for i in definition_identifier_names:
+			definition_identifiers.append(ExprItemType.new(i))
 
 
 func serialize(parse_box:AbstractParseBox) -> Dictionary:
-	return {
-		justification_version=1,
-		justification_type="ImplicationJustification",
-		keep_condition_ids=keep_condition_ids,
-		keep_definition_ids=keep_definition_ids
-	}
+	if definition_identifiers:
+		var definition_identifier_names := []
+		for di in definition_identifiers:
+			definition_identifier_names.append(di.get_identifier())
+		return {
+			justification_version=2,
+			justification_type="ImplicationJustification",
+			keep_condition_ids=keep_condition_ids,
+			keep_definition_ids=keep_definition_ids,
+			definition_identifier_names=definition_identifier_names
+		}
+	else:
+		return {
+			justification_version=1,
+			justification_type="ImplicationJustification",
+			keep_condition_ids=keep_condition_ids,
+			keep_definition_ids=keep_definition_ids
+		}
 
 
 func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
@@ -33,11 +49,22 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 		if not (i in keep_condition_ids):
 			box_assumptions.append(statement_conditions[i].get_expr_item())
 	var conclusion := statement.construct_without(keep_definition_ids, keep_condition_ids)
+	if definition_identifiers == null:
+		definition_identifiers = []
+		for box_definition in box_definitions:
+			definition_identifiers.append(ExprItemType.new(box_definition.get_identifier()))
+	var replacements := {}
+	for d in len(box_definitions):
+		replacements[box_definitions[d]] = ExprItem.new(definition_identifiers[d])
+	var new_conditions := []
+	for ba in box_assumptions:
+		new_conditions.append(ba.deep_replace_types(replacements))
+	var new_conclusion := conclusion.deep_replace_types(replacements)
 	return [
 		Requirement.new(
-			conclusion,
-			box_definitions,
-			box_assumptions
+			new_conclusion,
+			definition_identifiers,
+			new_conditions
 		)
 	]
 
