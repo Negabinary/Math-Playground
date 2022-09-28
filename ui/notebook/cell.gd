@@ -40,12 +40,12 @@ var top_proof_box := SymmetryBox.new(top_j_box, top_p_box)
 func set_previous_cell(new_previous:NotebookCell):
 	if previous_cell:
 		previous_cell.disconnect("bottom_proof_box_changed", self, "_set_top_proof_box")
-		previous_cell.disconnect("request_absolve_responsibility", self, "take_responsibility")
+		previous_cell.top_p_box.disconnect("request_absolve_responsibility", self, "_on_take_responsibility")
 	previous_cell = new_previous
 	_set_top_proof_box()
 	if previous_cell:
 		previous_cell.connect("bottom_proof_box_changed", self, "_set_top_proof_box")
-		previous_cell.connect("request_absolve_responsibility", self, "take_responsibility")
+		previous_cell.top_p_box.connect("request_absolve_responsibility", self, "_on_take_responsibility")
 
 
 func _get_previous_proof_box() -> SymmetryBox:
@@ -58,29 +58,17 @@ func _get_previous_proof_box() -> SymmetryBox:
 func _set_top_proof_box() -> void:
 	var tpb := _get_previous_proof_box()
 	top_j_box.set_parent(tpb.get_justification_box())
-	top_p_box.set_parent(tpb.get_parse_box())
+	top_p_box.set_parent(
+		tpb.get_parse_box(), 
+		take_type_census(TypeCensus.new()).get_types_list()
+	)
 
 
 # Rescue Area =============================================
 
-signal request_absolve_responsibility # (Array<ExprItemType>,Array<String>)
-
 func _on_update_rescues():
 	var rescues:Array = top_proof_box.get_parse_box().get_rescue_types()
 	var rescue_names:Array = top_proof_box.get_parse_box().get_rescue_types_old_names()
-	var census := take_type_census(TypeCensus.new())
-	var desired_types := []
-	var desired_names := []
-	var unwanted_types := []
-	var unwanted_names := []
-	for rid in rescues.size():
-		if census.has_type(rescues[rid]):
-			desired_types.append(rescues[rid])
-			desired_names.append(rescue_names[rid])
-		else:
-			unwanted_types.append(rescues[rid])
-			unwanted_names.append(rescue_names[rid])
-	emit_signal("request_absolve_responsibility", unwanted_types, unwanted_names)
 	if rescue_names.size() > 0:
 		$"%MissingTypesOverview".text = str(rescue_names)
 		if not $"%SuspensionPostit".visible:
@@ -93,11 +81,14 @@ func _on_update_rescues():
 			$"%Scribble".hide()
 			emit_signal("bottom_proof_box_changed")
 
-func take_responsibility(rescue, rescue_name):
-	top_proof_box.get_parse_box().take_responsibility_for(rescue, rescue_name)
 
 func is_suspended() -> bool:
 	return $"%Scribble".visible
+
+
+func _on_take_responsibility(new_rescue_types:Array, rescue_types_names:Array):
+	var desired_types = take_type_census(TypeCensus.new()).get_types_list()
+	top_p_box.take_responsibility_for(new_rescue_types, rescue_types_names, desired_types)
 
 
 # Edit Area ===============================================

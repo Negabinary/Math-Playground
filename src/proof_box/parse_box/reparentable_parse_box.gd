@@ -36,18 +36,19 @@ func remove_listener(listener:IdentifierListener) -> void:
 
 # REPARENTING ===============================================
 
-func set_parent(new_parent:AbstractParseBox):
+func set_parent(new_parent:AbstractParseBox, types_to_keep:Array):
 	var old_parent := parent
 	var old_types_map := old_parent.get_all_types()
 	var new_types_map := new_parent.get_all_types()
 	var missing_types := old_types_map.get_missing_from(new_types_map)
 	var new_types := new_types_map.get_missing_from(old_types_map)
-	_add_rescued_types(missing_types, old_types_map)
 	for l in listener_to_type:
 		parent.remove_listener(l)
 	for al in add_listeners:
 		parent.remove_addition_listener(al)
 	parent = new_parent
+	if missing_types.size() > 0:
+		_add_rescued_types(missing_types, old_types_map, types_to_keep)
 	for al in add_listeners:
 		parent.add_addition_listener(al)
 	_dismiss_rescued_types(new_types)
@@ -59,6 +60,7 @@ func set_parent(new_parent:AbstractParseBox):
 # RESCUES =================================================
 
 signal update_rescues
+signal request_absolve_responsibility # (Array<ExprItemType>,Array<String>)
 var rescued_types := []
 var rescued_old_names := []
 var addition_listeners := {} #<Type, Al>
@@ -72,22 +74,32 @@ func get_rescue_types_old_names() -> Array:
 	return rescued_old_names
 
 
-func _add_rescued_types(new_rescue_types:Array, old_types_map:TwoWayParseMap) -> void:
+func _add_rescued_types(new_rescue_types:Array, old_types_map:TwoWayParseMap, types_to_keep:Array) -> void:
+	var undesired_types := []
+	var undesired_names := []
 	for nrt in new_rescue_types:
 		if nrt in type_to_listeners:
 			if not (nrt in rescued_types):
-				rescued_types.append(nrt)
-				rescued_old_names.append(old_types_map.get_full_name(nrt))
-				addition_listeners[nrt] = ParseAdditionListener.new(nrt)
-				addition_listeners[nrt].connect("addition_notify", self, "_on_addition_notify")
-				add_addition_listener(addition_listeners[nrt])
+				if nrt in types_to_keep:
+					rescued_types.append(nrt)
+					rescued_old_names.append(old_types_map.get_full_name(nrt))
+					addition_listeners[nrt] = ParseAdditionListener.new(nrt)
+					addition_listeners[nrt].connect("addition_notify", self, "_on_addition_notify")
+					add_addition_listener(addition_listeners[nrt])
+				else:
+					undesired_types.append(nrt)
+					undesired_names.append(old_types_map.get_full_name(nrt))
+	if undesired_types.size() > 0:
+		emit_signal("request_absolve_responsibility", undesired_types, undesired_names)
 	emit_signal("update_rescues")
 
 
-func take_responsibility_for(new_rescue_types:Array, rescue_types_names:Array):
+func take_responsibility_for(new_rescue_types:Array, rescue_types_names:Array, desired_types:Array):
+	var unwanted_types := []
+	var unwanted_names := []
 	for nrtid in new_rescue_types.size():
 		var nrt : ExprItemType = new_rescue_types[nrtid]
-		if nrt in type_to_listeners:
+		if nrt in desired_types:
 			if not (nrt in rescued_types):
 				rescued_types.append(nrt)
 				rescued_old_names.append(rescue_types_names[nrtid])
@@ -96,6 +108,11 @@ func take_responsibility_for(new_rescue_types:Array, rescue_types_names:Array):
 				add_addition_listener(addition_listeners[nrt])
 			for l in type_to_listeners[nrt]:
 				parent.remove_listener(l)
+		else:
+			unwanted_types.append(nrt)
+			unwanted_names.append(rescue_types_names[nrtid])
+	if unwanted_types.size() > 0:
+		emit_signal("request_absolve_responsibility", unwanted_types, unwanted_names)
 	for nrt in new_rescue_types:
 		for l in type_to_listeners.get(nrt, []).duplicate():
 			if l in type_to_listeners.get(nrt, []):

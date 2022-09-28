@@ -50,3 +50,7 @@ func print_result(context:AbstractParseBox) -> String:
 
 func has_type(t:ExprItemType) -> bool:
 	return t in map
+
+
+func get_types_list() -> Array:
+	return map.keys()
