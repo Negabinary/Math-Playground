@@ -21,7 +21,6 @@ func new_cell(json = null, version = 0) -> void:
 	node.connect("request_delete", self, "delete_cell", [node])
 	node.connect("request_move_up", self, "move_cell_up", [node])
 	node.connect("request_move_down", self, "move_cell_down", [node])
-	node.connect("request_absolve_responsibility", self, "_on_request_absolve", [node])
 
 
 func move_cell_up(cell:NotebookCell) -> void:

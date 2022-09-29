@@ -49,9 +49,10 @@ func set_parent(new_parent:AbstractParseBox, types_to_keep:Array):
 	parent = new_parent
 	if missing_types.size() > 0:
 		_add_rescued_types(missing_types, old_types_map, types_to_keep)
+	if new_types.size() > 0:
+		_dismiss_rescued_types(new_types)
 	for al in add_listeners:
 		parent.add_addition_listener(al)
-	_dismiss_rescued_types(new_types)
 	for l in listener_to_type.keys():
 		if l in listener_to_type:
 			l.notify_rename()
@@ -130,13 +131,14 @@ func _forget_rescue_type(type:ExprItemType) -> void:
 
 
 func _dismiss_rescued_types(types):
-	for add_listener in add_listeners:
+	for add_listener in add_listeners.duplicate():
 		if add_listener.get_type() in types:
 			add_listener.notify_addition()
 
 
 func _on_addition_notify(type:ExprItemType):
 	if type in rescued_types:
+		remove_addition_listener(addition_listeners[type])
 		_forget_rescue_type(type)
 		for l in type_to_listeners[type].duplicate():
 			l.notify_rename()

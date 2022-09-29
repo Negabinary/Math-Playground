@@ -16,7 +16,7 @@ func _init(requirement:Requirement, context:SymmetryBox, parent:ProofStep=null):
 		requirement.get_assumptions()
 	)
 	self.parent = parent
-	_connect_justification()
+
 	_connect_dependencies()
 	_connect_proof_status()
 
@@ -51,14 +51,16 @@ func get_justification() -> Justification:
 
 
 func _connect_justification():
-	_update_justification()
-	self.context.get_justification_box().connect("updated", self,"_on_justifified")
+	if not self.context.get_justification_box().is_connected("updated", self,"_on_justifified"):
+		self.context.get_justification_box().connect("updated", self,"_on_justifified")
 	if justification is MissingJustification:
-		context.get_justification_box().connect("assumption_added", self, "_on_assumption_added")
+		if not context.get_justification_box().is_connected("assumption_added", self, "_on_assumption_added"):
+			context.get_justification_box().connect("assumption_added", self, "_on_assumption_added")
 	elif context.get_justification_box().is_connected("assumption_added", self, "_on_assumption_added"):
 		context.get_justification_box().disconnect("assumption_added", self, "_on_assumption_added")
 	if justification is AssumptionJustification:
-		context.get_justification_box().connect("assumption_removed", self, "_on_assumption_removed")
+		if not context.get_justification_box().is_connected("assumption_removed", self, "_on_assumption_removed"):
+			context.get_justification_box().connect("assumption_removed", self, "_on_assumption_removed")
 	elif context.get_justification_box().is_connected("assumption_removed", self, "_on_assumption_removed"):
 		context.get_justification_box().disconnect("assumption_removed", self, "_on_assumption_removed")
 
@@ -88,6 +90,7 @@ func _update_justification():
 			else:
 				justification = MissingJustification.new()
 				context.get_justification_box().set_justification(requirement.get_goal(), justification)
+	_connect_justification()
 	emit_signal("justification_type_changed")
 	_connect_justification_properties()
 	choose_dependency()
