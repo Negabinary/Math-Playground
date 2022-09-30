@@ -8,8 +8,8 @@ var string : String
 func _init(new_type:ExprItemType, new_children:=[]):
 	type = new_type
 	children = new_children
-	if GlobalTypes:
-		string = to_string()
+	# if GlobalTypes:
+	# 	string = to_string()
 
 
 # GETTERS ========================================

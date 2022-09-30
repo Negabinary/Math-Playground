@@ -3,7 +3,6 @@ class_name RefineJustification
 
 var general : ExprItem
 
-
 func _init(general_form:ExprItem=null):
 	self.general = general_form
 
