@@ -43,7 +43,7 @@ func _init(requirement:Requirement, outer_context:SymmetryBox, parent:ProofStep=
 	self.context.get_justification_box().connect("updated", self,"_on_justifified")
 	self.justification.connect("updated", self, "_on_justification_updated")
 	for dependency in get_dependencies():
-		dependency.connect("proof_status", self, "_update_proof_status")
+		dependency.connect("proof_status", self, "_on_dependency_proved")
 
 
 # CALCULATORS =============================================
@@ -120,7 +120,7 @@ func _on_assumption_removed(assumption:ExprItem):
 func _update_justification():
 	self.justification.disconnect("updated", self, "_on_justification_updated")
 	for dependency in dependencies:
-		dependency.disconnect("proof_status", self, "_update_proof_status")
+		dependency.disconnect("proof_status", self, "_on_dependency_proved")
 	self.justification = _find_justification()
 	var jreq = justification.get_requirements_for(
 		requirement.get_goal(), 
@@ -133,7 +133,7 @@ func _update_justification():
 	self.proven = _find_proof_status()
 	self.justification.connect("updated", self, "_on_justification_updated")
 	for dependency in dependencies:
-		dependency.connect("proof_status", self, "_update_proof_status")
+		dependency.connect("proof_status", self, "_on_dependency_proved")
 	emit_signal("justification_type_changed")
 	emit_signal("justification_properties_changed")
 	emit_signal("dependencies_changed")
@@ -144,7 +144,7 @@ func _update_justification():
 
 func _on_justification_updated():
 	for dependency in dependencies:
-		dependency.disconnect("proof_status", self, "_update_proof_status")
+		dependency.disconnect("proof_status", self, "_on_dependency_proved")
 	var jreq = justification.get_requirements_for(
 		requirement.get_goal(), 
 		self.context.get_parse_box()
@@ -155,7 +155,7 @@ func _on_justification_updated():
 	var old_proven := self.proven
 	self.proven = _find_proof_status()
 	for dependency in dependencies:
-		dependency.connect("proof_status", self, "_update_proof_status")
+		dependency.connect("proof_status", self, "_on_dependency_proved")
 	emit_signal("justification_properties_changed")
 	emit_signal("dependencies_changed")
 	emit_signal("active_dependency_changed")
