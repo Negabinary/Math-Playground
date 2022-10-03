@@ -44,7 +44,8 @@ static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Ju
 		{"justification_type": "ImplicationJustification", ..}:
 			return ImplicationJustification.new(
 				j.keep_definition_ids,
-				j.keep_condition_ids
+				j.keep_condition_ids,
+				j.definition_identifier_names
 			)
 		{"justification_type": "InstantiateJustification", ..}:
 			return InstantiateJustification.new(

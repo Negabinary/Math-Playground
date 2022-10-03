@@ -11,6 +11,7 @@ func _init(keep_definition_ids=[], keep_condition_ids=[],definition_identifier_n
 	self.keep_condition_ids = keep_condition_ids
 	self.keep_definition_ids = keep_definition_ids
 	if definition_identifier_names:
+		definition_identifiers = []
 		for i in definition_identifier_names:
 			definition_identifiers.append(ExprItemType.new(i))
 
