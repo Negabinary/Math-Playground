@@ -185,7 +185,7 @@ func serialise() -> Dictionary:
 
 
 func deserialise(json:Dictionary, version) -> void:
-	$"%Enter".text = json.string
+	$"%Enter".set_text(json.string)
 	$"%Title".text = json.get("title","")
 	if json.compiled:
 		hide_edit_area()
