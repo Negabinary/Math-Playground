@@ -105,5 +105,5 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 func _get_all_types() -> Dictionary:
 	return _combine_all_types(
 		location.get_root().get_all_types(),
-		replace_value.get_all_types()
+		replace_value.get_all_types() if replace_value else {}
 	)

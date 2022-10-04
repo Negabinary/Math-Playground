@@ -19,5 +19,6 @@ func _on_pressed():
 	var modus_ponens = ModusPonensJustification.new(
 		assumption.as_expr_item()
 	)
-	selection_handler.get_selected_proof_box().get_justification_box().set_justification(selection_handler.get_locator().get_root(), existential_justification)
-	selection_handler.get_selected_proof_box().get_justification_box().set_justification(existential, modus_ponens)
+	var sjb := selection_handler.get_selected_proof_box().get_justification_box()
+	sjb.set_justification(selection_handler.get_locator().get_root(), existential_justification)
+	sjb.set_justification(existential, modus_ponens)

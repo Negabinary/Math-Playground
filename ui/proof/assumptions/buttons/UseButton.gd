@@ -38,6 +38,7 @@ func _on_pressed() -> void:
 			[], 
 			range(assumption.get_conditions().size())
 		).deep_replace_types(matching)
-		selection_handler.get_selected_proof_box().get_justification_box().set_justification(refined, RefineJustification.new(assumption.as_expr_item()))
+		var sjb := selection_handler.get_selected_proof_box().get_justification_box()
+		sjb.set_justification(refined, RefineJustification.new(assumption.as_expr_item()))
 		if assumption.get_conditions().size() > 0:
-			selection_handler.get_selected_proof_box().get_justification_box().set_justification(selection_handler.get_locator().get_root(), ModusPonensJustification.new(refined))
+			sjb.set_justification(selection_handler.get_locator().get_root(), ModusPonensJustification.new(refined))

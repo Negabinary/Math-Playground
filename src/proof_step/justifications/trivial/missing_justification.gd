@@ -22,7 +22,7 @@ func _is_double_negative(locator:Locator):
 	return false
 
 
-func _is_matchable(locator:Locator):
+func _is_matchable(locator:ExprItem):
 	if locator:
 		if locator.get_type() == GlobalTypes.EQUALITY:
 			if locator.get_child_count() == 2:
@@ -132,9 +132,9 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 		],
 		[
 			"match function arguments",
-			_is_matchable(locator),
+			_is_matchable(expr_item),
 			load("res://ui/theme/descriptive_buttons/matching.tres"),
-			IntroducedDoubleNegativeJustification.new(locator)
+			MatchingJustification.new()
 		],
 		[
 			"reduce selected lambda expression",

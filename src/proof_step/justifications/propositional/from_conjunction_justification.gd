@@ -98,4 +98,7 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 
 
 func _get_all_types() -> Dictionary:
-	return conjunction.get_all_types()
+	if conjunction:
+		return conjunction.get_all_types()
+	else:
+		return {}

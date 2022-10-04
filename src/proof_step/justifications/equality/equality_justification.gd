@@ -74,6 +74,6 @@ func _get_all_types() -> Dictionary:
 		location.get_root().get_all_types(),
 		_remove_types_from(
 			location.get_outside_definitions(),
-			replace_with.get_all_types()
+			replace_with.get_all_types() if replace_with else {}
 		)
 	)

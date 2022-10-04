@@ -81,4 +81,7 @@ func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 
 
 func _get_all_types() -> Dictionary:
-	return disjunction.get_all_types()
+	if disjunction:
+		return disjunction.get_all_types()
+	else:
+		return {}

@@ -56,4 +56,7 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 
 
 func _get_all_types() -> Dictionary:
-	return witness.get_all_types()
+	if witness:
+		return witness.get_all_types()
+	else:
+		return {}
