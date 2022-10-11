@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://ui/proof/assumptions/buttons/UseButtons.tscn" type="PackedScene" id=1]
-[ext_resource path="res://util/autostring/AutostringLabel.gd" type="Script" id=2]
+[ext_resource path="res://ui/notebook/cell/ExprItemAutostringLabel.gd" type="Script" id=2]
 [ext_resource path="res://ui/notebook/cell/CellAssumption.gd" type="Script" id=3]
 
 [node name="CellAssumption" type="VBoxContainer"]
@@ -19,7 +19,9 @@ custom_constants/separation = 20
 margin_right = 45.0
 margin_bottom = 17.0
 rect_min_size = Vector2( 45, 0 )
+size_flags_vertical = 1
 theme_type_variation = "LabelQuiet"
+custom_constants/line_spacing = 0
 text = "assume"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer"]
@@ -34,6 +36,7 @@ unique_name_in_owner = true
 margin_bottom = 17.0
 theme_type_variation = "LabelMath"
 script = ExtResource( 2 )
+multiline = true
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="."]
 margin_top = 21.0

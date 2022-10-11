@@ -1,0 +1,13 @@
+[gd_scene format=2]
+
+[node name="AcceptDialog" type="ConfirmationDialog"]
+visible = true
+margin_right = 620.0
+margin_bottom = 316.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 620.0

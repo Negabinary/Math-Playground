@@ -21,6 +21,11 @@ func get_string() -> String:
 	return _printout(root)
 
 
+func get_multiline() -> String:
+	_clear_listeners()
+	return _printout_multiline()
+
+
 func _clear_listeners() -> void:
 	for listener in listeners:
 		listener.disconnect("updated", self,"_on_renamed")
@@ -129,6 +134,26 @@ func _printout(locator:ContextLocator) -> String:
 			+ children_string.left(children_string.length() - 2)
 			+ ")"
 		)
+
+
+func _printout_multiline() -> String:
+	var result = ""
+	var statement := Statement.new(root.get_expr_item())
+	var definitions := statement.get_definitions()
+	if definitions.size() > 0:
+		result += "forall"
+		for definition in definitions:
+			result += " " + definition.get_identifier()
+		result += ".\n"
+	for condition in statement.get_conditions():
+		var nctx = condition.get_parse_box(root.get_context())
+		var nctl = ContextLocator.new(condition, nctx)
+		result += "if " + _printout(nctl) + " then\n"
+	var conclusion := statement.get_conclusion()
+	var nctlx = conclusion.get_parse_box(root.get_context())
+	var nctll = ContextLocator.new(conclusion, nctlx)
+	result += _printout(nctll)
+	return result
 
 
 func _on_renamed():
