@@ -21,12 +21,12 @@ func init(option:Justification.ExprItemOption):
 	text_listener.connect("updated", self,"_update")
 	_update()
 	$Button.connect("pressed", $ConfirmationDialog, "popup_centered")
-	$ConfirmationDialog/VBoxContainer/TextEdit.connect("text_changed", self, "_validate")
+	$ConfirmationDialog/VBoxContainer/Enter.connect("text_changed", self, "_validate")
 	_validate()
 
 
 func _validate():
-	var string_to_parse = $ConfirmationDialog/VBoxContainer/TextEdit.text
+	var string_to_parse = $ConfirmationDialog/VBoxContainer/Enter.text
 	parser = ExprItemParser2.new(string_to_parse, context)
 	if parser.error:
 		$ConfirmationDialog.get_ok().disabled = true
@@ -38,3 +38,12 @@ func _validate():
 
 func ok():
 	option.set_expr_item(parser.result)
+
+
+func _input(event):
+	if $"%Enter".has_focus():
+		if event.is_action_pressed("enter"):
+			get_tree().set_input_as_handled()
+			if not $ConfirmationDialog.get_ok().disabled:
+				$ConfirmationDialog.hide()
+				ok()

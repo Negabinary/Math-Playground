@@ -15,16 +15,6 @@ func _ready():
 	$"%UpButton".connect("pressed", self, "emit_signal", ["request_move_up"])
 	$"%DownButton".connect("pressed", self, "emit_signal", ["request_move_down"])
 	$"%DeleteButton".connect("pressed", self, "emit_signal", ["request_delete"])
-	$"%Enter".syntax_highlighting = true
-	$"%Enter".clear_colors()
-	var keywords = [
-		'import', 'define', 'assume', 'show', 'forall', 'exists', 'fun', 'if', 'then', 
-		'_import_', '_define_', "_import_", "_define_", "_assume_", "_show_", "_forall_", 
-		"_exists_", "_fun_", "_if_", "_then_", "_->_", "as","and", "or", ":", ".", "=", ","
-	]
-	for keyword in keywords:
-		$"%Enter".add_keyword_color(keyword, Color("#2A9D8F"))
-	
 	$"%Button".connect("pressed", self, "_test_types")
 	top_proof_box.get_parse_box().connect("update_rescues", self, "_on_update_rescues")
 

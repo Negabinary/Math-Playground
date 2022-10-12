@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://ui/proof/options/ExprItemOption.gd" type="Script" id=1]
+[ext_resource path="res://ui/notebook/cell/TextBox.gd" type="Script" id=2]
 
 [node name="Control" type="HBoxContainer"]
 anchor_right = 1.0
@@ -45,10 +46,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextEdit" type="TextEdit" parent="ConfirmationDialog/VBoxContainer"]
+[node name="Enter" type="TextEdit" parent="ConfirmationDialog/VBoxContainer"]
+unique_name_in_owner = true
 margin_right = 584.0
 margin_bottom = 336.0
 size_flags_vertical = 3
+script = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="ConfirmationDialog/VBoxContainer"]
 margin_top = 340.0
