@@ -21,12 +21,12 @@ script = ExtResource( 6 )
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="."]
 margin_right = 755.0
-margin_bottom = 17.0
+margin_bottom = 21.0
 custom_constants/separation = 20
 
 [node name="Label" type="Label" parent="HBoxContainer3"]
 margin_right = 45.0
-margin_bottom = 17.0
+margin_bottom = 21.0
 rect_min_size = Vector2( 45, 0 )
 size_flags_vertical = 1
 theme_type_variation = "LabelQuiet"
@@ -35,14 +35,14 @@ text = "show"
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer3"]
 margin_left = 65.0
 margin_right = 755.0
-margin_bottom = 17.0
+margin_bottom = 21.0
 size_flags_horizontal = 3
 scroll_vertical_enabled = false
 
 [node name="Name" type="Label" parent="HBoxContainer3/ScrollContainer"]
 unique_name_in_owner = true
 margin_right = 690.0
-margin_bottom = 17.0
+margin_bottom = 21.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
 theme_type_variation = "LabelMath"
@@ -51,28 +51,27 @@ script = ExtResource( 1 )
 multiline = true
 
 [node name="HBoxContainer2" type="MarginContainer" parent="."]
-margin_top = 27.0
+margin_top = 31.0
 margin_right = 755.0
-margin_bottom = 127.0
+margin_bottom = 67.0
 
 [node name="Proof" type="PanelContainer" parent="HBoxContainer2"]
 margin_right = 755.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 100 )
+margin_bottom = 36.0
 size_flags_horizontal = 3
 custom_styles/panel = ExtResource( 5 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer2/Proof"]
 margin_left = 40.0
 margin_right = 745.0
-margin_bottom = 90.0
+margin_bottom = 26.0
 custom_styles/bg = SubResource( 1 )
 scroll_vertical_enabled = false
 
 [node name="WrittenProof" type="VBoxContainer" parent="HBoxContainer2/Proof/ScrollContainer"]
 unique_name_in_owner = true
 margin_right = 705.0
-margin_bottom = 90.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 2
@@ -82,26 +81,65 @@ __meta__ = {
 }
 
 [node name="Justification" type="MarginContainer" parent="HBoxContainer2/Proof/ScrollContainer/WrittenProof"]
-margin_top = 90.0
+margin_top = 26.0
 margin_right = 705.0
-margin_bottom = 90.0
+margin_bottom = 26.0
 custom_constants/margin_right = 0
 custom_constants/margin_top = 0
 custom_constants/margin_left = 0
 custom_constants/margin_bottom = 0
 
-[node name="Label2" type="Label" parent="HBoxContainer2"]
-margin_right = 755.0
-margin_bottom = 17.0
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer2"]
+margin_right = 45.0
+margin_bottom = 36.0
 rect_min_size = Vector2( 45, 0 )
+size_flags_horizontal = 0
+custom_constants/separation = 0
+
+[node name="Label2" type="Label" parent="HBoxContainer2/HBoxContainer"]
+margin_right = 45.0
+margin_bottom = 17.0
 size_flags_vertical = 0
 theme_type_variation = "LabelQuiet"
 text = "proof:"
 
+[node name="VBoxContainer" type="HBoxContainer" parent="HBoxContainer2/HBoxContainer"]
+margin_top = 17.0
+margin_right = 45.0
+margin_bottom = 36.0
+custom_constants/separation = 2
+
+[node name="Label3" type="Label" parent="HBoxContainer2/HBoxContainer/VBoxContainer"]
+margin_right = 5.0
+margin_bottom = 17.0
+size_flags_vertical = 0
+theme_type_variation = "LabelQuiet"
+text = "("
+
+[node name="FinishedIndicator" type="CheckBox" parent="HBoxContainer2/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+margin_left = 7.0
+margin_right = 25.0
+margin_bottom = 19.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_type_variation = "OptionTicked"
+disabled = true
+toggle_mode = false
+flat = true
+
+[node name="Label5" type="Label" parent="HBoxContainer2/HBoxContainer/VBoxContainer"]
+margin_left = 27.0
+margin_right = 32.0
+margin_bottom = 17.0
+size_flags_vertical = 0
+theme_type_variation = "LabelQuiet"
+text = ")"
+
 [node name="HBoxContainer4" type="HBoxContainer" parent="."]
-margin_top = 137.0
+margin_top = 77.0
 margin_right = 755.0
-margin_bottom = 159.0
+margin_bottom = 99.0
 
 [node name="Label" type="Label" parent="HBoxContainer4"]
 margin_top = 2.0

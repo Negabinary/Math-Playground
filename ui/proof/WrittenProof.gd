@@ -37,3 +37,7 @@ static func build(proof_step:ProofStep, selection_handler:SelectionHandler) -> N
 
 func take_type_census(census:TypeCensus) -> TypeCensus:
 	return proof_step.take_type_census(census)
+
+
+func take_selection_for_top():
+	$Justification.get_child(0).take_selection_for_top()

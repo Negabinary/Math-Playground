@@ -88,6 +88,13 @@ func _choose_active_dependency():
 	return 0
 
 
+func show_next_unproven():
+	active_dependency = _choose_active_dependency()
+	emit_signal("active_dependency_changed")
+	if dependencies.size() > active_dependency:
+		dependencies[active_dependency].show_next_unproven()
+
+
 func _find_proof_status() -> bool:
 	var new_value : bool
 	if is_justification_valid():

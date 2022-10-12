@@ -105,6 +105,10 @@ func _change_active_depenency():
 			child.hide()
 
 
+func get_active_wpb_child():
+	return get_wpb_child(proof_step.get_active_dependency())
+
+
 enum ProofStatus {PROVEN, JUSTIFIED, UNPROVEN}
 
 
@@ -118,6 +122,7 @@ func is_proven() -> bool:
 func _on_ui_statement_selected(locator:Locator):
 	selection_handler.locator_changed(locator, self)
 
+
 func take_selection(locator:=null):
 	if locator == null:
 		ui_statement.set_locator(Locator.new(proof_step.get_goal()))
@@ -125,11 +130,20 @@ func take_selection(locator:=null):
 		ui_statement.set_locator(locator)
 	
 
+
 func select():
 	pass
 
+
 func deselect():
 	ui_statement.deselect()
+
+
+func take_selection_for_top():
+	if ui_dependencies.get_child_count() == 0:
+		take_selection()
+	else:
+		get_active_wpb_child().take_selection_for_top()
 
 
 # DRAWING =================================================
