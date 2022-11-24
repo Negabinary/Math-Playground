@@ -16,11 +16,13 @@ I hope it provides inspiration for what proof assistants could look like, and if
 Getting Started
 ---------------
 
-To begin either go to `https://negabinary.github.io/Math-Playground/ <https://negabinary.github.io/Math-Playground/>`_ or download the latest Windows release from `https://github.com/Negabinary/Math-Playground/releases <https://github.com/Negabinary/Math-Playground/releases>`_. Math Playground was built with a game engine, Godot, so I can target other platforms on request. (Note that it might be harder to manage saved files if you are using the online version, as all files are stored in the browser somehow.)
+To begin either go to `https://negabinary.github.io/Math-Playground/ <https://negabinary.github.io/Math-Playground/>`_ or download the latest Windows release from `https://github.com/Negabinary/Math-Playground/releases <https://github.com/Negabinary/Math-Playground/releases>`_. Math Playground was built with a game engine, Godot, so I can target other platforms on request. (Note that in the online version, all files are stored in the browser somehow, so it is not possible to download/share files. I'm working on fixing that.)
 
-On the first time you open Math Playground, download the standard library using the button at the top right. Now you're all set!
+The first time you open Math Playground, download the standard library using the button at the top right. Now you're all set!
 
-Start by creating a new cell using the 'add cell' button. There are four commands: :code:`define`, :code:`assume`, :code:`show`, :code:`import`.
+Start by creating a new Section using the 'Add Section' button. A box will appear where you can specify what you want to prove. There are four commands you can use to specify a proof: :code:`define`, :code:`assume`, :code:`show`, :code:`import`.
+
+.. image:: basics/img/add_section.gif
 
 You can use the :code:`define` command to create new identifiers. Everything is an identifier, including objects, predicates, functions, types, etc. ::
    
@@ -44,6 +46,8 @@ When ready, you can compile the cell using the 'parse' button at the top of the 
 
 This goal is a very easy goal to prove. Select 'likes' on the open goal, then select 'Use' on the relevant rule to prove it.
 
+.. image:: basics/img/simple_proof.gif
+
 Let's look at a more complicated example: ::
 
    show forall pet food_x food_y. 
@@ -54,6 +58,8 @@ Let's look at a more complicated example: ::
 To prove a statement is true for every :code:`pet`, we imagine we have a pet, and then show that the statement is true. Likewise, to prove :code:`if X then Y`, we assume :code:`X` is true, then prove :code:`Y`. To do both of these, we use the button at the top-left of the 'missing justification' box.
 
 Now we have a much simpler goal, :code:`likes(pet, food_y)`, and we've assumed the very similar statement, :code:`likes(pet, food_x)`, all we need to do now is exchange :code:`food_y` for :code:`food_x`. This can be done by clicking on :code:`food_y` in the goal and then using the '<==' rewrite rule on the equality.
+
+.. image:: basics/img/harder_proof.gif
 
 And we've proved it!
 
@@ -67,6 +73,7 @@ The standard library is a little bit lacking for now, but if you have a file you
    :maxdepth: 2
    :caption: Contents
 
+   index.rst
    basics/commands.rst
    basics/statements.rst
    basics/expressions.rst

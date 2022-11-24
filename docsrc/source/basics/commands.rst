@@ -1,5 +1,5 @@
-Commands
-========
+Top-Level Commands
+============================
 
 There are four command keywords, :code:`define`, :code:`assume`, :code:`show`, and :code:`import`. A new command begins whenever these keywords appear in the specification.
 

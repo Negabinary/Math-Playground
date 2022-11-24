@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="_static/css/theme.min.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Commands" href="basics/commands.html" /> 
+    <link rel="next" title="Top-Level Commands" href="basics/commands.html" /> 
 
 </head>
 
@@ -105,19 +105,26 @@
                             
                             
                                 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="basics/commands.html">Commands</a><ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basics/commands.html">Top-Level Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/statements.html">Mathematical “Statements”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/expressions.html">Expression Syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="basics/commands.html">Top-Level Commands</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="basics/commands.html#define">Define</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basics/commands.html#assume">Assume</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basics/commands.html#show">Show</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basics/commands.html#import">Import</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="basics/statements.html">Mathematical Statements</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="basics/statements.html">Mathematical “Statements”</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="basics/statements.html#using-a-statement">Using a Statement</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="basics/expressions.html">Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basics/expressions.html">Expression Syntax</a></li>
 </ul>
 
                             
@@ -137,9 +144,10 @@
 </section>
 <section id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>To begin either go to <a class="reference external" href="https://negabinary.github.io/Math-Playground/">https://negabinary.github.io/Math-Playground/</a> or download the latest Windows release from <a class="reference external" href="https://github.com/Negabinary/Math-Playground/releases">https://github.com/Negabinary/Math-Playground/releases</a>. Math Playground was built with a game engine, Godot, so I can target other platforms on request. (Note that it might be harder to manage saved files if you are using the online version, as all files are stored in the browser somehow.)</p>
-<p>On the first time you open Math Playground, download the standard library using the button at the top right. Now you’re all set!</p>
-<p>Start by creating a new cell using the ‘add cell’ button. There are four commands: <code class="code docutils literal notranslate"><span class="pre">define</span></code>, <code class="code docutils literal notranslate"><span class="pre">assume</span></code>, <code class="code docutils literal notranslate"><span class="pre">show</span></code>, <code class="code docutils literal notranslate"><span class="pre">import</span></code>.</p>
+<p>To begin either go to <a class="reference external" href="https://negabinary.github.io/Math-Playground/">https://negabinary.github.io/Math-Playground/</a> or download the latest Windows release from <a class="reference external" href="https://github.com/Negabinary/Math-Playground/releases">https://github.com/Negabinary/Math-Playground/releases</a>. Math Playground was built with a game engine, Godot, so I can target other platforms on request. (Note that in the online version, all files are stored in the browser somehow, so it is not possible to download/share files. I’m working on fixing that.)</p>
+<p>The first time you open Math Playground, download the standard library using the button at the top right. Now you’re all set!</p>
+<p>Start by creating a new Section using the ‘Add Section’ button. A box will appear where you can specify what you want to prove. There are four commands you can use to specify a proof: <code class="code docutils literal notranslate"><span class="pre">define</span></code>, <code class="code docutils literal notranslate"><span class="pre">assume</span></code>, <code class="code docutils literal notranslate"><span class="pre">show</span></code>, <code class="code docutils literal notranslate"><span class="pre">import</span></code>.</p>
+<img alt="_images/add_section.gif" src="_images/add_section.gif" />
 <p>You can use the <code class="code docutils literal notranslate"><span class="pre">define</span></code> command to create new identifiers. Everything is an identifier, including objects, predicates, functions, types, etc.</p>
 <div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">define</span><span class="w"> </span>molly<span class="w"></span>
 <span class="kd">define</span><span class="w"> </span>cat<span class="w"></span>
@@ -159,6 +167,7 @@
 </div>
 <p>When ready, you can compile the cell using the ‘parse’ button at the top of the cell (or by pressing Ctrl+Enter), and then you can start proving the open goals.</p>
 <p>This goal is a very easy goal to prove. Select ‘likes’ on the open goal, then select ‘Use’ on the relevant rule to prove it.</p>
+<img alt="_images/simple_proof.gif" src="_images/simple_proof.gif" />
 <p>Let’s look at a more complicated example:</p>
 <div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">show</span><span class="w"> </span><span class="k">forall</span><span class="w"> </span>pet<span class="w"> </span>food_x<span class="w"> </span>food_y.<span class="w"></span>
 <span class="w">   </span><span class="k">if</span><span class="w"> </span>food_x<span class="w"> </span>=<span class="w"> </span>food_y<span class="w"> </span><span class="k">then</span><span class="w"></span>
@@ -168,6 +177,7 @@
 </div>
 <p>To prove a statement is true for every <code class="code docutils literal notranslate"><span class="pre">pet</span></code>, we imagine we have a pet, and then show that the statement is true. Likewise, to prove <code class="code docutils literal notranslate"><span class="pre">if</span> <span class="pre">X</span> <span class="pre">then</span> <span class="pre">Y</span></code>, we assume <code class="code docutils literal notranslate"><span class="pre">X</span></code> is true, then prove <code class="code docutils literal notranslate"><span class="pre">Y</span></code>. To do both of these, we use the button at the top-left of the ‘missing justification’ box.</p>
 <p>Now we have a much simpler goal, <code class="code docutils literal notranslate"><span class="pre">likes(pet,</span> <span class="pre">food_y)</span></code>, and we’ve assumed the very similar statement, <code class="code docutils literal notranslate"><span class="pre">likes(pet,</span> <span class="pre">food_x)</span></code>, all we need to do now is exchange <code class="code docutils literal notranslate"><span class="pre">food_y</span></code> for <code class="code docutils literal notranslate"><span class="pre">food_x</span></code>. This can be done by clicking on <code class="code docutils literal notranslate"><span class="pre">food_y</span></code> in the goal and then using the ‘&lt;==’ rewrite rule on the equality.</p>
+<img alt="_images/harder_proof.gif" src="_images/harder_proof.gif" />
 <p>And we’ve proved it!</p>
 <p>The standard library is a little bit lacking for now, but if you have a file you want to import, you can use the <code class="code docutils literal notranslate"><span class="pre">import</span></code> command.</p>
 <div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">import</span><span class="w"> </span>std.arith.peano<span class="w"></span>
@@ -177,19 +187,26 @@
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="basics/commands.html">Commands</a><ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basics/commands.html">Top-Level Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/statements.html">Mathematical “Statements”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics/expressions.html">Expression Syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="basics/commands.html">Top-Level Commands</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="basics/commands.html#define">Define</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basics/commands.html#assume">Assume</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basics/commands.html#show">Show</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basics/commands.html#import">Import</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="basics/statements.html">Mathematical Statements</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="basics/statements.html">Mathematical “Statements”</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="basics/statements.html#using-a-statement">Using a Statement</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="basics/expressions.html">Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basics/expressions.html">Expression Syntax</a></li>
 </ul>
 </div>
 </section>

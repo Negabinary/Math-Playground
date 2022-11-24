@@ -1,5 +1,5 @@
-Language Reference
-========================
+Expression Syntax
+=================
 
 Functions
     In mathematical expressions, you can choose whether to call functions in a more functional-language style with :code:`f x y` or a more imperative-language style with :code:`f (x,y)`. This is because :code:`,` is syntactic sugar that compiles to :code:`)(`.

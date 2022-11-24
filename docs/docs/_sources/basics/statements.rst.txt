@@ -1,27 +1,27 @@
-Mathematical Statements
-=======================
+Mathematical "Statements"
+=========================
 
 Mathematical statements are at the core of Math Playground. They can be assumed, proved, or used to prove other statements.
 
-Statements may have any number of local definitions, followed by any number of conditions, and then a conclusion. An example is given below: ::
+Statements may have any number of local definitions, followed by any number of conditions, and then a conclusion. In the example below, everything after the word 'show' forms a statement.: ::
 
-    forall x y : Nat.
+    show forall x y : Nat.
     if odd(x) and odd(y) then
     odd(* x y)
 
-In this example, the local definitions are :code:`x` and :code:`y`; the conditions are :code:`x : Nat`, :code:`y : Nat`, :code:`odd(x)` and :code:`odd(y)`; and the conclusion is :code:`odd(* x y)`.
+In this statement, the local definitions are :code:`x` and :code:`y`; the conditions are :code:`x : Nat`, :code:`y : Nat`, :code:`odd(x)` and :code:`odd(y)`; and the conclusion is :code:`odd(* x y)`.
 
-That is:
+Thus a local definition is:
 
 * any :code:`forall` constructions that apply to the conclusion
 
-count as local definitions,
+A condition is:
 
 * any type annotations, :code:`_ : _`
 * any (curried) :code:`if _ then` clauses
 * any clauses within :code:`if _ then` separated by an :code:`and`
 
-count as conditions, and the remainder of the statement is the conclusion.
+And the remainder of the statement is the conclusion.
 
 Using a Statement
 -----------------

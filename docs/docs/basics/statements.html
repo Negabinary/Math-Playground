@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Mathematical Statements &mdash; Math Playground 3.0.0 documentation</title>
+  <title>Mathematical “Statements” &mdash; Math Playground 3.0.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   <link rel="stylesheet" href="../_static/css/theme.min.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Language Reference" href="expressions.html" />
-    <link rel="prev" title="Commands" href="commands.html" /> 
+    <link rel="next" title="Expression Syntax" href="expressions.html" />
+    <link rel="prev" title="Top-Level Commands" href="commands.html" /> 
 
 </head>
 
@@ -70,7 +70,7 @@
     
       <li><a href="../index.html">Docs</a></li>
         
-      <li>Mathematical Statements</li>
+      <li>Mathematical “Statements”</li>
     
     
       <li class="breadcrumbs-aside">
@@ -107,18 +107,25 @@
                             
                                 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="commands.html">Commands</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">About</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html#getting-started">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="commands.html">Top-Level Commands</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Mathematical “Statements”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions.html">Expression Syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">Top-Level Commands</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="commands.html#define">Define</a></li>
 <li class="toctree-l2"><a class="reference internal" href="commands.html#assume">Assume</a></li>
 <li class="toctree-l2"><a class="reference internal" href="commands.html#show">Show</a></li>
 <li class="toctree-l2"><a class="reference internal" href="commands.html#import">Import</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Mathematical Statements</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Mathematical “Statements”</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#using-a-statement">Using a Statement</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="expressions.html">Language Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="expressions.html">Expression Syntax</a></li>
 </ul>
 
                             
@@ -130,26 +137,26 @@
                         
                             
   <section id="mathematical-statements">
-<h1>Mathematical Statements<a class="headerlink" href="#mathematical-statements" title="Permalink to this headline">¶</a></h1>
+<h1>Mathematical “Statements”<a class="headerlink" href="#mathematical-statements" title="Permalink to this headline">¶</a></h1>
 <p>Mathematical statements are at the core of Math Playground. They can be assumed, proved, or used to prove other statements.</p>
-<p>Statements may have any number of local definitions, followed by any number of conditions, and then a conclusion. An example is given below:</p>
-<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="k">forall</span><span class="w"> </span>x<span class="w"> </span>y<span class="w"> </span>:<span class="w"> </span>Nat.<span class="w"></span>
+<p>Statements may have any number of local definitions, followed by any number of conditions, and then a conclusion. In the example below, everything after the word ‘show’ forms a statement.:</p>
+<div class="highlight-mml notranslate"><div class="highlight"><pre><span></span><span class="kd">show</span><span class="w"> </span><span class="k">forall</span><span class="w"> </span>x<span class="w"> </span>y<span class="w"> </span>:<span class="w"> </span>Nat.<span class="w"></span>
 <span class="k">if</span><span class="w"> </span>odd(x)<span class="w"> </span><span class="k">and</span><span class="w"> </span>odd(y)<span class="w"> </span><span class="k">then</span><span class="w"></span>
 odd(*<span class="w"> </span>x<span class="w"> </span>y)<span class="w"></span>
 </pre></div>
 </div>
-<p>In this example, the local definitions are <code class="code docutils literal notranslate"><span class="pre">x</span></code> and <code class="code docutils literal notranslate"><span class="pre">y</span></code>; the conditions are <code class="code docutils literal notranslate"><span class="pre">x</span> <span class="pre">:</span> <span class="pre">Nat</span></code>, <code class="code docutils literal notranslate"><span class="pre">y</span> <span class="pre">:</span> <span class="pre">Nat</span></code>, <code class="code docutils literal notranslate"><span class="pre">odd(x)</span></code> and <code class="code docutils literal notranslate"><span class="pre">odd(y)</span></code>; and the conclusion is <code class="code docutils literal notranslate"><span class="pre">odd(*</span> <span class="pre">x</span> <span class="pre">y)</span></code>.</p>
-<p>That is:</p>
+<p>In this statement, the local definitions are <code class="code docutils literal notranslate"><span class="pre">x</span></code> and <code class="code docutils literal notranslate"><span class="pre">y</span></code>; the conditions are <code class="code docutils literal notranslate"><span class="pre">x</span> <span class="pre">:</span> <span class="pre">Nat</span></code>, <code class="code docutils literal notranslate"><span class="pre">y</span> <span class="pre">:</span> <span class="pre">Nat</span></code>, <code class="code docutils literal notranslate"><span class="pre">odd(x)</span></code> and <code class="code docutils literal notranslate"><span class="pre">odd(y)</span></code>; and the conclusion is <code class="code docutils literal notranslate"><span class="pre">odd(*</span> <span class="pre">x</span> <span class="pre">y)</span></code>.</p>
+<p>Thus a local definition is:</p>
 <ul class="simple">
 <li><p>any <code class="code docutils literal notranslate"><span class="pre">forall</span></code> constructions that apply to the conclusion</p></li>
 </ul>
-<p>count as local definitions,</p>
+<p>A condition is:</p>
 <ul class="simple">
 <li><p>any type annotations, <code class="code docutils literal notranslate"><span class="pre">_</span> <span class="pre">:</span> <span class="pre">_</span></code></p></li>
 <li><p>any (curried) <code class="code docutils literal notranslate"><span class="pre">if</span> <span class="pre">_</span> <span class="pre">then</span></code> clauses</p></li>
 <li><p>any clauses within <code class="code docutils literal notranslate"><span class="pre">if</span> <span class="pre">_</span> <span class="pre">then</span></code> separated by an <code class="code docutils literal notranslate"><span class="pre">and</span></code></p></li>
 </ul>
-<p>count as conditions, and the remainder of the statement is the conclusion.</p>
+<p>And the remainder of the statement is the conclusion.</p>
 <section id="using-a-statement">
 <h2>Using a Statement<a class="headerlink" href="#using-a-statement" title="Permalink to this headline">¶</a></h2>
 <p>The following buttons, that appears just below where a statement is assumed or proven, allow you to use that statement in other proofs:</p>
