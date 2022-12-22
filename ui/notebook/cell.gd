@@ -113,7 +113,7 @@ func _input(event):
 	if $"%Enter".has_focus():
 		if event.is_action_pressed("enter"):
 			get_tree().set_input_as_handled()
-			eval()
+			_on_parse_button()
 
 
 func _on_parse_button():

@@ -201,7 +201,7 @@ text = "Test Types"
 unique_name_in_owner = true
 margin_top = 44.0
 margin_right = 745.0
-margin_bottom = 352.0
+margin_bottom = 367.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -222,7 +222,7 @@ __meta__ = {
 unique_name_in_owner = true
 margin_top = 254.0
 margin_right = 745.0
-margin_bottom = 296.0
+margin_bottom = 311.0
 rect_min_size = Vector2( 0, 30 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -230,12 +230,13 @@ custom_colors/default_color = Color( 0, 0, 0, 1 )
 fit_content_height = true
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/Edit"]
-margin_top = 300.0
+margin_top = 315.0
 margin_right = 745.0
-margin_bottom = 308.0
+margin_bottom = 323.0
 
 [node name="UseArea" type="MarginContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 margin_top = 367.0
 margin_right = 745.0
 margin_bottom = 367.0
