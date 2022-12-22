@@ -18,6 +18,12 @@ func _ready():
 
 
 func _new_file_button():
+	var dialog := $Controls/FileControls/New/NewUnsavedWorkDialog
+	dialog.popup_centered()
+	if not dialog.is_connected("confirmed", self, "_new_file_confirmed"):
+		dialog.connect("confirmed", self, "_new_file_confirmed")
+
+func _new_file_confirmed():
 	ui_save_button.hide()
 	ui_notebook.clear()
 	path = ""

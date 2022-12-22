@@ -45,11 +45,24 @@ margin_bottom = 20.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "New"
 
+[node name="NewUnsavedWorkDialog" type="ConfirmationDialog" parent="Controls/FileControls/New"]
+unique_name_in_owner = true
+margin_right = 200.0
+margin_bottom = 70.0
+window_title = "Unsaved Work"
+dialog_text = "Creating a new file will delete all your unsaved work.
+Do you want to continue?"
+
 [node name="Load" type="Button" parent="Controls/FileControls"]
 margin_left = 45.0
 margin_right = 92.0
 margin_bottom = 20.0
 text = "Open"
+
+[node name="LoadUnsavedWorkDialog" type="ConfirmationDialog" parent="Controls/FileControls/Load"]
+unique_name_in_owner = true
+margin_right = 200.0
+margin_bottom = 70.0
 
 [node name="Save" type="Button" parent="Controls/FileControls"]
 margin_left = 96.0
