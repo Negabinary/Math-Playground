@@ -28,6 +28,9 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 	])
 	return [
 		Justification.LabelOption.new(ConstantAutostring.new(
+			"Oops! An older version of Math Playground had a mistake."
+		), true),
+		Justification.LabelOption.new(ConstantAutostring.new(
 			reason
 		)),
 		button

@@ -26,6 +26,8 @@ func get_requirements_for(expr_item:ExprItem):
 		return null
 	if implication.get_type() != GlobalTypes.IMPLIES or implication.get_child_count() != 2:
 		return null
+	if not implication.is_concludable_context():
+		return null
 	var lhs = implication.get_child(0).get_expr_item()
 	var rhs = implication.get_child(1).get_expr_item()
 	var equality = ExprItem.new(
@@ -44,6 +46,13 @@ func get_requirements_for(expr_item:ExprItem):
 
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):
+	var implication := Locator.new(expr_item).get_descendent(indeces)
+	if implication == null:
+		return ConstantAutostring.new("This justification's save was corrupted! (The justification points to a part of the expression that doesn't exist?)")
+	if implication.get_type() != GlobalTypes.IMPLIES or implication.get_child_count() != 2:
+		return ConstantAutostring.new("Not an implication!")
+	if not implication.is_concludable_context():
+		return ConstantAutostring.new("Selected implication is not part of the outer statement.")
 	var options = []
 	return options
 

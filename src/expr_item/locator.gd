@@ -40,6 +40,18 @@ func compare_contexts(other:Locator) -> bool:
 	return self_with_hole.compare(other_with_hole)
 
 
+func is_concludable_context() -> bool:
+	var current := root_expr_item
+	for i in indeces:
+		var type := current.get_type()
+		if not ((type == GlobalTypes.FORALL or type == GlobalTypes.IMPLIES) 
+				and current.get_child_count == 2 
+				and i == 1):
+			return false
+		current = current.get_child(i)
+	return true
+
+
 func get_parent_type() -> ExprItemType:
 	return null if indeces.size() == 0 else get_parent().get_type()
 
