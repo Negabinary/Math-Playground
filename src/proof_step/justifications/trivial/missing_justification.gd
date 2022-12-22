@@ -12,12 +12,12 @@ func get_requirements_for(expr_item:ExprItem):
 	return null
 
 
-func _is_double_negative(locator:Locator):
-	if locator:
-		if locator.get_type() == GlobalTypes.NOT:
-			if locator.get_child_count() == 1:
-				if locator.get_child(0).get_type() == GlobalTypes.NOT:
-					if locator.get_child(0).get_child_count() == 1:
+func _is_double_negative(expr_item:ExprItem):
+	if expr_item:
+		if expr_item.get_type() == GlobalTypes.NOT:
+			if expr_item.get_child_count() == 1:
+				if expr_item.get_child(0).get_type() == GlobalTypes.NOT:
+					if expr_item.get_child(0).get_child_count() == 1:
 						return true
 	return false
 
@@ -120,9 +120,9 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 		],
 		[
 			"eliminate a double negative",
-			_is_double_negative(locator),
+			_is_double_negative(expr_item),
 			load("res://ui/theme/descriptive_buttons/double_negative.tres"),
-			IntroducedDoubleNegativeJustification.new(locator)
+			IntroducedDoubleNegativeJustification.new()
 		],
 		[
 			"equality is reflexive",

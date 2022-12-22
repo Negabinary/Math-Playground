@@ -1,35 +1,25 @@
-extends AbstractEqualityJustification
+extends Justification
 class_name IntroducedDoubleNegativeJustification
-
-
-func _init(x).(x):
-	pass
 
 
 func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
-		justification_version=1,
-		justification_type="IntroducedDoubleNegativeJustification",
-		location_expr_item=parse_box.serialise(location.get_root()),
-		location_indeces=location.get_indeces()
+		justification_version=2,
+		justification_type="IntroducedDoubleNegativeJustification"
 	}
 
 
-func _get_equality_replace_with(expr_item:ExprItem):
+func get_requirements_for(expr_item:ExprItem):
 	if expr_item.type != GlobalTypes.NOT or expr_item.get_child_count() != 1:
 		return null
 	expr_item = expr_item.get_child(0)
 	if expr_item.type != GlobalTypes.NOT or expr_item.get_child_count() != 1:
 		return null
 	expr_item = expr_item.get_child(0)
-	return expr_item
+	return [Requirement.new(expr_item)]
 
 
-func _get_equality_requirements(what:ExprItem):
-	return []
-
-
-func _get_equality_options(expr_item:ExprItem, context:AbstractParseBox):
+func _get_options_for(expr_item:ExprItem, context:AbstractParseBox):
 	if expr_item.type != GlobalTypes.NOT or expr_item.get_child_count() != 1:
 		return [Justification.LabelOption.new(ConstantAutostring.new("That location is not a double negative!"), true)]
 	expr_item = expr_item.get_child(0)
@@ -43,4 +33,4 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 
 
 func _get_all_types() -> Dictionary:
-	return location.get_root().get_all_types()
+	return {}

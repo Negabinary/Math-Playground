@@ -59,12 +59,19 @@ static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Ju
 				ExprItemBuilder.deserialize(j.existential, parse_box)
 			)
 		{"justification_type": "IntroducedDoubleNegativeJustification", ..}:
-			return IntroducedDoubleNegativeJustification.new(
-				Locator.new(
-					ExprItemBuilder.deserialize(j.location_expr_item, parse_box),
-					j.location_indeces
-				)
-			)
+			if j.justification_version == 1:
+				if j.location_indeces.size() == 0:
+					return IntroducedDoubleNegativeJustification.new()
+				else:
+					return DeprecatedJustification.new("""
+						Oops! An older version of Math Playground had a mistake.
+						
+						You used the old double-negative justification here, but unfortunately that justification is no longer available. Why? because it used to allow you to prove that if ¬(¬(x)) then  x. It makes intuitive sense, but in short if it's not not true, it isn't necessarily true, because it could be unprovable, or something entirely different like a number. 
+						
+						If you know that x is a boolean then you can still prove ¬(¬(x)) = x, so you may need to add an assumption that x : bool to fix this proof.
+					""")
+			else:
+				return IntroducedDoubleNegativeJustification.new()
 		{"justification_type": "IntroducedLambdaJustification", ..}:
 			return IntroducedLambdaJustification.new(
 				Locator.new(
