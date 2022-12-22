@@ -15,7 +15,7 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	}
 
 
-func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
+func _get_equality_replace_with(what:ExprItem):
 	if what.get_type() != GlobalTypes.LAMBDA:
 		return null
 	if what.get_child_count() < 3:
@@ -32,7 +32,7 @@ func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
 	return x
 
 
-func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
+func _get_equality_requirements(what:ExprItem):
 	return []
 
 

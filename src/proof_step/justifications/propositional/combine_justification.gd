@@ -22,7 +22,7 @@ func _get_clauses(expr_item:ExprItem) -> Array: #<ExprItem>
 	return final_options
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	var requirements := []
 	for clause in _get_clauses(expr_item):
 		requirements.append(

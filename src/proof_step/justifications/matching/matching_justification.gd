@@ -10,7 +10,7 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	}
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	if expr_item.get_type() != GlobalTypes.EQUALITY or expr_item.get_child_count() != 2:
 		return null
 	var lhs := expr_item.get_child(0)

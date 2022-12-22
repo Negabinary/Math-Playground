@@ -37,7 +37,7 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 		}
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	var statement := Statement.new(expr_item)
 	var box_definitions := []
 	var statement_definitions = statement.get_definitions()

@@ -11,7 +11,7 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 	return get_options_for(expr_item, context)
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	return null
 
 
@@ -33,7 +33,7 @@ func get_justification_description() -> String:
 
 func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 	var result = []
-	var reqs = get_requirements_for(expr_item, context)
+	var reqs = get_requirements_for(expr_item)
 	if reqs:
 		if len(reqs) > 1:
 			for i in len(reqs):

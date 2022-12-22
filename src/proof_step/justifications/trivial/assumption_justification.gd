@@ -2,7 +2,7 @@ extends Justification
 class_name AssumptionJustification
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	return []
 
 func get_options_for(expr_item:ExprItem, context:AbstractParseBox):

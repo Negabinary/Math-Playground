@@ -56,7 +56,7 @@ func _build_to_keep(expr_item:ExprItem):
 			return null
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	_btk_current_index = 0
 	var to_keep = _build_to_keep(expr_item)
 	if to_keep == null:

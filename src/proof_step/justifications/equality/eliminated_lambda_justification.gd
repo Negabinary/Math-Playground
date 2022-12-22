@@ -54,7 +54,7 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 
 # OVERRIDES ===================================================================
 
-func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
+func _get_equality_replace_with(what:ExprItem):
 	if replace_value == null:
 		return null
 	# TODO: check locations have the right parent
@@ -72,7 +72,7 @@ func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
 	)
 
 
-func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
+func _get_equality_requirements(what:ExprItem):
 	return []
 
 

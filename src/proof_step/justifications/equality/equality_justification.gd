@@ -21,11 +21,11 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	}
 
 
-func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
+func _get_equality_replace_with(what:ExprItem):
 	return replace_with
 
 
-func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
+func _get_equality_requirements(what:ExprItem):
 	if replace_with == null:
 		return null
 	if forwards:

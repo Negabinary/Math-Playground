@@ -23,7 +23,7 @@ func set_implication(implication:ExprItem):
 	emit_signal("updated")
 
 
-func get_requirements_for(expr_item:ExprItem, parse_box:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	if implication == null:
 		return null
 	var statement = Statement.new(implication)

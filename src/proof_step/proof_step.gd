@@ -30,8 +30,7 @@ func _init(requirement:Requirement, outer_context:SymmetryBox, parent:ProofStep=
 	
 	self.justification = _find_justification()
 	var jreq = justification.get_requirements_for(
-		requirement.get_goal(), 
-		self.context.get_parse_box()
+		requirement.get_goal()
 	)
 	self.justification_valid = jreq != null
 	self.dependencies = _find_dependencies(jreq)
@@ -130,8 +129,7 @@ func _update_justification():
 		dependency.disconnect("proof_status", self, "_on_dependency_proved")
 	self.justification = _find_justification()
 	var jreq = justification.get_requirements_for(
-		requirement.get_goal(), 
-		self.context.get_parse_box()
+		requirement.get_goal()
 	)
 	self.justification_valid = jreq != null
 	self.dependencies = _find_dependencies(jreq)
@@ -153,8 +151,7 @@ func _on_justification_updated():
 	for dependency in dependencies:
 		dependency.disconnect("proof_status", self, "_on_dependency_proved")
 	var jreq = justification.get_requirements_for(
-		requirement.get_goal(), 
-		self.context.get_parse_box()
+		requirement.get_goal()
 	)
 	self.justification_valid = jreq != null
 	self.dependencies = _find_dependencies(jreq)

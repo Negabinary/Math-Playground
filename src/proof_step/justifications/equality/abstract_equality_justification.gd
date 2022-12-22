@@ -11,12 +11,12 @@ func _init(location:Locator):
 
 # INHERITED ===================================================================
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	if location == null:
 		return null
 	if not expr_item.compare(location.get_root()):
 		return null
-	var replace_with = _get_equality_replace_with(location.get_expr_item(), context)
+	var replace_with = _get_equality_replace_with(location.get_expr_item())
 	if replace_with == null:
 		return null
 	var replaced_requirement = Requirement.new(
@@ -26,7 +26,7 @@ func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
 			replace_with
 		)
 	)
-	var requirements = _get_equality_requirements(location.get_expr_item(), context).duplicate()
+	var requirements = _get_equality_requirements(location.get_expr_item()).duplicate()
 	if requirements == null:
 		return null
 	requirements.push_front(replaced_requirement)
@@ -53,11 +53,11 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 
 # VIRTUAL =====================================================================
 
-func _get_equality_replace_with(what:ExprItem, context:AbstractParseBox):
+func _get_equality_replace_with(what:ExprItem):
 	return null
 
 
-func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
+func _get_equality_requirements(what:ExprItem):
 	return []
 
 

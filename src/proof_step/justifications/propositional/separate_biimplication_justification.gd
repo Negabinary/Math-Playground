@@ -20,7 +20,7 @@ func _init(indeces:Array, leftwards:bool):
 	emit_signal("updated")
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	var implication := Locator.new(expr_item).get_descendent(indeces)
 	if implication == null:
 		return null

@@ -22,7 +22,7 @@ func set_contradiction(contradiction:ExprItem):
 	emit_signal("updated")
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	if contradiction == null:
 		return null
 	if expr_item.get_type() != GlobalTypes.NOT or expr_item.get_child_count() != 1:

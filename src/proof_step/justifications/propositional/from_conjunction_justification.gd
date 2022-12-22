@@ -26,7 +26,7 @@ func _is_in_conjunction(expr_item:ExprItem, conj:ExprItem):
 		return false
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	if conjunction == null:
 		return null
 	var conj_statement = Statement.new(conjunction)

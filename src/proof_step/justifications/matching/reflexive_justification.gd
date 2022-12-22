@@ -17,7 +17,7 @@ static func _is_reflexive(expr_item:ExprItem):
 	return true
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	if _is_reflexive(expr_item):
 		return []
 	else:

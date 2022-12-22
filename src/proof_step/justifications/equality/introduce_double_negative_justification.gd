@@ -15,7 +15,7 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	}
 
 
-func _get_equality_replace_with(expr_item:ExprItem, context:AbstractParseBox):
+func _get_equality_replace_with(expr_item:ExprItem):
 	if expr_item.type != GlobalTypes.NOT or expr_item.get_child_count() != 1:
 		return null
 	expr_item = expr_item.get_child(0)
@@ -25,7 +25,7 @@ func _get_equality_replace_with(expr_item:ExprItem, context:AbstractParseBox):
 	return expr_item
 
 
-func _get_equality_requirements(what:ExprItem, context:AbstractParseBox):
+func _get_equality_requirements(what:ExprItem):
 	return []
 
 

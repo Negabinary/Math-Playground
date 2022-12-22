@@ -21,7 +21,7 @@ func set_witness(w:ExprItem):
 	emit_signal("updated")
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	if witness == null:
 		return null
 	if expr_item.get_type() != GlobalTypes.EXISTS or expr_item.get_child_count() != 2:

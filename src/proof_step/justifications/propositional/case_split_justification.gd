@@ -35,7 +35,7 @@ func get_clauses() -> Array: #<ExprItem>
 	return final_options
 
 
-func get_requirements_for(expr_item:ExprItem, context:AbstractParseBox):
+func get_requirements_for(expr_item:ExprItem):
 	if disjunction == null:
 		return null
 	var requirements := []
