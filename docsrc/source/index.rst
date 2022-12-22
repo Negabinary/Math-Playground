@@ -16,7 +16,7 @@ I hope it provides inspiration for what proof assistants could look like, and if
 Getting Started
 ---------------
 
-To begin either go to `https://negabinary.github.io/Math-Playground/ <https://negabinary.github.io/Math-Playground/>`_ or download the latest Windows release from `https://github.com/Negabinary/Math-Playground/releases <https://github.com/Negabinary/Math-Playground/releases>`_. Math Playground was built with a game engine, Godot, so I can target other platforms on request. (Note that in the online version, all files are stored in the browser somehow, so it is not possible to download/share files. I'm working on fixing that.)
+To begin either go to `https://negabinary.github.io/Math-Playground/ <https://negabinary.github.io/Math-Playground/>`_ to use the web version or download the latest Windows release from `https://github.com/Negabinary/Math-Playground/releases <https://github.com/Negabinary/Math-Playground/releases>`_. Math Playground was built with a game engine, Godot, so I can target other platforms on request. (Note that in the online version, all files are stored in the browser somehow, so it is not possible to download/share files. I'm working on fixing that.)
 
 The first time you open Math Playground, download the standard library using the button at the top right. Now you're all set!
 
