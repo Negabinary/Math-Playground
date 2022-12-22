@@ -78,7 +78,10 @@ static func deserialize(j:Dictionary, parse_box:AbstractParseBox, version) -> Ju
 				)
 			)
 		{"justification_type": "MatchingJustification", ..}:
-			return MatchingJustification.new()
+			if "new_type_name" in j:
+				return MatchingJustification.new(ExprItemType.new(j.new_type_name))
+			else:
+				return MatchingJustification.new(ExprItemType.new("???"))
 		{"justification_type": "MissingJustification", ..}:
 			return null
 		{"justification_type": "ModusPonensJustification", ..}:

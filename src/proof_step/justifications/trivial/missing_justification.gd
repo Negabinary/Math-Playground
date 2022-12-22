@@ -22,14 +22,36 @@ func _is_double_negative(expr_item:ExprItem):
 	return false
 
 
-func _is_matchable(locator:ExprItem):
-	if locator:
-		if locator.get_type() == GlobalTypes.EQUALITY:
-			if locator.get_child_count() == 2:
-				if locator.get_child(0).get_child_count() > 0:
-					if locator.get_child(1).get_child_count() > 0:
-						return true
-	return false
+func _is_matchable(expr_item:ExprItem):
+	if expr_item == null:
+		return false
+	if expr_item.get_type() != GlobalTypes.EQUALITY:
+		return false
+	if expr_item.get_child_count() != 2:
+		return false
+	var lhs := expr_item.get_child(0)
+	var rhs := expr_item.get_child(1)
+	var lhs_is_binder = lhs.get_type().is_binder() and lhs.get_child_count() == 2
+	var rhs_is_binder = rhs.get_type().is_binder() and rhs.get_child_count() == 2
+	if lhs_is_binder != rhs_is_binder:
+		return false
+	if lhs_is_binder:
+		if lhs.get_type() != rhs.get_type():
+			return false
+		return true
+	else:
+		if lhs.get_child_count() == 0:
+			return false
+		if rhs.get_child_count() == 0:
+			return false
+		return true
+
+
+func _get_match_variable(expr_item:ExprItem, context:AbstractParseBox) -> ExprItemType:
+	if expr_item.get_child(0).get_type().is_binder() and expr_item.get_child(0).get_child_count() == 2:
+		return ExprItemType.new(expr_item.get_child(0).get_child(0).get_type().get_identifier())
+	else:
+		return ExprItemType.new("???")
 
 
 func _get_or_id_start(locator:Locator) -> int:
@@ -134,7 +156,7 @@ func get_options_for_selection(expr_item:ExprItem, context:AbstractParseBox, sel
 			"match function arguments",
 			_is_matchable(expr_item),
 			load("res://ui/theme/descriptive_buttons/matching.tres"),
-			MatchingJustification.new()
+			MatchingJustification.new(_get_match_variable(expr_item, context))
 		],
 		[
 			"reduce selected lambda expression",
