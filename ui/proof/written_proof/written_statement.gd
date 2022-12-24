@@ -74,10 +74,14 @@ func set_expr_item(new_expr_item:ExprItem, context:AbstractParseBox) -> void:
 
 
 func _build_locators(locator:ContextLocator):
-	for c in locator.get_child_count():
-		_build_locators(locator.get_child(c))
-	locators.append(locator)
-
+	if locator.get_type().is_binder():
+		for c in range(1, locator.get_child_count()):
+			_build_locators(locator.get_child(c))
+		locators.append(locator)
+	else:
+		for c in locator.get_child_count():
+			_build_locators(locator.get_child(c))
+		locators.append(locator)
 
 func deselect():
 	is_selected = false
@@ -132,45 +136,45 @@ func _draw_locator(locator:ContextLocator, x0:float) -> float:
 		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
 			var x1 = _draw_string("(", x0)
 			var x2 = _draw_string("forall ", x1, true)
-			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x3 = _draw_string(locator.get_child(0).get_type().get_identifier(), x2)
 			var x4 = _draw_string(". ", x3)
 			var x5 = _draw_locator(locator.get_child(1), x4)
 			xe = _draw_string(")", x5)
 		else:
 			var x2 = _draw_string("forall ", x0, true)
-			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x3 = _draw_string(locator.get_child(0).get_type().get_identifier(), x2)
 			var x4 = _draw_string(". ", x3)
 			xe = _draw_locator(locator.get_child(1), x4)
 	elif locator.get_type() == GlobalTypes.EXISTS and locator.get_child_count() == 2:
 		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
 			var x1 = _draw_string("(", x0)
 			var x2 = _draw_string("exists ", x1, true)
-			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x3 = _draw_string(locator.get_child(0).get_type().get_identifier(), x2)
 			var x4 = _draw_string(". ", x3, true)
 			var x5 = _draw_locator(locator.get_child(1), x4)
 			xe = _draw_string(")", x5)
 		else:
 			var x2 = _draw_string("exists ", x0, true)
-			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x3 = _draw_string(locator.get_child(0).get_type().get_identifier(), x2)
 			var x4 = _draw_string(". ", x3)
 			xe = _draw_locator(locator.get_child(1), x4)
 	elif locator.get_type() == GlobalTypes.LAMBDA and locator.get_child_count() == 2:
 		if locator.get_parent_type() in [GlobalTypes.AND, GlobalTypes.OR, GlobalTypes.EQUALITY]:
 			var x1 = _draw_string("(", x0)
 			var x2 = _draw_string("fun ", x1, true)
-			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x3 = _draw_string(locator.get_child(0).get_type().get_identifier(), x2)
 			var x4 = _draw_string(". ", x3)
 			var x5 = _draw_locator(locator.get_child(1), x4)
 			xe = _draw_string(")", x5)
 		else:
 			var x2 = _draw_string("fun ", x0, true)
-			var x3 = _draw_locator(locator.get_child(0), x2)
+			var x3 = _draw_string(locator.get_child(0).get_type().get_identifier(), x2)
 			var x4 = _draw_string(". ", x3, true)
 			xe = _draw_locator(locator.get_child(1), x4)
 	elif locator.get_type() == GlobalTypes.LAMBDA and locator.get_child_count() > 2:
 		var x1 = _draw_string("(", x0)
 		var x2 = _draw_string("fun ", x1, true)
-		var x3 = _draw_locator(locator.get_child(0), x2)
+		var x3 = _draw_string(locator.get_child(0).get_type().get_identifier(), x2)
 		var x4 = _draw_string(". ", x3)
 		var x5 = _draw_locator(locator.get_child(1), x4)
 		xe = _draw_string(")", x5)
