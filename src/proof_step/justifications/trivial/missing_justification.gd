@@ -48,8 +48,11 @@ func _is_matchable(expr_item:ExprItem):
 
 
 func _get_match_variable(expr_item:ExprItem, context:AbstractParseBox) -> ExprItemType:
-	if expr_item.get_child(0).get_type().is_binder() and expr_item.get_child(0).get_child_count() == 2:
-		return ExprItemType.new(expr_item.get_child(0).get_child(0).get_type().get_identifier())
+	if _is_matchable(expr_item):
+		if expr_item.get_child(0).get_type().is_binder() and expr_item.get_child(0).get_child_count() == 2:
+			return ExprItemType.new(expr_item.get_child(0).get_child(0).get_type().get_identifier())
+		else:
+			return ExprItemType.new("???")
 	else:
 		return ExprItemType.new("???")
 
