@@ -45,7 +45,7 @@ func is_concludable_context() -> bool:
 	for i in indeces:
 		var type := current.get_type()
 		if not ((type == GlobalTypes.FORALL or type == GlobalTypes.IMPLIES) 
-				and current.get_child_count == 2 
+				and current.get_child_count() == 2 
 				and i == 1):
 			return false
 		current = current.get_child(i)
