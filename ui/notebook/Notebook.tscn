@@ -241,7 +241,7 @@ custom_constants/margin_bottom = 30
 margin_left = 10.0
 margin_top = 30.0
 margin_right = 102.0
-margin_bottom = 69.0
+margin_bottom = 889.0
 custom_constants/separation = 20
 
 [node name="Cells" type="VBoxContainer" parent="HSplitContainer/ScrollContainer/MarginContainer/Container/MarginContainer/VBoxContainer"]
@@ -256,6 +256,12 @@ margin_right = 92.0
 margin_bottom = 39.0
 size_flags_horizontal = 3
 text = "Add Section"
+
+[node name="Control" type="Control" parent="HSplitContainer/ScrollContainer/MarginContainer/Container/MarginContainer/VBoxContainer"]
+margin_top = 59.0
+margin_right = 92.0
+margin_bottom = 859.0
+rect_min_size = Vector2( 0, 800 )
 
 [node name="SelectionHandler" type="Node" parent="." groups=["selection_handler"]]
 script = ExtResource( 3 )
