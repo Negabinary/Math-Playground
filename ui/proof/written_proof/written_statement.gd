@@ -52,11 +52,15 @@ func _get_locator_index(root:ExprItem, indeces:Array) -> int:
 		cut_indeces.pop_front()
 		for i in range(indeces[0]):
 			result += _get_expr_item_size(root.get_child(i))
+		if root.get_type().is_binder():
+			result -= 1
 		return result + _get_locator_index(root.get_child(indeces[0]), cut_indeces)
 
 
 func _get_expr_item_size(expr_item:ExprItem) -> int:
 	var result = 0
+	if expr_item.get_type().is_binder():
+		result -= 1
 	for child in expr_item.get_children():
 		result += _get_expr_item_size(child)
 	return result + 1
