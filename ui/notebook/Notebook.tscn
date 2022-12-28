@@ -6,7 +6,7 @@
 [ext_resource path="res://util/autostring/AutostringLabel.gd" type="Script" id=4]
 [ext_resource path="res://ui/proof/Assumptions.gd" type="Script" id=5]
 [ext_resource path="res://ui/notebook/Notebook.gd" type="Script" id=6]
-[ext_resource path="res://ui/paper_theme/Paper001_4K_Color.png" type="Texture" id=7]
+[ext_resource path="res://ui/paper_theme/Paper001_1K_Color.png" type="Texture" id=7]
 [ext_resource path="res://ui/proof/written_proof_box/WPBRequirements.gd" type="Script" id=8]
 [ext_resource path="res://ui/theme/icons/trash.tres" type="Texture" id=9]
 [ext_resource path="res://ui/proof/written_proof_box/WPBOptions.gd" type="Script" id=10]
@@ -209,6 +209,7 @@ margin_bottom = 592.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 4.0
+follow_focus = true
 scroll_horizontal_enabled = false
 script = ExtResource( 14 )
 
@@ -241,7 +242,7 @@ custom_constants/margin_bottom = 30
 margin_left = 10.0
 margin_top = 30.0
 margin_right = 102.0
-margin_bottom = 889.0
+margin_bottom = 489.0
 custom_constants/separation = 20
 
 [node name="Cells" type="VBoxContainer" parent="HSplitContainer/ScrollContainer/MarginContainer/Container/MarginContainer/VBoxContainer"]
@@ -260,8 +261,8 @@ text = "Add Section"
 [node name="Control" type="Control" parent="HSplitContainer/ScrollContainer/MarginContainer/Container/MarginContainer/VBoxContainer"]
 margin_top = 59.0
 margin_right = 92.0
-margin_bottom = 859.0
-rect_min_size = Vector2( 0, 800 )
+margin_bottom = 459.0
+rect_min_size = Vector2( 0, 400 )
 
 [node name="SelectionHandler" type="Node" parent="." groups=["selection_handler"]]
 script = ExtResource( 3 )
