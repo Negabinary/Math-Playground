@@ -28,10 +28,11 @@ func get_all_items() -> Array:
 
 func deserialize_cell(cell_json:Dictionary) -> void:
 	var new_cell := []
-	for item in cell_json.items:
-		var new_item := deserialise_item(item, bottom_proof_box)
-		bottom_proof_box = new_item.get_next_proof_box()
-		new_cell.append(new_item)
+	if cell_json.compiled:
+		for item in cell_json.items:
+			var new_item := deserialise_item(item, bottom_proof_box)
+			bottom_proof_box = new_item.get_next_proof_box()
+			new_cell.append(new_item)
 	cells.append(new_cell)
 
 
