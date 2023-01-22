@@ -21,6 +21,7 @@ func new_cell(json = null, version = 0) -> void:
 	node.connect("request_delete", self, "delete_cell", [node])
 	node.connect("request_move_up", self, "move_cell_up", [node])
 	node.connect("request_move_down", self, "move_cell_down", [node])
+	node.connect("request_insert", self, "insert_cell", [node])
 
 
 func move_cell_up(cell:NotebookCell) -> void:
@@ -38,6 +39,20 @@ func move_cell_up(cell:NotebookCell) -> void:
 func move_cell_down(cell:NotebookCell) -> void:
 	if cell.get_index() < $"%Cells".get_child_count() - 1:
 		move_cell_up($"%Cells".get_child(cell.get_index() + 1))
+
+
+func insert_cell(before:NotebookCell) -> void:
+	var idx = before.get_index()
+	var node := CELL_SCENE.instance()
+	node.selection_handler = selection_handler
+	$"%Cells".add_child(node)
+	$"%Cells".move_child(node, idx)
+	node.set_previous_cell(_get_cell_before(idx))
+	before.set_previous_cell(node)
+	node.connect("request_delete", self, "delete_cell", [node])
+	node.connect("request_move_up", self, "move_cell_up", [node])
+	node.connect("request_move_down", self, "move_cell_down", [node])
+	node.connect("request_insert", self, "insert_cell", [node])
 
 
 func delete_cell(cell:NotebookCell) -> void:

@@ -4,6 +4,7 @@ class_name NotebookCell
 signal request_delete
 signal request_move_up
 signal request_move_down
+signal request_insert
 var selection_handler : SelectionHandler
 
 
@@ -14,6 +15,7 @@ func _ready():
 	$"%CancelButton".connect("pressed", self, "hide_edit_area")
 	$"%UpButton".connect("pressed", self, "emit_signal", ["request_move_up"])
 	$"%DownButton".connect("pressed", self, "emit_signal", ["request_move_down"])
+	$"%InsertButton".connect("pressed", self, "emit_signal", ["request_insert"])
 	$"%DeleteButton".connect("pressed", self, "emit_signal", ["request_delete"])
 	$"%Button".connect("pressed", self, "_test_types")
 	top_proof_box.get_parse_box().connect("update_rescues", self, "_on_update_rescues")

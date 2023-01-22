@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://ui/notebook/cell.gd" type="Script" id=1]
 [ext_resource path="res://ui/notebook/cell/TextBox.gd" type="Script" id=2]
 [ext_resource path="res://ui/paper_theme/scribble/scribble.png" type="Texture" id=3]
 [ext_resource path="res://ui/notebook/cell/UseArea.gd" type="Script" id=4]
+[ext_resource path="res://ui/theme/icons/trash.tres" type="Texture" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 content_margin_left = 15.0
@@ -44,19 +45,19 @@ custom_constants/separation = 15
 
 [node name="Panel" type="PanelContainer" parent="VBoxContainer"]
 margin_right = 745.0
-margin_bottom = 29.0
+margin_bottom = 30.0
 custom_styles/panel = SubResource( 2 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Panel"]
 margin_top = 4.0
 margin_right = 745.0
-margin_bottom = 25.0
+margin_bottom = 26.0
 alignment = 2
 
 [node name="Title" type="LineEdit" parent="VBoxContainer/Panel/HBoxContainer"]
 unique_name_in_owner = true
-margin_right = 582.0
-margin_bottom = 21.0
+margin_right = 581.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
 theme_type_variation = "LineEditSectionHeader"
 
@@ -80,10 +81,10 @@ text = "Cancel"
 
 [node name="ParseButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 586.0
-margin_top = 2.0
-margin_right = 635.0
-margin_bottom = 21.0
+margin_left = 585.0
+margin_right = 634.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
 text = "Parse"
 
@@ -104,30 +105,38 @@ autowrap = true
 
 [node name="UpButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 639.0
-margin_top = 2.0
-margin_right = 660.0
-margin_bottom = 21.0
+margin_left = 638.0
+margin_right = 659.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
 text = "^"
 
 [node name="DownButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 664.0
-margin_top = 2.0
-margin_right = 684.0
-margin_bottom = 21.0
+margin_left = 663.0
+margin_right = 683.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 22 )
 size_flags_vertical = 8
 text = "v"
 
+[node name="InsertButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 687.0
+margin_right = 709.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 0, 22 )
+size_flags_vertical = 8
+text = "+"
+
 [node name="DeleteButton" type="Button" parent="VBoxContainer/Panel/HBoxContainer"]
 unique_name_in_owner = true
-margin_left = 688.0
-margin_top = 2.0
+margin_left = 713.0
 margin_right = 745.0
-margin_bottom = 21.0
+margin_bottom = 22.0
 size_flags_vertical = 8
-text = "Delete"
+icon = ExtResource( 5 )
 
 [node name="SuspensionPostit" type="HBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
@@ -199,7 +208,7 @@ text = "Test Types"
 
 [node name="Edit" type="VBoxContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 44.0
+margin_top = 45.0
 margin_right = 745.0
 margin_bottom = 367.0
 size_flags_horizontal = 3
@@ -222,7 +231,7 @@ __meta__ = {
 unique_name_in_owner = true
 margin_top = 254.0
 margin_right = 745.0
-margin_bottom = 311.0
+margin_bottom = 310.0
 rect_min_size = Vector2( 0, 30 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -230,9 +239,9 @@ custom_colors/default_color = Color( 0, 0, 0, 1 )
 fit_content_height = true
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer/Edit"]
-margin_top = 315.0
+margin_top = 314.0
 margin_right = 745.0
-margin_bottom = 323.0
+margin_bottom = 322.0
 
 [node name="UseArea" type="MarginContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
