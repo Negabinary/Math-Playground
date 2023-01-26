@@ -106,6 +106,7 @@ func eval():
 	elif parse_result.items.size() == 0:
 		$"%Error".text = "Section empty!"
 	else:
+		$"%Error".text = ""
 		hide_edit_area()
 		$"%UseArea".set_items(parse_result.items)
 		emit_signal("bottom_proof_box_changed")
