@@ -10,7 +10,6 @@ enum BINDER {NOT_BINDER, BINDER}
 var binder : int = BINDER.NOT_BINDER
 
 var fm_expected_args := 1
-var fm_strings := []
 var two_line := false
 var uid:int
 const _singleton := {counter = 0}
@@ -24,7 +23,6 @@ static func _get_id() -> int:
 
 func _init(ident:String, _type_info:=""):
 	identifier = ident
-	fm_strings = [identifier]
 	uid = _get_id()
 
 
@@ -40,7 +38,6 @@ func rename(new_name:String):
 	if new_name == "":
 		new_name = "???"
 	identifier = new_name
-	fm_strings = [identifier]
 	emit_signal("updated")
 
 
@@ -49,14 +46,6 @@ func get_identifier() -> String:
 
 func _to_string():
 	return identifier # + str(n)
-
-
-func get_fm_arg_count():
-	return fm_strings.size() -1
-
-
-func get_fm_strings():
-	return fm_strings
 
 
 func get_binder_type() -> int:

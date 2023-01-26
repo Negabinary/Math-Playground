@@ -7,7 +7,7 @@ const keywords = [
 	"_import_", "_define_", "_assume_", "_show_", 
 	"_forall_", "_exists_", "_fun_", "_if_", "_then_",
 	".", ",", ":", "(", ")", "->", "_->_", "=", "as",
-	"and", "or"
+	"and", "or", "lambda"
 ]
 
 
