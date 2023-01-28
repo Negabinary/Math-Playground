@@ -1,7 +1,12 @@
 extends HBoxContainer
 
-func init(assumption:ExprItem, proof_box:SymmetryBox, selection_handler:SelectionHandler):
-	$"%Star".init(assumption, proof_box, selection_handler)
+func init(assumption:ExprItem, proof_box:SymmetryBox, selection_handler:SelectionHandler, unstar=null):
+	if unstar:
+		$"%Star".hide()
+		$"%UnStar".show()
+		$"%UnStar".connect("pressed", unstar, "emit_signal", ["request_unstar"])
+	else:
+		$"%Star".init(assumption, proof_box, selection_handler)
 	$"%Use".init(assumption, proof_box, selection_handler)
 	$"%Instantiate".init(assumption, proof_box, selection_handler)
 	$"%CaseSplit".init(assumption, proof_box, selection_handler)

@@ -21,6 +21,16 @@ margin_right = 510.0
 margin_bottom = 22.0
 script = ExtResource( 10 )
 
+[node name="UnStar" type="Button" parent="."]
+unique_name_in_owner = true
+visible = false
+margin_right = 32.0
+margin_bottom = 22.0
+theme_type_variation = "ButtonStar"
+toggle_mode = true
+pressed = true
+icon = ExtResource( 8 )
+
 [node name="Star" type="Button" parent="."]
 unique_name_in_owner = true
 margin_right = 32.0
