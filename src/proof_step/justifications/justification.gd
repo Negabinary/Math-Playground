@@ -31,6 +31,11 @@ func get_justification_description() -> String:
 	return ""
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	assert(false) # virtual
+	return null
+
+
 func get_summary(expr_item:ExprItem, context:AbstractParseBox) -> Array:
 	var result = []
 	var reqs = get_requirements_for(expr_item)

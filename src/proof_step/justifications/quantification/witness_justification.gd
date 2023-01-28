@@ -16,6 +16,12 @@ func _init(witness:ExprItem=null):
 	self.witness = witness
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		witness.deep_replace_types(matching) if witness else null
+	)
+
+
 func set_witness(w:ExprItem):
 	witness = w
 	emit_signal("updated")

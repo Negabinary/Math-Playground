@@ -65,6 +65,11 @@ func _get_equality_options(what:ExprItem, context:AbstractParseBox):
 	return [Justification.LabelOption.new(ConstantAutostring.new("Abstract justification used"), true)]
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	assert(false) # virtual
+	return null
+
+
 # LOCATION ====================================================================
 
 func set_location(location:Locator):

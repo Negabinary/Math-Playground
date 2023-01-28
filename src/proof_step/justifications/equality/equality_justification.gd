@@ -10,6 +10,14 @@ func _init(location:Locator, replace_with=null, forwards:=true).(location):
 	self.forwards = forwards
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		location.deep_replace_types(matching),
+		replace_with.deep_replace_types(matching) if replace_with else null,
+		forwards
+	)
+
+
 func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,

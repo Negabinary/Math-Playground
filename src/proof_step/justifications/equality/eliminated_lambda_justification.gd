@@ -20,6 +20,15 @@ func _init(location:Locator, replace_value = null, replace_with:ExprItemType = E
 	self.replace_positions = replace_positions
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		location.deep_replace_types(matching),
+		replace_value.deep_replace_types(matching) if replace_value else null,
+		replace_with,
+		replace_positions
+	)
+
+
 func set_location(location:Locator):
 	.set_location(location)
 	set_replace_value(replace_value)

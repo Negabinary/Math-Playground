@@ -255,5 +255,9 @@ func get_justification_text(parse_box:AbstractParseBox) -> Autostring:
 	return ConstantAutostring.new("missing justification")
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new()
+
+
 func _get_all_types() -> Dictionary:
 	return {}

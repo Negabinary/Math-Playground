@@ -45,5 +45,9 @@ func _get_all_types() -> Dictionary:
 	return {}
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new()
+
+
 func _request_replace(justification:Justification):
 	emit_signal("request_replace", justification)

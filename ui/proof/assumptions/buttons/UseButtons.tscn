@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://ui/proof/assumptions/buttons/InstantiateButton.gd" type="Script" id=1]
 [ext_resource path="res://ui/proof/assumptions/buttons/UseButton.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://ui/proof/assumptions/buttons/AndStarButton.gd" type="Script" id=11]
 [ext_resource path="res://ui/proof/assumptions/buttons/ImplStarButton.gd" type="Script" id=12]
 [ext_resource path="res://ui/proof/assumptions/buttons/CaseSplitButton.gd" type="Script" id=13]
+[ext_resource path="res://ui/proof/assumptions/buttons/refining/RefineDialog.tscn" type="PackedScene" id=14]
 
 [node name="UseButtons" type="HBoxContainer"]
 margin_left = 80.0
@@ -108,3 +109,5 @@ margin_bottom = 22.0
 theme_type_variation = "ButtonStar"
 icon = ExtResource( 6 )
 script = ExtResource( 12 )
+
+[node name="RefineDialog" parent="." instance=ExtResource( 14 )]

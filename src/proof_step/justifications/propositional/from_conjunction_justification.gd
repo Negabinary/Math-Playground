@@ -17,6 +17,12 @@ func _init(conjunction=null):
 	emit_signal("updated")
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		conjunction.deep_replace_types(matching) if conjunction else null
+	)
+
+
 func _is_in_conjunction(expr_item:ExprItem, conj:ExprItem):
 	if expr_item.compare(conj):
 		return true

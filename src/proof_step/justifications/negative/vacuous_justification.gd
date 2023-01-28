@@ -9,6 +9,10 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	}
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new()
+
+
 func get_requirements_for(expr_item:ExprItem):
 	if expr_item.get_type() != GlobalTypes.IMPLIES or expr_item.get_child_count() != 2:
 		return null

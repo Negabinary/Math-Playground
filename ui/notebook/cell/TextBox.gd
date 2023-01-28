@@ -1,4 +1,5 @@
 extends TextEdit
+class_name ExprItemEntry
 
 export var auto_expand := true
 

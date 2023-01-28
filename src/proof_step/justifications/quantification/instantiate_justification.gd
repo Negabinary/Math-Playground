@@ -6,9 +6,21 @@ var new_type : ExprItemType
 var existential : ExprItem
 
 
-func _init(new_type_name:="x", existential_fact=null):
-	self.new_type = ExprItemType.new(new_type_name)
+func _init(new_type="x", existential_fact=null):
+	if new_type is String:
+		self.new_type = ExprItemType.new(new_type)
+	elif new_type is ExprItemType:
+		self.new_type = new_type
+	else:
+		self.new_type = ExprItemType.new("???")
 	self.existential = existential_fact
+
+
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		new_type,
+		existential.deep_replace_types(matching) if existential else null
+	)
 
 
 func serialize(parse_box:AbstractParseBox) -> Dictionary:

@@ -17,6 +17,12 @@ func _init(disjunction=null):
 	emit_signal("updated")
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		disjunction.deep_replace_types(matching) if disjunction else null
+	)
+
+
 func set_disjunction(disjunction:ExprItem):
 	self.disjunction = disjunction
 	emit_signal("updated")

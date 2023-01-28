@@ -3,7 +3,6 @@ class_name MatchingJustification
 
 var new_type : ExprItemType # option
 
-# TODO: Multiple matchings?
 
 func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
@@ -18,6 +17,12 @@ func _init(new_type:ExprItemType):
 		self.new_type = ExprItemType.new("???")
 	else:
 		self.new_type = new_type
+
+
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		new_type
+	)
 
 
 func get_requirements_for(expr_item:ExprItem):

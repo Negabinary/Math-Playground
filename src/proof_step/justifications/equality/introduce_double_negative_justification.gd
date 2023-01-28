@@ -2,6 +2,10 @@ extends Justification
 class_name IntroducedDoubleNegativeJustification
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new()
+
+
 func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=2,

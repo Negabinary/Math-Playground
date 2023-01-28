@@ -16,6 +16,14 @@ func _init(keep_definition_ids=[], keep_condition_ids=[],definition_identifier_n
 			definition_identifiers.append(ExprItemType.new(i))
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		keep_condition_ids,
+		keep_definition_ids,
+		definition_identifiers
+	)
+
+
 func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	if definition_identifiers:
 		var definition_identifier_names := []

@@ -154,6 +154,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/expr_item/expr_item_builder.gd"
 }, {
+"base": "TextEdit",
+"class": "ExprItemEntry",
+"language": "GDScript",
+"path": "res://ui/notebook/cell/TextBox.gd"
+}, {
 "base": "Reference",
 "class": "ExprItemParser2",
 "language": "GDScript",
@@ -359,6 +364,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/proof_step/proof_step.gd"
 }, {
+"base": "Reference",
+"class": "Provable",
+"language": "GDScript",
+"path": "res://src/provable/provable.gd"
+}, {
+"base": "Reference",
+"class": "Refinable",
+"language": "GDScript",
+"path": "res://src/provable/refinable.gd"
+}, {
 "base": "Justification",
 "class": "RefineJustification",
 "language": "GDScript",
@@ -514,6 +529,7 @@ _global_script_class_icons={
 "ExprItemAutostring": "",
 "ExprItemAutostringLabel": "",
 "ExprItemBuilder": "",
+"ExprItemEntry": "",
 "ExprItemParser2": "",
 "ExprItemTagHelper": "",
 "ExprItemType": "",
@@ -555,6 +571,8 @@ _global_script_class_icons={
 "Parser2": "",
 "ParserInputTape": "",
 "ProofStep": "",
+"Provable": "",
+"Refinable": "",
 "RefineJustification": "",
 "ReflexiveJustification": "",
 "RelayAutostring": "",

@@ -16,6 +16,12 @@ func _init(keep_ids:Array):
 	emit_signal("updated")
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		keep_ids
+	)
+
+
 func set_keep_id(value, id):
 	keep_ids[id] = value
 	emit_signal("updated")

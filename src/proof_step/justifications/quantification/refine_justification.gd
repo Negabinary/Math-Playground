@@ -7,6 +7,12 @@ func _init(general_form:ExprItem=null):
 	self.general = general_form
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		general.deep_replace_types(matching) if general else null
+	)
+
+
 func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	return {
 		justification_version=1,

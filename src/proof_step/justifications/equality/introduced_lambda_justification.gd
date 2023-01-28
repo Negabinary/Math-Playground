@@ -1,9 +1,14 @@
 extends AbstractEqualityJustification
 class_name IntroducedLambdaJustification
 
-
 func _init(x).(x):
 	pass
+
+
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		location.deep_replace_types(matching)
+	)
 
 
 func serialize(parse_box:AbstractParseBox) -> Dictionary:

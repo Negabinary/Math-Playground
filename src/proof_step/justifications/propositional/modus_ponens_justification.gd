@@ -18,6 +18,12 @@ func _init(implication=null):
 	emit_signal("updated")
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		implication.deep_replace_types(matching) if implication else null
+	)
+
+
 func set_implication(implication:ExprItem):
 	self.implication = implication
 	emit_signal("updated")

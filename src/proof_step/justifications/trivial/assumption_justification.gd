@@ -17,6 +17,8 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 		justification_type="AssumptionJustification"
 	}
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new()
 
 func _get_all_types() -> Dictionary:
 	return {}

@@ -20,6 +20,13 @@ func _init(indeces:Array, leftwards:bool):
 	emit_signal("updated")
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		indeces,
+		leftwards
+	)
+
+
 func get_requirements_for(expr_item:ExprItem):
 	var implication := Locator.new(expr_item).get_descendent(indeces)
 	if implication == null:

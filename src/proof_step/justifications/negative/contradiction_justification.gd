@@ -17,6 +17,12 @@ func _init(contradiction=null):
 	emit_signal("updated")
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new(
+		contradiction.deep_replace_types(matching) if contradiction else null
+	)
+
+
 func set_contradiction(contradiction:ExprItem):
 	self.contradiction = contradiction
 	emit_signal("updated")

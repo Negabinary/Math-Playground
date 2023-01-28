@@ -9,6 +9,10 @@ func serialize(parse_box:AbstractParseBox) -> Dictionary:
 	}
 
 
+func deep_replace_types(matching:Dictionary) -> Justification:
+	return get_script().new()
+
+
 func _get_clauses(expr_item:ExprItem) -> Array: #<ExprItem>
 	var exploring := [expr_item]
 	var final_options := []
