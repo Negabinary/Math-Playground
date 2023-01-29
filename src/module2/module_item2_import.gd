@@ -3,12 +3,18 @@ class_name ModuleItem2Import
 
 var module
 var name : String
-var namespace := false
 var error := false
+var ipbox : ImportParseBox
 
 func _init(context:SymmetryBox, name:String, namespace:=false):
 	module = Module2Loader.get_module(name)
 	if module:
+		ipbox = ImportParseBox.new(
+			context.get_parse_box(),
+			name,
+			module.get_final_proof_box().get_parse_box(),
+			namespace
+		)
 		# Todo: switch this to .get_child_extended_with()
 		proof_box = SymmetryBox.new(
 			ImportJustificationBox.new(
@@ -16,12 +22,7 @@ func _init(context:SymmetryBox, name:String, namespace:=false):
 				name,
 				module.get_final_proof_box().get_justification_box()
 			),
-			ImportParseBox.new(
-				context.get_parse_box(),
-				name,
-				module.get_final_proof_box().get_parse_box(),
-				namespace
-			)
+			ipbox
 		)
 		self.name = name
 	else:
@@ -36,12 +37,19 @@ func get_final_proof_box() -> SymmetryBox:
 	return module.get_proof_box()
 
 
+func is_using_namespace() -> bool:
+	return ipbox.is_using_namespace()
+
+func set_namespace(val:bool) -> void:
+	ipbox.set_namespace(val)
+
+
 func get_module():
 	return module
 
 
 func serialise():
-	return {kind="import", module=name, namespace=namespace}
+	return {kind="import", module=name, namespace=ipbox.is_using_namespace()}
 
 
 func take_type_census(census:TypeCensus) -> TypeCensus:

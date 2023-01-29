@@ -1,12 +1,14 @@
-extends HBoxContainer
+extends Control
 
 var item
 
 func initialise(item:ModuleItem2Import, selection_handler:SelectionHandler):
 	self.item = item
-	$Name.text = item.get_import_name()
-	$BookButton/Book.module = item.get_module()
-	$BookButton/Book.selection_handler = selection_handler
+	$"%Name".text = item.get_import_name()
+	$"%Book".module = item.get_module()
+	$"%Book".selection_handler = selection_handler
+	$"%NamespaceButton".pressed = item.is_using_namespace()
+	$"%NamespaceButton".connect("toggled", item, "set_namespace")
 
 func serialise():
 	return item.serialise()

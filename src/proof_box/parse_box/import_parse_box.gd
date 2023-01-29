@@ -10,8 +10,12 @@ var parent : AbstractParseBox
 var import_name : String
 var import_box : AbstractParseBox
 var import_map : Dictionary # <String, AbstractParseBox>
+var unnamed_type_map :TwoWayParseMap
+var named_type_map : TwoWayParseMap
 var imported_type_map : TwoWayParseMap
 var namespace : bool
+var given_listeners := [] # <IdentifierListener>
+var dotted_listeners := [] # <IdentifierListener>
 
 
 func _init(parent:AbstractParseBox, import_name:String, import_box:AbstractParseBox, namespace:bool):
@@ -19,9 +23,22 @@ func _init(parent:AbstractParseBox, import_name:String, import_box:AbstractParse
 	self.import_box = import_box
 	self.namespace = namespace
 	self.parent = parent
-	imported_type_map = import_box.get_all_types()
-	if namespace:
-		imported_type_map = imported_type_map.name_module(import_name)
+	unnamed_type_map = import_box.get_all_types()
+	named_type_map = unnamed_type_map.name_module(import_name)
+	imported_type_map = named_type_map if namespace else unnamed_type_map
+
+
+func is_using_namespace() -> bool:
+	return namespace
+
+
+func set_namespace(val:bool) -> void:
+	namespace = val
+	imported_type_map = named_type_map if namespace else unnamed_type_map
+	for gl in given_listeners.duplicate():
+		gl.notify_rename()
+	for dl in dotted_listeners.duplicate():
+		dl.notify_rename()
 
 
 # Virtual Methods =========================================
@@ -41,12 +58,17 @@ func parse(ib:IdentifierBuilder) -> ExprItemType:
 func get_il_for(type:ExprItemType) -> IdentifierListener:
 	var imported := imported_type_map.get_il_for(type)
 	if imported == null:
-		return parent.get_il_for(type)
+		var il := parent.get_il_for(type)
+		dotted_listeners.append(il)
+		return il
 	else:
+		given_listeners.append(imported)
 		return imported
 
 
 func remove_listener(il:IdentifierListener) -> void:
+	given_listeners.erase(il)
+	dotted_listeners.erase(il)
 	parent.remove_listener(il)
 
 
