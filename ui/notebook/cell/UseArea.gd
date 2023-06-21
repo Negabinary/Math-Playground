@@ -4,6 +4,7 @@ onready var scene_cell_definition := load("res://ui/notebook/cell/CellDefinition
 onready var scene_cell_assumption := load("res://ui/notebook/cell/CellAssumption.tscn")
 onready var scene_cell_show := load("res://ui/notebook/cell/CellShow.tscn")
 onready var scene_cell_import := load("res://ui/notebook/cell/CellImport.tscn")
+onready var scene_cell_implement := load("res://ui/notebook/cell/CellImplement.tscn")
 
 onready var selection_handler : SelectionHandler = get_tree().get_nodes_in_group("selection_handler")[0]
 
@@ -37,6 +38,10 @@ func set_items(items:Array):
 			nc = scene_cell_import.instance()
 			$"%Use".add_child(nc)
 			nc.initialise(item, selection_handler)
+		elif item is ModuleItem2Implement:
+			nc = scene_cell_implement.instance()
+			$"%Use".add_child(nc)
+			nc.initialise(item, selection_handler)
 	show()
 
 
@@ -52,6 +57,8 @@ func deserialise(json_items:Array, context, version):
 			nc = scene_cell_show.instance()
 		elif item.kind == "import":
 			nc = scene_cell_import.instance()
+		elif item.kind == "implement":
+			nc = scene_cell_implement.instance()
 		$"%Use".add_child(nc)
 		nc.deserialise(item, context, version, selection_handler)
 		context = nc.item.get_next_proof_box()

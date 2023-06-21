@@ -20,3 +20,7 @@ func serialise():
 func take_type_census(census:TypeCensus) -> TypeCensus:
 	census.add_entry("assumption", self, assumption.get_all_types())
 	return census
+
+
+func get_all_assumptions(recursive:bool) -> Array: #<EI>
+	return [assumption]

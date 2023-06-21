@@ -13,6 +13,9 @@ func _init(context:SymmetryBox, statement:ExprItem, proof=null, version=0):
 	if proof is Dictionary:
 		ProofStep.deserialize_proof(ProofStep, proof, context, version)
 
+func get_all_theorems(recursive:bool) -> Array: #<EI>
+	return [goal]
+
 func get_as_assumption():
 	return ModuleItem2Assumption.new(context, goal)
 

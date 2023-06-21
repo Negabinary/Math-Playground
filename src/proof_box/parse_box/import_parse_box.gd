@@ -86,6 +86,26 @@ func is_inside(other:AbstractParseBox) -> bool:
 	return other == self or parent.is_inside(other) or import_box.is_inside(other)
 
 
+func has_import(import:String) -> LookupListener:
+	if import == import_name:
+		return LookupListener.new(import, true)
+	var x = import_box.has_import(import)
+	if x.get_value():
+		return x
+	else:
+		return parent.has_import(import)
+
+
+func remove_import_listener(listener:LookupListener):
+	if listener.get_key() == import_name:
+		pass
+	var x = import_box.has_import(listener.get_key())
+	if x.get_value():
+		import_box.remove_import_listener(listener)
+		import_box.remove_import_listener(x)
+	else:
+		parent.remove_import_listener(listener)
+
 # Addition Listeners ======================================
 
 func add_addition_listener(al:ParseAdditionListener) -> void:

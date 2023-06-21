@@ -30,7 +30,7 @@ func _on_pressed():
 	))
 	var inner_provable := provable
 	if assumption.get_conditions().size() > 0:
-		inner_provable = provable.get_child(0)
+		inner_provable = provable.get_child(1)
 		inner_provable.justify(ModusPonensJustification.new(
 			refined
 		))

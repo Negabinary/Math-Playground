@@ -46,6 +46,8 @@ func set_parent(new_parent:AbstractParseBox, types_to_keep:Array):
 		parent.remove_listener(l)
 	for al in add_listeners:
 		parent.remove_addition_listener(al)
+	for v in import_listeners.get_all_values():
+		parent.remove_import_listener(v)
 	parent = new_parent
 	if missing_types.size() > 0:
 		_add_rescued_types(missing_types, old_types_map, types_to_keep)
@@ -143,6 +145,7 @@ func _on_addition_notify(type:ExprItemType):
 		for l in type_to_listeners[type].duplicate():
 			l.notify_rename()
 
+
 # Addition Listeners ======================================
 
 var add_listeners = []
@@ -190,3 +193,15 @@ func get_listeners_for(identifier:String) -> Array:
 
 func is_inside(other:AbstractParseBox) -> bool:
 	return other == self or parent.is_inside(other)
+
+
+var import_listeners = ListenerMap.new()
+func has_import(import:String) -> LookupListener:
+	var parent_listener := parent.has_import(import)
+	import_listeners.add_listener(parent_listener)
+	return parent_listener
+
+
+func remove_import_listener(listener:LookupListener):
+	import_listeners.remove_listener(listener)
+	parent.remove_import_listener(listener)

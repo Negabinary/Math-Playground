@@ -27,6 +27,10 @@ func is_inside(other:AbstractParseBox) -> bool:
 	return other == self
 
 
+func has_import(import:String) -> LookupListener:
+	return LookupListener.new(import, false)
+
+
 # Addition Listeners ======================================
 
 func add_addition_listener(al:ParseAdditionListener) -> void:

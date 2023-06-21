@@ -2,7 +2,7 @@ class_name Eaters
 
 
 const keywords = [
-	"import", "define", "assume", "show", 
+	"import", "define", "assume", "show", "implement",
 	"forall", "exists", "fun", "if", "then",
 	"_import_", "_define_", "_assume_", "_show_", 
 	"_forall_", "_exists_", "_fun_", "_if_", "_then_",

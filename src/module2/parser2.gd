@@ -35,7 +35,7 @@ static func split_toplevel(token_array) -> Array:
 	var cuml_statement := []
 	var result := []
 	for token in token_array:
-		if token.contents in ["import","define","assume", "show"]:
+		if token.contents in ["import","define","assume", "show", "implement"]:
 			if len(cuml_statement) > 0:
 				result.append(cuml_statement)
 				cuml_statement = []

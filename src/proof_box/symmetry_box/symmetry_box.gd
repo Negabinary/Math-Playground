@@ -100,3 +100,7 @@ func get_justification_box() -> AbstractJustificationBox:
 
 func get_parse_box() -> AbstractParseBox:
 	return parse_box
+
+
+func get_import_listener() -> Array: #<String>
+	return parse_box.get_all_imports()

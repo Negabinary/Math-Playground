@@ -39,6 +39,43 @@ func eat_toplevel(input_tape:ParserInputTape):
 				}
 			proof_box = def_item.get_next_proof_box()
 			return {error=false, type="import", items=[def_item]}
+		"implement":
+			var module_name := Eaters.eat_name(input_tape)
+			if module_name.error:
+				return module_name
+			if !input_tape.try_eat("as"):
+				return {
+					error=true,
+					error_type="Expected as binding after: ",
+					token=input_tape.previous()
+				}
+			var new_name := Eaters.eat_name(input_tape)
+			if new_name.error:
+				return new_name
+			var item := ModuleItem2Implement.new(
+				proof_box, module_name.name, ExprItemType.new(new_name.name)
+			)
+			match item.error:
+				"module":
+					return {
+						error=true,
+						error_type="Could not load module: ", 
+						token=input_tape.previous()
+					}
+				"imports":
+					return {
+						error=true,
+						error_type="Missing some imports: " + str(item.missing_imports) + " in: ", 
+						token=input_tape.previous()
+					}
+				"empty":
+					return {
+						error=true,
+						error_type="Module contains nothing of interest: ", 
+						token=input_tape.previous()
+					}
+			proof_box = item.get_next_proof_box()
+			return {error=false, type="implement", items=[item]}
 		"define":
 			var name = Eaters.eat_name(input_tape)
 			if name.error:

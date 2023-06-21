@@ -1,0 +1,92 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://ui/theme/fonts/ui_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://ui/notebook/cell/ExprItemAutostringLabel.gd" type="Script" id=2]
+[ext_resource path="res://ui/components/expr_item_type_edit.gd" type="Script" id=3]
+[ext_resource path="res://ui/proof/assumptions/buttons/UseButtons.tscn" type="PackedScene" id=4]
+[ext_resource path="res://ui/notebook/cell/CellImplement.gd" type="Script" id=5]
+
+[node name="CellImport" type="VBoxContainer"]
+margin_right = 755.0
+margin_bottom = 17.0
+custom_constants/separation = 20
+script = ExtResource( 5 )
+
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 755.0
+margin_bottom = 17.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+margin_right = 65.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 45, 0 )
+theme_type_variation = "LabelQuiet"
+text = "implement "
+
+[node name="Name" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+margin_left = 69.0
+margin_right = 78.0
+margin_bottom = 17.0
+theme_type_variation = "LabelMath"
+custom_fonts/font = ExtResource( 1 )
+text = "0"
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+margin_left = 82.0
+margin_right = 98.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 10, 0 )
+theme_type_variation = "LabelQuiet"
+text = "as "
+
+[node name="Definition" type="LineEdit" parent="VBoxContainer"]
+unique_name_in_owner = true
+margin_left = 102.0
+margin_right = 150.0
+margin_bottom = 17.0
+theme_type_variation = "LineEditQuiet"
+expand_to_text_length = true
+script = ExtResource( 3 )
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+margin_top = 37.0
+margin_right = 755.0
+margin_bottom = 58.0
+
+[node name="Label" type="Control" parent="HBoxContainer3"]
+margin_right = 76.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 76, 0 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer3"]
+margin_left = 80.0
+margin_right = 755.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+scroll_vertical_enabled = false
+
+[node name="Assumption" type="Label" parent="HBoxContainer3/ScrollContainer"]
+unique_name_in_owner = true
+margin_bottom = 21.0
+theme_type_variation = "LabelMath"
+script = ExtResource( 2 )
+multiline = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 78.0
+margin_right = 755.0
+margin_bottom = 100.0
+custom_constants/separation = 20
+
+[node name="Label2" type="Control" parent="HBoxContainer"]
+margin_right = 76.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 76, 0 )
+
+[node name="UseButtons" parent="HBoxContainer" instance=ExtResource( 4 )]
+unique_name_in_owner = true
+margin_left = 96.0
+margin_right = 607.0

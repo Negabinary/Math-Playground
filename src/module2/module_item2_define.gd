@@ -18,3 +18,6 @@ func serialise():
 func take_type_census(census:TypeCensus) -> TypeCensus:
 	census.remove_entry(definition)
 	return census
+
+func get_all_definitions(recursive:bool) -> Array: #<EI>
+	return [definition]

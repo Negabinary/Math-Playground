@@ -39,6 +39,11 @@ func is_inside(other:AbstractParseBox) -> bool:
 	return false
 
 
+func has_import(import:String) -> LookupListener:
+	assert(false) # virtual
+	return null
+
+
 # Virtual : Listeners -------------------------------------
 
 func remove_listener(il:IdentifierListener) -> void:
@@ -55,6 +60,10 @@ func add_addition_listener(al:ParseAdditionListener) -> void:
 
 
 func remove_addition_listener(al:ParseAdditionListener) -> void:
+	assert(false) # virtual
+
+
+func remove_import_listener(listener:LookupListener) -> void:
 	assert(false) # virtual
 
 

@@ -29,6 +29,34 @@ func _init(context:SymmetryBox, name:String, namespace:=false):
 		error = true
 
 
+func get_all_definitions(recursive:bool) -> Array: #<EIT>
+	if recursive:
+		return module.get_all_definitions()
+	else:
+		return []
+
+
+func get_all_assumptions(recursive:bool) -> Array: #<EI>
+	if recursive:
+		return module.get_all_assumptions()
+	else:
+		return []
+
+
+func get_all_theorems(recursive:bool) -> Array: #<EI>
+	if recursive:
+		return module.get_all_theorems()
+	else:
+		return []
+
+
+func get_all_imports(recursive:bool) -> Array: #<String>
+	if recursive:
+		return module.get_all_imports() + [module.get_name()]
+	else:
+		return [module.get_name()]
+
+
 func get_import_name() -> String:
 	return module.get_name()
 

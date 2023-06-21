@@ -33,3 +33,10 @@ func count(index) -> int:
 
 func clear(index) -> void:
 	mm.erase(index)
+
+
+func get_all_values() -> Array:
+	var all_values := []
+	for k in mm.values():
+		all_values.append_array(k)
+	return all_values

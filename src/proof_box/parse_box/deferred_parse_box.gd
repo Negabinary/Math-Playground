@@ -95,6 +95,14 @@ func is_inside(other:AbstractParseBox) -> bool:
 	return other == self or parent.is_inside(other)
 
 
+func has_import(import:String) -> LookupListener:
+	return parent.has_import(import)
+
+
+func remove_import_listener(listener:LookupListener):
+	parent.remove_import_listener(listener)
+
+
 # Own Listening ===========================================
 
 func _update_definition_name(definition:ExprItemType, old_name:String):

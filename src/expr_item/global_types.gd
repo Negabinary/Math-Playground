@@ -10,14 +10,18 @@ var EXISTS := ExprItemType.new("exists")    #  ALWAYS HAS EXACTLY 2 ARGUMENTS
 var LAMBDA := ExprItemType.new("lambda")    #  ALWAYS HAS AT LEAST 2 ARGUMENTS
 var AND := ExprItemType.new("and")
 var OR := ExprItemType.new("or")
+var EOF := ExprItemType.new("eof")
 
 func get_root_symmetry() -> SymmetryBox:
 	return SymmetryBox.new(
-		RootJustificationBox.new(),
+		JustificationBox.new(
+			RootJustificationBox.new(),
+			[ExprItem.new(EOF)]
+		),
 		ParseBox.new(
 			RootParseBox.new(),
 			[
-				IMPLIES, FORALL, EQUALITY, NOT, EXISTS, LAMBDA, AND, OR
+				IMPLIES, FORALL, EQUALITY, NOT, EXISTS, LAMBDA, AND, OR, EOF
 			]
 		)
 	)
