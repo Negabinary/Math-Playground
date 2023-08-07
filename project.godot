@@ -622,6 +622,7 @@ _global_script_class_icons={
 
 config/name="DiscMath Playground"
 run/main_scene="res://ui/Main.tscn"
+run/low_processor_mode=true
 
 [autoload]
 
